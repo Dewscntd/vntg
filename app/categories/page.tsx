@@ -1,0 +1,106 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { Loader2, Package } from 'lucide-react';
+
+import { useCategories } from '@/lib/hooks';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+export default function CategoriesPage() {
+  const [queryParams] = useState({
+    limit: 50,
+    offset: 0,
+    orderBy: 'name' as const,
+    orderDirection: 'asc' as const,
+  });
+
+  const { data, isLoading, error, refetch } = useCategories({
+    url: `/api/categories?${new URLSearchParams(
+      Object.entries(queryParams).reduce((acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = String(value);
+        }
+        return acc;
+      }, {} as Record<string, string>)
+    ).toString()}`,
+    cacheKey: `categories-${JSON.stringify(queryParams)}`,
+  });
+
+  const categories = data?.categories || [];
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">Categories</h1>
+        <p className="text-muted-foreground mt-2">
+          Browse products by category
+        </p>
+      </div>
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <span className="ml-2 text-muted-foreground">Loading categories...</span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
+          <p className="text-destructive font-medium">Failed to load categories</p>
+          <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
+          <Button onClick={() => refetch()} className="mt-4">
+            Try Again
+          </Button>
+        </div>
+      )}
+
+      {/* Categories Grid */}
+      {!isLoading && !error && (
+        <>
+          {categories.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {categories.map((category) => (
+                <Link key={category.id} href={`/categories/${category.id}`}>
+                  <Card className="h-full transition-all hover:shadow-md hover:-translate-y-1">
+                    <CardHeader className="text-center">
+                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                        <Package className="h-8 w-8 text-primary" />
+                      </div>
+                      <CardTitle className="text-lg">{category.name}</CardTitle>
+                    </CardHeader>
+                    {category.description && (
+                      <CardContent>
+                        <p className="text-sm text-muted-foreground text-center">
+                          {category.description}
+                        </p>
+                      </CardContent>
+                    )}
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            /* Empty State */
+            <div className="text-center py-12">
+              <div className="mx-auto max-w-md">
+                <Package className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium text-foreground">No categories found</h3>
+                <p className="text-muted-foreground mt-2">
+                  Categories will appear here once they are added to the system.
+                </p>
+                <Button asChild className="mt-4">
+                  <Link href="/products">Browse All Products</Link>
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
