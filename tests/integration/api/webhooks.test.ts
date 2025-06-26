@@ -107,7 +107,7 @@ describe('Stripe Webhook Integration Tests', () => {
         { product_id: 'prod_2', quantity: 1 },
       ];
 
-      const inventoryUpdates = orderItems.map(item => ({
+      const inventoryUpdates = orderItems.map((item) => ({
         product_id: item.product_id,
         quantity_to_restore: item.quantity,
       }));

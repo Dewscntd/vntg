@@ -11,11 +11,7 @@ export interface LoadingSpinnerProps {
   color?: 'primary' | 'secondary' | 'white';
 }
 
-export function LoadingSpinner({ 
-  size = 'md', 
-  className,
-  color = 'primary' 
-}: LoadingSpinnerProps) {
+export function LoadingSpinner({ size = 'md', className, color = 'primary' }: LoadingSpinnerProps) {
   const spinnerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,13 +23,13 @@ export function LoadingSpinner({
   const sizeClasses = {
     sm: 'h-4 w-4',
     md: 'h-6 w-6',
-    lg: 'h-8 w-8'
+    lg: 'h-8 w-8',
   };
 
   const colorClasses = {
     primary: 'border-primary',
     secondary: 'border-secondary',
-    white: 'border-white'
+    white: 'border-white',
   };
 
   return (
@@ -68,19 +64,13 @@ export function LoadingDots({ className, color = 'primary' }: LoadingDotsProps) 
   const colorClasses = {
     primary: 'bg-primary',
     secondary: 'bg-secondary',
-    muted: 'bg-muted-foreground'
+    muted: 'bg-muted-foreground',
   };
 
   return (
     <div ref={dotsRef} className={cn('flex space-x-1', className)}>
       {[0, 1, 2].map((i) => (
-        <div
-          key={i}
-          className={cn(
-            'h-2 w-2 rounded-full',
-            colorClasses[color]
-          )}
-        />
+        <div key={i} className={cn('h-2 w-2 rounded-full', colorClasses[color])} />
       ))}
     </div>
   );
@@ -93,10 +83,10 @@ export interface EnhancedSkeletonProps {
   animation?: 'pulse' | 'wave' | 'none';
 }
 
-export function EnhancedSkeleton({ 
-  className, 
+export function EnhancedSkeleton({
+  className,
   variant = 'default',
-  animation = 'pulse'
+  animation = 'pulse',
 }: EnhancedSkeletonProps) {
   const skeletonRef = useRef<HTMLDivElement>(null);
 
@@ -109,19 +99,10 @@ export function EnhancedSkeleton({
   const variantClasses = {
     default: 'rounded-md',
     circular: 'rounded-full',
-    rectangular: 'rounded-none'
+    rectangular: 'rounded-none',
   };
 
-  return (
-    <div
-      ref={skeletonRef}
-      className={cn(
-        'bg-muted',
-        variantClasses[variant],
-        className
-      )}
-    />
-  );
+  return <div ref={skeletonRef} className={cn('bg-muted', variantClasses[variant], className)} />;
 }
 
 // Progress Bar with animation
@@ -133,12 +114,12 @@ export interface ProgressBarProps {
   animated?: boolean;
 }
 
-export function ProgressBar({ 
-  value, 
-  max = 100, 
+export function ProgressBar({
+  value,
+  max = 100,
   className,
   showLabel = false,
-  animated = true
+  animated = true,
 }: ProgressBarProps) {
   const progressRef = useRef<HTMLDivElement>(null);
   const percentage = Math.min((value / max) * 100, 100);
@@ -151,17 +132,17 @@ export function ProgressBar({
 
   return (
     <div className={cn('w-full', className)}>
-      <div className="flex justify-between items-center mb-1">
+      <div className="mb-1 flex items-center justify-between">
         {showLabel && (
           <span className="text-sm font-medium text-muted-foreground">
             {Math.round(percentage)}%
           </span>
         )}
       </div>
-      <div className="w-full bg-muted rounded-full h-2">
+      <div className="h-2 w-full rounded-full bg-muted">
         <div
           ref={progressRef}
-          className="bg-primary h-2 rounded-full transition-all duration-300"
+          className="h-2 rounded-full bg-primary transition-all duration-300"
           style={{ width: animated ? '0%' : `${percentage}%` }}
         />
       </div>
@@ -187,7 +168,7 @@ export function LoadingButton({
   onClick,
   className,
   variant = 'default',
-  size = 'md'
+  size = 'md',
 }: LoadingButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -213,13 +194,13 @@ export function LoadingButton({
   const variantClasses = {
     default: 'bg-primary text-primary-foreground hover:bg-primary/90',
     outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-    ghost: 'hover:bg-accent hover:text-accent-foreground'
+    ghost: 'hover:bg-accent hover:text-accent-foreground',
   };
 
   const sizeClasses = {
     sm: 'h-9 px-3 text-sm',
     md: 'h-10 px-4 py-2',
-    lg: 'h-11 px-8 text-lg'
+    lg: 'h-11 px-8 text-lg',
   };
 
   return (
@@ -238,9 +219,7 @@ export function LoadingButton({
         className
       )}
     >
-      {loading && (
-        <LoadingSpinner size="sm" className="mr-2" color="white" />
-      )}
+      {loading && <LoadingSpinner size="sm" className="mr-2" color="white" />}
       {children}
     </button>
   );
@@ -264,14 +243,14 @@ export function PulseLoader({ className, size = 'md' }: PulseLoaderProps) {
   const sizeClasses = {
     sm: 'h-8 w-8',
     md: 'h-12 w-12',
-    lg: 'h-16 w-16'
+    lg: 'h-16 w-16',
   };
 
   return (
     <div
       ref={pulseRef}
       className={cn(
-        'rounded-full bg-primary/20 border-2 border-primary/30',
+        'rounded-full border-2 border-primary/30 bg-primary/20',
         sizeClasses[size],
         className
       )}

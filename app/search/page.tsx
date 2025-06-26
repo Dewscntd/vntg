@@ -1,21 +1,26 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Loader2, Search } from 'lucide-react';
 import Link from 'next/link';
 
 import { ProductGrid } from '@/components/products/product-grid';
 import { ProductSearch, ProductFilters, ProductSorting } from '@/components/products/browse';
-import { Breadcrumb, generateSearchBreadcrumbs, Pagination, calculatePagination } from '@/components/navigation';
+import {
+  Breadcrumb,
+  generateSearchBreadcrumbs,
+  Pagination,
+  calculatePagination,
+} from '@/components/navigation';
 import { useProducts } from '@/lib/hooks';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
-  
+
   const [queryParams, setQueryParams] = useState({
     limit: 12,
     offset: 0,
@@ -30,12 +35,15 @@ export default function SearchPage() {
 
   const { data, isLoading, error, refetch } = useProducts({
     url: `/api/products?${new URLSearchParams(
-      Object.entries(queryParams).reduce((acc, [key, value]) => {
-        if (value !== undefined) {
-          acc[key] = String(value);
-        }
-        return acc;
-      }, {} as Record<string, string>)
+      Object.entries(queryParams).reduce(
+        (acc, [key, value]) => {
+          if (value !== undefined) {
+            acc[key] = String(value);
+          }
+          return acc;
+        },
+        {} as Record<string, string>
+      )
     ).toString()}`,
     cacheKey: `search-${JSON.stringify(queryParams)}`,
     enabled: !!query, // Only fetch if there's a search query
@@ -44,7 +52,7 @@ export default function SearchPage() {
   // Update query params when URL search params change
   useEffect(() => {
     const newQuery = searchParams.get('q') || '';
-    setQueryParams(prev => ({
+    setQueryParams((prev) => ({
       ...prev,
       search: newQuery,
       category_id: searchParams.get('category') || undefined,
@@ -60,7 +68,7 @@ export default function SearchPage() {
 
   const handleLoadMore = () => {
     if (pagination && pagination.offset + pagination.limit < pagination.total) {
-      setQueryParams(prev => ({
+      setQueryParams((prev) => ({
         ...prev,
         offset: prev.offset + prev.limit,
       }));
@@ -73,12 +81,10 @@ export default function SearchPage() {
   if (!query) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <Search className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Search Products</h1>
-          <p className="text-muted-foreground mb-6">
-            Enter a search term to find products
-          </p>
+        <div className="py-12 text-center">
+          <Search className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <h1 className="mb-2 text-2xl font-bold">Search Products</h1>
+          <p className="mb-6 text-muted-foreground">Enter a search term to find products</p>
           <Button asChild>
             <Link href="/products">Browse All Products</Link>
           </Button>
@@ -88,11 +94,9 @@ export default function SearchPage() {
   }
 
   const breadcrumbItems = generateSearchBreadcrumbs(query);
-  const paginationData = pagination ? calculatePagination(
-    pagination.offset,
-    pagination.limit,
-    pagination.total
-  ) : null;
+  const paginationData = pagination
+    ? calculatePagination(pagination.offset, pagination.limit, pagination.total)
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -103,12 +107,8 @@ export default function SearchPage() {
 
       {/* Search Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Search Results
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Results for "{query}"
-        </p>
+        <h1 className="text-3xl font-bold tracking-tight">Search Results</h1>
+        <p className="mt-2 text-muted-foreground">Results for "{query}"</p>
       </div>
 
       {/* Search and Filters */}
@@ -128,7 +128,7 @@ export default function SearchPage() {
           {/* Main Content */}
           <div className="flex-1 lg:min-w-0">
             {/* Sorting and Results Info */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+            <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <div className="text-sm text-muted-foreground">
                 {pagination && (
                   <>
@@ -139,24 +139,24 @@ export default function SearchPage() {
               <ProductSorting />
             </div>
 
-      {/* Loading State */}
-      {isLoading && products.length === 0 && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2 text-muted-foreground">Searching products...</span>
-        </div>
-      )}
+            {/* Loading State */}
+            {isLoading && products.length === 0 && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <span className="ml-2 text-muted-foreground">Searching products...</span>
+              </div>
+            )}
 
-      {/* Error State */}
-      {error && (
-        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
-          <p className="text-destructive font-medium">Search failed</p>
-          <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
-          <Button onClick={() => refetch()} className="mt-4">
-            Try Again
-          </Button>
-        </div>
-      )}
+            {/* Error State */}
+            {error && (
+              <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
+                <p className="font-medium text-destructive">Search failed</p>
+                <p className="mt-1 text-sm text-muted-foreground">{error.message}</p>
+                <Button onClick={() => refetch()} className="mt-4">
+                  Try Again
+                </Button>
+              </div>
+            )}
 
             {/* Search Results */}
             {!isLoading && !error && (
@@ -174,11 +174,12 @@ export default function SearchPage() {
                   </>
                 ) : (
                   /* No Results State */
-                  <div className="text-center py-12">
-                    <Search className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                    <h3 className="text-lg font-medium text-foreground mb-2">No results found</h3>
-                    <p className="text-muted-foreground mb-6">
-                      We couldn't find any products matching "{query}". Try different keywords or browse our categories.
+                  <div className="py-12 text-center">
+                    <Search className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                    <h3 className="mb-2 text-lg font-medium text-foreground">No results found</h3>
+                    <p className="mb-6 text-muted-foreground">
+                      We couldn't find any products matching "{query}". Try different keywords or
+                      browse our categories.
                     </p>
                     <div className="space-x-2">
                       <Button asChild variant="outline">

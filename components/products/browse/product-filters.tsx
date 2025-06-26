@@ -35,15 +35,15 @@ export interface FilterState {
   in_stock?: boolean;
 }
 
-export function ProductFilters({ 
-  className, 
+export function ProductFilters({
+  className,
   onFiltersChange,
-  showMobileToggle = true 
+  showMobileToggle = true,
 }: ProductFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
-  
+
   // Initialize filters from URL params
   const [filters, setFilters] = useState<FilterState>({
     category_id: searchParams.get('category') || undefined,
@@ -58,7 +58,7 @@ export function ProductFilters({
   // Price range state
   const [priceRange, setPriceRange] = useState<[number, number]>([
     filters.min_price || 0,
-    filters.max_price || 1000
+    filters.max_price || 1000,
   ]);
 
   // Fetch categories for filter options
@@ -80,18 +80,15 @@ export function ProductFilters({
       is_sale: searchParams.get('sale') === 'true' || undefined,
       in_stock: searchParams.get('in_stock') === 'true' || undefined,
     };
-    
+
     setFilters(newFilters);
-    setPriceRange([
-      newFilters.min_price || 0,
-      newFilters.max_price || 1000
-    ]);
+    setPriceRange([newFilters.min_price || 0, newFilters.max_price || 1000]);
   }, [searchParams]);
 
   // Apply filters to URL
   const applyFilters = (newFilters: FilterState) => {
-    const params = new URLSearchParams(searchParams);
-    
+    const params = new URLSearchParams(searchParams.toString());
+
     // Remove existing filter params
     params.delete('category');
     params.delete('min_price');
@@ -100,18 +97,20 @@ export function ProductFilters({
     params.delete('new');
     params.delete('sale');
     params.delete('in_stock');
-    
+
     // Add new filter params
     if (newFilters.category_id) params.set('category', newFilters.category_id);
-    if (newFilters.min_price !== undefined) params.set('min_price', newFilters.min_price.toString());
-    if (newFilters.max_price !== undefined) params.set('max_price', newFilters.max_price.toString());
+    if (newFilters.min_price !== undefined)
+      params.set('min_price', newFilters.min_price.toString());
+    if (newFilters.max_price !== undefined)
+      params.set('max_price', newFilters.max_price.toString());
     if (newFilters.is_featured) params.set('featured', 'true');
     if (newFilters.is_new) params.set('new', 'true');
     if (newFilters.is_sale) params.set('sale', 'true');
     if (newFilters.in_stock) params.set('in_stock', 'true');
-    
+
     router.push(`${window.location.pathname}?${params.toString()}`);
-    
+
     if (onFiltersChange) {
       onFiltersChange(newFilters);
     }
@@ -145,8 +144,8 @@ export function ProductFilters({
   };
 
   // Count active filters
-  const activeFiltersCount = Object.values(filters).filter(value => 
-    value !== undefined && value !== false
+  const activeFiltersCount = Object.values(filters).filter(
+    (value) => value !== undefined && value !== false
   ).length;
 
   const FilterContent = () => (
@@ -168,7 +167,7 @@ export function ProductFilters({
           <div className="flex flex-wrap gap-2">
             {filters.category_id && (
               <Badge variant="secondary" className="text-xs">
-                Category: {categories.find(c => c.id === filters.category_id)?.name}
+                Category: {categories.find((c: any) => c.id === filters.category_id)?.name}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -225,7 +224,7 @@ export function ProductFilters({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="">All Categories</SelectItem>
-            {categories.map((category) => (
+            {categories.map((category: any) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}
               </SelectItem>
@@ -265,41 +264,41 @@ export function ProductFilters({
             <Checkbox
               id="featured"
               checked={!!filters.is_featured}
-              onCheckedChange={(checked) => 
-                handleFilterChange('is_featured', checked || undefined)
-              }
+              onCheckedChange={(checked) => handleFilterChange('is_featured', checked || undefined)}
             />
-            <label htmlFor="featured" className="text-sm">Featured Products</label>
+            <label htmlFor="featured" className="text-sm">
+              Featured Products
+            </label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
               id="new"
               checked={!!filters.is_new}
-              onCheckedChange={(checked) => 
-                handleFilterChange('is_new', checked || undefined)
-              }
+              onCheckedChange={(checked) => handleFilterChange('is_new', checked || undefined)}
             />
-            <label htmlFor="new" className="text-sm">New Arrivals</label>
+            <label htmlFor="new" className="text-sm">
+              New Arrivals
+            </label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
               id="sale"
               checked={!!filters.is_sale}
-              onCheckedChange={(checked) => 
-                handleFilterChange('is_sale', checked || undefined)
-              }
+              onCheckedChange={(checked) => handleFilterChange('is_sale', checked || undefined)}
             />
-            <label htmlFor="sale" className="text-sm">On Sale</label>
+            <label htmlFor="sale" className="text-sm">
+              On Sale
+            </label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
               id="in_stock"
               checked={!!filters.in_stock}
-              onCheckedChange={(checked) => 
-                handleFilterChange('in_stock', checked || undefined)
-              }
+              onCheckedChange={(checked) => handleFilterChange('in_stock', checked || undefined)}
             />
-            <label htmlFor="in_stock" className="text-sm">In Stock Only</label>
+            <label htmlFor="in_stock" className="text-sm">
+              In Stock Only
+            </label>
           </div>
         </div>
       </div>
@@ -325,9 +324,9 @@ export function ProductFilters({
                 </Badge>
               )}
             </div>
-            <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
+            <ChevronDown className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
           </Button>
-          
+
           {isOpen && (
             <div className="mt-4 rounded-lg border bg-card p-4">
               <FilterContent />
@@ -337,7 +336,7 @@ export function ProductFilters({
       )}
 
       {/* Desktop Filters */}
-      <div className={cn("hidden lg:block", className)}>
+      <div className={cn('hidden lg:block', className)}>
         <div className="space-y-1">
           <h2 className="text-lg font-semibold">Filters</h2>
           {activeFiltersCount > 0 && (

@@ -4,21 +4,26 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { addToCartSchema } from '@/lib/validations/cart';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError, 
+import {
+  successResponse,
+  handleDatabaseError,
   errorResponse,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 
 // POST /api/cart/add - Add an item to the cart
 export async function POST(req: NextRequest) {
-  return withAuth(req, (req, session) => 
+  return withAuth(req, (req, session) =>
     withValidation(req, addToCartSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
         const userId = session.user.id;
         const { product_id, quantity } = validData;
+
+        // Ensure quantity is defined (should be guaranteed by validation)
+        if (quantity === undefined) {
+          return errorResponse('Quantity is required', 400);
+        }
 
         // Check if product exists and has sufficient inventory
         const { data: product, error: productError } = await supabase
@@ -59,7 +64,7 @@ export async function POST(req: NextRequest) {
         if (existingItem) {
           // Update existing cart item
           const newQuantity = existingItem.quantity + quantity;
-          
+
           // Check if new quantity exceeds inventory
           if (newQuantity > product.inventory_count) {
             return errorResponse(

@@ -10,15 +10,15 @@ export function ProductCardSkeleton({ className }: ProductCardSkeletonProps) {
     <div className={cn('overflow-hidden rounded-lg border bg-background', className)}>
       {/* Image skeleton */}
       <Skeleton className="aspect-square w-full" />
-      
+
       {/* Content skeleton */}
-      <div className="p-4 space-y-3">
+      <div className="space-y-3 p-4">
         {/* Category */}
         <Skeleton className="h-3 w-16" />
-        
+
         {/* Product name */}
         <Skeleton className="h-4 w-3/4" />
-        
+
         {/* Price */}
         <Skeleton className="h-5 w-20" />
       </div>

@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 // Mock Next.js router
 jest.mock('next/router', () => ({
@@ -20,9 +20,9 @@ jest.mock('next/router', () => ({
         emit: jest.fn(),
       },
       isFallback: false,
-    }
+    };
   },
-}))
+}));
 
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({
@@ -34,24 +34,24 @@ jest.mock('next/navigation', () => ({
       back: jest.fn(),
       forward: jest.fn(),
       refresh: jest.fn(),
-    }
+    };
   },
   useSearchParams() {
-    return new URLSearchParams()
+    return new URLSearchParams();
   },
   usePathname() {
-    return '/'
+    return '/';
   },
-}))
+}));
 
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} />
+    return <img {...props} />;
   },
-}))
+}));
 
 // Mock GSAP
 jest.mock('gsap', () => ({
@@ -77,7 +77,7 @@ jest.mock('gsap', () => ({
     refresh: jest.fn(),
     kill: jest.fn(),
   },
-}))
+}));
 
 // Mock Supabase
 jest.mock('@supabase/supabase-js', () => ({
@@ -110,7 +110,7 @@ jest.mock('@supabase/supabase-js', () => ({
       })),
     },
   })),
-}))
+}));
 
 // Mock Stripe
 jest.mock('@stripe/stripe-js', () => ({
@@ -130,62 +130,70 @@ jest.mock('@stripe/stripe-js', () => ({
       createPaymentMethod: jest.fn(),
     })
   ),
-}))
+}));
 
 // Mock Next.js Web APIs
-global.Response = global.Response || class Response {
-  constructor(body, init) {
-    this.body = body;
-    this.status = init?.status || 200;
-    this.statusText = init?.statusText || 'OK';
-    this.headers = new Map(Object.entries(init?.headers || {}));
-  }
+global.Response =
+  global.Response ||
+  class Response {
+    constructor(body, init) {
+      this.body = body;
+      this.status = init?.status || 200;
+      this.statusText = init?.statusText || 'OK';
+      this.headers = new Map(Object.entries(init?.headers || {}));
+    }
 
-  async json() {
-    return JSON.parse(this.body);
-  }
+    async json() {
+      return JSON.parse(this.body);
+    }
 
-  async text() {
-    return this.body;
-  }
-};
+    async text() {
+      return this.body;
+    }
+  };
 
-global.Request = global.Request || class Request {
-  constructor(url, init) {
-    this.url = url;
-    this.method = init?.method || 'GET';
-    this.headers = new Map(Object.entries(init?.headers || {}));
-    this.body = init?.body;
-  }
+global.Request =
+  global.Request ||
+  class Request {
+    constructor(url, init) {
+      this.url = url;
+      this.method = init?.method || 'GET';
+      this.headers = new Map(Object.entries(init?.headers || {}));
+      this.body = init?.body;
+    }
 
-  async json() {
-    return JSON.parse(this.body || '{}');
-  }
+    async json() {
+      return JSON.parse(this.body || '{}');
+    }
 
-  async text() {
-    return this.body || '';
-  }
-};
+    async text() {
+      return this.body || '';
+    }
+  };
 
 global.Headers = global.Headers || Map;
-global.URL = global.URL || class URL {
-  constructor(url) {
-    this.href = url;
-  }
-};
-global.URLSearchParams = global.URLSearchParams || class URLSearchParams {
-  constructor(params) {
-    this.params = new Map(Object.entries(params || {}));
-  }
+global.URL =
+  global.URL ||
+  class URL {
+    constructor(url) {
+      this.href = url;
+    }
+  };
+global.URLSearchParams =
+  global.URLSearchParams ||
+  class URLSearchParams {
+    constructor(params) {
+      this.params = new Map(Object.entries(params || {}));
+    }
 
-  get(key) {
-    return this.params.get(key);
-  }
+    get(key) {
+      return this.params.get(key);
+    }
 
-  set(key, value) {
-    this.params.set(key, value);
-  }
-};
+    set(key, value) {
+      this.params.set(key, value);
+    }
+  };
 
 // Mock NextResponse
 jest.mock('next/server', () => ({
@@ -228,16 +236,16 @@ jest.mock('next/server', () => ({
 // Mock environment variables
 process.env.NODE_ENV = 'test';
 process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
-process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
-process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
-process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = 'pk_test_123'
-process.env.STRIPE_SECRET_KEY = 'sk_test_123'
-process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_123'
+process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
+process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = 'pk_test_123';
+process.env.STRIPE_SECRET_KEY = 'sk_test_123';
+process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_123';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -247,50 +255,50 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
-})
+});
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
   constructor() {}
   observe() {
-    return null
+    return null;
   }
   disconnect() {
-    return null
+    return null;
   }
   unobserve() {
-    return null
+    return null;
   }
-}
+};
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
   constructor() {}
   observe() {
-    return null
+    return null;
   }
   disconnect() {
-    return null
+    return null;
   }
   unobserve() {
-    return null
+    return null;
   }
-}
+};
 
 // Suppress console errors during tests
-const originalError = console.error
+const originalError = console.error;
 beforeAll(() => {
   console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
       args[0].includes('Warning: ReactDOM.render is no longer supported')
     ) {
-      return
+      return;
     }
-    originalError.call(console, ...args)
-  }
-})
+    originalError.call(console, ...args);
+  };
+});
 
 afterAll(() => {
-  console.error = originalError
-})
+  console.error = originalError;
+});

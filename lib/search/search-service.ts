@@ -42,9 +42,30 @@ export interface SearchResponse {
 
 export class SearchService {
   private stopWords = new Set([
-    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from',
-    'has', 'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the',
-    'to', 'was', 'will', 'with'
+    'a',
+    'an',
+    'and',
+    'are',
+    'as',
+    'at',
+    'be',
+    'by',
+    'for',
+    'from',
+    'has',
+    'he',
+    'in',
+    'is',
+    'it',
+    'its',
+    'of',
+    'on',
+    'that',
+    'the',
+    'to',
+    'was',
+    'will',
+    'with',
   ]);
 
   // Main search function
@@ -93,7 +114,9 @@ export class SearchService {
   // Get search suggestions
   async getSuggestions(query: string, limit = 5): Promise<string[]> {
     try {
-      const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(query)}&limit=${limit}`);
+      const response = await fetch(
+        `/api/search/suggestions?q=${encodeURIComponent(query)}&limit=${limit}`
+      );
       if (response.ok) {
         const data = await response.json();
         return data.suggestions || [];
@@ -107,6 +130,11 @@ export class SearchService {
 
   // Track search analytics
   async trackSearch(query: string, results: number, filters?: SearchFilters): Promise<void> {
+    // Only track search in browser environment
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     try {
       await fetch('/api/analytics/events', {
         method: 'POST',
@@ -133,13 +161,13 @@ export class SearchService {
     if (!query.trim()) return items;
 
     const searchTerms = this.tokenize(query.toLowerCase());
-    
+
     return items
-      .map(item => ({
+      .map((item) => ({
         ...item,
         relevanceScore: this.calculateRelevance(item, searchTerms, fields),
       }))
-      .filter(item => item.relevanceScore > 0)
+      .filter((item) => item.relevanceScore > 0)
       .sort((a, b) => b.relevanceScore - a.relevanceScore);
   }
 
@@ -149,26 +177,26 @@ export class SearchService {
       .toLowerCase()
       .replace(/[^\w\s]/g, ' ')
       .split(/\s+/)
-      .filter(word => word.length > 1 && !this.stopWords.has(word));
+      .filter((word) => word.length > 1 && !this.stopWords.has(word));
   }
 
   // Calculate relevance score
   private calculateRelevance(item: any, searchTerms: string[], fields: string[]): number {
     let score = 0;
-    
+
     for (const field of fields) {
       const fieldValue = this.getNestedValue(item, field);
       if (!fieldValue) continue;
-      
+
       const fieldText = fieldValue.toString().toLowerCase();
       const fieldTokens = this.tokenize(fieldText);
-      
+
       for (const term of searchTerms) {
         // Exact match
         if (fieldText.includes(term)) {
           score += 10;
         }
-        
+
         // Word boundary match
         for (const token of fieldTokens) {
           if (token === term) {
@@ -182,13 +210,13 @@ export class SearchService {
           }
         }
       }
-      
+
       // Boost for title/name fields
       if (field.includes('name') || field.includes('title')) {
         score *= 1.5;
       }
     }
-    
+
     return score;
   }
 
@@ -199,11 +227,13 @@ export class SearchService {
 
   // Calculate Levenshtein distance for fuzzy matching
   private levenshteinDistance(str1: string, str2: string): number {
-    const matrix = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
-    
+    const matrix = Array(str2.length + 1)
+      .fill(null)
+      .map(() => Array(str1.length + 1).fill(null));
+
     for (let i = 0; i <= str1.length; i++) matrix[0][i] = i;
     for (let j = 0; j <= str2.length; j++) matrix[j][0] = j;
-    
+
     for (let j = 1; j <= str2.length; j++) {
       for (let i = 1; i <= str1.length; i++) {
         const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
@@ -214,7 +244,7 @@ export class SearchService {
         );
       }
     }
-    
+
     return matrix[str2.length][str1.length];
   }
 
@@ -224,29 +254,23 @@ export class SearchService {
 
     // Category filter
     if (filters.categories && filters.categories.length > 0) {
-      filtered = filtered.filter(item => 
-        filters.categories!.includes(item.category_id)
-      );
+      filtered = filtered.filter((item) => filters.categories!.includes(item.category_id));
     }
 
     // Price range filter
     if (filters.priceRange) {
       const { min, max } = filters.priceRange;
-      filtered = filtered.filter(item => 
-        item.price >= min && item.price <= max
-      );
+      filtered = filtered.filter((item) => item.price >= min && item.price <= max);
     }
 
     // In stock filter
     if (filters.inStock) {
-      filtered = filtered.filter(item => item.inventory_count > 0);
+      filtered = filtered.filter((item) => item.inventory_count > 0);
     }
 
     // Rating filter
     if (filters.rating) {
-      filtered = filtered.filter(item => 
-        (item.rating || 0) >= filters.rating!
-      );
+      filtered = filtered.filter((item) => (item.rating || 0) >= filters.rating!);
     }
 
     // Sort results
@@ -286,11 +310,11 @@ export class SearchService {
     // Add exact matches and partial matches
     for (const product of products) {
       const name = product.name.toLowerCase();
-      
+
       if (name.includes(queryLower)) {
         suggestions.add(product.name);
       }
-      
+
       // Add word-based suggestions
       const words = name.split(' ');
       for (const word of words) {
@@ -319,7 +343,7 @@ export class SearchService {
   // Build search URL with filters
   buildSearchUrl(query: string, filters: SearchFilters): string {
     const params = new URLSearchParams();
-    
+
     if (query) params.set('q', query);
     if (filters.categories?.length) params.set('categories', filters.categories.join(','));
     if (filters.priceRange) {
@@ -378,15 +402,15 @@ export const searchService = new SearchService();
 // Utility functions
 export function highlightSearchTerms(text: string, query: string): string {
   if (!query.trim()) return text;
-  
+
   const terms = query.toLowerCase().split(/\s+/);
   let highlighted = text;
-  
+
   for (const term of terms) {
     const regex = new RegExp(`(${term})`, 'gi');
     highlighted = highlighted.replace(regex, '<mark>$1</mark>');
   }
-  
+
   return highlighted;
 }
 
@@ -398,7 +422,7 @@ export function getSearchResultsText(total: number, query: string): string {
   if (total === 0) {
     return `No results found for "${query}"`;
   }
-  
+
   const resultsText = total === 1 ? 'result' : 'results';
   return `${total.toLocaleString()} ${resultsText} for "${query}"`;
 }

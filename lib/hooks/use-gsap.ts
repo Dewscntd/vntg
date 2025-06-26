@@ -72,16 +72,24 @@ export function useHoverAnimation(
 
     const element = elementRef.current;
     const hoverAnimation = animationPresets[hoverPreset];
-    const leaveAnimation = leavePreset 
-      ? animationPresets[leavePreset] 
+    const leaveAnimation = leavePreset
+      ? animationPresets[leavePreset]
       : { scale: 1, y: 0, duration: 0.3 };
 
     const handleMouseEnter = () => {
-      gsap.to(element, hoverAnimation.to);
+      if ('to' in hoverAnimation) {
+        gsap.to(element, hoverAnimation.to as gsap.TweenVars);
+      } else {
+        gsap.to(element, hoverAnimation as gsap.TweenVars);
+      }
     };
 
     const handleMouseLeave = () => {
-      gsap.to(element, leaveAnimation.to || leaveAnimation);
+      if ('to' in leaveAnimation) {
+        gsap.to(element, leaveAnimation.to as gsap.TweenVars);
+      } else {
+        gsap.to(element, leaveAnimation as gsap.TweenVars);
+      }
     };
 
     element.addEventListener('mouseenter', handleMouseEnter);
@@ -111,12 +119,7 @@ export function useStaggerAnimation(
     const elements = containerRef.current.querySelectorAll(selector);
     if (elements.length === 0) return;
 
-    return animationUtils.staggerAnimate(
-      Array.from(elements),
-      preset,
-      staggerAmount,
-      options
-    );
+    return animationUtils.staggerAnimate(Array.from(elements), preset, staggerAmount, options);
   };
 
   return { ref: containerRef, animate };
@@ -124,7 +127,7 @@ export function useStaggerAnimation(
 
 // Hook for enhanced product card animations
 export function useProductCardAnimation(variant: 'default' | 'magnetic' = 'default') {
-  const cardRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline>();
   const cleanupRef = useRef<(() => void) | null>(null);
 
@@ -166,7 +169,7 @@ export function useProductCardAnimation(variant: 'default' | 'magnetic' = 'defau
 
 // Hook for product image zoom
 export function useProductImageZoom() {
-  const imageRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline>();
 
   useIsomorphicLayoutEffect(() => {
@@ -216,9 +219,7 @@ export function useAddToCartAnimation() {
   const animate = (cartIconSelector?: string) => {
     if (!buttonRef.current) return;
 
-    const cartIcon = cartIconSelector 
-      ? document.querySelector(cartIconSelector) 
-      : null;
+    const cartIcon = cartIconSelector ? document.querySelector(cartIconSelector) : null;
 
     return productAnimations.addToCart(buttonRef.current, cartIcon || undefined);
   };
@@ -282,7 +283,12 @@ export function useLoadingAnimation() {
 
   const startLoading = () => {
     if (!elementRef.current) return;
-    return gsap.to(elementRef.current, animationPresets.pulse.to);
+    const pulseAnimation = animationPresets.pulse;
+    if ('to' in pulseAnimation) {
+      return gsap.to(elementRef.current, pulseAnimation.to as gsap.TweenVars);
+    } else {
+      return gsap.to(elementRef.current, pulseAnimation as gsap.TweenVars);
+    }
   };
 
   const stopLoading = () => {
@@ -296,7 +302,7 @@ export function useLoadingAnimation() {
 
 // Hook for product badge animations
 export function useProductBadgeAnimation() {
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const animateEntrance = () => {
     if (!containerRef.current) return;
@@ -334,9 +340,7 @@ export function useEnhancedAddToCartAnimation() {
   const animate = (cartIconSelector?: string) => {
     if (!buttonRef.current) return;
 
-    const cartIcon = cartIconSelector
-      ? document.querySelector(cartIconSelector)
-      : null;
+    const cartIcon = cartIconSelector ? document.querySelector(cartIconSelector) : null;
 
     return productAnimations.addToCart(buttonRef.current, cartIcon || undefined);
   };
@@ -345,8 +349,8 @@ export function useEnhancedAddToCartAnimation() {
 }
 
 // Hook for scroll-triggered product grid animations
-export function useScrollTriggeredGrid() {
-  const gridRef = useRef<HTMLElement>(null);
+export function useScrollTriggeredGrid<T extends HTMLElement = HTMLDivElement>() {
+  const gridRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!gridRef.current) return;
@@ -363,8 +367,10 @@ export function useScrollTriggeredGrid() {
 }
 
 // Hook for scroll-triggered section animations
-export function useScrollTriggeredSection(animationType: 'fadeIn' | 'slideLeft' | 'slideRight' | 'scale' = 'fadeIn') {
-  const sectionRef = useRef<HTMLElement>(null);
+export function useScrollTriggeredSection<T extends HTMLElement = HTMLDivElement>(
+  animationType: 'fadeIn' | 'slideLeft' | 'slideRight' | 'scale' = 'fadeIn'
+) {
+  const sectionRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -395,8 +401,10 @@ export function useScrollTriggeredSection(animationType: 'fadeIn' | 'slideLeft' 
 }
 
 // Hook for scroll-triggered staggered reveals
-export function useScrollTriggeredStagger(selector: string = '[data-reveal]') {
-  const containerRef = useRef<HTMLElement>(null);
+export function useScrollTriggeredStagger<T extends HTMLElement = HTMLDivElement>(
+  selector: string = '[data-reveal]'
+) {
+  const containerRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!containerRef.current) return;
@@ -413,8 +421,8 @@ export function useScrollTriggeredStagger(selector: string = '[data-reveal]') {
 }
 
 // Hook for parallax effects
-export function useParallax(speed: number = 0.5) {
-  const elementRef = useRef<HTMLElement>(null);
+export function useParallax<T extends HTMLElement = HTMLDivElement>(speed: number = 0.5) {
+  const elementRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!elementRef.current) return;
@@ -431,8 +439,8 @@ export function useParallax(speed: number = 0.5) {
 }
 
 // Hook for image reveal animations
-export function useImageReveal() {
-  const imageRef = useRef<HTMLElement>(null);
+export function useImageReveal<T extends HTMLElement = HTMLDivElement>() {
+  const imageRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!imageRef.current) return;
@@ -449,8 +457,8 @@ export function useImageReveal() {
 }
 
 // Hook for text reveal animations
-export function useTextReveal() {
-  const textRef = useRef<HTMLElement>(null);
+export function useTextReveal<T extends HTMLElement = HTMLElement>() {
+  const textRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!textRef.current) return;
@@ -467,8 +475,8 @@ export function useTextReveal() {
 }
 
 // Hook for counter animations
-export function useCounterAnimation(endValue: number) {
-  const counterRef = useRef<HTMLElement>(null);
+export function useCounterAnimation<T extends HTMLElement = HTMLSpanElement>(endValue: number) {
+  const counterRef = useRef<T>(null);
 
   useIsomorphicLayoutEffect(() => {
     if (!counterRef.current) return;

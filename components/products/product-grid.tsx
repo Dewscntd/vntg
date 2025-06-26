@@ -94,11 +94,13 @@ export function ProductGrid({
 
   // Show loading skeleton
   if (isLoading) {
+    // Map gap values to what ProductGridSkeleton accepts
+    const skeletonGap = gap === 'xl' || gap === 'xs' ? 'lg' : gap;
     return (
       <ProductGridSkeleton
         count={loadingCount}
         columns={columns}
-        gap={gap}
+        gap={skeletonGap}
         className={className}
       />
     );
@@ -117,36 +119,33 @@ export function ProductGrid({
 
   return (
     <>
-      <ResponsiveGrid
-        ref={activeRef}
-        columns={{
-          base: 1,
-          sm: columns.sm || 2,
-          md: columns.md || 3,
-          lg: columns.lg || 4,
-          xl: columns.xl || 4
-        }}
-        gap={gap}
-        className={className}
-      >
-        {products.map((product, index) => (
-          <div key={product.id} data-product-card>
-            <ProductCard
-              product={product}
-              onQuickView={enableQuickView ? openQuickView : undefined}
-              priority={index < 4} // Prioritize first 4 images for loading
-            />
-          </div>
-        ))}
-      </ResponsiveGrid>
+      <div ref={activeRef as React.RefObject<HTMLDivElement>}>
+        <ResponsiveGrid
+          columns={{
+            base: 1,
+            sm: columns.sm || 2,
+            md: columns.md || 3,
+            lg: columns.lg || 4,
+            xl: columns.xl || 4,
+          }}
+          gap={gap}
+          className={className}
+        >
+          {products.map((product, index) => (
+            <div key={product.id} data-product-card>
+              <ProductCard
+                product={product}
+                onQuickView={enableQuickView ? openQuickView : undefined}
+                priority={index < 4} // Prioritize first 4 images for loading
+              />
+            </div>
+          ))}
+        </ResponsiveGrid>
+      </div>
 
       {/* Quick View Modal */}
       {enableQuickView && (
-        <QuickViewModal
-          productId={productId}
-          isOpen={isOpen}
-          onClose={closeQuickView}
-        />
+        <QuickViewModal productId={productId} isOpen={isOpen} onClose={closeQuickView} />
       )}
     </>
   );

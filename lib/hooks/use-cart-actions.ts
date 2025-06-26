@@ -12,14 +12,10 @@ export function useCartActions() {
     async (productId: string, productName: string, quantity: number = 1) => {
       try {
         await addItem(productId, quantity);
-        
+
         toast({
           title: 'Added to cart',
           description: `${productName} has been added to your cart`,
-          action: {
-            label: 'View Cart',
-            onClick: openCart,
-          },
         });
       } catch (error) {
         toast({
@@ -36,7 +32,7 @@ export function useCartActions() {
     async (itemId: string, productName: string) => {
       try {
         await removeItem(itemId);
-        
+
         toast({
           title: 'Item removed',
           description: `${productName} has been removed from your cart`,
@@ -56,7 +52,7 @@ export function useCartActions() {
     async (itemId: string, quantity: number, productName: string) => {
       try {
         await updateQuantity(itemId, quantity);
-        
+
         toast({
           title: 'Cart updated',
           description: `${productName} quantity updated to ${quantity}`,

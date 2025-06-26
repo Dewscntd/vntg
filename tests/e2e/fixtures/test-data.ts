@@ -10,7 +10,7 @@ export const testUsers = {
     password: 'adminpassword123',
     name: 'Test Admin',
   },
-}
+};
 
 // Test product data
 export const testProducts = [
@@ -41,7 +41,7 @@ export const testProducts = [
     category: 'Home',
     inventory_count: 15,
   },
-]
+];
 
 // Test shipping address
 export const testShippingAddress = {
@@ -52,7 +52,7 @@ export const testShippingAddress = {
   state: 'CA',
   zipCode: '12345',
   country: 'US',
-}
+};
 
 // Test payment methods (Stripe test cards)
 export const testPaymentMethods = {
@@ -74,7 +74,7 @@ export const testPaymentMethods = {
     cvc: '123',
     name: 'John Doe',
   },
-}
+};
 
 // Test categories
 export const testCategories = [
@@ -93,7 +93,7 @@ export const testCategories = [
     name: 'Home',
     description: 'Home and garden items',
   },
-]
+];
 
 // Test order data
 export const testOrder = {
@@ -110,27 +110,27 @@ export const testOrder = {
   shippingAddress: testShippingAddress,
   shippingMethod: 'standard',
   paymentMethod: testPaymentMethods.validCard,
-}
+};
 
 // Helper functions for test data
 export const getRandomTestProduct = () => {
-  return testProducts[Math.floor(Math.random() * testProducts.length)]
-}
+  return testProducts[Math.floor(Math.random() * testProducts.length)];
+};
 
 export const getRandomTestUser = () => {
-  return Math.random() > 0.5 ? testUsers.customer : testUsers.admin
-}
+  return Math.random() > 0.5 ? testUsers.customer : testUsers.admin;
+};
 
 export const generateTestEmail = () => {
-  const timestamp = Date.now()
-  return `test-${timestamp}@example.com`
-}
+  const timestamp = Date.now();
+  return `test-${timestamp}@example.com`;
+};
 
 export const generateTestUser = () => ({
   email: generateTestEmail(),
   password: 'testpassword123',
   name: `Test User ${Date.now()}`,
-})
+});
 
 // Test URLs
 export const testUrls = {
@@ -142,7 +142,7 @@ export const testUrls = {
   register: '/auth/register',
   account: '/account',
   admin: '/admin',
-}
+};
 
 // Test selectors (data-testid attributes)
 export const testSelectors = {
@@ -150,36 +150,36 @@ export const testSelectors = {
   navCart: '[data-testid="nav-cart"]',
   navUser: '[data-testid="nav-user"]',
   navLogo: '[data-testid="nav-logo"]',
-  
+
   // Product listing
   productCard: '[data-testid="product-card"]',
   productTitle: '[data-testid="product-title"]',
   productPrice: '[data-testid="product-price"]',
   addToCartButton: '[data-testid="add-to-cart"]',
-  
+
   // Cart
   cartItem: '[data-testid="cart-item"]',
   cartTotal: '[data-testid="cart-total"]',
   cartQuantity: '[data-testid="cart-quantity"]',
   removeFromCart: '[data-testid="remove-from-cart"]',
   checkoutButton: '[data-testid="checkout-button"]',
-  
+
   // Forms
   emailInput: '[data-testid="email-input"]',
   passwordInput: '[data-testid="password-input"]',
   submitButton: '[data-testid="submit-button"]',
-  
+
   // Checkout
   shippingForm: '[data-testid="shipping-form"]',
   paymentForm: '[data-testid="payment-form"]',
   placeOrderButton: '[data-testid="place-order"]',
-  
+
   // Loading states
   loadingSpinner: '[data-testid="loading-spinner"]',
   skeleton: '[data-testid="skeleton"]',
-  
+
   // Notifications
   toast: '[data-testid="toast"]',
   errorMessage: '[data-testid="error-message"]',
   successMessage: '[data-testid="success-message"]',
-}
+};

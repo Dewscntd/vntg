@@ -17,18 +17,16 @@ export interface BreadcrumbProps {
   separator?: React.ReactNode;
 }
 
-export function Breadcrumb({ 
-  items, 
-  className, 
+export function Breadcrumb({
+  items,
+  className,
   showHome = true,
-  separator = <ChevronRight className="h-4 w-4" />
+  separator = <ChevronRight className="h-4 w-4" />,
 }: BreadcrumbProps) {
-  const allItems = showHome 
-    ? [{ label: 'Home', href: '/' }, ...items]
-    : items;
+  const allItems = showHome ? [{ label: 'Home', href: '/' }, ...items] : items;
 
   return (
-    <nav aria-label="Breadcrumb" className={cn("flex items-center space-x-1 text-sm", className)}>
+    <nav aria-label="Breadcrumb" className={cn('flex items-center space-x-1 text-sm', className)}>
       <ol className="flex items-center space-x-1">
         {allItems.map((item, index) => {
           const isLast = index === allItems.length - 1;
@@ -36,20 +34,16 @@ export function Breadcrumb({
 
           return (
             <li key={index} className="flex items-center">
-              {index > 0 && (
-                <span className="mx-2 text-muted-foreground">
-                  {separator}
-                </span>
-              )}
-              
+              {index > 0 && <span className="mx-2 text-muted-foreground">{separator}</span>}
+
               {item.href && !isCurrent ? (
                 <Link
                   href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {index === 0 && showHome ? (
                     <div className="flex items-center">
-                      <Home className="h-4 w-4 mr-1" />
+                      <Home className="mr-1 h-4 w-4" />
                       <span className="sr-only">{item.label}</span>
                     </div>
                   ) : (
@@ -57,16 +51,16 @@ export function Breadcrumb({
                   )}
                 </Link>
               ) : (
-                <span 
+                <span
                   className={cn(
-                    "font-medium",
-                    isCurrent ? "text-foreground" : "text-muted-foreground"
+                    'font-medium',
+                    isCurrent ? 'text-foreground' : 'text-muted-foreground'
                   )}
-                  aria-current={isCurrent ? "page" : undefined}
+                  aria-current={isCurrent ? 'page' : undefined}
                 >
                   {index === 0 && showHome ? (
                     <div className="flex items-center">
-                      <Home className="h-4 w-4 mr-1" />
+                      <Home className="mr-1 h-4 w-4" />
                       <span className="sr-only">{item.label}</span>
                     </div>
                   ) : (
@@ -88,21 +82,19 @@ export function generateProductBreadcrumbs(
   categoryName?: string,
   categoryId?: string
 ): BreadcrumbItem[] {
-  const items: BreadcrumbItem[] = [
-    { label: 'Products', href: '/products' }
-  ];
+  const items: BreadcrumbItem[] = [{ label: 'Products', href: '/products' }];
 
   if (categoryName && categoryId) {
     items.push({
       label: categoryName,
-      href: `/categories/${categoryId}`
+      href: `/categories/${categoryId}`,
     });
   }
 
   if (productName) {
     items.push({
       label: productName,
-      current: true
+      current: true,
     });
   }
 
@@ -113,21 +105,19 @@ export function generateCategoryBreadcrumbs(
   categoryName?: string,
   parentCategory?: { name: string; id: string }
 ): BreadcrumbItem[] {
-  const items: BreadcrumbItem[] = [
-    { label: 'Categories', href: '/categories' }
-  ];
+  const items: BreadcrumbItem[] = [{ label: 'Categories', href: '/categories' }];
 
   if (parentCategory) {
     items.push({
       label: parentCategory.name,
-      href: `/categories/${parentCategory.id}`
+      href: `/categories/${parentCategory.id}`,
     });
   }
 
   if (categoryName) {
     items.push({
       label: categoryName,
-      current: true
+      current: true,
     });
   }
 
@@ -137,6 +127,6 @@ export function generateCategoryBreadcrumbs(
 export function generateSearchBreadcrumbs(query: string): BreadcrumbItem[] {
   return [
     { label: 'Products', href: '/products' },
-    { label: `Search results for "${query}"`, current: true }
+    { label: `Search results for "${query}"`, current: true },
   ];
 }

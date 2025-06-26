@@ -11,14 +11,7 @@ export async function GET(req: NextRequest) {
   return withQueryValidation(req, categoryQuerySchema, async (req, query) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
-      const { 
-        limit, 
-        offset, 
-        orderBy, 
-        orderDirection, 
-        parent_id,
-        search
-      } = query;
+      const { limit, offset, orderBy, orderDirection, parent_id, search } = query;
 
       // Start building the query
       let dbQuery = supabase
@@ -35,10 +28,10 @@ export async function GET(req: NextRequest) {
       }
 
       // Apply ordering
-      dbQuery = dbQuery.order(orderBy, { ascending: orderDirection === 'asc' });
+      dbQuery = dbQuery.order(orderBy || 'name', { ascending: orderDirection === 'asc' });
 
       // Apply pagination
-      dbQuery = dbQuery.range(offset, offset + limit - 1);
+      dbQuery = dbQuery.range(offset || 0, (offset || 0) + (limit || 10) - 1);
 
       // Execute the query
       const { data: categories, count, error } = await dbQuery;
@@ -63,11 +56,11 @@ export async function GET(req: NextRequest) {
 
 // POST /api/categories - Create a new category (admin only)
 export async function POST(req: NextRequest) {
-  return withAdmin(req, (req, session) => 
+  return withAdmin(req, (req, session) =>
     withValidation(req, createCategorySchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
-        
+
         // Insert the new category
         const { data: category, error } = await supabase
           .from('categories')

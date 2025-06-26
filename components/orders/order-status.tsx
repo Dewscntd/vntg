@@ -2,15 +2,7 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Clock, 
-  Package, 
-  Truck, 
-  CheckCircle, 
-  X, 
-  RotateCcw,
-  AlertCircle
-} from 'lucide-react';
+import { Clock, Package, Truck, CheckCircle, X, RotateCcw, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'returned';
@@ -74,11 +66,11 @@ const trackingSteps = [
   { key: 'delivered', label: 'Delivered', icon: CheckCircle },
 ];
 
-export function OrderStatus({ 
-  status, 
-  showIcon = true, 
-  showTracker = false, 
-  className 
+export function OrderStatus({
+  status,
+  showIcon = true,
+  showTracker = false,
+  className,
 }: OrderStatusProps) {
   const config = statusConfig[status];
   const StatusIcon = config.icon;
@@ -88,11 +80,9 @@ export function OrderStatus({
       <div className={cn('space-y-4', className)}>
         <div className="flex items-center space-x-2">
           {showIcon && <StatusIcon className="h-5 w-5" />}
-          <Badge className={config.color}>
-            {config.label}
-          </Badge>
+          <Badge className={config.color}>{config.label}</Badge>
         </div>
-        
+
         <OrderTracker currentStatus={status} />
       </div>
     );
@@ -101,9 +91,7 @@ export function OrderStatus({
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       {showIcon && <StatusIcon className="h-5 w-5" />}
-      <Badge className={config.color}>
-        {config.label}
-      </Badge>
+      <Badge className={config.color}>{config.label}</Badge>
     </div>
   );
 }
@@ -126,33 +114,30 @@ export function OrderTracker({ currentStatus, className }: OrderTrackerProps) {
           const isLast = index === trackingSteps.length - 1;
 
           return (
-            <div key={step.key} className="flex items-center flex-1">
+            <div key={step.key} className="flex flex-1 items-center">
               {/* Step Circle */}
               <div className="flex flex-col items-center">
                 <div
                   className={cn(
-                    'flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors',
+                    'flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors',
                     {
-                      'bg-green-600 border-green-600 text-white': isCompleted,
-                      'bg-blue-600 border-blue-600 text-white': isCurrent && !isCompleted,
-                      'bg-gray-100 border-gray-300 text-gray-400': !isCompleted && !isCurrent,
+                      'border-green-600 bg-green-600 text-white': isCompleted,
+                      'border-blue-600 bg-blue-600 text-white': isCurrent && !isCompleted,
+                      'border-gray-300 bg-gray-100 text-gray-400': !isCompleted && !isCurrent,
                     }
                   )}
                 >
                   <StepIcon className="h-5 w-5" />
                 </div>
-                
+
                 {/* Step Label */}
                 <div className="mt-2 text-center">
                   <p
-                    className={cn(
-                      'text-sm font-medium',
-                      {
-                        'text-green-600': isCompleted,
-                        'text-blue-600': isCurrent && !isCompleted,
-                        'text-gray-500': !isCompleted && !isCurrent,
-                      }
-                    )}
+                    className={cn('text-sm font-medium', {
+                      'text-green-600': isCompleted,
+                      'text-blue-600': isCurrent && !isCompleted,
+                      'text-gray-500': !isCompleted && !isCurrent,
+                    })}
                   >
                     {step.label}
                   </p>
@@ -162,13 +147,10 @@ export function OrderTracker({ currentStatus, className }: OrderTrackerProps) {
               {/* Connector Line */}
               {!isLast && (
                 <div
-                  className={cn(
-                    'flex-1 h-0.5 mx-4 transition-colors',
-                    {
-                      'bg-green-600': index < currentStep,
-                      'bg-gray-300': index >= currentStep,
-                    }
-                  )}
+                  className={cn('mx-4 h-0.5 flex-1 transition-colors', {
+                    'bg-green-600': index < currentStep,
+                    'bg-gray-300': index >= currentStep,
+                  })}
                 />
               )}
             </div>
@@ -196,17 +178,12 @@ export function StatusBadge({ status, size = 'md', className }: StatusBadgeProps
   };
 
   return (
-    <Badge 
-      className={cn(
-        config.color, 
-        sizeClasses[size],
-        'flex items-center space-x-1',
-        className
-      )}
+    <Badge
+      className={cn(config.color, sizeClasses[size], 'flex items-center space-x-1', className)}
     >
-      <StatusIcon className={cn(
-        size === 'sm' ? 'h-3 w-3' : size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'
-      )} />
+      <StatusIcon
+        className={cn(size === 'sm' ? 'h-3 w-3' : size === 'lg' ? 'h-5 w-5' : 'h-4 w-4')}
+      />
       <span>{config.label}</span>
     </Badge>
   );

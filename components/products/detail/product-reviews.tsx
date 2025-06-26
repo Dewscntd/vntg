@@ -81,7 +81,9 @@ export function ProductReviews({
                   key={star}
                   className={cn(
                     'h-5 w-5',
-                    star <= Math.round(averageRating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'
+                    star <= Math.round(averageRating)
+                      ? 'fill-amber-400 text-amber-400'
+                      : 'text-gray-300'
                   )}
                 />
               ))}
@@ -217,7 +219,9 @@ export function ProductReviews({
         </div>
       ) : (
         <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="text-muted-foreground">No reviews yet. Be the first to review this product!</p>
+          <p className="text-muted-foreground">
+            No reviews yet. Be the first to review this product!
+          </p>
         </div>
       )}
     </div>

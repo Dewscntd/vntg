@@ -46,19 +46,19 @@ export function CartPreview({
       if (isVisible && previewRef.current) {
         timeline.fromTo(
           previewRef.current,
-          { 
-            opacity: 0, 
+          {
+            opacity: 0,
             scale: 0.95,
             y: side === 'top' ? 10 : side === 'bottom' ? -10 : 0,
             x: side === 'left' ? 10 : side === 'right' ? -10 : 0,
           },
-          { 
-            opacity: 1, 
+          {
+            opacity: 1,
             scale: 1,
             y: 0,
             x: 0,
-            duration: 0.2, 
-            ease: 'power2.out' 
+            duration: 0.2,
+            ease: 'power2.out',
           }
         );
       }
@@ -68,7 +68,7 @@ export function CartPreview({
 
   const handleMouseEnter = () => {
     if (!showOnHover) return;
-    
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -78,7 +78,7 @@ export function CartPreview({
 
   const handleMouseLeave = () => {
     if (!showOnHover) return;
-    
+
     setIsHovered(false);
     timeoutRef.current = setTimeout(() => {
       if (!isHovered) {
@@ -142,7 +142,10 @@ export function CartPreview({
 
   const alignClasses = {
     start: side === 'top' || side === 'bottom' ? 'left-0' : 'top-0',
-    center: side === 'top' || side === 'bottom' ? 'left-1/2 -translate-x-1/2' : 'top-1/2 -translate-y-1/2',
+    center:
+      side === 'top' || side === 'bottom'
+        ? 'left-1/2 -translate-x-1/2'
+        : 'top-1/2 -translate-y-1/2',
     end: side === 'top' || side === 'bottom' ? 'right-0' : 'bottom-0',
   };
 
@@ -171,19 +174,14 @@ export function CartPreview({
             className
           )}
         >
-          <Card className="shadow-lg border-2">
+          <Card className="border-2 shadow-lg">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center justify-between text-base">
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="h-4 w-4" />
                   <span>Cart ({itemCount})</span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={openCart}
-                  className="text-xs h-auto p-1"
-                >
+                <Button variant="ghost" size="sm" onClick={openCart} className="h-auto p-1 text-xs">
                   View All
                   <ArrowRight className="ml-1 h-3 w-3" />
                 </Button>
@@ -198,23 +196,15 @@ export function CartPreview({
               ) : (
                 <>
                   {/* Cart Items */}
-                  <ScrollArea 
-                    className="px-6" 
-                    style={{ maxHeight: `${maxHeight - 120}px` }}
-                  >
+                  <ScrollArea className="px-6" style={{ maxHeight: `${maxHeight - 120}px` }}>
                     <div className="space-y-3 py-3">
                       {items.slice(0, 3).map((item) => (
                         <CartItem key={item.id} item={item} compact />
                       ))}
-                      
+
                       {items.length > 3 && (
-                        <div className="text-center py-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={openCart}
-                            className="text-xs"
-                          >
+                        <div className="py-2 text-center">
+                          <Button variant="ghost" size="sm" onClick={openCart} className="text-xs">
                             +{items.length - 3} more items
                           </Button>
                         </div>
@@ -225,25 +215,18 @@ export function CartPreview({
                   <Separator />
 
                   {/* Quick Summary */}
-                  <div className="p-4 space-y-3">
+                  <div className="space-y-3 p-4">
                     <div className="flex justify-between text-sm">
                       <span>Subtotal</span>
                       <span className="font-medium">${total.toFixed(2)}</span>
                     </div>
-                    
+
                     <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={openCart}
-                        className="flex-1"
-                      >
+                      <Button variant="outline" size="sm" onClick={openCart} className="flex-1">
                         View Cart
                       </Button>
                       <Button asChild size="sm" className="flex-1">
-                        <Link href="/checkout">
-                          Checkout
-                        </Link>
+                        <Link href="/checkout">Checkout</Link>
                       </Button>
                     </div>
                   </div>

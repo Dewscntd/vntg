@@ -5,11 +5,7 @@ import { Database } from '@/types/supabase';
 import { getServerStripe } from '@/lib/stripe/server';
 import { createPaymentIntentSchema } from '@/lib/validations/checkout';
 import { withAuth, withValidation, withPaymentSecurity } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // POST /api/checkout/payment-intent - Create a payment intent
 export async function POST(req: NextRequest) {
@@ -29,7 +25,8 @@ export async function POST(req: NextRequest) {
         // Get user's cart to validate the amount
         const { data: cartItems, error: cartError } = await supabase
           .from('cart_items')
-          .select(`
+          .select(
+            `
             quantity,
             products (
               id,
@@ -37,7 +34,8 @@ export async function POST(req: NextRequest) {
               price,
               inventory_count
             )
-          `)
+          `
+          )
           .eq('user_id', userId);
 
         if (cartError) {
@@ -45,10 +43,12 @@ export async function POST(req: NextRequest) {
         }
 
         // Calculate expected total from cart
-        const cartTotal = cartItems?.reduce((sum, item) => {
-          const price = item.products?.price || 0;
-          return sum + (price * item.quantity);
-        }, 0) || 0;
+        const cartTotal =
+          cartItems?.reduce((sum, item) => {
+            const products = Array.isArray(item.products) ? item.products[0] : item.products;
+            const price = products?.price || 0;
+            return sum + price * item.quantity;
+          }, 0) || 0;
 
         // Add shipping and tax (simplified calculation)
         const shipping = 0; // Free shipping for now
@@ -62,13 +62,11 @@ export async function POST(req: NextRequest) {
 
         // Check inventory for all items
         for (const item of cartItems || []) {
-          if (!item.products) continue;
-          
-          if (item.products.inventory_count < item.quantity) {
-            return errorResponse(
-              `Insufficient inventory for ${item.products.name}`, 
-              400
-            );
+          const products = Array.isArray(item.products) ? item.products[0] : item.products;
+          if (!products) continue;
+
+          if (products.inventory_count < item.quantity) {
+            return errorResponse(`Insufficient inventory for ${products.name}`, 400);
           }
         }
 
@@ -89,17 +87,15 @@ export async function POST(req: NextRequest) {
         });
 
         // Store payment intent reference in database
-        const { error: dbError } = await supabase
-          .from('payment_intents')
-          .insert({
-            id: paymentIntent.id,
-            user_id: userId,
-            amount,
-            currency,
-            status: paymentIntent.status,
-            client_secret: paymentIntent.client_secret,
-            metadata: paymentIntent.metadata,
-          });
+        const { error: dbError } = await supabase.from('payment_intents').insert({
+          id: paymentIntent.id,
+          user_id: userId,
+          amount,
+          currency,
+          status: paymentIntent.status,
+          client_secret: paymentIntent.client_secret,
+          metadata: paymentIntent.metadata,
+        });
 
         if (dbError) {
           console.error('Error storing payment intent:', dbError);
@@ -112,18 +108,17 @@ export async function POST(req: NextRequest) {
           amount: paymentIntent.amount,
           currency: paymentIntent.currency,
         });
-
       } catch (error: any) {
         console.error('Payment intent creation error:', error);
-        
+
         if (error.type === 'StripeCardError') {
           return errorResponse(error.message, 400);
         }
-        
+
         if (error.type === 'StripeInvalidRequestError') {
           return errorResponse('Invalid payment request', 400);
         }
-        
+
         return handleDatabaseError(error);
       }
     })
@@ -131,10 +126,7 @@ export async function POST(req: NextRequest) {
 }
 
 // GET /api/checkout/payment-intent/[id] - Retrieve payment intent
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const stripe = getServerStripe();
@@ -173,7 +165,6 @@ export async function GET(
         clientSecret: paymentIntent.client_secret,
         metadata: paymentIntent.metadata,
       });
-
     } catch (error: any) {
       console.error('Payment intent retrieval error:', error);
       return handleDatabaseError(error);

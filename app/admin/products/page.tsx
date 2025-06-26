@@ -8,8 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Plus,
   Search,
   Filter,
@@ -18,7 +24,7 @@ import {
   Eye,
   Package,
   AlertTriangle,
-  MoreHorizontal
+  MoreHorizontal,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -61,7 +67,7 @@ export default function AdminProductsPage() {
   const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [categories, setCategories] = useState<Array<{id: string, name: string}>>([]);
+  const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([]);
 
   const limit = 20;
 
@@ -136,7 +142,7 @@ export default function AdminProductsPage() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -144,7 +150,7 @@ export default function AdminProductsPage() {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -164,11 +170,11 @@ export default function AdminProductsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-              <p className="text-gray-600 mt-1">Manage your product catalog</p>
+              <p className="mt-1 text-gray-600">Manage your product catalog</p>
             </div>
             <Link href="/admin/products/new">
               <Button>
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="mr-2 h-4 w-4" />
                 Add Product
               </Button>
             </Link>
@@ -178,9 +184,9 @@ export default function AdminProductsPage() {
         {/* Filters */}
         <Card className="mb-6">
           <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   placeholder="Search products..."
                   value={searchQuery}
@@ -188,7 +194,7 @@ export default function AdminProductsPage() {
                   className="pl-10"
                 />
               </div>
-              
+
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Categories" />
@@ -234,7 +240,7 @@ export default function AdminProductsPage() {
             <CardTitle className="flex items-center justify-between">
               <span>Products ({total})</span>
               {loading && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
               )}
             </CardTitle>
           </CardHeader>
@@ -243,19 +249,19 @@ export default function AdminProductsPage() {
               <div className="space-y-4">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-16 bg-gray-200 rounded"></div>
+                    <div className="h-16 rounded bg-gray-200"></div>
                   </div>
                 ))}
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <Package className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No products</h3>
                 <p className="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
                 <div className="mt-6">
                   <Link href="/admin/products/new">
                     <Button>
-                      <Plus className="h-4 w-4 mr-2" />
+                      <Plus className="mr-2 h-4 w-4" />
                       Add Product
                     </Button>
                   </Link>
@@ -266,22 +272,22 @@ export default function AdminProductsPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Product
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Category
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Price
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Stock
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Created
                       </th>
                       <th className="relative px-6 py-3">
@@ -289,14 +295,14 @@ export default function AdminProductsPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-200 bg-white">
                     {products.map((product) => {
                       const stockStatus = getStockStatus(product.inventory_count);
                       return (
                         <tr key={product.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
-                              <div className="flex-shrink-0 h-12 w-12">
+                              <div className="h-12 w-12 flex-shrink-0">
                                 {product.image_url ? (
                                   <img
                                     className="h-12 w-12 rounded-lg object-cover"
@@ -304,7 +310,7 @@ export default function AdminProductsPage() {
                                     alt={product.name}
                                   />
                                 ) : (
-                                  <div className="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center">
+                                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-200">
                                     <Package className="h-6 w-6 text-gray-400" />
                                   </div>
                                 )}
@@ -313,16 +319,16 @@ export default function AdminProductsPage() {
                                 <div className="text-sm font-medium text-gray-900">
                                   {product.name}
                                 </div>
-                                <div className="text-sm text-gray-500 max-w-xs truncate">
+                                <div className="max-w-xs truncate text-sm text-gray-500">
                                   {product.description}
                                 </div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {product.category?.name || 'Uncategorized'}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             <div>
                               {formatCurrency(product.price)}
                               {product.discount_percent > 0 && (
@@ -332,9 +338,9 @@ export default function AdminProductsPage() {
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
-                              <span className="text-sm text-gray-900 mr-2">
+                              <span className="mr-2 text-sm text-gray-900">
                                 {product.inventory_count}
                               </span>
                               {product.inventory_count < 10 && (
@@ -342,11 +348,9 @@ export default function AdminProductsPage() {
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex flex-col gap-1">
-                              <Badge variant={stockStatus.variant}>
-                                {stockStatus.label}
-                              </Badge>
+                              <Badge variant={stockStatus.variant}>{stockStatus.label}</Badge>
                               {product.is_featured && (
                                 <Badge variant="outline" className="text-xs">
                                   Featured
@@ -354,10 +358,10 @@ export default function AdminProductsPage() {
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                             {formatDate(product.created_at)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="sm">
@@ -367,13 +371,13 @@ export default function AdminProductsPage() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem asChild>
                                   <Link href={`/products/${product.id}`}>
-                                    <Eye className="h-4 w-4 mr-2" />
+                                    <Eye className="mr-2 h-4 w-4" />
                                     View
                                   </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                   <Link href={`/admin/products/${product.id}/edit`}>
-                                    <Edit className="h-4 w-4 mr-2" />
+                                    <Edit className="mr-2 h-4 w-4" />
                                     Edit
                                   </Link>
                                 </DropdownMenuItem>
@@ -381,7 +385,7 @@ export default function AdminProductsPage() {
                                   onClick={() => handleDeleteProduct(product.id)}
                                   className="text-red-600"
                                 >
-                                  <Trash2 className="h-4 w-4 mr-2" />
+                                  <Trash2 className="mr-2 h-4 w-4" />
                                   Delete
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
@@ -397,9 +401,10 @@ export default function AdminProductsPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6">
+              <div className="mt-6 flex items-center justify-between">
                 <div className="text-sm text-gray-700">
-                  Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, total)} of {total} results
+                  Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total}{' '}
+                  results
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button

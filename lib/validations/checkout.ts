@@ -5,7 +5,10 @@ export const shippingAddressSchema = z.object({
   firstName: z.string().min(1, 'First name is required').max(50, 'First name too long'),
   lastName: z.string().min(1, 'Last name is required').max(50, 'Last name too long'),
   email: z.string().email('Invalid email address'),
-  phone: z.string().min(10, 'Phone number must be at least 10 digits').max(20, 'Phone number too long'),
+  phone: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .max(20, 'Phone number too long'),
   address: z.string().min(1, 'Address is required').max(100, 'Address too long'),
   address2: z.string().max(100, 'Address line 2 too long').optional(),
   city: z.string().min(1, 'City is required').max(50, 'City name too long'),
@@ -53,20 +56,25 @@ export const checkoutSessionSchema = z.object({
 });
 
 // Guest checkout schema
-export const guestCheckoutSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  createAccount: z.boolean().default(false),
-  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
-  confirmPassword: z.string().optional(),
-}).refine((data) => {
-  if (data.createAccount && data.password !== data.confirmPassword) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+export const guestCheckoutSchema = z
+  .object({
+    email: z.string().email('Invalid email address'),
+    createAccount: z.boolean().default(false),
+    password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.createAccount && data.password !== data.confirmPassword) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Passwords don't match",
+      path: ['confirmPassword'],
+    }
+  );
 
 // Shipping method schema
 export const shippingMethodSchema = z.object({

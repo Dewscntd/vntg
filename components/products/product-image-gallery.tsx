@@ -40,20 +40,20 @@ export function ProductImageGallery({
   onImageSelect,
   onWishlistToggle,
   onShare,
-  isWishlisted = false
+  isWishlisted = false,
 }: ProductImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
 
   // Filter images by variant if selected
-  const filteredImages = selectedVariant 
-    ? images.filter(img => img.variant === selectedVariant)
+  const filteredImages = selectedVariant
+    ? images.filter((img) => img.variant === selectedVariant)
     : images;
 
   const currentImage = filteredImages[selectedIndex];
 
   // Get unique variants
-  const variants = Array.from(new Set(images.map(img => img.variant).filter(Boolean)));
+  const variants = Array.from(new Set(images.map((img) => img.variant).filter(Boolean)));
 
   const handleImageChange = (index: number) => {
     setSelectedIndex(index);
@@ -79,7 +79,7 @@ export function ProductImageGallery({
                 key={variant}
                 variant={selectedVariant === variant ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => setSelectedVariant(variant)}
+                onClick={() => setSelectedVariant(variant || null)}
               >
                 {variant}
               </Button>
@@ -87,15 +87,15 @@ export function ProductImageGallery({
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
           {/* Thumbnail Column - Desktop */}
-          <div className="hidden lg:block lg:col-span-1 space-y-2 max-h-96 overflow-y-auto">
+          <div className="hidden max-h-96 space-y-2 overflow-y-auto lg:col-span-1 lg:block">
             {filteredImages.map((image, index) => (
               <button
                 key={image.id}
                 onClick={() => handleImageChange(index)}
                 className={cn(
-                  'w-full aspect-square rounded-lg overflow-hidden border-2 transition-all',
+                  'aspect-square w-full overflow-hidden rounded-lg border-2 transition-all',
                   selectedIndex === index
                     ? 'border-primary shadow-lg'
                     : 'border-transparent hover:border-muted-foreground/50'
@@ -106,7 +106,7 @@ export function ProductImageGallery({
                   alt={`${productName} view ${index + 1}`}
                   width={100}
                   height={100}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   sizes="100px"
                 />
               </button>
@@ -115,7 +115,7 @@ export function ProductImageGallery({
 
           {/* Main Image */}
           <div className="lg:col-span-4">
-            <div className="relative aspect-square rounded-lg overflow-hidden bg-muted group">
+            <div className="group relative aspect-square overflow-hidden rounded-lg bg-muted">
               <Image
                 src={currentImage.src}
                 alt={currentImage.alt}
@@ -129,39 +129,35 @@ export function ProductImageGallery({
 
               {/* Image Badges */}
               {showBadges && (
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
-                  {currentImage.isMain && (
-                    <Badge variant="secondary">Main</Badge>
-                  )}
-                  {currentImage.color && (
-                    <Badge variant="outline">{currentImage.color}</Badge>
-                  )}
+                <div className="absolute left-4 top-4 flex flex-col gap-2">
+                  {currentImage.isMain && <Badge variant="secondary">Main</Badge>}
+                  {currentImage.color && <Badge variant="outline">{currentImage.color}</Badge>}
                 </div>
               )}
 
               {/* Action Buttons */}
               {showActions && (
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute right-4 top-4 flex flex-col gap-2 opacity-0 transition-opacity group-hover:opacity-100">
                   <TouchIconButton
                     icon={<ZoomIn />}
                     label="Zoom image"
                     size="md"
                     variant="secondary"
-                    className="bg-white/90 hover:bg-white shadow-lg"
+                    className="bg-white/90 shadow-lg hover:bg-white"
                   />
-                  
+
                   {onWishlistToggle && (
                     <TouchIconButton
                       icon={<Heart className={isWishlisted ? 'fill-red-500 text-red-500' : ''} />}
-                      label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                      label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                       size="md"
                       variant="secondary"
                       onClick={onWishlistToggle}
-                      className="bg-white/90 hover:bg-white shadow-lg"
+                      className="bg-white/90 shadow-lg hover:bg-white"
                       haptic
                     />
                   )}
-                  
+
                   {onShare && (
                     <TouchIconButton
                       icon={<Share2 />}
@@ -169,7 +165,7 @@ export function ProductImageGallery({
                       size="md"
                       variant="secondary"
                       onClick={onShare}
-                      className="bg-white/90 hover:bg-white shadow-lg"
+                      className="bg-white/90 shadow-lg hover:bg-white"
                     />
                   )}
                 </div>
@@ -177,24 +173,32 @@ export function ProductImageGallery({
 
               {/* Navigation Arrows - Mobile */}
               {filteredImages.length > 1 && (
-                <div className="lg:hidden absolute inset-0 flex items-center justify-between p-4">
+                <div className="absolute inset-0 flex items-center justify-between p-4 lg:hidden">
                   <TouchIconButton
                     icon={<ChevronLeft />}
                     label="Previous image"
                     size="lg"
                     variant="secondary"
-                    onClick={() => handleImageChange(selectedIndex > 0 ? selectedIndex - 1 : filteredImages.length - 1)}
-                    className="bg-black/50 hover:bg-black/70 text-white border-0"
+                    onClick={() =>
+                      handleImageChange(
+                        selectedIndex > 0 ? selectedIndex - 1 : filteredImages.length - 1
+                      )
+                    }
+                    className="border-0 bg-black/50 text-white hover:bg-black/70"
                     haptic
                   />
-                  
+
                   <TouchIconButton
                     icon={<ChevronRight />}
                     label="Next image"
                     size="lg"
                     variant="secondary"
-                    onClick={() => handleImageChange(selectedIndex < filteredImages.length - 1 ? selectedIndex + 1 : 0)}
-                    className="bg-black/50 hover:bg-black/70 text-white border-0"
+                    onClick={() =>
+                      handleImageChange(
+                        selectedIndex < filteredImages.length - 1 ? selectedIndex + 1 : 0
+                      )
+                    }
+                    className="border-0 bg-black/50 text-white hover:bg-black/70"
                     haptic
                   />
                 </div>
@@ -202,7 +206,7 @@ export function ProductImageGallery({
 
               {/* Image Counter */}
               {filteredImages.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-full bg-black/50 px-3 py-1 text-sm text-white">
                   {selectedIndex + 1} / {filteredImages.length}
                 </div>
               )}
@@ -210,16 +214,14 @@ export function ProductImageGallery({
 
             {/* Mobile Thumbnail Strip */}
             {filteredImages.length > 1 && (
-              <div className="lg:hidden mt-4 flex space-x-2 overflow-x-auto pb-2">
+              <div className="mt-4 flex space-x-2 overflow-x-auto pb-2 lg:hidden">
                 {filteredImages.map((image, index) => (
                   <button
                     key={image.id}
                     onClick={() => handleImageChange(index)}
                     className={cn(
-                      'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all',
-                      selectedIndex === index
-                        ? 'border-primary scale-105'
-                        : 'border-transparent'
+                      'h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all',
+                      selectedIndex === index ? 'scale-105 border-primary' : 'border-transparent'
                     )}
                   >
                     <Image
@@ -227,7 +229,7 @@ export function ProductImageGallery({
                       alt={`Thumbnail ${index + 1}`}
                       width={64}
                       height={64}
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover"
                       sizes="64px"
                     />
                   </button>
@@ -244,23 +246,23 @@ export function ProductImageGallery({
   if (layout === 'grid') {
     return (
       <div className={cn('w-full', className)}>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredImages.map((image, index) => (
             <button
               key={image.id}
               onClick={() => handleImageChange(index)}
-              className="relative aspect-square rounded-lg overflow-hidden group hover:shadow-lg transition-all"
+              className="group relative aspect-square overflow-hidden rounded-lg transition-all hover:shadow-lg"
             >
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
-              
+
               {showBadges && image.isMain && (
-                <Badge className="absolute top-2 left-2" variant="secondary">
+                <Badge className="absolute left-2 top-2" variant="secondary">
                   Main
                 </Badge>
               )}
@@ -292,24 +294,24 @@ export function ProductImageGallery({
   // Masonry layout
   if (layout === 'masonry') {
     return (
-      <div className={cn('columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4', className)}>
+      <div className={cn('columns-2 gap-4 space-y-4 md:columns-3 lg:columns-4', className)}>
         {filteredImages.map((image, index) => (
           <button
             key={image.id}
             onClick={() => handleImageChange(index)}
-            className="relative w-full break-inside-avoid rounded-lg overflow-hidden group hover:shadow-lg transition-all mb-4"
+            className="group relative mb-4 w-full break-inside-avoid overflow-hidden rounded-lg transition-all hover:shadow-lg"
           >
             <Image
               src={image.src}
               alt={image.alt}
               width={image.width || 400}
               height={image.height || 600}
-              className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+              className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
-            
+
             {showBadges && image.isMain && (
-              <Badge className="absolute top-2 left-2" variant="secondary">
+              <Badge className="absolute left-2 top-2" variant="secondary">
                 Main
               </Badge>
             )}

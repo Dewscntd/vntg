@@ -23,16 +23,16 @@ export function useOptimistic<T>(initialData: T) {
   ): () => void {
     // Store the original data for potential rollback
     setOriginalData(data);
-    
+
     // Apply the update
     const updatedData = updateFn(data);
     setData(updatedData);
-    
+
     // Execute the callback if provided
     if (callback) {
       callback(updatedData);
     }
-    
+
     // Return a function to revert the update
     return () => {
       setData(originalData);
@@ -70,10 +70,7 @@ export function useOptimisticArray<T extends { id: string }>(initialItems: T[] =
    * @returns A function to revert the optimistic update
    */
   function addItem(item: T, callback?: (items: T[]) => void) {
-    return update(
-      (currentItems) => [...currentItems, item],
-      callback
-    );
+    return update((currentItems) => [...currentItems, item], callback);
   }
 
   /**
@@ -83,16 +80,10 @@ export function useOptimisticArray<T extends { id: string }>(initialItems: T[] =
    * @param callback A callback function to execute after the optimistic update
    * @returns A function to revert the optimistic update
    */
-  function updateItem(
-    id: string,
-    updateData: Partial<T>,
-    callback?: (items: T[]) => void
-  ) {
+  function updateItem(id: string, updateData: Partial<T>, callback?: (items: T[]) => void) {
     return update(
       (currentItems) =>
-        currentItems.map((item) =>
-          item.id === id ? { ...item, ...updateData } : item
-        ),
+        currentItems.map((item) => (item.id === id ? { ...item, ...updateData } : item)),
       callback
     );
   }
@@ -104,10 +95,7 @@ export function useOptimisticArray<T extends { id: string }>(initialItems: T[] =
    * @returns A function to revert the optimistic update
    */
   function removeItem(id: string, callback?: (items: T[]) => void) {
-    return update(
-      (currentItems) => currentItems.filter((item) => item.id !== id),
-      callback
-    );
+    return update((currentItems) => currentItems.filter((item) => item.id !== id), callback);
   }
 
   return {

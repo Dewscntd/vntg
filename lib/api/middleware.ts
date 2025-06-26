@@ -14,7 +14,9 @@ export async function withAuth(
   handler: (req: NextRequest, session: any) => Promise<NextResponse>
 ): Promise<NextResponse> {
   const supabase = createRouteHandlerClient<Database>({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   if (!session) {
     return handleUnauthorized();
@@ -29,7 +31,9 @@ export async function withAdmin(
   handler: (req: NextRequest, session: any) => Promise<NextResponse>
 ): Promise<NextResponse> {
   const supabase = createRouteHandlerClient<Database>({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   if (!session) {
     return handleUnauthorized();
@@ -64,7 +68,7 @@ export async function withValidation<T>(
       return handleZodError(error as any);
     }
     return handleZodError({
-      errors: [{ path: [], message: 'Invalid request body' }]
+      errors: [{ path: [], message: 'Invalid request body' }],
     } as any);
   }
 }
@@ -78,20 +82,19 @@ export async function withQueryValidation<T>(
   try {
     const url = new URL(req.url);
     const queryParams: Record<string, any> = {};
-    
+
     // Convert query parameters to appropriate types
     url.searchParams.forEach((value, key) => {
       // Try to convert to number if possible
       if (!isNaN(Number(value))) {
         queryParams[key] = Number(value);
-      } 
+      }
       // Convert to boolean if 'true' or 'false'
       else if (value === 'true') {
         queryParams[key] = true;
-      } 
-      else if (value === 'false') {
+      } else if (value === 'false') {
         queryParams[key] = false;
-      } 
+      }
       // Otherwise keep as string
       else {
         queryParams[key] = value;
@@ -105,7 +108,7 @@ export async function withQueryValidation<T>(
       return handleZodError(error as any);
     }
     return handleZodError({
-      errors: [{ path: [], message: 'Invalid query parameters' }]
+      errors: [{ path: [], message: 'Invalid query parameters' }],
     } as any);
   }
 }
@@ -121,7 +124,8 @@ export async function withRateLimit(
   const now = Date.now();
 
   // Clean up expired entries
-  for (const [k, v] of rateLimitStore.entries()) {
+  const entries = Array.from(rateLimitStore.entries());
+  for (const [k, v] of entries) {
     if (v.resetTime < now) {
       rateLimitStore.delete(k);
     }
@@ -153,25 +157,33 @@ export async function withPaymentSecurity(
   handler: (req: NextRequest, session: any) => Promise<NextResponse>
 ): Promise<NextResponse> {
   // Apply stricter rate limiting for payment endpoints
-  return withRateLimit(req, async (req) => {
-    return withAuth(req, async (req, session) => {
-      // Additional payment security checks
-      const userAgent = req.headers.get('user-agent');
-      const origin = req.headers.get('origin');
+  return withRateLimit(
+    req,
+    async (req) => {
+      return withAuth(req, async (req, session) => {
+        // Additional payment security checks
+        const userAgent = req.headers.get('user-agent');
+        const origin = req.headers.get('origin');
 
-      // Basic bot detection
-      if (!userAgent || userAgent.includes('bot') || userAgent.includes('crawler')) {
-        return errorResponse('Invalid request', 403);
-      }
+        // Basic bot detection
+        if (!userAgent || userAgent.includes('bot') || userAgent.includes('crawler')) {
+          return errorResponse('Invalid request', 403);
+        }
 
-      // Origin validation (in production, check against allowed origins)
-      if (process.env.NODE_ENV === 'production' && origin && !origin.includes(process.env.NEXT_PUBLIC_APP_URL || '')) {
-        return errorResponse('Invalid origin', 403);
-      }
+        // Origin validation (in production, check against allowed origins)
+        if (
+          process.env.NODE_ENV === 'production' &&
+          origin &&
+          !origin.includes(process.env.NEXT_PUBLIC_APP_URL || '')
+        ) {
+          return errorResponse('Invalid origin', 403);
+        }
 
-      return handler(req, session);
-    });
-  }, { maxRequests: 5, windowMs: 60000 }); // 5 requests per minute for payment endpoints
+        return handler(req, session);
+      });
+    },
+    { maxRequests: 5, windowMs: 60000 }
+  ); // 5 requests per minute for payment endpoints
 }
 
 // Combine multiple middleware functions

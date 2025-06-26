@@ -59,13 +59,15 @@ export class AnalyticsService {
   }
 
   private initializeSession() {
-    // Track session start
-    this.track('session_start', {
-      timestamp: new Date().toISOString(),
-      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : '',
-      referrer: typeof window !== 'undefined' ? document.referrer : '',
-      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
-    });
+    // Only track session start in browser environment
+    if (typeof window !== 'undefined') {
+      this.track('session_start', {
+        timestamp: new Date().toISOString(),
+        userAgent: window.navigator.userAgent,
+        referrer: document.referrer,
+        pageUrl: window.location.href,
+      });
+    }
   }
 
   setUserId(userId: string) {
@@ -74,6 +76,11 @@ export class AnalyticsService {
 
   // Track events
   async track(eventType: string, properties: Record<string, any> = {}) {
+    // Only track events in browser environment
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const event: AnalyticsEvent = {
       eventType,
       userId: this.userId,
@@ -81,9 +88,9 @@ export class AnalyticsService {
       properties,
       timestamp: new Date().toISOString(),
       ipAddress: await this.getClientIP(),
-      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : '',
-      referrer: typeof window !== 'undefined' ? document.referrer : '',
-      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+      userAgent: window.navigator.userAgent,
+      referrer: document.referrer,
+      pageUrl: window.location.href,
     };
 
     try {
@@ -199,6 +206,11 @@ export class AnalyticsService {
 
   // Utility methods
   private async getClientIP(): Promise<string | undefined> {
+    // Only get IP in browser environment
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     try {
       const response = await fetch('/api/analytics/ip');
       const data = await response.json();
@@ -219,8 +231,14 @@ export class AnalyticsService {
     return response.json();
   }
 
-  static async getSalesMetrics(period: 'day' | 'week' | 'month', startDate: string, endDate: string): Promise<SalesMetrics[]> {
-    const response = await fetch(`/api/analytics/sales?period=${period}&start=${startDate}&end=${endDate}`);
+  static async getSalesMetrics(
+    period: 'day' | 'week' | 'month',
+    startDate: string,
+    endDate: string
+  ): Promise<SalesMetrics[]> {
+    const response = await fetch(
+      `/api/analytics/sales?period=${period}&start=${startDate}&end=${endDate}`
+    );
     return response.json();
   }
 

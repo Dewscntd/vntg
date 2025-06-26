@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const { searchParams } = new URL(req.url);
-      
+
       const limit = parseInt(searchParams.get('limit') || '25');
       const offset = parseInt(searchParams.get('offset') || '0');
       const role = searchParams.get('role');
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         total: count || 0,
         limit,
         offset,
-        hasMore: (count || 0) > offset + limit
+        hasMore: (count || 0) > offset + limit,
       });
     } catch (error) {
       return handleDatabaseError(error as Error);
@@ -62,16 +62,13 @@ export async function PUT(req: NextRequest) {
       const userId = searchParams.get('id');
 
       if (!userId) {
-        return Response.json(
-          { success: false, error: 'User ID is required' },
-          { status: 400 }
-        );
+        return NextResponse.json({ success: false, error: 'User ID is required' }, { status: 400 });
       }
 
       const { role } = body;
 
       if (!role || !['customer', 'admin'].includes(role)) {
-        return Response.json(
+        return NextResponse.json(
           { success: false, error: 'Valid role is required (customer or admin)' },
           { status: 400 }
         );
@@ -80,9 +77,9 @@ export async function PUT(req: NextRequest) {
       // Update user role
       const { data: user, error } = await supabase
         .from('users')
-        .update({ 
+        .update({
           role,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
         })
         .eq('id', userId)
         .select()
@@ -108,25 +105,19 @@ export async function DELETE(req: NextRequest) {
       const userId = searchParams.get('id');
 
       if (!userId) {
-        return Response.json(
-          { success: false, error: 'User ID is required' },
-          { status: 400 }
-        );
+        return NextResponse.json({ success: false, error: 'User ID is required' }, { status: 400 });
       }
 
       // Don't allow deleting self
       if (userId === session.user.id) {
-        return Response.json(
+        return NextResponse.json(
           { success: false, error: 'Cannot delete your own account' },
           { status: 400 }
         );
       }
 
       // Delete user (this will cascade to related records)
-      const { error } = await supabase
-        .from('users')
-        .delete()
-        .eq('id', userId);
+      const { error } = await supabase.from('users').delete().eq('id', userId);
 
       if (error) {
         throw error;

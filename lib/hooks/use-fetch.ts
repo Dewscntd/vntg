@@ -20,10 +20,7 @@ export type UseFetchOptions = {
  * @param options Options for the fetch request
  * @returns The fetch state (data, isLoading, error)
  */
-export function useFetch<T = any>(
-  url: string,
-  options: UseFetchOptions = {}
-): FetchState<T> {
+export function useFetch<T = any>(url: string, options: UseFetchOptions = {}): FetchState<T> {
   const { enabled = true, headers = {}, revalidateOnFocus = true } = options;
   const [state, setState] = useState<FetchState<T>>({
     data: null,

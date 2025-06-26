@@ -109,21 +109,18 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
         </div>
 
         {/* Product Info */}
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <Link
             href={`/products/${item.product.id}`}
-            className="text-sm font-medium hover:text-primary line-clamp-1"
+            className="line-clamp-1 text-sm font-medium hover:text-primary"
           >
             {item.product.name}
           </Link>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="mt-1 flex items-center gap-2">
             <span className="text-xs text-muted-foreground" data-quantity>
               Qty: {item.quantity}
             </span>
-            <ProductPrice
-              price={totalPrice}
-              className="text-xs font-medium"
-            />
+            <ProductPrice price={totalPrice} className="text-xs font-medium" />
           </div>
         </div>
 
@@ -150,11 +147,7 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
     <div
       ref={itemRef}
       data-cart-item
-      className={cn(
-        'flex gap-4 py-4',
-        isRemoving && 'pointer-events-none',
-        className
-      )}
+      className={cn('flex gap-4 py-4', isRemoving && 'pointer-events-none', className)}
     >
       {/* Product Image */}
       <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
@@ -171,7 +164,7 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
         {/* Product Name */}
         <Link
           href={`/products/${item.product.id}`}
-          className="font-medium hover:text-primary line-clamp-2"
+          className="line-clamp-2 font-medium hover:text-primary"
         >
           {item.product.name}
         </Link>
@@ -184,15 +177,13 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
             className="text-sm"
           />
           {item.quantity > 1 && (
-            <span className="text-xs text-muted-foreground">
-              × {item.quantity}
-            </span>
+            <span className="text-xs text-muted-foreground">× {item.quantity}</span>
           )}
         </div>
 
         {/* Quantity Controls */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center border rounded-md">
+          <div className="flex items-center rounded-md border">
             <Button
               variant="ghost"
               size="sm"
@@ -203,24 +194,16 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
               <Minus className="h-3 w-3" />
               <span className="sr-only">Decrease quantity</span>
             </Button>
-            
-            <span className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center" data-quantity>
-              {isUpdating ? (
-                <Loader2 className="h-3 w-3 animate-spin mx-auto" />
-              ) : (
-                item.quantity
-              )}
+
+            <span className="min-w-[2rem] px-3 py-1 text-center text-sm font-medium" data-quantity>
+              {isUpdating ? <Loader2 className="mx-auto h-3 w-3 animate-spin" /> : item.quantity}
             </span>
-            
+
             <Button
               variant="ghost"
               size="sm"
               onClick={() => handleQuantityChange(item.quantity + 1)}
-              disabled={
-                item.quantity >= item.product.inventory_count ||
-                isUpdating ||
-                isLoading
-              }
+              disabled={item.quantity >= item.product.inventory_count || isUpdating || isLoading}
               className="h-8 w-8 p-0"
             >
               <Plus className="h-3 w-3" />
@@ -230,19 +213,14 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
 
           {/* Stock Warning */}
           {item.quantity >= item.product.inventory_count && (
-            <span className="text-xs text-orange-600">
-              Max stock reached
-            </span>
+            <span className="text-xs text-orange-600">Max stock reached</span>
           )}
         </div>
 
         {/* Total Price */}
         <div className="flex items-center justify-between">
-          <ProductPrice
-            price={totalPrice}
-            className="font-semibold"
-          />
-          
+          <ProductPrice price={totalPrice} className="font-semibold" />
+
           {/* Remove Button */}
           <Button
             variant="ghost"
@@ -252,9 +230,9 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
             className="text-muted-foreground hover:text-destructive"
           >
             {isRemoving ? (
-              <Loader2 className="h-4 w-4 animate-spin mr-1" />
+              <Loader2 className="mr-1 h-4 w-4 animate-spin" />
             ) : (
-              <Trash2 className="h-4 w-4 mr-1" />
+              <Trash2 className="mr-1 h-4 w-4" />
             )}
             Remove
           </Button>

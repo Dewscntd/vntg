@@ -38,16 +38,14 @@ export function ResetPasswordForm() {
 
     try {
       const { error } = await resetPassword(data.email);
-      
+
       if (error) {
         setError(error.message);
         return;
       }
 
-      setSuccessMessage(
-        'Password reset instructions have been sent to your email address.'
-      );
-      
+      setSuccessMessage('Password reset instructions have been sent to your email address.');
+
       // Clear the form
       form.reset();
     } catch (error) {
@@ -68,9 +66,7 @@ export function ResetPasswordForm() {
       </div>
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
-        </div>
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
       )}
 
       {successMessage && (
@@ -108,10 +104,7 @@ export function ResetPasswordForm() {
 
       <div className="text-center text-sm">
         Remember your password?{' '}
-        <Link
-          href="/auth/login"
-          className="text-primary underline-offset-4 hover:underline"
-        >
+        <Link href="/auth/login" className="text-primary underline-offset-4 hover:underline">
           Back to login
         </Link>
       </div>

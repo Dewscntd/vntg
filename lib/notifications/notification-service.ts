@@ -131,7 +131,9 @@ export class NotificationService {
 
       // Render template
       const renderedContent = this.renderTemplate(template, data.variables);
-      const renderedSubject = template.subject ? this.renderTemplate({ ...template, content: template.subject }, data.variables) : data.subject;
+      const renderedSubject = template.subject
+        ? this.renderTemplate({ ...template, content: template.subject }, data.variables)
+        : data.subject;
 
       // Send based on type
       switch (data.type) {
@@ -140,19 +142,33 @@ export class NotificationService {
         case 'sms':
           return await this.sendSMS(data.recipient, renderedContent, data);
         case 'push':
-          return await this.sendPushNotification(data.recipient, renderedSubject || '', renderedContent, data);
+          return await this.sendPushNotification(
+            data.recipient,
+            renderedSubject || '',
+            renderedContent,
+            data
+          );
         default:
           throw new Error(`Unsupported notification type: ${data.type}`);
       }
     } catch (error) {
       console.error('Notification send error:', error);
-      await this.logNotification(data, 'failed', error.message);
+      await this.logNotification(
+        data,
+        'failed',
+        error instanceof Error ? error.message : String(error)
+      );
       return false;
     }
   }
 
   // Send email notification
-  private async sendEmail(recipient: string, subject: string, content: string, data: NotificationData): Promise<boolean> {
+  private async sendEmail(
+    recipient: string,
+    subject: string,
+    content: string,
+    data: NotificationData
+  ): Promise<boolean> {
     try {
       const response = await fetch('/api/notifications/email', {
         method: 'POST',
@@ -172,13 +188,21 @@ export class NotificationService {
       await this.logNotification(data, success ? 'sent' : 'failed');
       return success;
     } catch (error) {
-      await this.logNotification(data, 'failed', error.message);
+      await this.logNotification(
+        data,
+        'failed',
+        error instanceof Error ? error.message : String(error)
+      );
       return false;
     }
   }
 
   // Send SMS notification
-  private async sendSMS(recipient: string, content: string, data: NotificationData): Promise<boolean> {
+  private async sendSMS(
+    recipient: string,
+    content: string,
+    data: NotificationData
+  ): Promise<boolean> {
     try {
       const response = await fetch('/api/notifications/sms', {
         method: 'POST',
@@ -197,13 +221,22 @@ export class NotificationService {
       await this.logNotification(data, success ? 'sent' : 'failed');
       return success;
     } catch (error) {
-      await this.logNotification(data, 'failed', error.message);
+      await this.logNotification(
+        data,
+        'failed',
+        error instanceof Error ? error.message : String(error)
+      );
       return false;
     }
   }
 
   // Send push notification
-  private async sendPushNotification(recipient: string, title: string, content: string, data: NotificationData): Promise<boolean> {
+  private async sendPushNotification(
+    recipient: string,
+    title: string,
+    content: string,
+    data: NotificationData
+  ): Promise<boolean> {
     try {
       const response = await fetch('/api/notifications/push', {
         method: 'POST',
@@ -223,7 +256,11 @@ export class NotificationService {
       await this.logNotification(data, success ? 'sent' : 'failed');
       return success;
     } catch (error) {
-      await this.logNotification(data, 'failed', error.message);
+      await this.logNotification(
+        data,
+        'failed',
+        error instanceof Error ? error.message : String(error)
+      );
       return false;
     }
   }
@@ -231,17 +268,21 @@ export class NotificationService {
   // Render template with variables
   private renderTemplate(template: NotificationTemplate, variables: Record<string, any>): string {
     let content = template.content;
-    
+
     for (const [key, value] of Object.entries(variables)) {
       const regex = new RegExp(`{{${key}}}`, 'g');
       content = content.replace(regex, String(value));
     }
-    
+
     return content;
   }
 
   // Check user notification preferences
-  private async checkUserPreferences(userId: string | undefined, type: string, channel: string): Promise<boolean> {
+  private async checkUserPreferences(
+    userId: string | undefined,
+    type: string,
+    channel: string
+  ): Promise<boolean> {
     if (!userId) return true; // Allow notifications for non-authenticated users
 
     try {
@@ -249,7 +290,7 @@ export class NotificationService {
       if (!response.ok) return true; // Default to allow if preferences not found
 
       const preferences = await response.json();
-      
+
       // Map notification types to preference keys
       const preferenceKey = `${type}${channel.charAt(0).toUpperCase() + channel.slice(1)}`;
       return preferences[preferenceKey] !== false;
@@ -260,7 +301,11 @@ export class NotificationService {
   }
 
   // Log notification
-  private async logNotification(data: NotificationData, status: string, errorMessage?: string): Promise<void> {
+  private async logNotification(
+    data: NotificationData,
+    status: string,
+    errorMessage?: string
+  ): Promise<void> {
     try {
       await fetch('/api/notifications/log', {
         method: 'POST',
@@ -336,7 +381,11 @@ export async function sendOrderConfirmation(orderId: string, userEmail: string, 
   });
 }
 
-export async function sendShippingNotification(orderId: string, userEmail: string, shipmentData: any) {
+export async function sendShippingNotification(
+  orderId: string,
+  userEmail: string,
+  shipmentData: any
+) {
   return notificationService.sendNotification({
     type: 'email',
     channel: 'order_updates',

@@ -31,7 +31,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
     if (!dateString) return 'Never';
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -44,7 +44,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           bgColor: 'bg-red-50',
           badgeVariant: 'destructive' as const,
           label: 'Out of Stock',
-          priority: 4
+          priority: 4,
         };
       case 'critical':
         return {
@@ -53,7 +53,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           bgColor: 'bg-red-50',
           badgeVariant: 'destructive' as const,
           label: 'Critical',
-          priority: 3
+          priority: 3,
         };
       case 'low_stock':
         return {
@@ -62,7 +62,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           bgColor: 'bg-orange-50',
           badgeVariant: 'secondary' as const,
           label: 'Low Stock',
-          priority: 2
+          priority: 2,
         };
       case 'slow_moving':
         return {
@@ -71,7 +71,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           bgColor: 'bg-yellow-50',
           badgeVariant: 'outline' as const,
           label: 'Slow Moving',
-          priority: 1
+          priority: 1,
         };
       default:
         return {
@@ -80,7 +80,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           bgColor: 'bg-gray-50',
           badgeVariant: 'outline' as const,
           label: 'Unknown',
-          priority: 0
+          priority: 0,
         };
     }
   };
@@ -90,17 +90,20 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
     .sort((a, b) => getAlertConfig(b.status).priority - getAlertConfig(a.status).priority)
     .slice(0, limit);
 
-  const alertCounts = alerts.reduce((acc, alert) => {
-    acc[alert.status] = (acc[alert.status] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const alertCounts = alerts.reduce(
+    (acc, alert) => {
+      acc[alert.status] = (acc[alert.status] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
 
   if (loading) {
     return (
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <AlertTriangle className="h-5 w-5 mr-2" />
+            <AlertTriangle className="mr-2 h-5 w-5" />
             Inventory Alerts
           </CardTitle>
         </CardHeader>
@@ -109,12 +112,12 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
             {[...Array(5)].map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="flex items-center space-x-4">
-                  <div className="h-12 w-12 bg-gray-200 rounded-lg"></div>
+                  <div className="h-12 w-12 rounded-lg bg-gray-200"></div>
                   <div className="flex-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
+                    <div className="h-3 w-1/2 rounded bg-gray-200"></div>
                   </div>
-                  <div className="h-6 bg-gray-200 rounded w-20"></div>
+                  <div className="h-6 w-20 rounded bg-gray-200"></div>
                 </div>
               </div>
             ))}
@@ -129,15 +132,15 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <AlertTriangle className="h-5 w-5 mr-2" />
+            <AlertTriangle className="mr-2 h-5 w-5" />
             Inventory Alerts
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8">
-            <Package className="mx-auto h-12 w-12 text-green-500 mb-4" />
-            <p className="text-green-600 font-medium">All Good!</p>
-            <p className="text-gray-500 text-sm">No inventory alerts at this time</p>
+          <div className="py-8 text-center">
+            <Package className="mx-auto mb-4 h-12 w-12 text-green-500" />
+            <p className="font-medium text-green-600">All Good!</p>
+            <p className="text-sm text-gray-500">No inventory alerts at this time</p>
           </div>
         </CardContent>
       </Card>
@@ -148,7 +151,7 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center">
-          <AlertTriangle className="h-5 w-5 mr-2" />
+          <AlertTriangle className="mr-2 h-5 w-5" />
           Inventory Alerts
           {alerts.length > 0 && (
             <Badge variant="secondary" className="ml-2">
@@ -164,14 +167,14 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
       </CardHeader>
       <CardContent>
         {/* Alert Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
           {Object.entries(alertCounts).map(([status, count]) => {
             const config = getAlertConfig(status as InventoryAlert['status']);
             const Icon = config.icon;
             return (
-              <div key={status} className={`p-3 rounded-lg ${config.bgColor}`}>
+              <div key={status} className={`rounded-lg p-3 ${config.bgColor}`}>
                 <div className="flex items-center">
-                  <Icon className={`h-4 w-4 mr-2 ${config.color}`} />
+                  <Icon className={`mr-2 h-4 w-4 ${config.color}`} />
                   <div>
                     <p className="text-sm font-medium text-gray-900">{count}</p>
                     <p className="text-xs text-gray-600">{config.label}</p>
@@ -187,11 +190,14 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
           {sortedAlerts.map((alert) => {
             const config = getAlertConfig(alert.status);
             const Icon = config.icon;
-            
+
             return (
-              <div key={alert.id} className="flex items-center space-x-4 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+              <div
+                key={alert.id}
+                className="flex items-center space-x-4 rounded-lg border p-3 transition-colors hover:bg-gray-50"
+              >
                 {/* Alert Icon */}
-                <div className={`p-2 rounded-lg ${config.bgColor}`}>
+                <div className={`rounded-lg p-2 ${config.bgColor}`}>
                   <Icon className={`h-4 w-4 ${config.color}`} />
                 </div>
 
@@ -204,23 +210,21 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
                       className="h-10 w-10 rounded-lg object-cover"
                     />
                   ) : (
-                    <div className="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200">
                       <Package className="h-5 w-5 text-gray-400" />
                     </div>
                   )}
                 </div>
 
                 {/* Product Info */}
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <Link href={`/admin/products/${alert.id}/edit`}>
-                    <h4 className="font-medium text-gray-900 truncate hover:text-blue-600 transition-colors">
+                    <h4 className="truncate font-medium text-gray-900 transition-colors hover:text-blue-600">
                       {alert.name}
                     </h4>
                   </Link>
-                  <div className="flex items-center space-x-3 mt-1">
-                    <span className="text-xs text-gray-500">
-                      {alert.inventory_count} in stock
-                    </span>
+                  <div className="mt-1 flex items-center space-x-3">
+                    <span className="text-xs text-gray-500">{alert.inventory_count} in stock</span>
                     {alert.category && (
                       <Badge variant="outline" className="text-xs">
                         {alert.category}
@@ -251,23 +255,23 @@ export function InventoryAlerts({ alerts, loading, limit = 10 }: InventoryAlerts
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-6 pt-4 border-t">
+        <div className="mt-6 border-t pt-4">
           <div className="flex flex-wrap gap-2">
             <Link href="/admin/products?filter=out_of_stock">
               <Button variant="outline" size="sm">
-                <XCircle className="h-4 w-4 mr-2" />
+                <XCircle className="mr-2 h-4 w-4" />
                 Restock Out of Stock
               </Button>
             </Link>
             <Link href="/admin/products?filter=low_stock">
               <Button variant="outline" size="sm">
-                <AlertTriangle className="h-4 w-4 mr-2" />
+                <AlertTriangle className="mr-2 h-4 w-4" />
                 Review Low Stock
               </Button>
             </Link>
             <Link href="/admin/products?filter=slow_moving">
               <Button variant="outline" size="sm">
-                <TrendingDown className="h-4 w-4 mr-2" />
+                <TrendingDown className="mr-2 h-4 w-4" />
                 Promote Slow Movers
               </Button>
             </Link>

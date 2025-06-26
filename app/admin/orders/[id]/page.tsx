@@ -7,8 +7,14 @@ import { AdminLayout } from '@/components/admin/admin-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   ArrowLeft,
   Package,
   Truck,
@@ -18,7 +24,7 @@ import {
   User,
   MapPin,
   CreditCard,
-  FileText
+  FileText,
 } from 'lucide-react';
 
 interface OrderItem {
@@ -77,7 +83,7 @@ export default function AdminOrderDetailPage() {
   const params = useParams();
   const router = useRouter();
   const orderId = params.id as string;
-  
+
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
@@ -97,7 +103,8 @@ export default function AdminOrderDetailPage() {
         router.push('/admin/orders');
       }
     } catch (error) {
-      console.error('Error fetching order:', error);
+      // Handle error appropriately (e.g., notify user, log to service)
+      // console.error('Error fetching order:', error);
       alert('Failed to load order');
       router.push('/admin/orders');
     } finally {
@@ -107,7 +114,7 @@ export default function AdminOrderDetailPage() {
 
   const handleStatusUpdate = async (newStatus: string) => {
     if (!order) return;
-    
+
     setUpdating(true);
     try {
       const response = await fetch(`/api/orders/${orderId}`, {
@@ -119,7 +126,7 @@ export default function AdminOrderDetailPage() {
       });
 
       if (response.ok) {
-        setOrder(prev => prev ? { ...prev, status: newStatus as any } : null);
+        setOrder((prev) => (prev ? { ...prev, status: newStatus as any } : null));
       } else {
         alert('Failed to update order status');
       }
@@ -134,7 +141,7 @@ export default function AdminOrderDetailPage() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -144,7 +151,7 @@ export default function AdminOrderDetailPage() {
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -158,16 +165,16 @@ export default function AdminOrderDetailPage() {
       <AdminLayout>
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-12 bg-gray-200 rounded mb-6"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <div className="h-64 bg-gray-200 rounded"></div>
-                <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="mb-4 h-8 w-1/4 rounded bg-gray-200"></div>
+            <div className="mb-6 h-12 rounded bg-gray-200"></div>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+              <div className="space-y-6 lg:col-span-2">
+                <div className="h-64 rounded bg-gray-200"></div>
+                <div className="h-64 rounded bg-gray-200"></div>
               </div>
               <div className="space-y-6">
-                <div className="h-32 bg-gray-200 rounded"></div>
-                <div className="h-32 bg-gray-200 rounded"></div>
+                <div className="h-32 rounded bg-gray-200"></div>
+                <div className="h-32 rounded bg-gray-200"></div>
               </div>
             </div>
           </div>
@@ -181,7 +188,7 @@ export default function AdminOrderDetailPage() {
       <AdminLayout>
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Order not found</h2>
+            <h2 className="mb-2 text-xl font-semibold text-gray-900">Order not found</h2>
             <Link href="/admin/orders">
               <Button>Back to Orders</Button>
             </Link>
@@ -201,25 +208,21 @@ export default function AdminOrderDetailPage() {
         <div className="mb-8">
           <Link href="/admin/orders">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Orders
             </Button>
           </Link>
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Order #{order.order_number}</h1>
-              <p className="text-gray-600 mt-1">Created on {formatDate(order.created_at)}</p>
+              <p className="mt-1 text-gray-600">Created on {formatDate(order.created_at)}</p>
             </div>
             <div className="flex items-center space-x-4">
               <Badge variant={statusInfo.variant} className="flex items-center">
-                <StatusIcon className="h-4 w-4 mr-1" />
+                <StatusIcon className="mr-1 h-4 w-4" />
                 {statusInfo.label}
               </Badge>
-              <Select 
-                value={order.status} 
-                onValueChange={handleStatusUpdate}
-                disabled={updating}
-              >
+              <Select value={order.status} onValueChange={handleStatusUpdate} disabled={updating}>
                 <SelectTrigger className="w-40">
                   <SelectValue />
                 </SelectTrigger>
@@ -235,30 +238,33 @@ export default function AdminOrderDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             {/* Order Items */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Package className="h-5 w-5 mr-2" />
+                  <Package className="mr-2 h-5 w-5" />
                   Order Items ({order.items?.length || 0})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {order.items?.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-4 p-4 border rounded-lg">
+                    <div
+                      key={item.id}
+                      className="flex items-center space-x-4 rounded-lg border p-4"
+                    >
                       <div className="flex-shrink-0">
                         {item.product_image_url ? (
-                          <img
+                          <Image
                             src={item.product_image_url}
                             alt={item.product_name}
                             className="h-16 w-16 rounded-lg object-cover"
                           />
                         ) : (
-                          <div className="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-gray-200">
                             <Package className="h-8 w-8 text-gray-400" />
                           </div>
                         )}
@@ -270,9 +276,7 @@ export default function AdminOrderDetailPage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-gray-900">
-                          {formatCurrency(item.total)}
-                        </p>
+                        <p className="font-medium text-gray-900">{formatCurrency(item.total)}</p>
                       </div>
                     </div>
                   ))}
@@ -284,7 +288,7 @@ export default function AdminOrderDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2" />
+                  <MapPin className="mr-2 h-5 w-5" />
                   Shipping Address
                 </CardTitle>
               </CardHeader>
@@ -292,9 +296,7 @@ export default function AdminOrderDetailPage() {
                 <div className="text-sm text-gray-900">
                   <p className="font-medium">{order.customer_name}</p>
                   <p>{formatAddress(order.shipping_address)}</p>
-                  {order.customer_phone && (
-                    <p className="mt-2">Phone: {order.customer_phone}</p>
-                  )}
+                  {order.customer_phone && <p className="mt-2">Phone: {order.customer_phone}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -306,7 +308,7 @@ export default function AdminOrderDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <User className="h-5 w-5 mr-2" />
+                  <User className="mr-2 h-5 w-5" />
                   Customer
                 </CardTitle>
               </CardHeader>
@@ -327,7 +329,7 @@ export default function AdminOrderDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <CreditCard className="h-5 w-5 mr-2" />
+                  <CreditCard className="mr-2 h-5 w-5" />
                   Payment
                 </CardTitle>
               </CardHeader>
@@ -351,7 +353,7 @@ export default function AdminOrderDetailPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <FileText className="h-5 w-5 mr-2" />
+                  <FileText className="mr-2 h-5 w-5" />
                   Order Summary
                 </CardTitle>
               </CardHeader>
@@ -384,7 +386,7 @@ export default function AdminOrderDetailPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Truck className="h-5 w-5 mr-2" />
+                    <Truck className="mr-2 h-5 w-5" />
                     Tracking
                   </CardTitle>
                 </CardHeader>

@@ -1,11 +1,13 @@
 # Cart Integration Guide
 
 ## Overview
+
 This guide explains how to integrate the VNTG cart system into your application.
 
 ## Setup
 
 ### 1. Provider Setup
+
 Wrap your app with the CartProvider:
 
 ```tsx
@@ -15,9 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <CartProviderWrapper>
-          {children}
-        </CartProviderWrapper>
+        <CartProviderWrapper>{children}</CartProviderWrapper>
       </body>
     </html>
   );
@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
 ```
 
 ### 2. Header Integration
+
 Add the cart button with preview to your header:
 
 ```tsx
@@ -34,12 +35,7 @@ export function Header() {
   return (
     <header>
       {/* Other header content */}
-      <CartPreview
-        trigger={<CartButton />}
-        side="bottom"
-        align="end"
-        showOnHover={true}
-      />
+      <CartPreview trigger={<CartButton />} side="bottom" align="end" showOnHover={true} />
     </header>
   );
 }
@@ -48,18 +44,15 @@ export function Header() {
 ## Components
 
 ### CartButton
+
 Basic cart button with item count badge:
 
 ```tsx
-<CartButton 
-  variant="ghost"
-  size="md"
-  showText={false}
-  showBadge={true}
-/>
+<CartButton variant="ghost" size="md" showText={false} showBadge={true} />
 ```
 
 ### CartDrawer
+
 Sliding cart panel:
 
 ```tsx
@@ -69,6 +62,7 @@ Sliding cart panel:
 ```
 
 ### CartPreview
+
 Hover preview of cart contents:
 
 ```tsx
@@ -82,39 +76,33 @@ Hover preview of cart contents:
 ```
 
 ### CartItem
+
 Individual cart item display:
 
 ```tsx
-<CartItem 
-  item={cartItem}
-  compact={false}
-/>
+<CartItem item={cartItem} compact={false} />
 ```
 
 ### CartSummary
+
 Order summary with totals:
 
 ```tsx
-<CartSummary
-  showCheckoutButton={true}
-  showContinueShoppingButton={true}
-  compact={false}
-/>
+<CartSummary showCheckoutButton={true} showContinueShoppingButton={true} compact={false} />
 ```
 
 ### EmptyCart
+
 Empty cart state:
 
 ```tsx
-<EmptyCart
-  compact={false}
-  showSuggestions={true}
-/>
+<EmptyCart compact={false} showSuggestions={true} />
 ```
 
 ## Hooks
 
 ### useCart
+
 Main cart context hook:
 
 ```tsx
@@ -134,32 +122,28 @@ const {
 ```
 
 ### useCartActions
+
 Enhanced cart actions with toast notifications:
 
 ```tsx
-const {
-  addToCartWithToast,
-  removeFromCartWithToast,
-  updateQuantityWithToast,
-} = useCartActions();
+const { addToCartWithToast, removeFromCartWithToast, updateQuantityWithToast } = useCartActions();
 ```
 
 ### useCartAccessibility
+
 Accessibility features:
 
 ```tsx
-const {
-  getCartButtonProps,
-  getCartDrawerProps,
-  getCartItemProps,
-  announceCartChange,
-} = useCartAccessibility();
+const { getCartButtonProps, getCartDrawerProps, getCartItemProps, announceCartChange } =
+  useCartAccessibility();
 ```
 
 ## Analytics
 
 ### Automatic Tracking
+
 The cart system automatically tracks:
+
 - Add to cart events
 - Remove from cart events
 - Cart view events
@@ -167,6 +151,7 @@ The cart system automatically tracks:
 - Recovery attempts
 
 ### Manual Tracking
+
 Use cartAnalytics for custom events:
 
 ```tsx
@@ -180,40 +165,50 @@ cartAnalytics.applyDiscount('SAVE10', 10, total, userId);
 ## Persistence
 
 ### Local Storage
+
 Cart data is automatically saved to localStorage for non-authenticated users.
 
 ### Server Sync
+
 When users log in, local cart data is merged with server cart data.
 
 ### Cross-Device Sync
+
 Authenticated users have their cart synced across devices.
 
 ## Abandonment Recovery
 
 ### Automatic Tracking
+
 Cart abandonment is tracked when:
+
 - User leaves the page with items in cart
 - User is inactive for 5+ minutes
 - User closes browser tab
 
 ### Recovery Methods
+
 - Email reminders (backend integration required)
 - Popup notifications
 - Recovery page links
 
 ### Recovery Page
+
 Access via `/cart/recovery?recovery={eventId}&discount={code}`
 
 ## Animations
 
 ### GSAP Integration
+
 Cart components include smooth GSAP animations:
+
 - Cart drawer slide in/out
 - Item add/remove animations
 - Badge updates
 - Button feedback
 
 ### Custom Animations
+
 Use cart animation utilities:
 
 ```tsx
@@ -229,6 +224,7 @@ cartAnimations.itemSlideOut(itemElement);
 ## Accessibility
 
 ### Features
+
 - Screen reader announcements
 - Keyboard navigation
 - Focus management
@@ -236,14 +232,17 @@ cartAnimations.itemSlideOut(itemElement);
 - High contrast support
 
 ### Keyboard Shortcuts
+
 - `Ctrl/Cmd + Shift + C`: Toggle cart
 
 ## Mobile Optimization
 
 ### Responsive Design
+
 All cart components are fully responsive and touch-friendly.
 
 ### Mobile-Specific Features
+
 - Touch gestures for quantity controls
 - Optimized drawer sizing
 - Mobile-friendly preview
@@ -251,12 +250,15 @@ All cart components are fully responsive and touch-friendly.
 ## Error Handling
 
 ### Network Errors
+
 Cart operations gracefully handle network failures with:
+
 - Retry mechanisms
 - Offline support
 - Error notifications
 
 ### Validation
+
 - Inventory checking
 - Quantity limits
 - Product availability
@@ -264,12 +266,14 @@ Cart operations gracefully handle network failures with:
 ## Performance
 
 ### Optimizations
+
 - Lazy loading of cart data
 - Debounced API calls
 - Efficient re-renders
 - Image optimization
 
 ### Caching
+
 - Local storage backup
 - API response caching
 - Optimistic updates
@@ -277,6 +281,7 @@ Cart operations gracefully handle network failures with:
 ## Testing
 
 ### Unit Tests
+
 Test cart functionality:
 
 ```tsx
@@ -291,6 +296,7 @@ test('should add item to cart', async () => {
 ```
 
 ### Integration Tests
+
 Test cart workflows end-to-end.
 
 ## Troubleshooting
@@ -298,10 +304,12 @@ Test cart workflows end-to-end.
 ### Common Issues
 
 1. **Cart not persisting**
+
    - Check localStorage permissions
    - Verify authentication state
 
 2. **Animations not working**
+
    - Ensure GSAP is loaded
    - Check for CSS conflicts
 
@@ -310,6 +318,7 @@ Test cart workflows end-to-end.
    - Check network requests
 
 ### Debug Mode
+
 Enable debug logging:
 
 ```tsx
@@ -320,6 +329,7 @@ localStorage.setItem('vntg-cart-debug', 'true');
 ## API Integration
 
 ### Required Endpoints
+
 - `GET /api/cart` - Get cart items
 - `POST /api/cart/add` - Add item to cart
 - `PUT /api/cart/update` - Update item quantity
@@ -327,6 +337,7 @@ localStorage.setItem('vntg-cart-debug', 'true');
 - `POST /api/cart/sync` - Sync cart data
 
 ### Optional Endpoints
+
 - `POST /api/analytics/cart-abandonment` - Track abandonment
 - `POST /api/analytics/cart-recovery` - Track recovery
 - `POST /api/cart/abandonment/schedule-email` - Schedule emails
@@ -334,6 +345,7 @@ localStorage.setItem('vntg-cart-debug', 'true');
 ## Customization
 
 ### Theming
+
 Cart components use CSS variables for theming:
 
 ```css
@@ -345,6 +357,7 @@ Cart components use CSS variables for theming:
 ```
 
 ### Custom Components
+
 Extend cart components:
 
 ```tsx

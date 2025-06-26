@@ -4,18 +4,15 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { updateProductSchema } from '@/lib/validations/product';
 import { withValidation, withAdmin } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleServerError, 
-  handleDatabaseError, 
-  handleNotFound 
+import {
+  successResponse,
+  handleServerError,
+  handleDatabaseError,
+  handleNotFound,
 } from '@/lib/api/index';
 
 // GET /api/products/[id] - Get a single product by ID
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const { id } = params;
@@ -41,11 +38,8 @@ export async function GET(
 }
 
 // PUT /api/products/[id] - Update a product (admin only)
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  return withAdmin(req, (req, session) => 
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  return withAdmin(req, (req, session) =>
     withValidation(req, updateProductSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -89,10 +83,7 @@ export async function PUT(
 }
 
 // DELETE /api/products/[id] - Delete a product (admin only)
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   return withAdmin(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -113,10 +104,7 @@ export async function DELETE(
       }
 
       // Delete the product
-      const { error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('products').delete().eq('id', id);
 
       if (error) {
         throw error;

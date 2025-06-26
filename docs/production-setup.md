@@ -69,7 +69,7 @@ CREATE POLICY "Users can view their own orders" ON orders
 
 ```sql
 -- Create storage buckets
-INSERT INTO storage.buckets (id, name, public) VALUES 
+INSERT INTO storage.buckets (id, name, public) VALUES
   ('product-images', 'product-images', true),
   ('user-avatars', 'user-avatars', true);
 
@@ -79,7 +79,7 @@ CREATE POLICY "Public product images" ON storage.objects
 
 CREATE POLICY "Users can upload avatars" ON storage.objects
   FOR INSERT WITH CHECK (
-    bucket_id = 'user-avatars' AND 
+    bucket_id = 'user-avatars' AND
     auth.uid()::text = (storage.foldername(name))[1]
   );
 ```
@@ -176,7 +176,7 @@ npx @sentry/wizard -i nextjs
 Enable performance monitoring in `sentry.client.config.js`:
 
 ```javascript
-import * as Sentry from "@sentry/nextjs";
+import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

@@ -9,12 +9,14 @@ export async function GET(request: NextRequest) {
   if (code) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-    
+
     // Exchange the code for a session
     await supabase.auth.exchangeCodeForSession(code);
 
     // Get the user from the newly created session
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
     // If we have a user, check if they already have a profile
     if (session?.user) {

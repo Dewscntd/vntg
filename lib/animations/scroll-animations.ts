@@ -31,8 +31,8 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -50,13 +50,17 @@ export const scrollAnimations = {
         start: 'top 85%',
         end: 'bottom 15%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
   // Staggered content reveal
-  staggeredReveal: (container: Element, selector: string = '[data-reveal]', options?: ScrollTrigger.Vars) => {
+  staggeredReveal: (
+    container: Element,
+    selector: string = '[data-reveal]',
+    options?: ScrollTrigger.Vars
+  ) => {
     const elements = container.querySelectorAll(selector);
     if (elements.length === 0) return;
 
@@ -74,8 +78,8 @@ export const scrollAnimations = {
         start: 'top 75%',
         end: 'bottom 25%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -89,8 +93,8 @@ export const scrollAnimations = {
         start: 'top bottom',
         end: 'bottom top',
         scrub: true,
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -107,8 +111,8 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'center center',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -126,8 +130,8 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -144,8 +148,8 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -163,20 +167,23 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
 
     tl.to(imageContainer, {
       clipPath: 'inset(0% 0 0 0)',
       duration: 1.2,
-      ease: 'power3.out'
-    })
-    .to(image, {
-      scale: 1,
-      duration: 1.2,
-      ease: 'power2.out'
-    }, 0);
+      ease: 'power3.out',
+    }).to(
+      image,
+      {
+        scale: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+      },
+      0
+    );
 
     return tl;
   },
@@ -185,11 +192,14 @@ export const scrollAnimations = {
   textReveal: (textElement: Element, options?: ScrollTrigger.Vars) => {
     const text = textElement.textContent || '';
     const words = text.split(' ');
-    
+
     // Wrap each word in a span
-    textElement.innerHTML = words.map(word => 
-      `<span class="inline-block overflow-hidden"><span class="inline-block">${word}</span></span>`
-    ).join(' ');
+    textElement.innerHTML = words
+      .map(
+        (word) =>
+          `<span class="inline-block overflow-hidden"><span class="inline-block">${word}</span></span>`
+      )
+      .join(' ');
 
     const wordSpans = textElement.querySelectorAll('span span');
     gsap.set(wordSpans, { y: '100%' });
@@ -204,8 +214,8 @@ export const scrollAnimations = {
         start: 'top 85%',
         end: 'bottom 15%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -224,8 +234,8 @@ export const scrollAnimations = {
         trigger: element,
         start: 'top 80%',
         toggleActions: 'play none none none',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -241,8 +251,8 @@ export const scrollAnimations = {
         trigger: progressBar.parentElement,
         start: 'top 80%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -265,8 +275,8 @@ export const scrollAnimations = {
         start: 'top 70%',
         end: 'bottom 30%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
@@ -281,20 +291,20 @@ export const scrollAnimations = {
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse',
-        ...options
-      }
+        ...options,
+      },
     });
   },
 
   // Cleanup all ScrollTriggers
   cleanup: () => {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   },
 
   // Refresh ScrollTrigger (useful after content changes)
   refresh: () => {
     ScrollTrigger.refresh();
-  }
+  },
 };
 
 export default scrollAnimations;

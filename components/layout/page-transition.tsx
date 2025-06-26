@@ -13,12 +13,12 @@ export interface PageTransitionProps {
   delay?: number;
 }
 
-export function PageTransition({ 
-  children, 
+export function PageTransition({
+  children,
   className,
   variant = 'fade',
   duration = 0.6,
-  delay = 0
+  delay = 0,
 }: PageTransitionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -45,41 +45,41 @@ export function PageTransition({
     const getFinalState = () => {
       switch (variant) {
         case 'slide':
-          return { 
-            opacity: 1, 
-            y: 0, 
+          return {
+            opacity: 1,
+            y: 0,
             scale: 1,
             duration,
             delay,
-            ease: 'power3.out'
+            ease: 'power3.out',
           };
         case 'scale':
-          return { 
-            opacity: 1, 
-            y: 0, 
+          return {
+            opacity: 1,
+            y: 0,
             scale: 1,
             duration,
             delay,
-            ease: 'back.out(1.7)'
+            ease: 'back.out(1.7)',
           };
         case 'blur':
-          return { 
-            opacity: 1, 
-            y: 0, 
+          return {
+            opacity: 1,
+            y: 0,
             scale: 1,
             filter: 'blur(0px)',
             duration,
             delay,
-            ease: 'power2.out'
+            ease: 'power2.out',
           };
         default: // fade
-          return { 
-            opacity: 1, 
-            y: 0, 
+          return {
+            opacity: 1,
+            y: 0,
             scale: 1,
             duration,
             delay,
-            ease: 'power2.out'
+            ease: 'power2.out',
           };
       }
     };
@@ -96,10 +96,7 @@ export function PageTransition({
   }, [pathname, variant, duration, delay]);
 
   return (
-    <div 
-      ref={containerRef}
-      className={cn('w-full', className)}
-    >
+    <div ref={containerRef} className={cn('w-full', className)}>
       {children}
     </div>
   );
@@ -128,42 +125,42 @@ export function usePageTransition() {
     const getEnterState = () => {
       switch (variant) {
         case 'slide':
-          return { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.6, 
+          return {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
             ease: 'power3.out',
-            delay: 0.1
+            delay: 0.1,
           };
         case 'scale':
-          return { 
-            opacity: 1, 
-            scale: 1, 
-            duration: 0.6, 
+          return {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
             ease: 'back.out(1.7)',
-            delay: 0.1
+            delay: 0.1,
           };
         case 'blur':
-          return { 
-            opacity: 1, 
-            filter: 'blur(0px)', 
-            duration: 0.6, 
+          return {
+            opacity: 1,
+            filter: 'blur(0px)',
+            duration: 0.6,
             ease: 'power2.out',
-            delay: 0.1
+            delay: 0.1,
           };
         default: // fade
-          return { 
-            opacity: 1, 
-            duration: 0.6, 
+          return {
+            opacity: 1,
+            duration: 0.6,
             ease: 'power2.out',
-            delay: 0.1
+            delay: 0.1,
           };
       }
     };
 
     // Set initial state
     gsap.set(element, { opacity: 0 });
-    
+
     return gsap.to(element, getEnterState());
   };
 
@@ -171,11 +168,11 @@ export function usePageTransition() {
 }
 
 // Staggered page transition for multiple elements
-export function StaggeredPageTransition({ 
-  children, 
+export function StaggeredPageTransition({
+  children,
   className,
   stagger = 0.1,
-  variant = 'fade'
+  variant = 'fade',
 }: PageTransitionProps & { stagger?: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -205,35 +202,35 @@ export function StaggeredPageTransition({
     const getFinalState = () => {
       switch (variant) {
         case 'slide':
-          return { 
-            opacity: 1, 
-            y: 0, 
+          return {
+            opacity: 1,
+            y: 0,
             duration: 0.6,
             ease: 'power3.out',
-            stagger
+            stagger,
           };
         case 'scale':
-          return { 
-            opacity: 1, 
-            scale: 1, 
+          return {
+            opacity: 1,
+            scale: 1,
             duration: 0.6,
             ease: 'back.out(1.7)',
-            stagger
+            stagger,
           };
         case 'blur':
-          return { 
-            opacity: 1, 
-            filter: 'blur(0px)', 
+          return {
+            opacity: 1,
+            filter: 'blur(0px)',
             duration: 0.6,
             ease: 'power2.out',
-            stagger
+            stagger,
           };
         default: // fade
-          return { 
-            opacity: 1, 
+          return {
+            opacity: 1,
             duration: 0.6,
             ease: 'power2.out',
-            stagger
+            stagger,
           };
       }
     };
@@ -250,10 +247,7 @@ export function StaggeredPageTransition({
   }, [pathname, variant, stagger]);
 
   return (
-    <div 
-      ref={containerRef}
-      className={cn('w-full', className)}
-    >
+    <div ref={containerRef} className={cn('w-full', className)}>
       {children}
     </div>
   );

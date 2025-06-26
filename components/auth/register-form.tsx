@@ -45,7 +45,7 @@ export function RegisterForm() {
     try {
       // Register the user with Supabase Auth
       const { error: signUpError, data: signUpData } = await signUp(data.email, data.password);
-      
+
       if (signUpError) {
         setError(signUpError.message);
         return;
@@ -54,16 +54,14 @@ export function RegisterForm() {
       // If registration is successful, create a user profile
       if (signUpData.user) {
         const supabase = createClient();
-        
+
         // Insert user profile data
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert({
-            id: signUpData.user.id,
-            email: data.email,
-            full_name: data.fullName,
-            role: 'customer',
-          });
+        const { error: profileError } = await supabase.from('users').insert({
+          id: signUpData.user.id,
+          email: data.email,
+          full_name: data.fullName,
+          role: 'customer',
+        });
 
         if (profileError) {
           setError('Failed to create user profile. Please contact support.');
@@ -74,7 +72,7 @@ export function RegisterForm() {
         setSuccessMessage(
           'Registration successful! Please check your email to verify your account.'
         );
-        
+
         // Clear the form
         form.reset();
       }
@@ -96,9 +94,7 @@ export function RegisterForm() {
       </div>
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
-        </div>
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
       )}
 
       {successMessage && (
@@ -116,11 +112,7 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Full Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="John Doe"
-                    disabled={isLoading}
-                    {...field}
-                  />
+                  <Input placeholder="John Doe" disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -191,10 +183,7 @@ export function RegisterForm() {
 
       <div className="text-center text-sm">
         Already have an account?{' '}
-        <Link
-          href="/auth/login"
-          className="text-primary underline-offset-4 hover:underline"
-        >
+        <Link href="/auth/login" className="text-primary underline-offset-4 hover:underline">
           Login
         </Link>
       </div>

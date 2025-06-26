@@ -18,12 +18,16 @@ export const cartAnimations = {
     }
 
     // Then slide in drawer with elastic effect
-    tl.to(drawer, {
-      x: '0%',
-      opacity: 1,
-      duration: 0.6,
-      ease: 'back.out(1.7)'
-    }, backdrop ? '-=0.1' : 0);
+    tl.to(
+      drawer,
+      {
+        x: '0%',
+        opacity: 1,
+        duration: 0.6,
+        ease: 'back.out(1.7)',
+      },
+      backdrop ? '-=0.1' : 0
+    );
 
     return tl;
   },
@@ -41,10 +45,14 @@ export const cartAnimations = {
 
     // Then fade out backdrop
     if (backdrop) {
-      tl.to(backdrop, {
-        opacity: 0,
-        duration: 0.2
-      }, '-=0.2');
+      tl.to(
+        backdrop,
+        {
+          opacity: 0,
+          duration: 0.2,
+        },
+        '-=0.2'
+      );
     }
 
     return tl;
@@ -60,7 +68,8 @@ export const cartAnimations = {
 
     // Header slides down
     if (header) {
-      tl.fromTo(header,
+      tl.fromTo(
+        header,
         { y: -30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
       );
@@ -68,7 +77,8 @@ export const cartAnimations = {
 
     // Items stagger in from right
     if (items.length > 0) {
-      tl.fromTo(items,
+      tl.fromTo(
+        items,
         { x: 50, opacity: 0, scale: 0.9 },
         {
           x: 0,
@@ -76,7 +86,7 @@ export const cartAnimations = {
           scale: 1,
           duration: 0.4,
           stagger: 0.1,
-          ease: 'power3.out'
+          ease: 'power3.out',
         },
         '-=0.2'
       );
@@ -84,7 +94,8 @@ export const cartAnimations = {
 
     // Summary slides up
     if (summary) {
-      tl.fromTo(summary,
+      tl.fromTo(
+        summary,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' },
         '-=0.2'
@@ -124,19 +135,19 @@ export const cartAnimations = {
       scale: 1,
       rotationY: 0,
       duration: 0.5,
-      ease: 'back.out(1.7)'
+      ease: 'back.out(1.7)',
     })
-    // Add subtle bounce
-    .to(item, {
-      scale: 1.02,
-      duration: 0.1,
-      ease: 'power2.out'
-    })
-    .to(item, {
-      scale: 1,
-      duration: 0.1,
-      ease: 'power2.out'
-    });
+      // Add subtle bounce
+      .to(item, {
+        scale: 1.02,
+        duration: 0.1,
+        ease: 'power2.out',
+      })
+      .to(item, {
+        scale: 1,
+        duration: 0.1,
+        ease: 'power2.out',
+      });
 
     return tl;
   },
@@ -153,16 +164,20 @@ export const cartAnimations = {
       duration: 0.4,
       ease: 'power3.in',
     })
-    // Collapse height
-    .to(item, {
-      height: 0,
-      marginTop: 0,
-      marginBottom: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      duration: 0.3,
-      ease: 'power2.in'
-    }, '-=0.2');
+      // Collapse height
+      .to(
+        item,
+        {
+          height: 0,
+          marginTop: 0,
+          marginBottom: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+          duration: 0.3,
+          ease: 'power2.in',
+        },
+        '-=0.2'
+      );
 
     return tl;
   },
@@ -194,25 +209,29 @@ export const cartAnimations = {
         document.body.removeChild(flyingElement);
         // Trigger cart button animation
         cartAnimations.addToCartSuccess(cartElement);
-      }
+      },
     });
 
     // Fly to cart with arc motion
     tl.to(flyingElement, {
       motionPath: {
         path: `M${productRect.left},${productRect.top} Q${(productRect.left + cartRect.left) / 2},${productRect.top - 100} ${cartRect.left},${cartRect.top}`,
-        autoRotate: true
+        autoRotate: true,
       },
       scale: 0.5,
       duration: 0.8,
-      ease: 'power2.out'
+      ease: 'power2.out',
     })
-    // Fade out at the end
-    .to(flyingElement, {
-      opacity: 0,
-      scale: 0.2,
-      duration: 0.2
-    }, '-=0.2');
+      // Fade out at the end
+      .to(
+        flyingElement,
+        {
+          opacity: 0,
+          scale: 0.2,
+          duration: 0.2,
+        },
+        '-=0.2'
+      );
 
     return tl;
   },
@@ -236,7 +255,7 @@ export const cartAnimations = {
   // Cart icon shake (for errors or attention)
   cartIconShake: (icon: Element) => {
     return gsap.to(icon, {
-      x: [-2, 2, -2, 2, 0],
+      keyframes: [{ x: -2 }, { x: 2 }, { x: -2 }, { x: 2 }, { x: 0 }],
       duration: 0.4,
       ease: 'power2.inOut',
     });
@@ -283,10 +302,12 @@ export const cartAnimations = {
   flyToCart: (productImage: Element, cartButton: Element) => {
     const productRect = productImage.getBoundingClientRect();
     const cartRect = cartButton.getBoundingClientRect();
-    
+
     // Create a clone of the product image
     const clone = productImage.cloneNode(true) as Element;
-    clone.setAttribute('style', `
+    clone.setAttribute(
+      'style',
+      `
       position: fixed;
       top: ${productRect.top}px;
       left: ${productRect.left}px;
@@ -294,8 +315,9 @@ export const cartAnimations = {
       height: ${productRect.height}px;
       z-index: 9999;
       pointer-events: none;
-    `);
-    
+    `
+    );
+
     document.body.appendChild(clone);
 
     const tl = gsap.timeline({
@@ -314,11 +336,15 @@ export const cartAnimations = {
         duration: 0.8,
         ease: 'power2.out',
       })
-      .to(clone, {
-        opacity: 0,
-        scale: 0,
-        duration: 0.2,
-      }, '-=0.2');
+      .to(
+        clone,
+        {
+          opacity: 0,
+          scale: 0,
+          duration: 0.2,
+        },
+        '-=0.2'
+      );
   },
 
   // Cart loading animation
@@ -376,11 +402,7 @@ export const cartAnimations = {
 
   // Cart backdrop fade
   backdropFadeIn: (backdrop: Element) => {
-    return gsap.fromTo(
-      backdrop,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3 }
-    );
+    return gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3 });
   },
 
   backdropFadeOut: (backdrop: Element) => {

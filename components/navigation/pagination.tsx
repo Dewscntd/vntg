@@ -25,7 +25,7 @@ export function Pagination({
   className,
   onPageChange,
   showInfo = true,
-  maxVisiblePages = 7
+  maxVisiblePages = 7,
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,15 +37,15 @@ export function Pagination({
       onPageChange(page);
     } else {
       // Update URL with new page
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       const offset = (page - 1) * itemsPerPage;
-      
+
       if (offset > 0) {
         params.set('offset', offset.toString());
       } else {
         params.delete('offset');
       }
-      
+
       router.push(`${window.location.pathname}?${params.toString()}`);
     }
   };
@@ -53,7 +53,7 @@ export function Pagination({
   // Generate page numbers to display
   const generatePageNumbers = () => {
     const pages: (number | 'ellipsis')[] = [];
-    
+
     if (totalPages <= maxVisiblePages) {
       // Show all pages if total is less than max visible
       for (let i = 1; i <= totalPages; i++) {
@@ -62,31 +62,31 @@ export function Pagination({
     } else {
       // Always show first page
       pages.push(1);
-      
+
       const startPage = Math.max(2, currentPage - Math.floor((maxVisiblePages - 3) / 2));
       const endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 4);
-      
+
       // Add ellipsis after first page if needed
       if (startPage > 2) {
         pages.push('ellipsis');
       }
-      
+
       // Add middle pages
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-      
+
       // Add ellipsis before last page if needed
       if (endPage < totalPages - 1) {
         pages.push('ellipsis');
       }
-      
+
       // Always show last page
       if (totalPages > 1) {
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
@@ -96,14 +96,19 @@ export function Pagination({
 
   if (totalPages <= 1) {
     return showInfo ? (
-      <div className={cn("flex justify-center text-sm text-muted-foreground", className)}>
+      <div className={cn('flex justify-center text-sm text-muted-foreground', className)}>
         Showing {totalItems} item{totalItems !== 1 ? 's' : ''}
       </div>
     ) : null;
   }
 
   return (
-    <div className={cn("flex flex-col items-center space-y-4 sm:flex-row sm:justify-between sm:space-y-0", className)}>
+    <div
+      className={cn(
+        'flex flex-col items-center space-y-4 sm:flex-row sm:justify-between sm:space-y-0',
+        className
+      )}
+    >
       {/* Pagination Info */}
       {showInfo && (
         <div className="text-sm text-muted-foreground">
@@ -127,7 +132,7 @@ export function Pagination({
 
         {/* Page Numbers */}
         <div className="flex items-center space-x-1">
-          {pageNumbers.map((page, index) => (
+          {pageNumbers.map((page, index) =>
             page === 'ellipsis' ? (
               <div key={`ellipsis-${index}`} className="px-2">
                 <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
@@ -135,18 +140,15 @@ export function Pagination({
             ) : (
               <Button
                 key={page}
-                variant={page === currentPage ? "default" : "outline"}
+                variant={page === currentPage ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => handlePageChange(page)}
-                className={cn(
-                  "min-w-[2.5rem]",
-                  page === currentPage && "pointer-events-none"
-                )}
+                className={cn('min-w-[2.5rem]', page === currentPage && 'pointer-events-none')}
               >
                 {page}
               </Button>
             )
-          ))}
+          )}
         </div>
 
         {/* Next Button */}
@@ -169,7 +171,7 @@ export function Pagination({
 export function calculatePagination(offset: number, limit: number, total: number) {
   const currentPage = Math.floor(offset / limit) + 1;
   const totalPages = Math.ceil(total / limit);
-  
+
   return {
     currentPage,
     totalPages,

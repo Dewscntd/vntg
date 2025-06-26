@@ -2,7 +2,7 @@
 
 /**
  * Database Migration Script for VNTG E-commerce Platform
- * 
+ *
  * This script handles database migrations for production deployments
  * Usage: node scripts/migrate-database.js [--dry-run] [--rollback] [--target=version]
  */
@@ -36,20 +36,20 @@ class DatabaseMigrator {
     if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
       throw new Error('Missing required environment variables: SUPABASE_URL, SUPABASE_SERVICE_KEY');
     }
-    
+
     this.supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   }
 
   async initialize() {
     log('Initializing migration system...', 'blue');
-    
+
     // Create migrations table if it doesn't exist
     const { error } = await this.supabase.rpc('create_migrations_table');
-    
+
     if (error && !error.message.includes('already exists')) {
       throw new Error(`Failed to create migrations table: ${error.message}`);
     }
-    
+
     log('Migration system initialized', 'green');
   }
 
@@ -57,9 +57,9 @@ class DatabaseMigrator {
     try {
       const files = await fs.readdir(MIGRATIONS_DIR);
       return files
-        .filter(file => file.endsWith('.sql'))
+        .filter((file) => file.endsWith('.sql'))
         .sort()
-        .map(file => ({
+        .map((file) => ({
           filename: file,
           version: file.split('_')[0],
           name: file.replace(/^\d+_/, '').replace('.sql', ''),
@@ -79,20 +79,20 @@ class DatabaseMigrator {
       .from('schema_migrations')
       .select('version, applied_at')
       .order('version');
-    
+
     if (error) {
       throw new Error(`Failed to get applied migrations: ${error.message}`);
     }
-    
+
     return data || [];
   }
 
   async getPendingMigrations() {
     const migrationFiles = await this.getMigrationFiles();
     const appliedMigrations = await this.getAppliedMigrations();
-    const appliedVersions = new Set(appliedMigrations.map(m => m.version));
-    
-    return migrationFiles.filter(file => !appliedVersions.has(file.version));
+    const appliedVersions = new Set(appliedMigrations.map((m) => m.version));
+
+    return migrationFiles.filter((file) => !appliedVersions.has(file.version));
   }
 
   async readMigrationFile(filePath) {
@@ -106,35 +106,33 @@ class DatabaseMigrator {
 
   async executeMigration(migration, dryRun = false) {
     log(`${dryRun ? '[DRY RUN] ' : ''}Applying migration: ${migration.name}`, 'cyan');
-    
+
     const sql = await this.readMigrationFile(migration.path);
-    
+
     if (dryRun) {
       log(`SQL content:\n${sql}`, 'magenta');
       return;
     }
-    
+
     try {
       // Execute the migration SQL
       const { error } = await this.supabase.rpc('execute_sql', { sql_query: sql });
-      
+
       if (error) {
         throw new Error(`Migration failed: ${error.message}`);
       }
-      
+
       // Record the migration as applied
-      const { error: insertError } = await this.supabase
-        .from('schema_migrations')
-        .insert({
-          version: migration.version,
-          name: migration.name,
-          applied_at: new Date().toISOString(),
-        });
-      
+      const { error: insertError } = await this.supabase.from('schema_migrations').insert({
+        version: migration.version,
+        name: migration.name,
+        applied_at: new Date().toISOString(),
+      });
+
       if (insertError) {
         throw new Error(`Failed to record migration: ${insertError.message}`);
       }
-      
+
       log(`✓ Migration ${migration.name} applied successfully`, 'green');
     } catch (error) {
       log(`✗ Migration ${migration.name} failed: ${error.message}`, 'red');
@@ -144,30 +142,30 @@ class DatabaseMigrator {
 
   async rollbackMigration(version) {
     log(`Rolling back migration: ${version}`, 'yellow');
-    
+
     // Check if rollback file exists
     const rollbackFile = path.join(MIGRATIONS_DIR, `${version}_rollback.sql`);
-    
+
     try {
       const sql = await this.readMigrationFile(rollbackFile);
-      
+
       // Execute rollback SQL
       const { error } = await this.supabase.rpc('execute_sql', { sql_query: sql });
-      
+
       if (error) {
         throw new Error(`Rollback failed: ${error.message}`);
       }
-      
+
       // Remove migration record
       const { error: deleteError } = await this.supabase
         .from('schema_migrations')
         .delete()
         .eq('version', version);
-      
+
       if (deleteError) {
         throw new Error(`Failed to remove migration record: ${deleteError.message}`);
       }
-      
+
       log(`✓ Migration ${version} rolled back successfully`, 'green');
     } catch (error) {
       if (error.code === 'ENOENT') {
@@ -179,28 +177,28 @@ class DatabaseMigrator {
 
   async migrate(options = {}) {
     const { dryRun = false, target = null } = options;
-    
+
     await this.initialize();
-    
+
     const pendingMigrations = await this.getPendingMigrations();
-    
+
     if (pendingMigrations.length === 0) {
       log('No pending migrations', 'green');
       return;
     }
-    
+
     log(`Found ${pendingMigrations.length} pending migration(s)`, 'blue');
-    
+
     let migrationsToRun = pendingMigrations;
-    
+
     if (target) {
-      migrationsToRun = pendingMigrations.filter(m => m.version <= target);
+      migrationsToRun = pendingMigrations.filter((m) => m.version <= target);
     }
-    
+
     for (const migration of migrationsToRun) {
       await this.executeMigration(migration, dryRun);
     }
-    
+
     if (!dryRun) {
       log(`✓ All migrations completed successfully`, 'green');
     }
@@ -208,7 +206,7 @@ class DatabaseMigrator {
 
   async rollback(version) {
     await this.initialize();
-    
+
     if (!version) {
       // Get the last applied migration
       const appliedMigrations = await this.getAppliedMigrations();
@@ -218,33 +216,36 @@ class DatabaseMigrator {
       }
       version = appliedMigrations[appliedMigrations.length - 1].version;
     }
-    
+
     await this.rollbackMigration(version);
   }
 
   async status() {
     await this.initialize();
-    
+
     const migrationFiles = await this.getMigrationFiles();
     const appliedMigrations = await this.getAppliedMigrations();
-    const appliedVersions = new Set(appliedMigrations.map(m => m.version));
-    
+    const appliedVersions = new Set(appliedMigrations.map((m) => m.version));
+
     log('\nMigration Status:', 'blue');
     log('================', 'blue');
-    
+
     if (migrationFiles.length === 0) {
       log('No migration files found', 'yellow');
       return;
     }
-    
+
     for (const file of migrationFiles) {
       const status = appliedVersions.has(file.version) ? '✓ Applied' : '✗ Pending';
       const color = appliedVersions.has(file.version) ? 'green' : 'yellow';
       log(`${status} ${file.version} - ${file.name}`, color);
     }
-    
+
     const pendingCount = migrationFiles.length - appliedMigrations.length;
-    log(`\nTotal: ${migrationFiles.length} migrations, ${appliedMigrations.length} applied, ${pendingCount} pending`, 'blue');
+    log(
+      `\nTotal: ${migrationFiles.length} migrations, ${appliedMigrations.length} applied, ${pendingCount} pending`,
+      'blue'
+    );
   }
 }
 
@@ -253,14 +254,14 @@ async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const rollback = args.includes('--rollback');
-  const targetArg = args.find(arg => arg.startsWith('--target='));
+  const targetArg = args.find((arg) => arg.startsWith('--target='));
   const target = targetArg ? targetArg.split('=')[1] : null;
-  
+
   const migrator = new DatabaseMigrator();
-  
+
   try {
     if (rollback) {
-      const version = args.find(arg => !arg.startsWith('--'));
+      const version = args.find((arg) => !arg.startsWith('--'));
       await migrator.rollback(version);
     } else if (args.includes('--status')) {
       await migrator.status();

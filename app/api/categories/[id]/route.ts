@@ -4,18 +4,15 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { updateCategorySchema } from '@/lib/validations/category';
 import { withValidation, withAdmin } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleServerError, 
-  handleDatabaseError, 
-  handleNotFound 
+import {
+  successResponse,
+  handleServerError,
+  handleDatabaseError,
+  handleNotFound,
 } from '@/lib/api/index';
 
 // GET /api/categories/[id] - Get a single category by ID
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const { id } = params;
@@ -66,11 +63,8 @@ export async function GET(
 }
 
 // PUT /api/categories/[id] - Update a category (admin only)
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  return withAdmin(req, (req, session) => 
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  return withAdmin(req, (req, session) =>
     withValidation(req, updateCategorySchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -119,10 +113,7 @@ export async function PUT(
 }
 
 // DELETE /api/categories/[id] - Delete a category (admin only)
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   return withAdmin(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -170,15 +161,14 @@ export async function DELETE(
 
       if (products && products.length > 0) {
         return handleDatabaseError(
-          new Error('Cannot delete category with products. Remove products first or reassign them to another category.')
+          new Error(
+            'Cannot delete category with products. Remove products first or reassign them to another category.'
+          )
         );
       }
 
       // Delete the category
-      const { error } = await supabase
-        .from('categories')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('categories').delete().eq('id', id);
 
       if (error) {
         throw error;

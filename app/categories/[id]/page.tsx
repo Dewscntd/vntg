@@ -7,7 +7,12 @@ import Link from 'next/link';
 
 import { ProductGrid } from '@/components/products/product-grid';
 import { ProductSearch, ProductFilters, ProductSorting } from '@/components/products/browse';
-import { Breadcrumb, generateCategoryBreadcrumbs, Pagination, calculatePagination } from '@/components/navigation';
+import {
+  Breadcrumb,
+  generateCategoryBreadcrumbs,
+  Pagination,
+  calculatePagination,
+} from '@/components/navigation';
 import { useProducts, useCategory } from '@/lib/hooks';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -29,24 +34,36 @@ export default function CategoryPage() {
   });
 
   // Fetch category details
-  const { data: category, isLoading: categoryLoading, error: categoryError } = useCategory(categoryId);
+  const {
+    data: category,
+    isLoading: categoryLoading,
+    error: categoryError,
+  } = useCategory(categoryId);
 
   // Fetch products in this category
-  const { data: productsData, isLoading: productsLoading, error: productsError, refetch } = useProducts({
+  const {
+    data: productsData,
+    isLoading: productsLoading,
+    error: productsError,
+    refetch,
+  } = useProducts({
     url: `/api/products?${new URLSearchParams(
-      Object.entries(queryParams).reduce((acc, [key, value]) => {
-        if (value !== undefined) {
-          acc[key] = String(value);
-        }
-        return acc;
-      }, {} as Record<string, string>)
+      Object.entries(queryParams).reduce(
+        (acc, [key, value]) => {
+          if (value !== undefined) {
+            acc[key] = String(value);
+          }
+          return acc;
+        },
+        {} as Record<string, string>
+      )
     ).toString()}`,
     cacheKey: `category-products-${categoryId}-${JSON.stringify(queryParams)}`,
   });
 
   // Update query params when URL search params change
   useEffect(() => {
-    setQueryParams(prev => ({
+    setQueryParams((prev) => ({
       ...prev,
       search: searchParams.get('search') || undefined,
       min_price: searchParams.get('min_price') ? Number(searchParams.get('min_price')) : undefined,
@@ -60,7 +77,7 @@ export default function CategoryPage() {
 
   const handleLoadMore = () => {
     if (pagination && pagination.offset + pagination.limit < pagination.total) {
-      setQueryParams(prev => ({
+      setQueryParams((prev) => ({
         ...prev,
         offset: prev.offset + prev.limit,
       }));
@@ -86,8 +103,8 @@ export default function CategoryPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
-          <p className="text-destructive font-medium">Failed to load category</p>
-          <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
+          <p className="font-medium text-destructive">Failed to load category</p>
+          <p className="mt-1 text-sm text-muted-foreground">{error.message}</p>
           <div className="mt-4 space-x-2">
             <Button onClick={() => refetch()} variant="outline">
               Try Again
@@ -109,11 +126,9 @@ export default function CategoryPage() {
     category?.parent ? { name: category.parent.name, id: category.parent.id } : undefined
   );
 
-  const paginationData = pagination ? calculatePagination(
-    pagination.offset,
-    pagination.limit,
-    pagination.total
-  ) : null;
+  const paginationData = pagination
+    ? calculatePagination(pagination.offset, pagination.limit, pagination.total)
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -124,13 +139,9 @@ export default function CategoryPage() {
 
       {/* Category Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
-          {category?.name || 'Category'}
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight">{category?.name || 'Category'}</h1>
         {category?.description && (
-          <p className="text-muted-foreground mt-2">
-            {category.description}
-          </p>
+          <p className="mt-2 text-muted-foreground">{category.description}</p>
         )}
       </div>
 
@@ -151,35 +162,36 @@ export default function CategoryPage() {
           {/* Main Content */}
           <div className="flex-1 lg:min-w-0">
             {/* Sorting and Results Info */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+            <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <div className="text-sm text-muted-foreground">
                 {pagination && (
                   <>
-                    Showing {Math.min(pagination.offset + pagination.limit, pagination.total)} of {pagination.total} products in {category?.name}
+                    Showing {Math.min(pagination.offset + pagination.limit, pagination.total)} of{' '}
+                    {pagination.total} products in {category?.name}
                   </>
                 )}
               </div>
               <ProductSorting />
             </div>
 
-      {/* Products Loading State */}
-      {productsLoading && products.length === 0 && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2 text-muted-foreground">Loading products...</span>
-        </div>
-      )}
+            {/* Products Loading State */}
+            {productsLoading && products.length === 0 && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <span className="ml-2 text-muted-foreground">Loading products...</span>
+              </div>
+            )}
 
-      {/* Products Error State */}
-      {productsError && (
-        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center mb-8">
-          <p className="text-destructive font-medium">Failed to load products</p>
-          <p className="text-sm text-muted-foreground mt-1">{productsError.message}</p>
-          <Button onClick={() => refetch()} className="mt-4">
-            Try Again
-          </Button>
-        </div>
-      )}
+            {/* Products Error State */}
+            {productsError && (
+              <div className="mb-8 rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
+                <p className="font-medium text-destructive">Failed to load products</p>
+                <p className="mt-1 text-sm text-muted-foreground">{productsError.message}</p>
+                <Button onClick={() => refetch()} className="mt-4">
+                  Try Again
+                </Button>
+              </div>
+            )}
 
             {/* Products Grid */}
             {!productsLoading && !productsError && (
@@ -197,11 +209,12 @@ export default function CategoryPage() {
                   </>
                 ) : (
                   /* Empty State */
-                  <div className="text-center py-12">
+                  <div className="py-12 text-center">
                     <div className="mx-auto max-w-md">
                       <h3 className="text-lg font-medium text-foreground">No products found</h3>
-                      <p className="text-muted-foreground mt-2">
-                        This category doesn't have any products yet. Check back later or browse other categories.
+                      <p className="mt-2 text-muted-foreground">
+                        This category doesn't have any products yet. Check back later or browse
+                        other categories.
                       </p>
                       <div className="mt-4 space-x-2">
                         <Button asChild variant="outline">

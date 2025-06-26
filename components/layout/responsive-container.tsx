@@ -18,7 +18,7 @@ export function ResponsiveContainer({
   size = 'xl',
   padding = 'responsive',
   centerContent = false,
-  as: Component = 'div'
+  as: Component = 'div',
 }: ResponsiveContainerProps) {
   const sizeClasses = {
     sm: 'max-w-sm',
@@ -27,7 +27,7 @@ export function ResponsiveContainer({
     xl: 'max-w-7xl',
     '2xl': 'max-w-screen-2xl',
     full: 'max-w-full',
-    fluid: 'w-full'
+    fluid: 'w-full',
   };
 
   const paddingClasses = {
@@ -36,7 +36,7 @@ export function ResponsiveContainer({
     md: 'px-4 py-4',
     lg: 'px-6 py-6',
     xl: 'px-8 py-8',
-    responsive: 'px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12 xl:px-12 xl:py-16'
+    responsive: 'px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12 xl:px-12 xl:py-16',
   };
 
   return (
@@ -66,13 +66,20 @@ export interface ResponsiveGridProps {
     xl?: number;
     '2xl'?: number;
   };
-  gap?: {
-    base?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    sm?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    md?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    lg?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    xl?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  } | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  gap?:
+    | {
+        base?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        sm?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        md?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        lg?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        xl?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+      }
+    | 'none'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl';
   autoFit?: boolean;
   minItemWidth?: string;
 }
@@ -83,7 +90,7 @@ export function ResponsiveGrid({
   columns = { base: 1, sm: 2, md: 3, lg: 4, xl: 4 },
   gap = 'md',
   autoFit = false,
-  minItemWidth = '280px'
+  minItemWidth = '280px',
 }: ResponsiveGridProps) {
   // Handle gap as object or string
   const gapConfig = typeof gap === 'string' ? { base: gap } : gap;
@@ -95,13 +102,13 @@ export function ResponsiveGrid({
       sm: 'gap-2',
       md: 'gap-4',
       lg: 'gap-6',
-      xl: 'gap-8'
+      xl: 'gap-8',
     };
-    
+
     if (breakpoint === 'base') {
       return gapMap[gapSize as keyof typeof gapMap];
     }
-    
+
     return `${breakpoint}:${gapMap[gapSize as keyof typeof gapMap]}`;
   };
 
@@ -124,13 +131,9 @@ export function ResponsiveGrid({
   if (autoFit) {
     return (
       <div
-        className={cn(
-          'grid',
-          gapClasses,
-          className
-        )}
+        className={cn('grid', gapClasses, className)}
         style={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(${minItemWidth}, 1fr))`
+          gridTemplateColumns: `repeat(auto-fit, minmax(${minItemWidth}, 1fr))`,
         }}
       >
         {children}
@@ -138,31 +141,23 @@ export function ResponsiveGrid({
     );
   }
 
-  return (
-    <div
-      className={cn(
-        'grid',
-        columnClasses,
-        gapClasses,
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn('grid', columnClasses, gapClasses, className)}>{children}</div>;
 }
 
 // Responsive flex container
 export interface ResponsiveFlexProps {
   children: ReactNode;
   className?: string;
-  direction?: {
-    base?: 'row' | 'col';
-    sm?: 'row' | 'col';
-    md?: 'row' | 'col';
-    lg?: 'row' | 'col';
-    xl?: 'row' | 'col';
-  } | 'row' | 'col';
+  direction?:
+    | {
+        base?: 'row' | 'col';
+        sm?: 'row' | 'col';
+        md?: 'row' | 'col';
+        lg?: 'row' | 'col';
+        xl?: 'row' | 'col';
+      }
+    | 'row'
+    | 'col';
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
   wrap?: boolean;
@@ -176,7 +171,7 @@ export function ResponsiveFlex({
   align = 'start',
   justify = 'start',
   wrap = false,
-  gap = 'md'
+  gap = 'md',
 }: ResponsiveFlexProps) {
   const directionConfig = typeof direction === 'string' ? { base: direction } : direction;
 
@@ -185,7 +180,7 @@ export function ResponsiveFlex({
     center: 'items-center',
     end: 'items-end',
     stretch: 'items-stretch',
-    baseline: 'items-baseline'
+    baseline: 'items-baseline',
   };
 
   const justifyClasses = {
@@ -194,7 +189,7 @@ export function ResponsiveFlex({
     end: 'justify-end',
     between: 'justify-between',
     around: 'justify-around',
-    evenly: 'justify-evenly'
+    evenly: 'justify-evenly',
   };
 
   const gapClasses = {
@@ -203,7 +198,7 @@ export function ResponsiveFlex({
     sm: 'gap-2',
     md: 'gap-4',
     lg: 'gap-6',
-    xl: 'gap-8'
+    xl: 'gap-8',
   };
 
   const getDirectionClass = (breakpoint: string, dir: string) => {
@@ -237,20 +232,25 @@ export function ResponsiveFlex({
 
 // Responsive spacing component
 export interface ResponsiveSpacingProps {
-  size?: {
-    base?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-    sm?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-    md?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-    lg?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-    xl?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  } | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?:
+    | {
+        base?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        sm?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        md?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        lg?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        xl?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+      }
+    | 'none'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl';
   className?: string;
 }
 
-export function ResponsiveSpacing({ 
-  size = 'md', 
-  className 
-}: ResponsiveSpacingProps) {
+export function ResponsiveSpacing({ size = 'md', className }: ResponsiveSpacingProps) {
   const sizeConfig = typeof size === 'string' ? { base: size } : size;
 
   const sizeMap = {
@@ -260,7 +260,7 @@ export function ResponsiveSpacing({
     md: 'h-8',
     lg: 'h-12',
     xl: 'h-16',
-    '2xl': 'h-24'
+    '2xl': 'h-24',
   };
 
   const getSizeClass = (breakpoint: string, sizeValue: string) => {

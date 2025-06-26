@@ -13,18 +13,21 @@ export interface TouchButtonProps extends React.ButtonHTMLAttributes<HTMLButtonE
 }
 
 export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
-  ({ 
-    className, 
-    variant = 'default', 
-    size = 'default', 
-    ripple = true,
-    haptic = false,
-    children,
-    onClick,
-    onTouchStart,
-    onTouchEnd,
-    ...props 
-  }, ref) => {
+  (
+    {
+      className,
+      variant = 'default',
+      size = 'default',
+      ripple = true,
+      haptic = false,
+      children,
+      onClick,
+      onTouchStart,
+      onTouchEnd,
+      ...props
+    },
+    ref
+  ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     // Handle touch interactions
@@ -32,7 +35,7 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
       if (haptic && 'vibrate' in navigator) {
         navigator.vibrate(10); // Light haptic feedback
       }
-      
+
       if (buttonRef.current && ripple) {
         const rect = buttonRef.current.getBoundingClientRect();
         const touch = e.touches[0];
@@ -40,7 +43,7 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
         const y = touch.clientY;
         microInteractions.createRipple(buttonRef.current, x, y);
       }
-      
+
       onTouchStart?.(e);
     };
 
@@ -61,11 +64,14 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
 
     const variantClasses = {
       default: 'bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80',
-      destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/80',
-      outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground active:bg-accent/80',
-      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/70',
+      destructive:
+        'bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/80',
+      outline:
+        'border border-input bg-background hover:bg-accent hover:text-accent-foreground active:bg-accent/80',
+      secondary:
+        'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/70',
       ghost: 'hover:bg-accent hover:text-accent-foreground active:bg-accent/80',
-      link: 'text-primary underline-offset-4 hover:underline active:text-primary/80'
+      link: 'text-primary underline-offset-4 hover:underline active:text-primary/80',
     };
 
     const sizeClasses = {
@@ -73,7 +79,7 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
       sm: 'h-9 rounded-md px-3',
       lg: 'h-11 rounded-md px-8',
       icon: 'h-10 w-10',
-      touch: 'h-12 px-6 py-3 min-w-[48px]' // Optimized for touch
+      touch: 'h-12 px-6 py-3 min-w-[48px]', // Optimized for touch
     };
 
     return (
@@ -83,11 +89,11 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className={cn(
-          'relative overflow-hidden inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium',
+          'relative inline-flex items-center justify-center overflow-hidden whitespace-nowrap rounded-md text-sm font-medium',
           'ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2',
           'focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
           'touch-manipulation select-none', // Touch optimizations
-          'active:scale-95 transform', // Touch feedback
+          'transform active:scale-95', // Touch feedback
           variantClasses[variant],
           sizeClasses[size],
           className
@@ -103,7 +109,7 @@ export const TouchButton = forwardRef<HTMLButtonElement, TouchButtonProps>(
 TouchButton.displayName = 'TouchButton';
 
 // Touch-optimized icon button
-export interface TouchIconButtonProps extends Omit<TouchButtonProps, 'size'> {
+export interface TouchIconButtonProps extends Omit<TouchButtonProps, 'size' | 'children'> {
   size?: 'sm' | 'md' | 'lg';
   icon: React.ReactNode;
   label: string;
@@ -114,13 +120,13 @@ export const TouchIconButton = forwardRef<HTMLButtonElement, TouchIconButtonProp
     const sizeClasses = {
       sm: 'h-10 w-10',
       md: 'h-12 w-12',
-      lg: 'h-14 w-14'
+      lg: 'h-14 w-14',
     };
 
     const iconSizeClasses = {
       sm: 'h-4 w-4',
       md: 'h-5 w-5',
-      lg: 'h-6 w-6'
+      lg: 'h-6 w-6',
     };
 
     return (
@@ -130,9 +136,7 @@ export const TouchIconButton = forwardRef<HTMLButtonElement, TouchIconButtonProp
         aria-label={label}
         {...props}
       >
-        <span className={iconSizeClasses[size]}>
-          {icon}
-        </span>
+        <span className={iconSizeClasses[size]}>{icon}</span>
         <span className="sr-only">{label}</span>
       </TouchButton>
     );
@@ -150,31 +154,24 @@ export interface TouchFABProps extends Omit<TouchButtonProps, 'variant' | 'size'
 }
 
 export const TouchFAB = forwardRef<HTMLButtonElement, TouchFABProps>(
-  ({ 
-    icon, 
-    label, 
-    size = 'md', 
-    position = 'bottom-right',
-    className,
-    ...props 
-  }, ref) => {
+  ({ icon, label, size = 'md', position = 'bottom-right', className, ...props }, ref) => {
     const sizeClasses = {
       sm: 'h-12 w-12',
       md: 'h-14 w-14',
-      lg: 'h-16 w-16'
+      lg: 'h-16 w-16',
     };
 
     const positionClasses = {
       'bottom-right': 'fixed bottom-6 right-6',
       'bottom-left': 'fixed bottom-6 left-6',
       'top-right': 'fixed top-6 right-6',
-      'top-left': 'fixed top-6 left-6'
+      'top-left': 'fixed top-6 left-6',
     };
 
     const iconSizeClasses = {
       sm: 'h-5 w-5',
       md: 'h-6 w-6',
-      lg: 'h-7 w-7'
+      lg: 'h-7 w-7',
     };
 
     return (
@@ -182,7 +179,7 @@ export const TouchFAB = forwardRef<HTMLButtonElement, TouchFABProps>(
         ref={ref}
         variant="default"
         className={cn(
-          'rounded-full shadow-lg hover:shadow-xl z-50',
+          'z-50 rounded-full shadow-lg hover:shadow-xl',
           'transition-all duration-300 hover:scale-110',
           sizeClasses[size],
           positionClasses[position],
@@ -192,9 +189,7 @@ export const TouchFAB = forwardRef<HTMLButtonElement, TouchFABProps>(
         haptic
         {...props}
       >
-        <span className={iconSizeClasses[size]}>
-          {icon}
-        </span>
+        <span className={iconSizeClasses[size]}>{icon}</span>
         <span className="sr-only">{label}</span>
       </TouchButton>
     );
@@ -212,47 +207,33 @@ export interface TouchCardButtonProps extends Omit<TouchButtonProps, 'variant'> 
 }
 
 export const TouchCardButton = forwardRef<HTMLButtonElement, TouchCardButtonProps>(
-  ({ 
-    title, 
-    description, 
-    icon, 
-    badge,
-    className,
-    children,
-    ...props 
-  }, ref) => {
+  ({ title, description, icon, badge, className, children, ...props }, ref) => {
     return (
       <TouchButton
         ref={ref}
         variant="ghost"
         size="touch"
         className={cn(
-          'h-auto p-4 flex-col items-start text-left space-y-2',
-          'border border-border rounded-lg hover:border-primary/50',
+          'h-auto flex-col items-start space-y-2 p-4 text-left',
+          'rounded-lg border border-border hover:border-primary/50',
           'transition-all duration-200 hover:shadow-md',
           className
         )}
         {...props}
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-center space-x-3">
-            {icon && (
-              <div className="flex-shrink-0">
-                {icon}
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-sm truncate">{title}</h3>
+            {icon && <div className="flex-shrink-0">{icon}</div>}
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-sm font-medium">{title}</h3>
               {description && (
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                  {description}
-                </p>
+                <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{description}</p>
               )}
             </div>
           </div>
           {badge && (
-            <div className="flex-shrink-0 ml-2">
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">
+            <div className="ml-2 flex-shrink-0">
+              <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">
                 {badge}
               </span>
             </div>

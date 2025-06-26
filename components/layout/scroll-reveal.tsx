@@ -2,13 +2,13 @@
 
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { 
-  useScrollTriggeredSection, 
+import {
+  useScrollTriggeredSection,
   useScrollTriggeredStagger,
   useParallax,
   useImageReveal,
   useTextReveal,
-  useCounterAnimation
+  useCounterAnimation,
 } from '@/lib/hooks/use-gsap';
 
 // Base scroll reveal component
@@ -19,20 +19,16 @@ export interface ScrollRevealProps {
   delay?: number;
 }
 
-export function ScrollReveal({ 
-  children, 
-  className, 
+export function ScrollReveal({
+  children,
+  className,
   animation = 'fadeIn',
-  delay = 0 
+  delay = 0,
 }: ScrollRevealProps) {
   const ref = useScrollTriggeredSection(animation);
 
   return (
-    <div 
-      ref={ref} 
-      className={cn('w-full', className)}
-      style={{ animationDelay: `${delay}ms` }}
-    >
+    <div ref={ref} className={cn('w-full', className)} style={{ animationDelay: `${delay}ms` }}>
       {children}
     </div>
   );
@@ -46,10 +42,10 @@ export interface StaggerRevealProps {
   stagger?: number;
 }
 
-export function StaggerReveal({ 
-  children, 
-  className, 
-  selector = '[data-reveal]' 
+export function StaggerReveal({
+  children,
+  className,
+  selector = '[data-reveal]',
 }: StaggerRevealProps) {
   const ref = useScrollTriggeredStagger(selector);
 
@@ -85,21 +81,12 @@ export interface ImageRevealProps {
   containerClassName?: string;
 }
 
-export function ImageReveal({ 
-  src, 
-  alt, 
-  className, 
-  containerClassName 
-}: ImageRevealProps) {
+export function ImageReveal({ src, alt, className, containerClassName }: ImageRevealProps) {
   const ref = useImageReveal();
 
   return (
     <div ref={ref} className={cn('overflow-hidden', containerClassName)}>
-      <img 
-        src={src} 
-        alt={alt} 
-        className={cn('w-full h-full object-cover', className)}
-      />
+      <img src={src} alt={alt} className={cn('h-full w-full object-cover', className)} />
     </div>
   );
 }
@@ -111,12 +98,8 @@ export interface TextRevealProps {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 }
 
-export function TextReveal({ 
-  children, 
-  className, 
-  as: Component = 'p' 
-}: TextRevealProps) {
-  const ref = useTextReveal();
+export function TextReveal({ children, className, as: Component = 'p' }: TextRevealProps) {
+  const ref = useTextReveal<any>();
 
   return (
     <Component ref={ref} className={cn('overflow-hidden', className)}>
@@ -133,12 +116,7 @@ export interface CounterProps {
   suffix?: string;
 }
 
-export function Counter({ 
-  endValue, 
-  className, 
-  prefix = '', 
-  suffix = '' 
-}: CounterProps) {
+export function Counter({ endValue, className, prefix = '', suffix = '' }: CounterProps) {
   const ref = useCounterAnimation(endValue);
 
   return (
@@ -161,11 +139,11 @@ export interface ScrollRevealGridProps {
   gap?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-export function ScrollRevealGrid({ 
-  children, 
+export function ScrollRevealGrid({
+  children,
   className,
   columns = { sm: 1, md: 2, lg: 3, xl: 4 },
-  gap = 'md'
+  gap = 'md',
 }: ScrollRevealGridProps) {
   const { useScrollTriggeredGrid } = require('@/lib/hooks/use-gsap');
   const ref = useScrollTriggeredGrid();
@@ -176,13 +154,13 @@ export function ScrollRevealGrid({
       2: 'sm:grid-cols-2',
       3: 'sm:grid-cols-3',
       4: 'sm:grid-cols-4',
-    },
+    } as Record<number, string>,
     md: {
       1: 'md:grid-cols-1',
       2: 'md:grid-cols-2',
       3: 'md:grid-cols-3',
       4: 'md:grid-cols-4',
-    },
+    } as Record<number, string>,
     lg: {
       1: 'lg:grid-cols-1',
       2: 'lg:grid-cols-2',
@@ -190,7 +168,7 @@ export function ScrollRevealGrid({
       4: 'lg:grid-cols-4',
       5: 'lg:grid-cols-5',
       6: 'lg:grid-cols-6',
-    },
+    } as Record<number, string>,
     xl: {
       1: 'xl:grid-cols-1',
       2: 'xl:grid-cols-2',
@@ -198,7 +176,7 @@ export function ScrollRevealGrid({
       4: 'xl:grid-cols-4',
       5: 'xl:grid-cols-5',
       6: 'xl:grid-cols-6',
-    },
+    } as Record<number, string>,
   };
 
   const gapClasses = {
@@ -209,7 +187,7 @@ export function ScrollRevealGrid({
   };
 
   return (
-    <div 
+    <div
       ref={ref}
       className={cn(
         'grid grid-cols-1',
@@ -236,47 +214,40 @@ export interface RevealSectionProps {
   contentAnimation?: 'fadeIn' | 'slideLeft' | 'slideRight' | 'stagger';
 }
 
-export function RevealSection({ 
-  children, 
+export function RevealSection({
+  children,
   className,
   title,
   subtitle,
   titleAnimation = 'textReveal',
-  contentAnimation = 'stagger'
+  contentAnimation = 'stagger',
 }: RevealSectionProps) {
   return (
     <section className={cn('py-16', className)}>
       {(title || subtitle) && (
-        <div className="text-center mb-12">
-          {title && (
-            titleAnimation === 'textReveal' ? (
-              <TextReveal as="h2" className="text-3xl font-bold mb-4">
+        <div className="mb-12 text-center">
+          {title &&
+            (titleAnimation === 'textReveal' ? (
+              <TextReveal as="h2" className="mb-4 text-3xl font-bold">
                 {title}
               </TextReveal>
             ) : (
               <ScrollReveal animation={titleAnimation}>
-                <h2 className="text-3xl font-bold mb-4">{title}</h2>
+                <h2 className="mb-4 text-3xl font-bold">{title}</h2>
               </ScrollReveal>
-            )
-          )}
+            ))}
           {subtitle && (
             <ScrollReveal animation="fadeIn" delay={200}>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                {subtitle}
-              </p>
+              <p className="mx-auto max-w-2xl text-muted-foreground">{subtitle}</p>
             </ScrollReveal>
           )}
         </div>
       )}
-      
+
       {contentAnimation === 'stagger' ? (
-        <StaggerReveal>
-          {children}
-        </StaggerReveal>
+        <StaggerReveal>{children}</StaggerReveal>
       ) : (
-        <ScrollReveal animation={contentAnimation}>
-          {children}
-        </ScrollReveal>
+        <ScrollReveal animation={contentAnimation}>{children}</ScrollReveal>
       )}
     </section>
   );
@@ -290,27 +261,30 @@ export interface ParallaxHeroProps {
   parallaxSpeed?: number;
 }
 
-export function ParallaxHero({ 
-  children, 
+export function ParallaxHero({
+  children,
   backgroundImage,
   className,
-  parallaxSpeed = 0.5 
+  parallaxSpeed = 0.5,
 }: ParallaxHeroProps) {
   return (
-    <section className={cn('relative min-h-screen flex items-center justify-center overflow-hidden', className)}>
+    <section
+      className={cn(
+        'relative flex min-h-screen items-center justify-center overflow-hidden',
+        className
+      )}
+    >
       {backgroundImage && (
         <Parallax speed={parallaxSpeed} className="absolute inset-0 -z-10">
-          <div 
-            className="w-full h-[120%] bg-cover bg-center bg-no-repeat"
+          <div
+            className="h-[120%] w-full bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${backgroundImage})` }}
           />
         </Parallax>
       )}
-      
+
       <div className="relative z-10 text-center">
-        <ScrollReveal animation="fadeIn">
-          {children}
-        </ScrollReveal>
+        <ScrollReveal animation="fadeIn">{children}</ScrollReveal>
       </div>
     </section>
   );

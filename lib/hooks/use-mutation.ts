@@ -25,10 +25,7 @@ export function useMutation<T = any, D = any>(
   url: string,
   method: 'POST' | 'PUT' | 'DELETE' = 'POST',
   options: MutationOptions = {}
-): [
-  (data?: D) => Promise<T | null>,
-  MutationState<T>
-] {
+): [(data?: D) => Promise<T | null>, MutationState<T>] {
   const { headers = {}, onSuccess, onError } = options;
   const [state, setState] = useState<MutationState<T>>({
     data: null,
@@ -58,7 +55,7 @@ export function useMutation<T = any, D = any>(
 
       const responseData = await response.json();
       const result = responseData.status === 'success' ? responseData.data : responseData;
-      
+
       setState({
         data: result,
         isLoading: false,
@@ -72,7 +69,7 @@ export function useMutation<T = any, D = any>(
       return result;
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(String(error));
-      
+
       setState({
         data: null,
         isLoading: false,
@@ -93,29 +90,20 @@ export function useMutation<T = any, D = any>(
 /**
  * Custom hook for creating data
  */
-export function useCreate<T = any, D = any>(
-  url: string,
-  options: MutationOptions = {}
-) {
+export function useCreate<T = any, D = any>(url: string, options: MutationOptions = {}) {
   return useMutation<T, D>(url, 'POST', options);
 }
 
 /**
  * Custom hook for updating data
  */
-export function useUpdate<T = any, D = any>(
-  url: string,
-  options: MutationOptions = {}
-) {
+export function useUpdate<T = any, D = any>(url: string, options: MutationOptions = {}) {
   return useMutation<T, D>(url, 'PUT', options);
 }
 
 /**
  * Custom hook for deleting data
  */
-export function useDelete<T = any, D = any>(
-  url: string,
-  options: MutationOptions = {}
-) {
+export function useDelete<T = any, D = any>(url: string, options: MutationOptions = {}) {
   return useMutation<T, D>(url, 'DELETE', options);
 }

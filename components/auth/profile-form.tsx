@@ -51,7 +51,7 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
 
   async function onSubmit(data: ProfileFormValues) {
     if (!session) return;
-    
+
     setIsLoading(true);
     setError(null);
     setSuccessMessage(null);
@@ -95,9 +95,7 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
       const filePath = `avatars/${user.id}-${Math.random()}.${fileExt}`;
 
       // Upload the file to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file);
+      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file);
 
       if (uploadError) {
         setError('Error uploading avatar. Please try again.');
@@ -107,7 +105,7 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
 
       // Get the public URL
       const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath);
-      
+
       if (urlData) {
         // Update the user profile with the new avatar URL
         const { error: updateError } = await supabase
@@ -139,15 +137,11 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-medium">Profile</h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Update your account information
-        </p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Update your account information</p>
       </div>
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
-        </div>
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
       )}
 
       {successMessage && (
@@ -162,7 +156,11 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
           <div className="mt-1 flex items-center space-x-4">
             <div className="relative h-16 w-16 overflow-hidden rounded-full">
               <img
-                src={avatarUrl || user.user_metadata?.avatar_url || 'https://avatars.githubusercontent.com/u/124599?v=4'}
+                src={
+                  avatarUrl ||
+                  user.user_metadata?.avatar_url ||
+                  'https://avatars.githubusercontent.com/u/124599?v=4'
+                }
                 alt="Avatar"
                 className="h-full w-full object-cover"
               />
@@ -186,11 +184,7 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="John Doe"
-                      disabled={isLoading}
-                      {...field}
-                    />
+                    <Input placeholder="John Doe" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/admin-layout';
@@ -8,8 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Search,
   Filter,
   Eye,
@@ -19,7 +25,7 @@ import {
   XCircle,
   Clock,
   MoreHorizontal,
-  Download
+  Download,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -61,7 +67,7 @@ const statusConfig = {
   cancelled: { label: 'Cancelled', variant: 'destructive' as const, icon: XCircle },
 };
 
-export default function AdminOrdersPage() {
+function AdminOrdersContent() {
   const searchParams = useSearchParams();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -132,7 +138,7 @@ export default function AdminOrdersPage() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -142,7 +148,7 @@ export default function AdminOrdersPage() {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -156,10 +162,10 @@ export default function AdminOrdersPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
-              <p className="text-gray-600 mt-1">Manage customer orders and fulfillment</p>
+              <p className="mt-1 text-gray-600">Manage customer orders and fulfillment</p>
             </div>
             <Button variant="outline">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="mr-2 h-4 w-4" />
               Export Orders
             </Button>
           </div>
@@ -168,9 +174,9 @@ export default function AdminOrdersPage() {
         {/* Filters */}
         <Card className="mb-6">
           <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   placeholder="Search orders..."
                   value={searchQuery}
@@ -178,7 +184,7 @@ export default function AdminOrdersPage() {
                   className="pl-10"
                 />
               </div>
-              
+
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Statuses" />
@@ -224,7 +230,7 @@ export default function AdminOrdersPage() {
             <CardTitle className="flex items-center justify-between">
               <span>Orders ({total})</span>
               {loading && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
               )}
             </CardTitle>
           </CardHeader>
@@ -233,12 +239,12 @@ export default function AdminOrdersPage() {
               <div className="space-y-4">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-16 bg-gray-200 rounded"></div>
+                    <div className="h-16 rounded bg-gray-200"></div>
                   </div>
                 ))}
               </div>
             ) : orders.length === 0 ? (
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <Package className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No orders</h3>
                 <p className="mt-1 text-sm text-gray-500">No orders match your current filters.</p>
@@ -248,22 +254,22 @@ export default function AdminOrdersPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Order
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Customer
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Total
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Items
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Date
                       </th>
                       <th className="relative px-6 py-3">
@@ -271,49 +277,45 @@ export default function AdminOrdersPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-200 bg-white">
                     {orders.map((order) => {
                       const statusInfo = statusConfig[order.status];
                       const StatusIcon = statusInfo.icon;
-                      
+
                       return (
                         <tr key={order.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div>
                               <div className="text-sm font-medium text-gray-900">
                                 #{order.order_number}
                               </div>
-                              <div className="text-sm text-gray-500">
-                                {order.id.slice(0, 8)}...
-                              </div>
+                              <div className="text-sm text-gray-500">{order.id.slice(0, 8)}...</div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="whitespace-nowrap px-6 py-4">
                             <div>
                               <div className="text-sm font-medium text-gray-900">
                                 {order.customer_name || 'Guest'}
                               </div>
-                              <div className="text-sm text-gray-500">
-                                {order.customer_email}
-                              </div>
+                              <div className="text-sm text-gray-500">{order.customer_email}</div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge variant={statusInfo.variant} className="flex items-center w-fit">
-                              <StatusIcon className="h-3 w-3 mr-1" />
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Badge variant={statusInfo.variant} className="flex w-fit items-center">
+                              <StatusIcon className="mr-1 h-3 w-3" />
                               {statusInfo.label}
                             </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {formatCurrency(order.total)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             {order.items_count} items
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                             {formatDate(order.created_at)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="sm">
@@ -323,7 +325,7 @@ export default function AdminOrdersPage() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem asChild>
                                   <Link href={`/admin/orders/${order.id}`}>
-                                    <Eye className="h-4 w-4 mr-2" />
+                                    <Eye className="mr-2 h-4 w-4" />
                                     View Details
                                   </Link>
                                 </DropdownMenuItem>
@@ -331,7 +333,7 @@ export default function AdminOrdersPage() {
                                   <DropdownMenuItem
                                     onClick={() => handleStatusUpdate(order.id, 'processing')}
                                   >
-                                    <Package className="h-4 w-4 mr-2" />
+                                    <Package className="mr-2 h-4 w-4" />
                                     Mark Processing
                                   </DropdownMenuItem>
                                 )}
@@ -339,7 +341,7 @@ export default function AdminOrdersPage() {
                                   <DropdownMenuItem
                                     onClick={() => handleStatusUpdate(order.id, 'shipped')}
                                   >
-                                    <Truck className="h-4 w-4 mr-2" />
+                                    <Truck className="mr-2 h-4 w-4" />
                                     Mark Shipped
                                   </DropdownMenuItem>
                                 )}
@@ -347,7 +349,7 @@ export default function AdminOrdersPage() {
                                   <DropdownMenuItem
                                     onClick={() => handleStatusUpdate(order.id, 'delivered')}
                                   >
-                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                    <CheckCircle className="mr-2 h-4 w-4" />
                                     Mark Delivered
                                   </DropdownMenuItem>
                                 )}
@@ -356,7 +358,7 @@ export default function AdminOrdersPage() {
                                     onClick={() => handleStatusUpdate(order.id, 'cancelled')}
                                     className="text-red-600"
                                   >
-                                    <XCircle className="h-4 w-4 mr-2" />
+                                    <XCircle className="mr-2 h-4 w-4" />
                                     Cancel Order
                                   </DropdownMenuItem>
                                 )}
@@ -373,9 +375,10 @@ export default function AdminOrdersPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6">
+              <div className="mt-6 flex items-center justify-between">
                 <div className="text-sm text-gray-700">
-                  Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, total)} of {total} results
+                  Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total}{' '}
+                  results
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button
@@ -404,5 +407,18 @@ export default function AdminOrdersPage() {
         </Card>
       </div>
     </AdminLayout>
+  );
+
+}
+
+export default function AdminOrdersPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <AdminOrdersContent />
+    </Suspense>
   );
 }

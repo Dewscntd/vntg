@@ -16,17 +16,20 @@ export interface ResponsiveHeadingProps {
 }
 
 export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadingProps>(
-  ({ 
-    children, 
-    level, 
-    className, 
-    size = 'responsive', 
-    weight = 'bold',
-    tracking = 'normal',
-    color = 'default',
-    as 
-  }, ref) => {
-    const Component = as || (`h${level}` as keyof JSX.IntrinsicElements);
+  (
+    {
+      children,
+      level,
+      className,
+      size = 'responsive',
+      weight = 'bold',
+      tracking = 'normal',
+      color = 'default',
+      as,
+    },
+    ref
+  ) => {
+    const Component = as || (`h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6');
 
     const sizeClasses = {
       sm: {
@@ -35,7 +38,7 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
         3: 'text-lg md:text-xl',
         4: 'text-base md:text-lg',
         5: 'text-sm md:text-base',
-        6: 'text-xs md:text-sm'
+        6: 'text-xs md:text-sm',
       },
       md: {
         1: 'text-3xl md:text-4xl lg:text-5xl',
@@ -43,7 +46,7 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
         3: 'text-xl md:text-2xl lg:text-3xl',
         4: 'text-lg md:text-xl lg:text-2xl',
         5: 'text-base md:text-lg lg:text-xl',
-        6: 'text-sm md:text-base lg:text-lg'
+        6: 'text-sm md:text-base lg:text-lg',
       },
       lg: {
         1: 'text-4xl md:text-5xl lg:text-6xl xl:text-7xl',
@@ -51,7 +54,7 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
         3: 'text-2xl md:text-3xl lg:text-4xl xl:text-5xl',
         4: 'text-xl md:text-2xl lg:text-3xl xl:text-4xl',
         5: 'text-lg md:text-xl lg:text-2xl xl:text-3xl',
-        6: 'text-base md:text-lg lg:text-xl xl:text-2xl'
+        6: 'text-base md:text-lg lg:text-xl xl:text-2xl',
       },
       xl: {
         1: 'text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl',
@@ -59,7 +62,7 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
         3: 'text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
         4: 'text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl',
         5: 'text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl',
-        6: 'text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl'
+        6: 'text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl',
       },
       responsive: {
         1: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl',
@@ -67,8 +70,8 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
         3: 'text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl',
         4: 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl',
         5: 'text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl',
-        6: 'text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl'
-      }
+        6: 'text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl',
+      },
     };
 
     const weightClasses = {
@@ -76,20 +79,20 @@ export const ResponsiveHeading = forwardRef<HTMLHeadingElement, ResponsiveHeadin
       medium: 'font-medium',
       semibold: 'font-semibold',
       bold: 'font-bold',
-      extrabold: 'font-extrabold'
+      extrabold: 'font-extrabold',
     };
 
     const trackingClasses = {
       tight: 'tracking-tight',
       normal: 'tracking-normal',
-      wide: 'tracking-wide'
+      wide: 'tracking-wide',
     };
 
     const colorClasses = {
       default: 'text-foreground',
       muted: 'text-muted-foreground',
       primary: 'text-primary',
-      secondary: 'text-secondary'
+      secondary: 'text-secondary',
     };
 
     return (
@@ -124,31 +127,34 @@ export interface ResponsiveTextProps {
   as?: 'p' | 'span' | 'div' | 'strong' | 'em';
 }
 
-export const ResponsiveText = forwardRef<HTMLElement, ResponsiveTextProps>(
-  ({ 
-    children, 
-    className, 
-    size = 'base', 
-    weight = 'normal',
-    color = 'default',
-    align = 'left',
-    leading = 'normal',
-    as: Component = 'p'
-  }, ref) => {
+export const ResponsiveText = forwardRef<HTMLParagraphElement, ResponsiveTextProps>(
+  (
+    {
+      children,
+      className,
+      size = 'base',
+      weight = 'normal',
+      color = 'default',
+      align = 'left',
+      leading = 'normal',
+      as: Component = 'p',
+    },
+    ref
+  ) => {
     const sizeClasses = {
       xs: 'text-xs sm:text-sm',
       sm: 'text-sm sm:text-base',
       base: 'text-base sm:text-lg',
       lg: 'text-lg sm:text-xl',
       xl: 'text-xl sm:text-2xl',
-      responsive: 'text-sm sm:text-base md:text-lg lg:text-xl'
+      responsive: 'text-sm sm:text-base md:text-lg lg:text-xl',
     };
 
     const weightClasses = {
       normal: 'font-normal',
       medium: 'font-medium',
       semibold: 'font-semibold',
-      bold: 'font-bold'
+      bold: 'font-bold',
     };
 
     const colorClasses = {
@@ -156,21 +162,21 @@ export const ResponsiveText = forwardRef<HTMLElement, ResponsiveTextProps>(
       muted: 'text-muted-foreground',
       primary: 'text-primary',
       secondary: 'text-secondary',
-      destructive: 'text-destructive'
+      destructive: 'text-destructive',
     };
 
     const alignClasses = {
       left: 'text-left',
       center: 'text-center',
       right: 'text-right',
-      justify: 'text-justify'
+      justify: 'text-justify',
     };
 
     const leadingClasses = {
       tight: 'leading-tight',
       normal: 'leading-normal',
       relaxed: 'leading-relaxed',
-      loose: 'leading-loose'
+      loose: 'leading-loose',
     };
 
     return (
@@ -204,23 +210,26 @@ export interface ResponsiveDisplayProps {
 }
 
 export const ResponsiveDisplay = forwardRef<HTMLHeadingElement, ResponsiveDisplayProps>(
-  ({ 
-    children, 
-    className, 
-    size = 'lg',
-    gradient = false,
-    gradientFrom = 'from-primary',
-    gradientTo = 'to-primary/60'
-  }, ref) => {
+  (
+    {
+      children,
+      className,
+      size = 'lg',
+      gradient = false,
+      gradientFrom = 'from-primary',
+      gradientTo = 'to-primary/60',
+    },
+    ref
+  ) => {
     const sizeClasses = {
       sm: 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl',
       md: 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
       lg: 'text-6xl sm:text-7xl md:text-8xl lg:text-9xl',
       xl: 'text-7xl sm:text-8xl md:text-9xl lg:text-[10rem]',
-      '2xl': 'text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem]'
+      '2xl': 'text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem]',
     };
 
-    const gradientClasses = gradient 
+    const gradientClasses = gradient
       ? `bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent`
       : '';
 
@@ -229,7 +238,7 @@ export const ResponsiveDisplay = forwardRef<HTMLHeadingElement, ResponsiveDispla
         ref={ref}
         className={cn(
           sizeClasses[size],
-          'font-extrabold tracking-tight leading-none',
+          'font-extrabold leading-none tracking-tight',
           gradientClasses,
           className
         )}
@@ -254,17 +263,13 @@ export const ResponsiveLead = forwardRef<HTMLParagraphElement, ResponsiveLeadPro
     const sizeClasses = {
       sm: 'text-lg sm:text-xl md:text-2xl',
       md: 'text-xl sm:text-2xl md:text-3xl',
-      lg: 'text-2xl sm:text-3xl md:text-4xl'
+      lg: 'text-2xl sm:text-3xl md:text-4xl',
     };
 
     return (
       <p
         ref={ref}
-        className={cn(
-          sizeClasses[size],
-          'text-muted-foreground leading-relaxed',
-          className
-        )}
+        className={cn(sizeClasses[size], 'leading-relaxed text-muted-foreground', className)}
       >
         {children}
       </p>

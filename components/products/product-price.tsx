@@ -19,10 +19,8 @@ export function ProductPrice({
 }: ProductPriceProps) {
   // Calculate the sale price if there's a discount percentage
   const hasDiscount = !!discount_percent && discount_percent > 0;
-  const salePrice = hasDiscount
-    ? price - (price * (discount_percent / 100))
-    : price;
-  
+  const salePrice = hasDiscount ? price - price * (discount_percent / 100) : price;
+
   // Use the original price if provided, otherwise calculate it from the discount
   const displayOriginalPrice = original_price || (hasDiscount ? price : undefined);
 
@@ -44,20 +42,16 @@ export function ProductPrice({
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <span className={cn('font-medium', sizeClasses[size])}>
-        {formatPrice(salePrice)}
-      </span>
-      
+      <span className={cn('font-medium', sizeClasses[size])}>{formatPrice(salePrice)}</span>
+
       {displayOriginalPrice && displayOriginalPrice !== salePrice && (
         <span className="text-sm text-muted-foreground line-through">
           {formatPrice(displayOriginalPrice)}
         </span>
       )}
-      
+
       {hasDiscount && (
-        <span className="text-xs font-medium text-red-500">
-          {discount_percent}% off
-        </span>
+        <span className="text-xs font-medium text-red-500">{discount_percent}% off</span>
       )}
     </div>
   );

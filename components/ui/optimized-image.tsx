@@ -19,23 +19,26 @@ export interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onErro
 }
 
 export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
-  ({
-    src,
-    alt,
-    fallbackSrc,
-    showSkeleton = true,
-    skeletonClassName,
-    containerClassName,
-    aspectRatio,
-    objectFit = 'cover',
-    className,
-    onLoad,
-    onError,
-    lazy = true,
-    progressive = true,
-    quality = 75,
-    ...props
-  }, ref) => {
+  (
+    {
+      src,
+      alt,
+      fallbackSrc,
+      showSkeleton = true,
+      skeletonClassName,
+      containerClassName,
+      aspectRatio,
+      objectFit = 'cover',
+      className,
+      onLoad,
+      onError,
+      lazy = true,
+      progressive = true,
+      quality = 75,
+      ...props
+    },
+    ref
+  ) => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [currentSrc, setCurrentSrc] = useState(src);
@@ -47,7 +50,7 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
       square: 'aspect-square',
       video: 'aspect-video',
       wide: 'aspect-[21/9]',
-      portrait: 'aspect-[3/4]'
+      portrait: 'aspect-[3/4]',
     };
 
     // Intersection Observer for lazy loading
@@ -63,7 +66,7 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
         },
         {
           rootMargin: '50px',
-          threshold: 0.1
+          threshold: 0.1,
         }
       );
 
@@ -85,7 +88,7 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     const handleError = () => {
       setIsLoading(false);
       setHasError(true);
-      
+
       if (fallbackSrc && currentSrc !== fallbackSrc) {
         setCurrentSrc(fallbackSrc);
         setHasError(false);
@@ -98,7 +101,7 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     // Progressive loading with low quality placeholder
     const getProgressiveSrc = () => {
       if (!progressive || !isInView) return currentSrc;
-      
+
       // For progressive loading, we could implement different quality levels
       // This is a simplified version
       return currentSrc;
@@ -122,20 +125,22 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
       <div ref={containerRef} className={containerClasses}>
         {/* Skeleton Loader */}
         {showSkeleton && isLoading && (
-          <div className={cn(
-            'absolute inset-0 bg-muted animate-pulse',
-            'flex items-center justify-center',
-            skeletonClassName
-          )}>
-            <div className="w-8 h-8 bg-muted-foreground/20 rounded" />
+          <div
+            className={cn(
+              'absolute inset-0 animate-pulse bg-muted',
+              'flex items-center justify-center',
+              skeletonClassName
+            )}
+          >
+            <div className="h-8 w-8 rounded bg-muted-foreground/20" />
           </div>
         )}
 
         {/* Error State */}
         {hasError && !fallbackSrc && (
-          <div className="absolute inset-0 bg-muted flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
             <div className="text-center text-muted-foreground">
-              <div className="w-8 h-8 mx-auto mb-2 bg-muted-foreground/20 rounded" />
+              <div className="mx-auto mb-2 h-8 w-8 rounded bg-muted-foreground/20" />
               <p className="text-xs">Failed to load</p>
             </div>
           </div>
@@ -184,22 +189,20 @@ export function ResponsiveImage({
   ...props
 }: ResponsiveImageProps) {
   // Generate sizes string if not provided
-  const defaultSizes = sizes || `
+  const defaultSizes =
+    sizes ||
+    `
     (max-width: ${breakpoints.mobile}px) 100vw,
     (max-width: ${breakpoints.tablet}px) 50vw,
     33vw
-  `.replace(/\s+/g, ' ').trim();
+  `
+      .replace(/\s+/g, ' ')
+      .trim();
 
   // Use srcSet if provided, otherwise use the main src
   const imageSrc = srcSet?.desktop || srcSet?.tablet || srcSet?.mobile || src;
 
-  return (
-    <OptimizedImage
-      src={imageSrc}
-      sizes={defaultSizes}
-      {...props}
-    />
-  );
+  return <OptimizedImage src={imageSrc} sizes={defaultSizes} {...props} />;
 }
 
 // Image with zoom on hover
@@ -217,14 +220,13 @@ export function ZoomImage({
   return (
     <div className="overflow-hidden">
       <OptimizedImage
-        className={cn(
-          'transition-transform duration-300 hover:scale-110',
-          className
-        )}
-        style={{
-          transitionDuration: `${zoomDuration}ms`,
-          '--zoom-scale': zoomScale
-        } as React.CSSProperties}
+        className={cn('transition-transform duration-300 hover:scale-110', className)}
+        style={
+          {
+            transitionDuration: `${zoomDuration}ms`,
+            '--zoom-scale': zoomScale,
+          } as React.CSSProperties
+        }
         {...props}
       />
     </div>
@@ -236,11 +238,7 @@ export interface BlurImageProps extends OptimizedImageProps {
   blurAmount?: number;
 }
 
-export function BlurImage({
-  blurAmount = 20,
-  className,
-  ...props
-}: BlurImageProps) {
+export function BlurImage({ blurAmount = 20, className, ...props }: BlurImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -248,7 +246,7 @@ export function BlurImage({
       className={cn(
         'transition-all duration-700',
         !isLoaded && `blur-[${blurAmount}px] scale-105`,
-        isLoaded && 'blur-0 scale-100',
+        isLoaded && 'scale-100 blur-0',
         className
       )}
       onLoad={() => setIsLoaded(true)}
@@ -279,12 +277,12 @@ export function ImageGrid({
   columns = { mobile: 1, tablet: 2, desktop: 3 },
   gap = 'md',
   className,
-  onImageClick
+  onImageClick,
 }: ImageGridProps) {
   const gapClasses = {
     sm: 'gap-2',
     md: 'gap-4',
-    lg: 'gap-6'
+    lg: 'gap-6',
   };
 
   const gridClasses = cn(
@@ -308,7 +306,7 @@ export function ImageGrid({
             src={image.src}
             alt={image.alt}
             aspectRatio={image.aspectRatio || 'square'}
-            className="group-hover:scale-105 transition-transform duration-300"
+            className="transition-transform duration-300 group-hover:scale-105"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />

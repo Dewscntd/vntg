@@ -17,16 +17,9 @@ import { ShoppingCart, AlertCircle } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { session, loading: authLoading } = useAuth();
+  const { session, isLoading: authLoading } = useAuth();
   const { items, itemCount, total } = useCart();
-  const { 
-    currentStep, 
-    nextStep, 
-    previousStep,
-    clientSecret,
-    error,
-    isLoading 
-  } = useCheckout();
+  const { currentStep, nextStep, previousStep, clientSecret, error, isLoading } = useCheckout();
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -45,22 +38,22 @@ export default function CheckoutPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (itemCount === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <ShoppingCart className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
-          <p className="text-gray-600 mb-4">Add some items to your cart to proceed with checkout.</p>
-          <Button onClick={() => router.push('/products')}>
-            Continue Shopping
-          </Button>
+          <ShoppingCart className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Your cart is empty</h2>
+          <p className="mb-4 text-gray-600">
+            Add some items to your cart to proceed with checkout.
+          </p>
+          <Button onClick={() => router.push('/products')}>Continue Shopping</Button>
         </div>
       </div>
     );
@@ -68,13 +61,11 @@ export default function CheckoutPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Please sign in</h2>
-          <p className="text-gray-600 mb-4">You need to be signed in to proceed with checkout.</p>
-          <Button onClick={() => router.push('/auth/login?redirect=/checkout')}>
-            Sign In
-          </Button>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
+          <p className="mb-4 text-gray-600">You need to be signed in to proceed with checkout.</p>
+          <Button onClick={() => router.push('/auth/login?redirect=/checkout')}>Sign In</Button>
         </div>
       </div>
     );
@@ -84,20 +75,20 @@ export default function CheckoutPage() {
     switch (currentStep) {
       case 0: // Shipping
         return <ShippingForm onNext={nextStep} />;
-      
+
       case 1: // Payment
         return (
-          <StripeProvider clientSecret={clientSecret}>
+          <StripeProvider clientSecret={clientSecret || undefined}>
             <PaymentForm onNext={nextStep} onPrevious={previousStep} />
           </StripeProvider>
         );
-      
+
       case 2: // Review
         return <OrderReview onNext={nextStep} onPrevious={previousStep} />;
-      
+
       case 3: // Confirmation
         return <OrderConfirmation />;
-      
+
       default:
         return <ShippingForm onNext={nextStep} />;
     }
@@ -115,18 +106,16 @@ export default function CheckoutPage() {
 
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-75">
           <div className="flex items-center space-x-2">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
             <span className="text-gray-600">Processing...</span>
           </div>
         </div>
       )}
 
       {/* Current Step Content */}
-      <div className="relative">
-        {renderCurrentStep()}
-      </div>
+      <div className="relative">{renderCurrentStep()}</div>
     </CheckoutLayout>
   );
 }

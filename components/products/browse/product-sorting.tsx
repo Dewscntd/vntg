@@ -76,35 +76,35 @@ export function ProductSorting({ className, onSortChange }: ProductSortingProps)
   // Get current sort from URL params
   const currentOrderBy = searchParams.get('orderBy') || 'created_at';
   const currentOrderDirection = searchParams.get('orderDirection') || 'desc';
-  
+
   // Find current sort option
   const currentSortOption = sortOptions.find(
-    option => option.orderBy === currentOrderBy && option.orderDirection === currentOrderDirection
+    (option) => option.orderBy === currentOrderBy && option.orderDirection === currentOrderDirection
   );
-  
+
   const currentSortValue = currentSortOption?.value || 'newest';
 
   const handleSortChange = (value: string) => {
-    const selectedOption = sortOptions.find(option => option.value === value);
-    
+    const selectedOption = sortOptions.find((option) => option.value === value);
+
     if (!selectedOption) return;
 
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
     params.set('orderBy', selectedOption.orderBy);
     params.set('orderDirection', selectedOption.orderDirection);
-    
+
     // Reset to first page when sorting changes
     params.delete('offset');
-    
+
     router.push(`${window.location.pathname}?${params.toString()}`);
-    
+
     if (onSortChange) {
       onSortChange(selectedOption.orderBy, selectedOption.orderDirection);
     }
   };
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div className={cn('flex items-center space-x-2', className)}>
       <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
       <span className="text-sm font-medium">Sort by:</span>
       <Select value={currentSortValue} onValueChange={handleSortChange}>

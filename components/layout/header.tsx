@@ -21,11 +21,16 @@ export interface HeaderProps {
 
 export function Header({ className }: HeaderProps) {
   const { user } = useAuth();
-  const logoRef = useMagneticButton(0.2);
-  const cartButtonRef = useMagneticButton(0.15);
+  const logoRef = useMagneticButton<HTMLAnchorElement>(0.2);
+  const cartButtonRef = useMagneticButton<HTMLDivElement>(0.15);
 
   return (
-    <header className={cn('sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60', className)}>
+    <header
+      className={cn(
+        'sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        className
+      )}
+    >
       {/* Top Bar */}
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
@@ -33,31 +38,43 @@ export function Header({ className }: HeaderProps) {
           <div className="flex items-center space-x-3">
             <MobileNav />
             <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">V</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+                <span className="text-lg font-bold text-primary-foreground">V</span>
               </div>
-              <span className="font-bold text-xl hidden sm:block">VNTG</span>
+              <span className="hidden text-xl font-bold sm:block">VNTG</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">
+          <nav className="hidden items-center space-x-6 md:flex">
+            <Link
+              href="/products"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Products
             </Link>
-            <Link href="/categories" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/categories"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Categories
             </Link>
-            <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/about"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               About
             </Link>
-            <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="/contact"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Contact
             </Link>
           </nav>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-8">
+          <div className="mx-8 hidden max-w-md flex-1 lg:flex">
             <ProductSearch className="w-full" />
           </div>
 
@@ -78,30 +95,21 @@ export function Header({ className }: HeaderProps) {
 
             {/* Cart Button with Preview */}
             <div ref={cartButtonRef}>
-              <CartPreview
-                trigger={<CartButton />}
-                side="bottom"
-                align="end"
-                showOnHover={true}
-              />
+              <CartPreview trigger={<CartButton />} side="bottom" align="end" showOnHover={true} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Category Navigation - Desktop */}
-      <div className="hidden md:block border-t">
+      <div className="hidden border-t md:block">
         <div className="container mx-auto px-4">
-          <CategoryNavigation 
-            orientation="horizontal" 
-            maxItems={6}
-            className="py-3"
-          />
+          <CategoryNavigation orientation="horizontal" maxItems={6} className="py-3" />
         </div>
       </div>
 
       {/* Mobile Search Bar - Tablet only */}
-      <div className="hidden md:block lg:hidden border-t px-4 py-3">
+      <div className="hidden border-t px-4 py-3 md:block lg:hidden">
         <ProductSearch className="w-full" />
       </div>
     </header>

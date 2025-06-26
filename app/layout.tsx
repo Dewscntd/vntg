@@ -29,9 +29,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <AppProviders>
-              <RouteTransitionProvider>
-                {children}
-              </RouteTransitionProvider>
+              <RouteTransitionProvider>{children}</RouteTransitionProvider>
             </AppProviders>
           </AuthProvider>
         </ThemeProvider>

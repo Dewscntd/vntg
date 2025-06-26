@@ -3,7 +3,9 @@ import { NextRequest } from 'next/server';
 // Mock the API middleware functions
 jest.mock('@/lib/api/middleware', () => ({
   withAuth: jest.fn((req, handler) => handler(req, { user: { id: 'user_123' } })),
-  withValidation: jest.fn((req, schema, handler) => handler(req, { amount: 5400, currency: 'usd' })),
+  withValidation: jest.fn((req, schema, handler) =>
+    handler(req, { amount: 5400, currency: 'usd' })
+  ),
   withPaymentSecurity: jest.fn((req, handler) => handler(req, { user: { id: 'user_123' } })),
 }));
 
@@ -72,26 +74,26 @@ describe('Payment API Integration Tests', () => {
 
     it('should calculate cart total with tax', () => {
       const cartItems = [
-        { price: 25.00, quantity: 2 }, // $50.00
+        { price: 25.0, quantity: 2 }, // $50.00
       ];
 
-      const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
       const tax = subtotal * 0.08; // 8% tax
       const total = subtotal + tax;
 
-      expect(subtotal).toBe(50.00);
-      expect(tax).toBe(4.00);
-      expect(total).toBe(54.00);
+      expect(subtotal).toBe(50.0);
+      expect(tax).toBe(4.0);
+      expect(total).toBe(54.0);
     });
 
     it('should validate inventory availability', () => {
       const cartItems = [
         { quantity: 5, inventory_count: 10 }, // Available
-        { quantity: 3, inventory_count: 2 },  // Insufficient
+        { quantity: 3, inventory_count: 2 }, // Insufficient
       ];
 
       const hasInsufficientInventory = cartItems.some(
-        item => item.inventory_count < item.quantity
+        (item) => item.inventory_count < item.quantity
       );
 
       expect(hasInsufficientInventory).toBe(true);

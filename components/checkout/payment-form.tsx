@@ -21,14 +21,8 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
   const stripe = useStripe();
   const elements = useElements();
   const { session } = useAuth();
-  const { 
-    clientSecret, 
-    createPaymentIntent, 
-    isLoading, 
-    error,
-    orderSummary 
-  } = useCheckout();
-  
+  const { clientSecret, createPaymentIntent, isLoading, error, orderSummary } = useCheckout();
+
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [savePaymentMethod, setSavePaymentMethod] = useState(false);
@@ -109,14 +103,12 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
   return (
     <div className={cn('space-y-6', className)}>
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Payment Information</h2>
-        <p className="text-sm text-gray-600">
-          Your payment information is secure and encrypted.
-        </p>
+        <h2 className="mb-2 text-xl font-semibold text-gray-900">Payment Information</h2>
+        <p className="text-sm text-gray-600">Your payment information is secure and encrypted.</p>
       </div>
 
       {/* Security Notice */}
-      <div className="flex items-center space-x-2 p-3 bg-green-50 rounded-lg">
+      <div className="flex items-center space-x-2 rounded-lg bg-green-50 p-3">
         <Lock className="h-4 w-4 text-green-600" />
         <span className="text-sm text-green-800">
           Your payment is secured with 256-bit SSL encryption
@@ -127,30 +119,24 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
       {(error || paymentError) && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error || paymentError}
-          </AlertDescription>
+          <AlertDescription>{error || paymentError}</AlertDescription>
         </Alert>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Payment Method Selection */}
         <div>
-          <Label className="text-base font-medium text-gray-900 mb-4 block">
-            Payment Method
-          </Label>
-          
+          <Label className="mb-4 block text-base font-medium text-gray-900">Payment Method</Label>
+
           {clientSecret ? (
             <div className="space-y-4">
               {/* Payment Element (recommended by Stripe) */}
-              <div className="p-4 border border-gray-300 rounded-lg">
-                <div className="flex items-center space-x-2 mb-3">
+              <div className="rounded-lg border border-gray-300 p-4">
+                <div className="mb-3 flex items-center space-x-2">
                   <CreditCard className="h-4 w-4 text-gray-600" />
-                  <span className="text-sm font-medium text-gray-900">
-                    Credit or Debit Card
-                  </span>
+                  <span className="text-sm font-medium text-gray-900">Credit or Debit Card</span>
                 </div>
-                <PaymentElement 
+                <PaymentElement
                   options={{
                     layout: 'tabs',
                   }}
@@ -171,10 +157,10 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
               */}
             </div>
           ) : (
-            <div className="p-4 border border-gray-300 rounded-lg">
+            <div className="rounded-lg border border-gray-300 p-4">
               <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-8 bg-gray-200 rounded"></div>
+                <div className="mb-2 h-4 rounded bg-gray-200"></div>
+                <div className="h-8 rounded bg-gray-200"></div>
               </div>
             </div>
           )}
@@ -196,11 +182,9 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
 
         {/* Order Total */}
         {orderSummary && (
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="text-lg font-medium text-gray-900">
-                Total to be charged:
-              </span>
+          <div className="rounded-lg bg-gray-50 p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-medium text-gray-900">Total to be charged:</span>
               <span className="text-lg font-bold text-gray-900">
                 ${orderSummary.total.toFixed(2)}
               </span>
@@ -210,15 +194,10 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
 
         {/* Action Buttons */}
         <div className="flex justify-between pt-6">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onPrevious}
-            disabled={processing}
-          >
+          <Button type="button" variant="outline" onClick={onPrevious} disabled={processing}>
             Back to Shipping
           </Button>
-          
+
           <Button
             type="submit"
             disabled={!stripe || !clientSecret || processing || isLoading}
@@ -226,7 +205,7 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
           >
             {processing ? (
               <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                 <span>Processing...</span>
               </div>
             ) : (
@@ -237,7 +216,7 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
       </form>
 
       {/* Payment Security Info */}
-      <div className="text-xs text-gray-500 space-y-1">
+      <div className="space-y-1 text-xs text-gray-500">
         <p>• Your payment information is never stored on our servers</p>
         <p>• All transactions are processed securely through Stripe</p>
         <p>• You will receive an email confirmation after payment</p>

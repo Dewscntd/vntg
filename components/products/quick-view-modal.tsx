@@ -4,12 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, ShoppingCart, Eye, Loader2 } from 'lucide-react';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { LazyImage } from '@/components/ui/lazy-image';
@@ -31,7 +26,11 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
 
   // Fetch product data
-  const { data: product, isLoading, error } = useProduct(productId || '', {
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useProduct(productId || '', {
     enabled: !!productId && isOpen,
   });
 
@@ -94,33 +93,35 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
   };
 
   // Mock variants data (this would come from a variants table in a real app)
-  const mockVariants = product ? [
-    {
-      type: 'size',
-      label: 'Size',
-      variants: [
-        { id: 'sm', value: 'Small', available: true },
-        { id: 'md', value: 'Medium', available: true },
-        { id: 'lg', value: 'Large', available: true },
-        { id: 'xl', value: 'X-Large', available: false },
-      ],
-    },
-    {
-      type: 'color',
-      label: 'Color',
-      variants: [
-        { id: 'black', value: 'Black', available: true, meta: { color: '#000000' } },
-        { id: 'white', value: 'White', available: true, meta: { color: '#FFFFFF' } },
-        { id: 'blue', value: 'Blue', available: true, meta: { color: '#3B82F6' } },
-      ],
-    },
-  ] : [];
+  const mockVariants = product
+    ? [
+        {
+          type: 'size',
+          label: 'Size',
+          variants: [
+            { id: 'sm', value: 'Small', available: true },
+            { id: 'md', value: 'Medium', available: true },
+            { id: 'lg', value: 'Large', available: true },
+            { id: 'xl', value: 'X-Large', available: false },
+          ],
+        },
+        {
+          type: 'color',
+          label: 'Color',
+          variants: [
+            { id: 'black', value: 'Black', available: true, meta: { color: '#000000' } },
+            { id: 'white', value: 'White', available: true, meta: { color: '#FFFFFF' } },
+            { id: 'blue', value: 'Blue', available: true, meta: { color: '#3B82F6' } },
+          ],
+        },
+      ]
+    : [];
 
   const isOutOfStock = product && product.inventory_count <= 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="sr-only">Quick View</DialogTitle>
         </DialogHeader>
@@ -135,9 +136,9 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
 
         {/* Error State */}
         {error && (
-          <div className="text-center py-12">
-            <p className="text-destructive font-medium">Failed to load product</p>
-            <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
+          <div className="py-12 text-center">
+            <p className="font-medium text-destructive">Failed to load product</p>
+            <p className="mt-1 text-sm text-muted-foreground">{error.message}</p>
             <Button onClick={onClose} className="mt-4">
               Close
             </Button>
@@ -146,7 +147,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
 
         {/* Product Content */}
         {product && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Product Image */}
             <div data-modal-image className="relative">
               <LazyImage
@@ -156,13 +157,13 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                 className="rounded-lg"
                 priority
               />
-              
+
               {/* Product Badges */}
-              <div className="absolute top-3 left-3 flex flex-col gap-2">
-                {product.is_featured && <ProductBadge variant="featured" />}
-                {product.is_new && <ProductBadge variant="new" />}
-                {product.is_sale && <ProductBadge variant="sale" />}
-                {isOutOfStock && <ProductBadge variant="out-of-stock" />}
+              <div className="absolute left-3 top-3 flex flex-col gap-2">
+                {product.is_featured && <ProductBadge type="featured" />}
+                {product.is_new && <ProductBadge type="new" />}
+                {product.is_sale && <ProductBadge type="sale" value={product.discount_percent} />}
+                {isOutOfStock && <ProductBadge type="out-of-stock" />}
               </div>
             </div>
 
@@ -201,9 +202,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                       <Button
                         key={variant.id}
                         variant={
-                          selectedVariants[variantGroup.type] === variant.id
-                            ? 'default'
-                            : 'outline'
+                          selectedVariants[variantGroup.type] === variant.id ? 'default' : 'outline'
                         }
                         size="sm"
                         disabled={!variant.available}
@@ -214,11 +213,11 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                           }))
                         }
                         className={cn(
-                          variantGroup.type === 'color' && 'w-8 h-8 p-0 rounded-full',
-                          !variant.available && 'opacity-50 cursor-not-allowed'
+                          variantGroup.type === 'color' && 'h-8 w-8 rounded-full p-0',
+                          !variant.available && 'cursor-not-allowed opacity-50'
                         )}
                         style={
-                          variantGroup.type === 'color' && variant.meta?.color
+                          variantGroup.type === 'color' && 'meta' in variant && variant.meta?.color
                             ? { backgroundColor: variant.meta.color }
                             : undefined
                         }
@@ -239,7 +238,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                 {/* Quantity Selector */}
                 <div className="flex items-center space-x-3">
                   <label className="text-sm font-medium">Quantity:</label>
-                  <div className="flex items-center border rounded-md">
+                  <div className="flex items-center rounded-md border">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -249,7 +248,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                     >
                       -
                     </Button>
-                    <span className="px-3 py-1 text-sm font-medium min-w-[3rem] text-center">
+                    <span className="min-w-[3rem] px-3 py-1 text-center text-sm font-medium">
                       {selectedQuantity}
                     </span>
                     <Button
@@ -283,7 +282,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                       </>
                     )}
                   </Button>
-                  
+
                   <Button variant="outline" asChild>
                     <Link href={`/products/${product.id}`}>
                       <Eye className="mr-2 h-4 w-4" />

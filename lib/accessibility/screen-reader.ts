@@ -50,11 +50,11 @@ export class ScreenReaderAnnouncer {
   // Announce message with specified priority
   announce(message: string, priority: 'assertive' | 'polite' = 'polite') {
     const region = priority === 'assertive' ? this.liveRegion : this.politeRegion;
-    
+
     if (region) {
       // Clear the region first to ensure the announcement is read
       region.textContent = '';
-      
+
       // Use setTimeout to ensure the clearing is processed first
       setTimeout(() => {
         region.textContent = message;
@@ -111,14 +111,14 @@ export function useScreenReader() {
   const announcer = ScreenReaderAnnouncer.getInstance();
 
   return {
-    announce: (message: string, priority?: 'assertive' | 'polite') => 
+    announce: (message: string, priority?: 'assertive' | 'polite') =>
       announcer.announce(message, priority),
     announceStatus: (status: string) => announcer.announceStatus(status),
     announceError: (error: string) => announcer.announceError(error),
     announceSuccess: (message: string) => announcer.announceSuccess(message),
     announceLoading: (message?: string) => announcer.announceLoading(message),
     announceNavigation: (location: string) => announcer.announceNavigation(location),
-    announceValidation: (field: string, message: string, isError?: boolean) => 
+    announceValidation: (field: string, message: string, isError?: boolean) =>
       announcer.announceValidation(field, message, isError),
   };
 }
@@ -159,10 +159,12 @@ export const accessibilityUtils = {
 
   // Check if element is hidden from screen readers
   isHiddenFromScreenReader: (element: HTMLElement): boolean => {
-    return element.getAttribute('aria-hidden') === 'true' ||
-           element.hasAttribute('hidden') ||
-           element.style.display === 'none' ||
-           element.style.visibility === 'hidden';
+    return (
+      element.getAttribute('aria-hidden') === 'true' ||
+      element.hasAttribute('hidden') ||
+      element.style.display === 'none' ||
+      element.style.visibility === 'hidden'
+    );
   },
 
   // Get accessible name for element
@@ -179,7 +181,11 @@ export const accessibilityUtils = {
     }
 
     // Check associated label
-    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
+    if (
+      element.tagName === 'INPUT' ||
+      element.tagName === 'TEXTAREA' ||
+      element.tagName === 'SELECT'
+    ) {
       const id = element.getAttribute('id');
       if (id) {
         const label = document.querySelector(`label[for="${id}"]`);
@@ -198,7 +204,7 @@ export const accessibilityUtils = {
   // Set accessible description
   setAccessibleDescription: (element: HTMLElement, description: string) => {
     const descId = accessibilityUtils.generateId('desc');
-    
+
     // Create description element
     const descElement = document.createElement('div');
     descElement.id = descId;
@@ -210,10 +216,10 @@ export const accessibilityUtils = {
       height: 1px;
       overflow: hidden;
     `;
-    
+
     document.body.appendChild(descElement);
     element.setAttribute('aria-describedby', descId);
-    
+
     return () => {
       document.body.removeChild(descElement);
       element.removeAttribute('aria-describedby');
@@ -244,26 +250,26 @@ export const accessibilityUtils = {
       const r = parseInt(hex.substr(0, 2), 16) / 255;
       const g = parseInt(hex.substr(2, 2), 16) / 255;
       const b = parseInt(hex.substr(4, 2), 16) / 255;
-      
-      const sRGB = [r, g, b].map(c => {
+
+      const sRGB = [r, g, b].map((c) => {
         return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
       });
-      
+
       return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
     };
-    
+
     const lum1 = getLuminance(color1);
     const lum2 = getLuminance(color2);
     const brightest = Math.max(lum1, lum2);
     const darkest = Math.min(lum1, lum2);
-    
+
     return (brightest + 0.05) / (darkest + 0.05);
   },
 
   // Check if contrast ratio meets WCAG standards
   meetsContrastStandards: (ratio: number, level: 'AA' | 'AAA' = 'AA'): boolean => {
     return level === 'AA' ? ratio >= 4.5 : ratio >= 7;
-  }
+  },
 };
 
 export default ScreenReaderAnnouncer;

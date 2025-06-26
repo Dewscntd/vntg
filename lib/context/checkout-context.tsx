@@ -101,49 +101,53 @@ function checkoutReducer(state: CheckoutState, action: CheckoutAction): Checkout
   switch (action.type) {
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload };
-    
+
     case 'SET_ERROR':
       return { ...state, error: action.payload, isLoading: false };
-    
+
     case 'SET_STEP':
       const steps = ['shipping', 'payment', 'review', 'confirmation'] as const;
-      return { 
-        ...state, 
+      return {
+        ...state,
         currentStep: action.payload,
-        step: steps[action.payload] || 'shipping'
+        step: steps[action.payload] || 'shipping',
       };
-    
+
     case 'SET_GUEST_CHECKOUT':
       return { ...state, isGuestCheckout: action.payload, guestCheckout: action.payload };
-    
+
     case 'SET_SHIPPING_ADDRESS':
       return { ...state, shippingAddress: action.payload };
-    
+
     case 'SET_BILLING_ADDRESS':
       return { ...state, billingAddress: action.payload };
-    
+
     case 'SET_PAYMENT_METHOD':
       return { ...state, paymentMethod: action.payload };
-    
+
     case 'SET_SHIPPING_METHOD':
-      return { ...state, selectedShippingMethod: action.payload, shippingMethod: action.payload.id as any };
-    
+      return {
+        ...state,
+        selectedShippingMethod: action.payload,
+        shippingMethod: action.payload.id as any,
+      };
+
     case 'SET_ORDER_SUMMARY':
       return { ...state, orderSummary: action.payload };
-    
+
     case 'SET_AVAILABLE_SHIPPING_METHODS':
       return { ...state, availableShippingMethods: action.payload };
-    
+
     case 'SET_PAYMENT_INTENT':
-      return { 
-        ...state, 
+      return {
+        ...state,
         paymentIntentId: action.payload.paymentIntentId,
-        clientSecret: action.payload.clientSecret 
+        clientSecret: action.payload.clientSecret,
       };
-    
+
     case 'RESET_CHECKOUT':
       return initialState;
-    
+
     default:
       return state;
   }
@@ -199,7 +203,7 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
 
   const calculateOrderSummary = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
-    
+
     try {
       const subtotal = total;
       const shipping = state.selectedShippingMethod?.price || 0;
@@ -246,9 +250,9 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
       }
 
       const { paymentIntentId, clientSecret } = await response.json();
-      dispatch({ 
-        type: 'SET_PAYMENT_INTENT', 
-        payload: { paymentIntentId, clientSecret } 
+      dispatch({
+        type: 'SET_PAYMENT_INTENT',
+        payload: { paymentIntentId, clientSecret },
       });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Failed to create payment intent' });
@@ -288,12 +292,20 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
       return data.orderId;
     } catch (error) {
       console.error('Order processing error:', error);
-      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : 'Failed to process order' });
+      dispatch({
+        type: 'SET_ERROR',
+        payload: error instanceof Error ? error.message : 'Failed to process order',
+      });
       return null;
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.shippingAddress, state.billingAddress, state.paymentIntentId, state.selectedShippingMethod]);
+  }, [
+    state.shippingAddress,
+    state.billingAddress,
+    state.paymentIntentId,
+    state.selectedShippingMethod,
+  ]);
 
   const resetCheckout = useCallback(() => {
     dispatch({ type: 'RESET_CHECKOUT' });
@@ -315,11 +327,7 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
     resetCheckout,
   };
 
-  return (
-    <CheckoutContext.Provider value={value}>
-      {children}
-    </CheckoutContext.Provider>
-  );
+  return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;
 }
 
 // Hook to use checkout context

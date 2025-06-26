@@ -13,17 +13,14 @@ export async function GET(req: NextRequest) {
     // Check database connectivity
     try {
       const supabase = createRouteHandlerClient({ cookies });
-      const { data, error } = await supabase
-        .from('products')
-        .select('id')
-        .limit(1);
-      
+      const { data, error } = await supabase.from('products').select('id').limit(1);
+
       checks.database = {
         status: error ? 'unhealthy' : 'healthy',
         responseTime: Date.now() - startTime,
         error: error?.message,
       };
-      
+
       if (error) overallStatus = 'degraded';
     } catch (error: any) {
       checks.database = {
@@ -38,10 +35,10 @@ export async function GET(req: NextRequest) {
     try {
       const stripe = getServerStripe();
       const stripeStartTime = Date.now();
-      
+
       // Simple API call to check Stripe connectivity
       await stripe.products.list({ limit: 1 });
-      
+
       checks.stripe = {
         status: 'healthy',
         responseTime: Date.now() - stripeStartTime,
@@ -63,9 +60,7 @@ export async function GET(req: NextRequest) {
       'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
     ];
 
-    const missingEnvVars = requiredEnvVars.filter(
-      (envVar) => !process.env[envVar]
-    );
+    const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]);
 
     checks.environment = {
       status: missingEnvVars.length === 0 ? 'healthy' : 'unhealthy',
@@ -107,19 +102,20 @@ export async function GET(req: NextRequest) {
     };
 
     // Return appropriate HTTP status
-    const httpStatus = overallStatus === 'healthy' ? 200 : 
-                      overallStatus === 'degraded' ? 200 : 503;
+    const httpStatus = overallStatus === 'healthy' ? 200 : overallStatus === 'degraded' ? 200 : 503;
 
     return NextResponse.json(response, { status: httpStatus });
-
   } catch (error: any) {
-    return NextResponse.json({
-      status: 'unhealthy',
-      timestamp: new Date().toISOString(),
-      responseTime: Date.now() - startTime,
-      error: error.message,
-      checks,
-    }, { status: 503 });
+    return NextResponse.json(
+      {
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        responseTime: Date.now() - startTime,
+        error: error.message,
+        checks,
+      },
+      { status: 503 }
+    );
   }
 }
 
@@ -127,7 +123,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
   const { detailed = false } = await req.json();
-  
+
   if (!detailed) {
     return GET(req);
   }
@@ -184,10 +180,10 @@ export async function POST(req: NextRequest) {
     // Check storage buckets
     try {
       const { data: buckets, error } = await supabase.storage.listBuckets();
-      
+
       checks.storage = {
         status: error ? 'unhealthy' : 'healthy',
-        buckets: buckets?.map(b => b.name) || [],
+        buckets: buckets?.map((b) => b.name) || [],
         error: error?.message,
       };
 
@@ -215,7 +211,7 @@ export async function POST(req: NextRequest) {
       try {
         const serviceStartTime = Date.now();
         await service.check();
-        
+
         checks[service.name] = {
           status: 'healthy',
           responseTime: Date.now() - serviceStartTime,
@@ -240,19 +236,20 @@ export async function POST(req: NextRequest) {
       checks,
     };
 
-    const httpStatus = overallStatus === 'healthy' ? 200 : 
-                      overallStatus === 'degraded' ? 200 : 503;
+    const httpStatus = overallStatus === 'healthy' ? 200 : overallStatus === 'degraded' ? 200 : 503;
 
     return NextResponse.json(response, { status: httpStatus });
-
   } catch (error: any) {
-    return NextResponse.json({
-      status: 'unhealthy',
-      timestamp: new Date().toISOString(),
-      responseTime: Date.now() - startTime,
-      error: error.message,
-      detailed: true,
-      checks,
-    }, { status: 503 });
+    return NextResponse.json(
+      {
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        responseTime: Date.now() - startTime,
+        error: error.message,
+        detailed: true,
+        checks,
+      },
+      { status: 503 }
+    );
   }
 }

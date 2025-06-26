@@ -16,11 +16,11 @@ export interface ProductSearchProps {
   onSearch?: (query: string) => void;
 }
 
-export function ProductSearch({ 
-  placeholder = "Search products...", 
+export function ProductSearch({
+  placeholder = 'Search products...',
   className,
   showSuggestions = true,
-  onSearch 
+  onSearch,
 }: ProductSearchProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -41,9 +41,10 @@ export function ProductSearch({
 
   // Fetch search suggestions
   const { data: suggestions, isLoading: suggestionsLoading } = useProducts({
-    url: debouncedQuery.length >= 2 
-      ? `/api/products?search=${encodeURIComponent(debouncedQuery)}&limit=5`
-      : undefined,
+    url:
+      debouncedQuery.length >= 2
+        ? `/api/products?search=${encodeURIComponent(debouncedQuery)}&limit=5`
+        : undefined,
     cacheKey: `search-suggestions-${debouncedQuery}`,
     enabled: showSuggestions && debouncedQuery.length >= 2 && isOpen,
   });
@@ -53,14 +54,14 @@ export function ProductSearch({
   // Handle search submission
   const handleSearch = (searchQuery: string = query) => {
     if (!searchQuery.trim()) return;
-    
+
     setIsOpen(false);
-    
+
     if (onSearch) {
       onSearch(searchQuery);
     } else {
       // Navigate to search page
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set('q', searchQuery.trim());
       router.push(`/search?${params.toString()}`);
     }
@@ -70,7 +71,7 @@ export function ProductSearch({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    
+
     if (showSuggestions && value.length >= 2) {
       setIsOpen(true);
     } else {
@@ -115,7 +116,7 @@ export function ProductSearch({
   }, []);
 
   return (
-    <div ref={containerRef} className={cn("relative w-full max-w-md", className)}>
+    <div ref={containerRef} className={cn('relative w-full max-w-md', className)}>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
@@ -167,10 +168,8 @@ export function ProductSearch({
             </div>
           ) : suggestionProducts.length > 0 ? (
             <div className="space-y-1">
-              <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
-                Suggestions
-              </div>
-              {suggestionProducts.map((product) => (
+              <div className="px-2 py-1 text-xs font-medium text-muted-foreground">Suggestions</div>
+              {suggestionProducts.map((product: any) => (
                 <button
                   key={product.id}
                   onClick={() => handleSuggestionClick(product.name)}

@@ -7,6 +7,7 @@ The VNTG shopping cart system is a comprehensive, production-ready cart implemen
 ## 🏗️ Architecture
 
 ### Core Components
+
 - **CartContext** - Global state management with React Context
 - **CartProvider** - Provider wrapper with persistence and sync
 - **Cart Components** - UI components for cart interactions
@@ -15,6 +16,7 @@ The VNTG shopping cart system is a comprehensive, production-ready cart implemen
 - **Abandonment Recovery** - Automated recovery mechanisms
 
 ### Data Flow
+
 ```
 User Action → Cart Hook → API Call → Database → Context Update → UI Update
                 ↓
@@ -24,26 +26,29 @@ User Action → Cart Hook → API Call → Database → Context Update → UI Up
 ## 🛒 Components
 
 ### CartButton
+
 The main cart trigger button with item count badge.
 
 ```tsx
 import { CartButton } from '@/components/cart';
 
-<CartButton 
-  variant="ghost"        // 'default' | 'outline' | 'ghost'
-  size="md"             // 'sm' | 'md' | 'lg'
-  showText={false}      // Show "Cart" text
-  showBadge={true}      // Show item count badge
-/>
+<CartButton
+  variant="ghost" // 'default' | 'outline' | 'ghost'
+  size="md" // 'sm' | 'md' | 'lg'
+  showText={false} // Show "Cart" text
+  showBadge={true} // Show item count badge
+/>;
 ```
 
 **Features:**
+
 - ✅ Animated item count badge
 - ✅ Multiple size and style variants
 - ✅ Accessibility support with ARIA labels
 - ✅ GSAP animations for interactions
 
 ### CartDrawer
+
 Sliding panel cart interface.
 
 ```tsx
@@ -51,10 +56,11 @@ import { CartDrawer } from '@/components/cart';
 
 <CartDrawer>
   <CartButton />
-</CartDrawer>
+</CartDrawer>;
 ```
 
 **Features:**
+
 - ✅ Smooth slide-in/out animations
 - ✅ Scrollable item list
 - ✅ Loading states and error handling
@@ -62,6 +68,7 @@ import { CartDrawer } from '@/components/cart';
 - ✅ Keyboard navigation support
 
 ### CartPreview
+
 Hover preview of cart contents.
 
 ```tsx
@@ -69,32 +76,35 @@ import { CartPreview } from '@/components/cart';
 
 <CartPreview
   trigger={<CartButton />}
-  side="bottom"         // 'top' | 'bottom' | 'left' | 'right'
-  align="end"          // 'start' | 'center' | 'end'
-  showOnHover={true}   // Show on hover vs click
-  hideDelay={300}      // Hide delay in ms
-/>
+  side="bottom" // 'top' | 'bottom' | 'left' | 'right'
+  align="end" // 'start' | 'center' | 'end'
+  showOnHover={true} // Show on hover vs click
+  hideDelay={300} // Hide delay in ms
+/>;
 ```
 
 **Features:**
+
 - ✅ Configurable positioning
 - ✅ Quick actions (view cart, checkout)
 - ✅ Compact item display
 - ✅ Smart show/hide timing
 
 ### CartItem
+
 Individual cart item display and controls.
 
 ```tsx
 import { CartItem } from '@/components/cart';
 
-<CartItem 
+<CartItem
   item={cartItem}
-  compact={false}      // Compact mode for previews
-/>
+  compact={false} // Compact mode for previews
+/>;
 ```
 
 **Features:**
+
 - ✅ Quantity controls with validation
 - ✅ Remove item functionality
 - ✅ Stock limit enforcement
@@ -102,37 +112,34 @@ import { CartItem } from '@/components/cart';
 - ✅ Compact and full display modes
 
 ### CartSummary
+
 Order summary with pricing and actions.
 
 ```tsx
 import { CartSummary } from '@/components/cart';
 
-<CartSummary
-  showCheckoutButton={true}
-  showContinueShoppingButton={true}
-  compact={false}
-/>
+<CartSummary showCheckoutButton={true} showContinueShoppingButton={true} compact={false} />;
 ```
 
 **Features:**
+
 - ✅ Price calculations (subtotal, tax, shipping)
 - ✅ Free shipping progress indicator
 - ✅ Trust indicators and security badges
 - ✅ Action buttons for checkout
 
 ### EmptyCart
+
 Empty cart state with suggestions.
 
 ```tsx
 import { EmptyCart } from '@/components/cart';
 
-<EmptyCart
-  compact={false}
-  showSuggestions={true}
-/>
+<EmptyCart compact={false} showSuggestions={true} />;
 ```
 
 **Features:**
+
 - ✅ Animated empty state illustration
 - ✅ Shopping suggestions (featured, new, sale)
 - ✅ Call-to-action buttons
@@ -141,6 +148,7 @@ import { EmptyCart } from '@/components/cart';
 ## 🔧 Hooks and Context
 
 ### useCart
+
 Main cart context hook for state and actions.
 
 ```tsx
@@ -148,55 +156,58 @@ import { useCart } from '@/lib/context/cart-context';
 
 const {
   // State
-  items,           // CartItem[]
-  itemCount,       // number
-  total,           // number
-  isLoading,       // boolean
-  error,           // string | null
-  isOpen,          // boolean
+  items, // CartItem[]
+  itemCount, // number
+  total, // number
+  isLoading, // boolean
+  error, // string | null
+  isOpen, // boolean
 
   // Actions
-  addItem,         // (productId: string, quantity?: number) => Promise<void>
-  removeItem,      // (itemId: string) => Promise<void>
-  updateQuantity,  // (itemId: string, quantity: number) => Promise<void>
-  clearCart,       // () => Promise<void>
-  openCart,        // () => void
-  closeCart,       // () => void
-  toggleCart,      // () => void
-  refreshCart,     // () => Promise<void>
+  addItem, // (productId: string, quantity?: number) => Promise<void>
+  removeItem, // (itemId: string) => Promise<void>
+  updateQuantity, // (itemId: string, quantity: number) => Promise<void>
+  clearCart, // () => Promise<void>
+  openCart, // () => void
+  closeCart, // () => void
+  toggleCart, // () => void
+  refreshCart, // () => Promise<void>
 } = useCart();
 ```
 
 ### useCartActions
+
 Enhanced cart actions with toast notifications.
 
 ```tsx
 import { useCartActions } from '@/lib/hooks/use-cart-actions';
 
 const {
-  addToCartWithToast,      // (productId, productName, quantity) => Promise<void>
+  addToCartWithToast, // (productId, productName, quantity) => Promise<void>
   removeFromCartWithToast, // (itemId, productName) => Promise<void>
   updateQuantityWithToast, // (itemId, quantity, productName) => Promise<void>
 } = useCartActions();
 ```
 
 ### useCartAccessibility
+
 Accessibility features and ARIA attributes.
 
 ```tsx
 import { useCartAccessibility } from '@/lib/hooks/use-cart-accessibility';
 
 const {
-  getCartButtonProps,    // () => ARIA props for cart button
-  getCartDrawerProps,    // () => ARIA props for cart drawer
-  getCartItemProps,      // (name, quantity, price) => ARIA props
-  announceCartChange,    // (message: string) => void
+  getCartButtonProps, // () => ARIA props for cart button
+  getCartDrawerProps, // () => ARIA props for cart drawer
+  getCartItemProps, // (name, quantity, price) => ARIA props
+  announceCartChange, // (message: string) => void
 } = useCartAccessibility();
 ```
 
 ## 💾 Persistence & Synchronization
 
 ### Local Storage
+
 Cart data is automatically saved to localStorage for non-authenticated users.
 
 ```typescript
@@ -208,6 +219,7 @@ Cart data is automatically saved to localStorage for non-authenticated users.
 ```
 
 ### Cross-Device Sync
+
 Authenticated users have their cart synchronized across devices.
 
 ```typescript
@@ -221,6 +233,7 @@ Authenticated users have their cart synchronized across devices.
 ```
 
 ### Data Merging
+
 Smart merging of local and server cart data.
 
 ```typescript
@@ -234,6 +247,7 @@ Smart merging of local and server cart data.
 ## 📊 Analytics & Tracking
 
 ### Automatic Events
+
 The cart system automatically tracks:
 
 ```typescript
@@ -247,6 +261,7 @@ The cart system automatically tracks:
 ```
 
 ### Google Analytics 4
+
 Enhanced ecommerce tracking with GA4.
 
 ```typescript
@@ -258,6 +273,7 @@ Enhanced ecommerce tracking with GA4.
 ```
 
 ### Custom Analytics
+
 Internal analytics API for detailed insights.
 
 ```typescript
@@ -271,6 +287,7 @@ Internal analytics API for detailed insights.
 ## 🔄 Abandonment Recovery
 
 ### Detection
+
 Automatic detection of cart abandonment.
 
 ```typescript
@@ -284,6 +301,7 @@ Automatic detection of cart abandonment.
 ### Recovery Methods
 
 #### 1. Popup Notifications
+
 Timed popups with discount offers.
 
 ```typescript
@@ -295,6 +313,7 @@ Timed popups with discount offers.
 ```
 
 #### 2. Email Reminders
+
 Scheduled email campaigns (backend integration required).
 
 ```typescript
@@ -306,6 +325,7 @@ Scheduled email campaigns (backend integration required).
 ```
 
 #### 3. Recovery Pages
+
 Dedicated recovery pages with special offers.
 
 ```typescript
@@ -317,6 +337,7 @@ Dedicated recovery pages with special offers.
 ```
 
 ### Recovery Analytics
+
 Track recovery performance and optimize campaigns.
 
 ```typescript
@@ -330,6 +351,7 @@ Track recovery performance and optimize campaigns.
 ## 🎨 Animations
 
 ### GSAP Integration
+
 Professional animations powered by GSAP.
 
 ```typescript
@@ -343,6 +365,7 @@ Professional animations powered by GSAP.
 ```
 
 ### Animation Performance
+
 Optimized for smooth 60fps performance.
 
 ```typescript
@@ -356,6 +379,7 @@ Optimized for smooth 60fps performance.
 ## ♿ Accessibility
 
 ### Screen Reader Support
+
 Comprehensive screen reader compatibility.
 
 ```typescript
@@ -367,6 +391,7 @@ Comprehensive screen reader compatibility.
 ```
 
 ### Keyboard Navigation
+
 Full keyboard accessibility.
 
 ```typescript
@@ -379,6 +404,7 @@ Full keyboard accessibility.
 ```
 
 ### ARIA Attributes
+
 Complete ARIA markup for assistive technologies.
 
 ```typescript
@@ -392,6 +418,7 @@ Complete ARIA markup for assistive technologies.
 ## 🔒 Security
 
 ### Input Validation
+
 Comprehensive validation on client and server.
 
 ```typescript
@@ -403,6 +430,7 @@ Comprehensive validation on client and server.
 ```
 
 ### API Security
+
 Secure API endpoints with proper authentication.
 
 ```typescript
@@ -416,6 +444,7 @@ Secure API endpoints with proper authentication.
 ## 🚀 Performance
 
 ### Optimizations
+
 Multiple performance optimizations implemented.
 
 ```typescript
@@ -428,6 +457,7 @@ Multiple performance optimizations implemented.
 ```
 
 ### Caching
+
 Smart caching strategies for better performance.
 
 ```typescript
@@ -441,6 +471,7 @@ Smart caching strategies for better performance.
 ## 🧪 Testing
 
 ### Unit Tests
+
 Comprehensive unit test coverage.
 
 ```typescript
@@ -452,6 +483,7 @@ Comprehensive unit test coverage.
 ```
 
 ### Integration Tests
+
 End-to-end cart workflow testing.
 
 ```typescript
@@ -465,6 +497,7 @@ End-to-end cart workflow testing.
 ## 🔧 Configuration
 
 ### Environment Variables
+
 Required environment variables for cart functionality.
 
 ```env
@@ -478,6 +511,7 @@ NEXT_PUBLIC_FACEBOOK_PIXEL_ID=your_pixel_id
 ```
 
 ### Feature Flags
+
 Configurable features for different environments.
 
 ```typescript
@@ -491,6 +525,7 @@ Configurable features for different environments.
 ## 📱 Mobile Optimization
 
 ### Responsive Design
+
 Fully responsive cart components.
 
 ```typescript
@@ -502,6 +537,7 @@ Fully responsive cart components.
 ```
 
 ### Performance
+
 Optimized for mobile performance.
 
 ```typescript
@@ -517,6 +553,7 @@ Optimized for mobile performance.
 ### Common Issues
 
 #### Cart Not Persisting
+
 ```typescript
 // Solutions
 1. Check localStorage permissions
@@ -526,6 +563,7 @@ Optimized for mobile performance.
 ```
 
 #### Animations Not Working
+
 ```typescript
 // Solutions
 1. Verify GSAP is loaded
@@ -535,6 +573,7 @@ Optimized for mobile performance.
 ```
 
 #### Analytics Not Tracking
+
 ```typescript
 // Solutions
 1. Verify analytics configuration
@@ -544,6 +583,7 @@ Optimized for mobile performance.
 ```
 
 ### Debug Mode
+
 Enable debug logging for troubleshooting.
 
 ```typescript
@@ -560,6 +600,7 @@ localStorage.setItem('vntg-cart-debug', 'true');
 ## 🔄 Migration Guide
 
 ### From Basic Cart
+
 Steps to migrate from a basic cart implementation.
 
 ```typescript
@@ -572,6 +613,7 @@ Steps to migrate from a basic cart implementation.
 ```
 
 ### Data Migration
+
 Migrate existing cart data to new format.
 
 ```typescript
@@ -586,6 +628,7 @@ Migrate existing cart data to new format.
 ## 📈 Future Enhancements
 
 ### Planned Features
+
 - Wishlist integration
 - Cart sharing
 - Bulk operations
@@ -593,6 +636,7 @@ Migrate existing cart data to new format.
 - Multi-currency support
 
 ### Performance Improvements
+
 - Service worker caching
 - Background sync
 - Predictive loading

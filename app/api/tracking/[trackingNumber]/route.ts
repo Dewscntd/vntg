@@ -3,17 +3,10 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { trackingService } from '@/lib/shipping/carriers';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // GET /api/tracking/[trackingNumber] - Get tracking information
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { trackingNumber: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { trackingNumber: string } }) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const trackingNumber = params.trackingNumber;
@@ -27,7 +20,8 @@ export async function GET(
     // First, check if we have this shipment in our database
     const { data: shipment, error: shipmentError } = await supabase
       .from('shipments')
-      .select(`
+      .select(
+        `
         *,
         tracking_events (
           timestamp,
@@ -38,7 +32,8 @@ export async function GET(
           state,
           country
         )
-      `)
+      `
+      )
       .eq('tracking_number', trackingNumber)
       .single();
 
@@ -56,22 +51,26 @@ export async function GET(
         status: shipment.status,
         estimatedDelivery: shipment.estimated_delivery,
         actualDelivery: shipment.actual_delivery,
-        events: shipment.tracking_events?.map(event => ({
-          timestamp: event.timestamp,
-          status: event.status,
-          description: event.description,
-          location: event.location,
-          city: event.city,
-          state: event.state,
-          country: event.country,
-        })) || [],
+        events:
+          shipment.tracking_events?.map((event: any) => ({
+            timestamp: event.timestamp,
+            status: event.status,
+            description: event.description,
+            location: event.location,
+            city: event.city,
+            state: event.state,
+            country: event.country,
+          })) || [],
         lastUpdated: shipment.updated_at,
       };
 
       // Also try to get fresh data from carrier and update if needed
       try {
-        const freshData = await trackingService.trackPackage(trackingNumber, carrier || shipment.carrier);
-        
+        const freshData = await trackingService.trackPackage(
+          trackingNumber,
+          carrier || shipment.carrier
+        );
+
         // Update our database with fresh data if it's newer
         if (new Date(freshData.lastUpdated) > new Date(shipment.updated_at)) {
           await updateShipmentData(supabase, shipment.id, freshData);
@@ -91,10 +90,9 @@ export async function GET(
     }
 
     return successResponse(trackingInfo);
-
   } catch (error) {
     console.error('Tracking lookup error:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }
 
@@ -114,9 +112,8 @@ async function updateShipmentData(supabase: any, shipmentId: string, trackingInf
 
     // Insert new tracking events
     for (const event of trackingInfo.events) {
-      await supabase
-        .from('tracking_events')
-        .upsert({
+      await supabase.from('tracking_events').upsert(
+        {
           shipment_id: shipmentId,
           timestamp: event.timestamp,
           status: event.status,
@@ -125,10 +122,12 @@ async function updateShipmentData(supabase: any, shipmentId: string, trackingInf
           city: event.city,
           state: event.state,
           country: event.country,
-        }, {
+        },
+        {
           onConflict: 'shipment_id,timestamp,status',
           ignoreDuplicates: true,
-        });
+        }
+      );
     }
   } catch (error) {
     console.error('Error updating shipment data:', error);

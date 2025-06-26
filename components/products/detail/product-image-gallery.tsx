@@ -64,7 +64,12 @@ export function ProductImageGallery({ images, className }: ProductImageGalleryPr
   // If no images, show placeholder
   if (!images || images.length === 0) {
     return (
-      <div className={cn('relative aspect-square w-full overflow-hidden rounded-lg bg-muted', className)}>
+      <div
+        className={cn(
+          'relative aspect-square w-full overflow-hidden rounded-lg bg-muted',
+          className
+        )}
+      >
         <div className="flex h-full w-full items-center justify-center">
           <span className="text-muted-foreground">No images available</span>
         </div>

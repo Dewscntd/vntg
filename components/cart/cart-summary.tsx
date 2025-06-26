@@ -79,7 +79,7 @@ export function CartSummary({
           <span>Shipping</span>
           <span>
             {shipping === 0 ? (
-              <span className="text-green-600 font-medium">Free</span>
+              <span className="font-medium text-green-600">Free</span>
             ) : (
               `$${shipping.toFixed(2)}`
             )}
@@ -95,7 +95,7 @@ export function CartSummary({
                 Add ${remainingForFreeShipping.toFixed(2)} more for free shipping!
               </span>
             </div>
-            <div className="mt-2 h-2 bg-blue-200 rounded-full overflow-hidden">
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-blue-200">
               <div
                 className="h-full bg-blue-500 transition-all duration-300"
                 style={{
@@ -134,15 +134,13 @@ export function CartSummary({
 
         {showContinueShoppingButton && (
           <Button variant="outline" asChild className="w-full">
-            <Link href="/products">
-              Continue Shopping
-            </Link>
+            <Link href="/products">Continue Shopping</Link>
           </Button>
         )}
       </div>
 
       {/* Security Notice */}
-      <div className="text-xs text-muted-foreground text-center">
+      <div className="text-center text-xs text-muted-foreground">
         <p>Secure checkout with SSL encryption</p>
         <p>Free returns within 30 days</p>
       </div>

@@ -12,7 +12,7 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 export default function CheckoutConfirmationPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { session, loading: authLoading } = useAuth();
+  const { session, isLoading: authLoading } = useAuth();
   const [orderId, setOrderId] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,16 +35,16 @@ export default function CheckoutConfirmationPage() {
         // Check payment status
         if (redirectStatus === 'succeeded') {
           setPaymentStatus('succeeded');
-          
+
           // Get order ID from payment intent
           const response = await fetch(`/api/checkout/payment-intent/${paymentIntentId}`);
-          
+
           if (response.ok) {
             const paymentData = await response.json();
-            
+
             // Get order associated with this payment intent
             const orderResponse = await fetch(`/api/orders?payment_intent_id=${paymentIntentId}`);
-            
+
             if (orderResponse.ok) {
               const orderData = await orderResponse.json();
               if (orderData.orders && orderData.orders.length > 0) {
@@ -80,9 +80,9 @@ export default function CheckoutConfirmationPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="text-gray-600">Processing your order...</p>
         </div>
       </div>
@@ -91,13 +91,11 @@ export default function CheckoutConfirmationPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600 mb-4">Please sign in to view your order confirmation.</p>
-          <Button onClick={() => router.push('/auth/login')}>
-            Sign In
-          </Button>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Access Denied</h2>
+          <p className="mb-4 text-gray-600">Please sign in to view your order confirmation.</p>
+          <Button onClick={() => router.push('/auth/login')}>Sign In</Button>
         </div>
       </div>
     );
@@ -105,32 +103,21 @@ export default function CheckoutConfirmationPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="max-w-md w-full mx-auto p-6">
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="mx-auto w-full max-w-md p-6">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
           </Alert>
-          
+
           <div className="mt-6 space-y-3">
-            <Button 
-              onClick={() => router.push('/checkout')} 
-              className="w-full"
-            >
+            <Button onClick={() => router.push('/checkout')} className="w-full">
               Try Again
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => router.push('/cart')} 
-              className="w-full"
-            >
+            <Button variant="outline" onClick={() => router.push('/cart')} className="w-full">
               Return to Cart
             </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => router.push('/support')} 
-              className="w-full"
-            >
+            <Button variant="ghost" onClick={() => router.push('/support')} className="w-full">
               Contact Support
             </Button>
           </div>
@@ -141,22 +128,19 @@ export default function CheckoutConfirmationPage() {
 
   if (paymentStatus === 'processing') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="max-w-md w-full mx-auto p-6 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Payment Processing</h2>
-          <p className="text-gray-600 mb-4">
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="mx-auto w-full max-w-md p-6 text-center">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Payment Processing</h2>
+          <p className="mb-4 text-gray-600">
             Your payment is being processed. This may take a few moments.
           </p>
           <p className="text-sm text-gray-500">
             You will receive an email confirmation once the payment is complete.
           </p>
-          
+
           <div className="mt-6">
-            <Button 
-              variant="outline" 
-              onClick={() => router.push('/account/orders')}
-            >
+            <Button variant="outline" onClick={() => router.push('/account/orders')}>
               View My Orders
             </Button>
           </div>
@@ -179,26 +163,19 @@ export default function CheckoutConfirmationPage() {
 
   // Fallback for unknown status
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full mx-auto p-6 text-center">
-        <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Unknown Status</h2>
-        <p className="text-gray-600 mb-4">
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="mx-auto w-full max-w-md p-6 text-center">
+        <AlertCircle className="mx-auto mb-4 h-12 w-12 text-yellow-500" />
+        <h2 className="mb-2 text-xl font-semibold text-gray-900">Unknown Status</h2>
+        <p className="mb-4 text-gray-600">
           We're unable to determine the status of your order at this time.
         </p>
-        
+
         <div className="space-y-3">
-          <Button 
-            onClick={() => router.push('/account/orders')} 
-            className="w-full"
-          >
+          <Button onClick={() => router.push('/account/orders')} className="w-full">
             Check My Orders
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => router.push('/support')} 
-            className="w-full"
-          >
+          <Button variant="outline" onClick={() => router.push('/support')} className="w-full">
             Contact Support
           </Button>
         </div>

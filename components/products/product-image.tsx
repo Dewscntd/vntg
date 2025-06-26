@@ -81,9 +81,7 @@ export function ProductImage({
       )}
     >
       {/* Loading skeleton */}
-      {isLoading && (
-        <div className="absolute inset-0 animate-pulse bg-muted" />
-      )}
+      {isLoading && <div className="absolute inset-0 animate-pulse bg-muted" />}
 
       {/* Error state */}
       {hasError && (

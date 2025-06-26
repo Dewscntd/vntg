@@ -3,17 +3,18 @@ import { TransitionLink } from '@/components/providers/route-transition-provider
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ShoppingBag, Package, User, Star, Truck, Shield } from 'lucide-react';
-import { ScrollReveal, StaggerReveal, TextReveal, RevealSection } from '@/components/layout/scroll-reveal';
+import {
+  ScrollReveal,
+  StaggerReveal,
+  TextReveal,
+  RevealSection,
+} from '@/components/layout/scroll-reveal';
 import { DesktopHero, DesktopSection } from '@/components/layout/desktop-layout';
-import { ResponsiveDisplay, ResponsiveLead, ResponsiveGrid } from '@/components/ui/responsive-typography';
+import { ResponsiveDisplay, ResponsiveLead } from '@/components/ui/responsive-typography';
 
 export default function Home() {
   return (
-    <ShopPageTemplate
-      showHeader={true}
-      padding={false}
-      className="space-y-16"
-    >
+    <ShopPageTemplate showHeader={true} padding={false} className="space-y-16">
       {/* Hero Section */}
       <DesktopHero
         height="lg"
@@ -22,8 +23,13 @@ export default function Home() {
         className="bg-gradient-to-br from-primary/5 via-background to-secondary/5"
       >
         <div className="mx-auto max-w-5xl space-y-8 text-center">
-          <TextReveal as="div">
-            <ResponsiveDisplay size="lg" gradient gradientFrom="from-primary" gradientTo="to-primary/60">
+          <TextReveal as="h1">
+            <ResponsiveDisplay
+              size="lg"
+              gradient
+              gradientFrom="from-primary"
+              gradientTo="to-primary/60"
+            >
               Welcome to VNTG
             </ResponsiveDisplay>
           </TextReveal>
@@ -59,50 +65,52 @@ export default function Home() {
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card className="text-center" data-reveal>
-            <CardHeader>
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                <Star className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>Premium Quality</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Carefully curated products that meet our high standards for quality and authenticity.
-              </CardDescription>
-            </CardContent>
-          </Card>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Card className="text-center" data-reveal>
+              <CardHeader>
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                  <Star className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Premium Quality</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Carefully curated products that meet our high standards for quality and
+                  authenticity.
+                </CardDescription>
+              </CardContent>
+            </Card>
 
-          <Card className="text-center" data-reveal>
-            <CardHeader>
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                <Truck className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>Fast Shipping</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Quick and reliable delivery to get your purchases to you as soon as possible.
-              </CardDescription>
-            </CardContent>
-          </Card>
+            <Card className="text-center" data-reveal>
+              <CardHeader>
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                  <Truck className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Fast Shipping</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Quick and reliable delivery to get your purchases to you as soon as possible.
+                </CardDescription>
+              </CardContent>
+            </Card>
 
-          <Card className="text-center" data-reveal>
-            <CardHeader>
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                <Shield className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>Secure Shopping</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Your data and payments are protected with industry-leading security measures.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-      </RevealSection>
+            <Card className="text-center" data-reveal>
+              <CardHeader>
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Secure Shopping</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Your data and payments are protected with industry-leading security measures.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </RevealSection>
+      </DesktopSection>
 
       {/* Quick Links Section */}
       <DesktopSection spacing="xl" background="default">
@@ -117,7 +125,7 @@ export default function Home() {
               <TransitionLink href="/products" className="block">
                 <CardHeader>
                   <div className="flex items-center space-x-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <ShoppingBag className="h-5 w-5 text-primary" />
                     </div>
                     <CardTitle>All Products</CardTitle>
@@ -135,7 +143,7 @@ export default function Home() {
               <TransitionLink href="/categories" className="block">
                 <CardHeader>
                   <div className="flex items-center space-x-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <Package className="h-5 w-5 text-primary" />
                     </div>
                     <CardTitle>Categories</CardTitle>
@@ -153,7 +161,7 @@ export default function Home() {
               <TransitionLink href="/account" className="block">
                 <CardHeader>
                   <div className="flex items-center space-x-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <User className="h-5 w-5 text-primary" />
                     </div>
                     <CardTitle>My Account</CardTitle>

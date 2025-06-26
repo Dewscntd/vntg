@@ -15,7 +15,7 @@ export class PerformanceMonitor {
   // Track API response times
   trackApiResponse(endpoint: string, duration: number, status: number) {
     const metricName = `api.${endpoint.replace(/[^a-zA-Z0-9]/g, '_')}`;
-    
+
     // Store metric
     this.metrics.set(`${metricName}.duration`, duration);
     this.metrics.set(`${metricName}.status`, status);
@@ -46,7 +46,7 @@ export class PerformanceMonitor {
   // Track database query performance
   trackDatabaseQuery(query: string, duration: number, rowCount?: number) {
     const metricName = 'database.query';
-    
+
     this.metrics.set(`${metricName}.duration`, duration);
     if (rowCount !== undefined) {
       this.metrics.set(`${metricName}.rows`, rowCount);
@@ -77,7 +77,7 @@ export class PerformanceMonitor {
     duration: number
   ) {
     const metricName = 'payment.processing';
-    
+
     this.metrics.set(`${metricName}.duration`, duration);
     this.metrics.set(`${metricName}.amount`, amount);
 
@@ -123,8 +123,8 @@ export class PerformanceMonitor {
     this.metrics.set(`business.${metric}`, value);
 
     // Send to analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', metric, {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', metric, {
         value,
         ...tags,
       });
@@ -196,8 +196,8 @@ export class PerformanceMonitor {
 
   private trackConversion(event: string, metadata?: Record<string, any>) {
     // Send conversion event to analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'conversion', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
         send_to: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
         event_category: 'ecommerce',
         event_label: event,
@@ -215,15 +215,15 @@ export function withPerformanceMonitoring<T extends (...args: any[]) => any>(
   return (async (...args: any[]) => {
     const monitor = PerformanceMonitor.getInstance();
     const startTime = Date.now();
-    
+
     try {
       const result = await handler(...args);
       const duration = Date.now() - startTime;
-      
+
       // Extract status from response
       const status = result?.status || 200;
       monitor.trackApiResponse(endpoint, duration, status);
-      
+
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
@@ -267,18 +267,18 @@ export function withErrorBoundary<P extends object>(
   fallback?: React.ComponentType<{ error: Error }>
 ) {
   return Sentry.withErrorBoundary(Component, {
-    fallback: fallback || (({ error }) => (
+    fallback: ({ error }) => (
       <div className="error-boundary">
         <h2>Something went wrong</h2>
         <p>We've been notified of this error and are working to fix it.</p>
         {process.env.NODE_ENV === 'development' && (
           <details>
             <summary>Error details</summary>
-            <pre>{error.message}</pre>
+            <pre>{error instanceof Error ? error.message : String(error)}</pre>
           </details>
         )}
       </div>
-    )),
+    ),
     beforeCapture: (scope) => {
       scope.setTag('errorBoundary', true);
     },

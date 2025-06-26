@@ -5,6 +5,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 ## 🚀 Features
 
 ### ✅ **Phase 4: Product Catalog & Browsing** (Complete)
+
 - **Complete Shop Pages** - Products listing, categories, search, and detail pages
 - **Advanced Navigation** - Search, filters, sorting, breadcrumbs, pagination
 - **Performance Features** - Lazy loading, skeleton states, GSAP animations
@@ -12,6 +13,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **SEO Optimization** - Search engine and social media ready
 
 ### ✅ **Phase 5: Shopping Cart & User Experience** (Complete)
+
 - **Full Cart System** - Add, remove, update with persistent state
 - **Advanced UX** - GSAP animations, accessibility, mobile optimization
 - **Cart Preview** - Hover preview with quick actions
@@ -19,6 +21,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **Cross-device Sync** - Seamless cart synchronization
 
 ### ✅ **Phase 6: Checkout & Payment Processing** (Complete)
+
 - **Stripe Integration** - Complete payment processing with webhooks
 - **Multi-step Checkout** - Address validation and payment forms
 - **Order Processing** - Automated order creation and confirmation
@@ -26,6 +29,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **Error Handling** - Comprehensive payment failure recovery
 
 ### ✅ **Phase 7: Order Management & User Accounts** (Complete)
+
 - **User Dashboard** - Account overview and order history
 - **Order Tracking** - Real-time order status updates
 - **Profile Management** - User settings and preferences
@@ -33,6 +37,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **Order Actions** - Cancel, reorder, and return functionality
 
 ### ✅ **Phase 8: Admin Panel & Management** (Complete)
+
 - **Admin Dashboard** - Comprehensive management interface
 - **Product Management** - CRUD operations with image upload
 - **Order Management** - Order processing and fulfillment
@@ -40,6 +45,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **Analytics & Reporting** - Sales and performance metrics
 
 ### ✅ **Phase 9: UI/UX Polish & Animations** (Complete)
+
 - **GSAP Animations** - Professional micro-interactions
 - **Responsive Design** - Mobile-first optimization
 - **Accessibility** - WCAG 2.1 AA compliance
@@ -47,6 +53,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **SEO** - Search engine optimization
 
 ### ✅ **Phase 10: Testing, Deployment & Documentation** (Complete)
+
 - **Comprehensive Testing** - Unit, integration, and E2E tests
 - **CI/CD Pipeline** - Automated testing and deployment
 - **Production Setup** - Monitoring, security, and backups
@@ -56,6 +63,7 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **Next.js 14** - App Router, Server Components, TypeScript
 - **Tailwind CSS** - Utility-first styling with custom design system
 - **shadcn/ui** - High-quality, accessible UI components
@@ -63,12 +71,14 @@ A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supa
 - **Radix UI** - Accessible primitives for complex components
 
 ### **Backend & Database**
+
 - **Supabase** - PostgreSQL database with real-time subscriptions
 - **Row Level Security** - Database-level security policies
 - **Supabase Auth** - Authentication with social login support
 - **Supabase Storage** - File storage for product images
 
 ### **Payments & Analytics**
+
 - **Stripe** - Payment processing and subscription management
 - **Google Analytics 4** - Enhanced ecommerce tracking
 - **Facebook Pixel** - Social media conversion tracking
@@ -107,6 +117,7 @@ vntg/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ and npm/yarn/pnpm
 - Supabase account and project
 - Stripe account (for payments)
@@ -114,12 +125,14 @@ vntg/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/vntg.git
    cd vntg
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -129,11 +142,13 @@ vntg/
    ```
 
 3. **Environment setup**
+
    ```bash
    cp .env.example .env.local
    ```
 
    Fill in your environment variables:
+
    ```env
    # Supabase
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -151,6 +166,7 @@ vntg/
    ```
 
 4. **Database setup**
+
    ```bash
    # Run database migrations
    npm run db:migrate
@@ -160,6 +176,7 @@ vntg/
    ```
 
 5. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -169,24 +186,28 @@ vntg/
 ## 📚 Documentation
 
 ### **Core Documentation**
+
 - [**Getting Started**](docs/getting-started.md) - Setup and installation guide
 - [**Architecture Overview**](docs/architecture.md) - System design and patterns
 - [**API Reference**](docs/api-reference.md) - Complete API documentation
 - [**Database Schema**](docs/database-schema.md) - Database structure and relationships
 
 ### **Feature Documentation**
+
 - [**Product Catalog**](docs/product-catalog.md) - Product management and browsing
 - [**Shopping Cart**](docs/cart-system.md) - Cart functionality and integration
 - [**Authentication**](docs/authentication.md) - User authentication and authorization
 - [**Payments**](docs/payments.md) - Stripe integration and checkout flow
 
 ### **Development Guides**
+
 - [**Component Library**](docs/components.md) - UI component documentation
 - [**Styling Guide**](docs/styling.md) - Tailwind CSS and design system
 - [**Animation System**](docs/animations.md) - GSAP animations and micro-interactions
 - [**Testing Guide**](docs/testing.md) - Testing strategies and examples
 
 ### **Deployment & Operations**
+
 - [**Deployment Guide**](docs/deployment.md) - Production deployment instructions
 - [**Performance Guide**](docs/performance.md) - Optimization strategies
 - [**Security Guide**](docs/security.md) - Security best practices
@@ -195,12 +216,14 @@ vntg/
 ## 🧪 Testing
 
 ### **Test Coverage**
+
 - Unit tests for utilities and hooks
 - Component tests with React Testing Library
 - Integration tests for API routes
 - E2E tests with Playwright
 
 ### **Running Tests**
+
 ```bash
 # Unit and component tests
 npm run test
@@ -215,11 +238,13 @@ npm run test:coverage
 ## 🚀 Deployment
 
 ### **Vercel (Recommended)**
+
 1. Connect your GitHub repository to Vercel
 2. Configure environment variables
 3. Deploy automatically on push to main
 
 ### **Self-Hosted**
+
 ```bash
 # Build for production
 npm run build
@@ -237,6 +262,7 @@ npm start
 5. Open a Pull Request
 
 ### **Development Guidelines**
+
 - Follow TypeScript best practices
 - Write tests for new features
 - Use conventional commit messages

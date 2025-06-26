@@ -11,15 +11,12 @@ export const metadata: Metadata = {
 export default function UpdatePasswordPage() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
-      <Link
-        href="/auth/login"
-        className="absolute left-4 top-4 md:left-8 md:top-8"
-      >
+      <Link href="/auth/login" className="absolute left-4 top-4 md:left-8 md:top-8">
         <span className="text-lg font-bold">← Back to Login</span>
       </Link>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Update Password</CardTitle>
+          <CardTitle className="text-center text-2xl">Update Password</CardTitle>
           <CardDescription className="text-center">
             Enter your new password to update your account
           </CardDescription>

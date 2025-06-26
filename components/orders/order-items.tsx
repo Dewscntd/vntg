@@ -7,13 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { 
-  Package, 
-  Star, 
-  MessageSquare, 
-  RotateCcw,
-  ExternalLink
-} from 'lucide-react';
+import { Package, Star, MessageSquare, RotateCcw, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface OrderItem {
@@ -42,13 +36,13 @@ interface OrderItemsProps {
   className?: string;
 }
 
-export function OrderItems({ 
-  items, 
+export function OrderItems({
+  items,
   orderStatus,
   onReorderItem,
   onReviewItem,
   showActions = true,
-  className 
+  className,
 }: OrderItemsProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -74,7 +68,7 @@ export function OrderItems({
             <div key={item.id}>
               <div className="flex items-start space-x-4">
                 {/* Product Image */}
-                <div className="relative h-20 w-20 flex-shrink-0 rounded-lg overflow-hidden">
+                <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
                   {item.products.image_url ? (
                     <Image
                       src={item.products.image_url}
@@ -83,42 +77,37 @@ export function OrderItems({
                       className="object-cover"
                     />
                   ) : (
-                    <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+                    <div className="flex h-full w-full items-center justify-center bg-gray-200">
                       <Package className="h-8 w-8 text-gray-400" />
                     </div>
                   )}
                 </div>
 
                 {/* Product Details */}
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <Link 
-                        href={`/products/${item.products.id}`}
-                        className="group"
-                      >
-                        <h4 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <Link href={`/products/${item.products.id}`} className="group">
+                        <h4 className="font-medium text-gray-900 transition-colors group-hover:text-blue-600">
                           {item.products.name}
-                          <ExternalLink className="inline h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <ExternalLink className="ml-1 inline h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
                         </h4>
                       </Link>
-                      
+
                       {item.products.categories && (
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="mt-1 text-sm text-gray-500">
                           {item.products.categories.name}
                         </p>
                       )}
-                      
+
                       {item.products.description && (
-                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                        <p className="mt-1 line-clamp-2 text-sm text-gray-600">
                           {item.products.description}
                         </p>
                       )}
-                      
-                      <div className="flex items-center space-x-4 mt-2">
-                        <span className="text-sm text-gray-600">
-                          Quantity: {item.quantity}
-                        </span>
+
+                      <div className="mt-2 flex items-center space-x-4">
+                        <span className="text-sm text-gray-600">Quantity: {item.quantity}</span>
                         <span className="text-sm text-gray-600">
                           {formatCurrency(item.price)} each
                         </span>
@@ -126,8 +115,8 @@ export function OrderItems({
                     </div>
 
                     {/* Price */}
-                    <div className="text-right ml-4">
-                      <p className="font-semibold text-lg">
+                    <div className="ml-4 text-right">
+                      <p className="text-lg font-semibold">
                         {formatCurrency(item.price * item.quantity)}
                       </p>
                       {item.quantity > 1 && (
@@ -140,29 +129,29 @@ export function OrderItems({
 
                   {/* Actions */}
                   {showActions && (
-                    <div className="flex items-center space-x-2 mt-4">
+                    <div className="mt-4 flex items-center space-x-2">
                       {canReorder && onReorderItem && (
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => onReorderItem(item.products.id, item.quantity)}
                         >
-                          <RotateCcw className="h-4 w-4 mr-1" />
+                          <RotateCcw className="mr-1 h-4 w-4" />
                           Reorder
                         </Button>
                       )}
-                      
+
                       {canReview && onReviewItem && (
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => onReviewItem(item.products.id)}
                         >
-                          <Star className="h-4 w-4 mr-1" />
+                          <Star className="mr-1 h-4 w-4" />
                           Write Review
                         </Button>
                       )}
-                      
+
                       <Link href={`/products/${item.products.id}`}>
                         <Button variant="ghost" size="sm">
                           View Product
@@ -172,10 +161,8 @@ export function OrderItems({
                   )}
                 </div>
               </div>
-              
-              {index < items.length - 1 && (
-                <Separator className="mt-6" />
-              )}
+
+              {index < items.length - 1 && <Separator className="mt-6" />}
             </div>
           ))}
         </div>
@@ -191,7 +178,7 @@ interface OrderItemsSummaryProps {
 
 export function OrderItemsSummary({ items, className }: OrderItemsSummaryProps) {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -201,16 +188,14 @@ export function OrderItemsSummary({ items, className }: OrderItemsSummaryProps) 
   };
 
   return (
-    <div className={cn('bg-gray-50 rounded-lg p-4', className)}>
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-900">
-          Items Summary
-        </span>
+    <div className={cn('rounded-lg bg-gray-50 p-4', className)}>
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-sm font-medium text-gray-900">Items Summary</span>
         <Badge variant="secondary">
           {totalItems} {totalItems === 1 ? 'item' : 'items'}
         </Badge>
       </div>
-      
+
       <div className="space-y-1 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
@@ -227,18 +212,14 @@ interface CompactOrderItemsProps {
   className?: string;
 }
 
-export function CompactOrderItems({ 
-  items, 
-  maxItems = 3, 
-  className 
-}: CompactOrderItemsProps) {
+export function CompactOrderItems({ items, maxItems = 3, className }: CompactOrderItemsProps) {
   const displayItems = items.slice(0, maxItems);
   const remainingCount = items.length - maxItems;
 
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       {displayItems.map((item) => (
-        <div key={item.id} className="relative h-12 w-12 flex-shrink-0 rounded-md overflow-hidden">
+        <div key={item.id} className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md">
           {item.products.image_url ? (
             <Image
               src={item.products.image_url}
@@ -247,23 +228,21 @@ export function CompactOrderItems({
               className="object-cover"
             />
           ) : (
-            <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+            <div className="flex h-full w-full items-center justify-center bg-gray-200">
               <Package className="h-4 w-4 text-gray-400" />
             </div>
           )}
           {item.quantity > 1 && (
-            <div className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
               {item.quantity}
             </div>
           )}
         </div>
       ))}
-      
+
       {remainingCount > 0 && (
-        <div className="h-12 w-12 bg-gray-100 rounded-md flex items-center justify-center">
-          <span className="text-xs text-gray-600 font-medium">
-            +{remainingCount}
-          </span>
+        <div className="flex h-12 w-12 items-center justify-center rounded-md bg-gray-100">
+          <span className="text-xs font-medium text-gray-600">+{remainingCount}</span>
         </div>
       )}
     </div>

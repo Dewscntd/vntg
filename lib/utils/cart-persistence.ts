@@ -89,10 +89,10 @@ export function mergeCartData(
 
   // Merge items, avoiding duplicates
   const mergedItems: CartItem[] = [...serverCart.items];
-  
-  localCart.items.forEach(localItem => {
+
+  localCart.items.forEach((localItem) => {
     const existingItemIndex = mergedItems.findIndex(
-      serverItem => serverItem.product_id === localItem.product_id
+      (serverItem) => serverItem.product_id === localItem.product_id
     );
 
     if (existingItemIndex >= 0) {
@@ -109,7 +109,7 @@ export function mergeCartData(
     const price = item.product.discount_percent
       ? item.product.price * (1 - item.product.discount_percent / 100)
       : item.product.price;
-    return sum + (price * item.quantity);
+    return sum + price * item.quantity;
   }, 0);
 
   const itemCount = mergedItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -130,7 +130,7 @@ export async function syncCartWithServer(
     // First, get server cart
     const serverResponse = await fetch('/api/cart', {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -149,7 +149,7 @@ export async function syncCartWithServer(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ items: mergedCart.items }),
       });
@@ -166,11 +166,13 @@ export async function syncCartWithServer(
     return mergedCart;
   } catch (error) {
     console.warn('Failed to sync cart with server:', error);
-    return localCart ? {
-      items: localCart.items,
-      total: localCart.total,
-      itemCount: localCart.itemCount,
-    } : null;
+    return localCart
+      ? {
+          items: localCart.items,
+          total: localCart.total,
+          itemCount: localCart.itemCount,
+        }
+      : null;
   }
 }
 
@@ -185,8 +187,8 @@ export function trackCartEvent(event: string, data?: any): void {
   }
 
   // Example integration with Google Analytics
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', event, {
+  if (typeof (window as any).gtag !== 'undefined') {
+    (window as any).gtag('event', event, {
       event_category: 'cart',
       ...data,
     });
@@ -196,12 +198,12 @@ export function trackCartEvent(event: string, data?: any): void {
 // Cart abandonment tracking
 export function trackCartAbandonment(): void {
   const cart = loadCartFromStorage();
-  
+
   if (cart && cart.items.length > 0) {
     trackCartEvent('cart_abandoned', {
       item_count: cart.itemCount,
       cart_value: cart.total,
-      items: cart.items.map(item => ({
+      items: cart.items.map((item) => ({
         product_id: item.product_id,
         product_name: item.product.name,
         quantity: item.quantity,
@@ -212,7 +214,7 @@ export function trackCartAbandonment(): void {
 }
 
 // Set up cart abandonment tracking on page unload
-export function setupCartAbandonmentTracking(): void {
+export function setupCartAbandonmentTracking(): (() => void) | void {
   if (typeof window === 'undefined') return;
 
   const handleBeforeUnload = () => {

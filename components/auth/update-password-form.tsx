@@ -41,17 +41,17 @@ export function UpdatePasswordForm() {
 
     try {
       const { error } = await updatePassword(data.password);
-      
+
       if (error) {
         setError(error.message);
         return;
       }
 
       setSuccessMessage('Your password has been updated successfully.');
-      
+
       // Clear the form
       form.reset();
-      
+
       // Redirect to login after a short delay
       setTimeout(() => {
         router.push('/auth/login');
@@ -68,15 +68,11 @@ export function UpdatePasswordForm() {
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">Update Password</h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Enter your new password below
-        </p>
+        <p className="text-gray-500 dark:text-gray-400">Enter your new password below</p>
       </div>
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
-        </div>
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
       )}
 
       {successMessage && (
@@ -132,10 +128,7 @@ export function UpdatePasswordForm() {
       </Form>
 
       <div className="text-center text-sm">
-        <Link
-          href="/auth/login"
-          className="text-primary underline-offset-4 hover:underline"
-        >
+        <Link href="/auth/login" className="text-primary underline-offset-4 hover:underline">
           Back to login
         </Link>
       </div>

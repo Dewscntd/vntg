@@ -7,6 +7,7 @@ VNTG uses a comprehensive component library built on top of shadcn/ui with custo
 ## 🏗️ Component Architecture
 
 ### Component Hierarchy
+
 ```
 UI Components (shadcn/ui)
 ├── Base Components (Button, Input, Card, etc.)
@@ -22,6 +23,7 @@ Business Components
 ```
 
 ### Design Principles
+
 - **Composition over Configuration** - Components are composable and flexible
 - **Accessibility First** - All components follow WCAG guidelines
 - **Type Safety** - Full TypeScript support with proper prop types
@@ -33,6 +35,7 @@ Business Components
 ### Base Components
 
 #### Button
+
 Versatile button component with multiple variants.
 
 ```tsx
@@ -58,6 +61,7 @@ import { Button } from '@/components/ui/button';
 ```
 
 #### Input
+
 Form input component with validation support.
 
 ```tsx
@@ -70,10 +74,11 @@ import { Input } from '@/components/ui/input';
   onChange={handleChange}
   error={error}
   disabled={disabled}
-/>
+/>;
 ```
 
 #### Card
+
 Container component for content grouping.
 
 ```tsx
@@ -89,10 +94,11 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
   <CardFooter>
     <Button>Action</Button>
   </CardFooter>
-</Card>
+</Card>;
 ```
 
 #### Badge
+
 Small status or label indicator.
 
 ```tsx
@@ -107,6 +113,7 @@ import { Badge } from '@/components/ui/badge';
 ### Form Components
 
 #### Label
+
 Accessible form labels.
 
 ```tsx
@@ -117,24 +124,27 @@ import { Label } from '@/components/ui/label';
 ```
 
 #### Textarea
+
 Multi-line text input.
 
 ```tsx
 import { Textarea } from '@/components/ui/textarea';
 
-<Textarea
-  placeholder="Enter your message..."
-  value={value}
-  onChange={handleChange}
-  rows={4}
-/>
+<Textarea placeholder="Enter your message..." value={value} onChange={handleChange} rows={4} />;
 ```
 
 #### Select
+
 Dropdown selection component.
 
 ```tsx
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 <Select value={value} onValueChange={setValue}>
   <SelectTrigger>
@@ -144,10 +154,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
     <SelectItem value="option1">Option 1</SelectItem>
     <SelectItem value="option2">Option 2</SelectItem>
   </SelectContent>
-</Select>
+</Select>;
 ```
 
 #### Checkbox
+
 Checkbox input component.
 
 ```tsx
@@ -164,6 +175,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 ### Layout Components
 
 #### Separator
+
 Visual divider component.
 
 ```tsx
@@ -173,10 +185,11 @@ import { Separator } from '@/components/ui/separator';
   <p>Content above</p>
   <Separator />
   <p>Content below</p>
-</div>
+</div>;
 ```
 
 #### ScrollArea
+
 Scrollable content area.
 
 ```tsx
@@ -188,16 +201,23 @@ import { ScrollArea } from '@/components/ui/scroll-area';
       <div key={item.id}>{item.name}</div>
     ))}
   </div>
-</ScrollArea>
+</ScrollArea>;
 ```
 
 ### Overlay Components
 
 #### Dialog
+
 Modal dialog component.
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 <Dialog>
   <DialogTrigger asChild>
@@ -209,10 +229,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
     </DialogHeader>
     <p>Dialog content goes here.</p>
   </DialogContent>
-</Dialog>
+</Dialog>;
 ```
 
 #### Sheet
+
 Slide-out panel component.
 
 ```tsx
@@ -228,10 +249,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
     </SheetHeader>
     <p>Sheet content goes here.</p>
   </SheetContent>
-</Sheet>
+</Sheet>;
 ```
 
 #### Toast
+
 Notification component.
 
 ```tsx
@@ -241,15 +263,16 @@ const { toast } = useToast();
 
 // Show toast
 toast({
-  title: "Success",
-  description: "Your action was completed successfully.",
-  variant: "default", // "default" | "destructive"
+  title: 'Success',
+  description: 'Your action was completed successfully.',
+  variant: 'default', // "default" | "destructive"
 });
 ```
 
 ## 🛍️ Product Components
 
 ### ProductCard
+
 Individual product display card.
 
 ```tsx
@@ -264,21 +287,23 @@ import { ProductCard } from '@/components/products';
     discount_percent: 10,
     is_featured: true,
     is_new: false,
-    inventory_count: 5
+    inventory_count: 5,
   }}
   priority={false}
   onQuickView={handleQuickView}
   className="custom-class"
-/>
+/>;
 ```
 
 **Props:**
+
 - `product` - Product data object
 - `priority` - Priority loading for above-fold images
 - `onQuickView` - Quick view callback function
 - `className` - Additional CSS classes
 
 ### ProductGrid
+
 Grid layout for multiple products.
 
 ```tsx
@@ -291,10 +316,11 @@ import { ProductGrid } from '@/components/products';
   enableQuickView={true}
   animateEntrance={true}
   className="custom-grid"
-/>
+/>;
 ```
 
 **Props:**
+
 - `products` - Array of product objects
 - `isLoading` - Loading state
 - `loadingCount` - Number of skeleton cards to show
@@ -302,6 +328,7 @@ import { ProductGrid } from '@/components/products';
 - `animateEntrance` - Enable entrance animations
 
 ### ProductPrice
+
 Price display with discount handling.
 
 ```tsx
@@ -313,10 +340,11 @@ import { ProductPrice } from '@/components/products';
   currency="USD"
   showOriginal={true}
   className="text-lg font-bold"
-/>
+/>;
 ```
 
 **Props:**
+
 - `price` - Original price
 - `discount_percent` - Discount percentage (optional)
 - `currency` - Currency code
@@ -324,6 +352,7 @@ import { ProductPrice } from '@/components/products';
 - `className` - Additional CSS classes
 
 ### ProductBadges
+
 Product status badges.
 
 ```tsx
@@ -335,11 +364,12 @@ import { ProductBadges } from '@/components/products';
   is_sale={true}
   discount_percent={20}
   inventory_count={2}
-  className="absolute top-2 left-2"
-/>
+  className="absolute left-2 top-2"
+/>;
 ```
 
 **Props:**
+
 - `is_featured` - Featured product badge
 - `is_new` - New product badge
 - `is_sale` - Sale badge
@@ -349,21 +379,17 @@ import { ProductBadges } from '@/components/products';
 ## 🛒 Cart Components
 
 ### CartButton
+
 Cart trigger button with item count.
 
 ```tsx
 import { CartButton } from '@/components/cart';
 
-<CartButton
-  variant="ghost"
-  size="md"
-  showText={false}
-  showBadge={true}
-  className="relative"
-/>
+<CartButton variant="ghost" size="md" showText={false} showBadge={true} className="relative" />;
 ```
 
 ### CartDrawer
+
 Sliding cart panel.
 
 ```tsx
@@ -371,38 +397,33 @@ import { CartDrawer } from '@/components/cart';
 
 <CartDrawer>
   <CartButton />
-</CartDrawer>
+</CartDrawer>;
 ```
 
 ### CartItem
+
 Individual cart item display.
 
 ```tsx
 import { CartItem } from '@/components/cart';
 
-<CartItem
-  item={cartItem}
-  compact={false}
-  className="border-b last:border-b-0"
-/>
+<CartItem item={cartItem} compact={false} className="border-b last:border-b-0" />;
 ```
 
 ### CartSummary
+
 Order summary with pricing.
 
 ```tsx
 import { CartSummary } from '@/components/cart';
 
-<CartSummary
-  showCheckoutButton={true}
-  showContinueShoppingButton={true}
-  compact={false}
-/>
+<CartSummary showCheckoutButton={true} showContinueShoppingButton={true} compact={false} />;
 ```
 
 ## 🧭 Navigation Components
 
 ### Breadcrumb
+
 Hierarchical navigation.
 
 ```tsx
@@ -412,14 +433,15 @@ import { Breadcrumb } from '@/components/navigation';
   items={[
     { label: 'Home', href: '/' },
     { label: 'Products', href: '/products' },
-    { label: 'Current Page' }
+    { label: 'Current Page' },
   ]}
   showHome={true}
   className="mb-6"
-/>
+/>;
 ```
 
 ### Pagination
+
 Page navigation component.
 
 ```tsx
@@ -433,10 +455,11 @@ import { Pagination } from '@/components/navigation';
   onPageChange={handlePageChange}
   showInfo={true}
   className="mt-8"
-/>
+/>;
 ```
 
 ### CategoryNavigation
+
 Category menu navigation.
 
 ```tsx
@@ -448,30 +471,33 @@ import { CategoryNavigation } from '@/components/navigation';
   maxItems={6}
   showAll={true}
   className="border-b"
-/>
+/>;
 ```
 
 ## 🎨 Layout Components
 
 ### Header
+
 Main site header.
 
 ```tsx
 import { Header } from '@/components/layout';
 
-<Header className="sticky top-0 z-40" />
+<Header className="sticky top-0 z-40" />;
 ```
 
 ### Footer
+
 Site footer component.
 
 ```tsx
 import { Footer } from '@/components/layout';
 
-<Footer className="mt-auto" />
+<Footer className="mt-auto" />;
 ```
 
 ### Container
+
 Content container with max width.
 
 ```tsx
@@ -479,12 +505,13 @@ import { Container } from '@/components/layout';
 
 <Container size="lg" className="py-8">
   <h1>Page Content</h1>
-</Container>
+</Container>;
 ```
 
 ## 🔧 Provider Components
 
 ### CartProvider
+
 Global cart state provider.
 
 ```tsx
@@ -492,10 +519,11 @@ import { CartProvider } from '@/lib/context/cart-context';
 
 <CartProvider>
   <App />
-</CartProvider>
+</CartProvider>;
 ```
 
 ### AuthProvider
+
 Authentication state provider.
 
 ```tsx
@@ -503,28 +531,25 @@ import { AuthProvider } from '@/lib/auth/auth-context';
 
 <AuthProvider>
   <App />
-</AuthProvider>
+</AuthProvider>;
 ```
 
 ### ThemeProvider
+
 Theme and styling provider.
 
 ```tsx
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
-<ThemeProvider
-  attribute="class"
-  defaultTheme="system"
-  enableSystem
-  disableTransitionOnChange
->
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 ## 🎭 Animation Components
 
 ### LazyImage
+
 Optimized image with lazy loading.
 
 ```tsx
@@ -539,26 +564,23 @@ import { LazyImage } from '@/components/ui/lazy-image';
   rootMargin="50px"
   threshold={0.1}
   className="rounded-lg"
-/>
+/>;
 ```
 
 ### AnimatedCounter
+
 Animated number counter.
 
 ```tsx
 import { AnimatedCounter } from '@/components/ui/animated-counter';
 
-<AnimatedCounter
-  from={0}
-  to={100}
-  duration={2000}
-  format={(value) => `$${value.toFixed(2)}`}
-/>
+<AnimatedCounter from={0} to={100} duration={2000} format={(value) => `$${value.toFixed(2)}`} />;
 ```
 
 ## 🎨 Styling Guidelines
 
 ### CSS Variables
+
 Components use CSS variables for theming.
 
 ```css
@@ -583,6 +605,7 @@ Components use CSS variables for theming.
 ```
 
 ### Component Variants
+
 Use the `cva` (Class Variance Authority) pattern for component variants.
 
 ```tsx
@@ -616,10 +639,11 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
 ```
 
 ### Responsive Design
+
 Use Tailwind's responsive prefixes for mobile-first design.
 
 ```tsx
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
   {/* Responsive grid */}
 </div>
 ```
@@ -627,6 +651,7 @@ Use Tailwind's responsive prefixes for mobile-first design.
 ## 🧪 Testing Components
 
 ### Component Testing
+
 Use React Testing Library for component tests.
 
 ```tsx
@@ -641,13 +666,14 @@ test('button renders with correct text', () => {
 test('button calls onClick when clicked', () => {
   const handleClick = jest.fn();
   render(<Button onClick={handleClick}>Click me</Button>);
-  
+
   fireEvent.click(screen.getByRole('button'));
   expect(handleClick).toHaveBeenCalledTimes(1);
 });
 ```
 
 ### Storybook Integration
+
 Document components with Storybook.
 
 ```tsx
@@ -686,63 +712,63 @@ export const Destructive: Story = {
 ### Creating New Components
 
 1. **Create component file**
+
    ```tsx
    // components/ui/new-component.tsx
    import { forwardRef } from 'react';
    import { cn } from '@/lib/utils';
-   
+
    interface NewComponentProps {
      className?: string;
      children: React.ReactNode;
    }
-   
+
    const NewComponent = forwardRef<HTMLDivElement, NewComponentProps>(
      ({ className, children, ...props }, ref) => {
        return (
-         <div
-           ref={ref}
-           className={cn('base-styles', className)}
-           {...props}
-         >
+         <div ref={ref} className={cn('base-styles', className)} {...props}>
            {children}
          </div>
        );
      }
    );
-   
+
    NewComponent.displayName = 'NewComponent';
-   
+
    export { NewComponent };
    ```
 
 2. **Add to index file**
+
    ```tsx
    // components/ui/index.ts
    export { NewComponent } from './new-component';
    ```
 
 3. **Create tests**
+
    ```tsx
    // components/ui/__tests__/new-component.test.tsx
    import { render } from '@testing-library/react';
    import { NewComponent } from '../new-component';
-   
+
    test('renders correctly', () => {
      render(<NewComponent>Test</NewComponent>);
    });
    ```
 
 4. **Create Storybook story**
+
    ```tsx
    // components/ui/new-component.stories.tsx
    import type { Meta, StoryObj } from '@storybook/react';
    import { NewComponent } from './new-component';
-   
+
    const meta: Meta<typeof NewComponent> = {
      title: 'UI/NewComponent',
      component: NewComponent,
    };
-   
+
    export default meta;
    ```
 

@@ -3,11 +3,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 import { z } from 'zod';
 
 const addressSchema = z.object({
@@ -43,36 +39,36 @@ export async function GET(req: NextRequest) {
       }
 
       // Transform database fields to match frontend expectations
-      const transformedAddresses = addresses?.map(addr => ({
-        id: addr.id,
-        type: addr.type,
-        firstName: addr.first_name,
-        lastName: addr.last_name,
-        address: addr.address,
-        address2: addr.address2,
-        city: addr.city,
-        state: addr.state,
-        zipCode: addr.zip_code,
-        country: addr.country,
-        phone: addr.phone,
-        isDefault: addr.is_default,
-        created_at: addr.created_at,
-      })) || [];
+      const transformedAddresses =
+        addresses?.map((addr) => ({
+          id: addr.id,
+          type: addr.type,
+          firstName: addr.first_name,
+          lastName: addr.last_name,
+          address: addr.address,
+          address2: addr.address2,
+          city: addr.city,
+          state: addr.state,
+          zipCode: addr.zip_code,
+          country: addr.country,
+          phone: addr.phone,
+          isDefault: addr.is_default,
+          created_at: addr.created_at,
+        })) || [];
 
       return successResponse({
         addresses: transformedAddresses,
       });
-
     } catch (error) {
       console.error('Error fetching addresses:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }
 
 // POST /api/user/addresses - Create a new address
 export async function POST(req: NextRequest) {
-  return withAuth(req, (req, session) => 
+  return withAuth(req, (req, session) =>
     withValidation(req, addressSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -129,10 +125,9 @@ export async function POST(req: NextRequest) {
         };
 
         return successResponse(transformedAddress, 201);
-
       } catch (error) {
         console.error('Error creating address:', error);
-        return handleDatabaseError(error);
+        return handleDatabaseError(error as Error);
       }
     })
   );

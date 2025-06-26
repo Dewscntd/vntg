@@ -4,11 +4,11 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { trackingService } from '@/lib/shipping/carriers';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
+import {
+  successResponse,
   errorResponse,
   handleDatabaseError,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 import { z } from 'zod';
 
@@ -19,19 +19,18 @@ const createShipmentSchema = z.object({
   estimatedDelivery: z.string().optional(),
   shippingCost: z.number().optional(),
   weight: z.number().optional(),
-  dimensions: z.object({
-    length: z.number(),
-    width: z.number(),
-    height: z.number(),
-    unit: z.enum(['in', 'cm']),
-  }).optional(),
+  dimensions: z
+    .object({
+      length: z.number(),
+      width: z.number(),
+      height: z.number(),
+      unit: z.enum(['in', 'cm']),
+    })
+    .optional(),
 });
 
 // GET /api/orders/[id]/shipments - Get shipments for an order
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -50,11 +49,7 @@ export async function GET(
       }
 
       // Check if user owns the order or is admin
-      const { data: user } = await supabase
-        .from('users')
-        .select('role')
-        .eq('id', userId)
-        .single();
+      const { data: user } = await supabase.from('users').select('role').eq('id', userId).single();
 
       if (order.user_id !== userId && user?.role !== 'admin') {
         return errorResponse('Access denied', 403);
@@ -63,7 +58,8 @@ export async function GET(
       // Get shipments for the order
       const { data: shipments, error: shipmentsError } = await supabase
         .from('shipments')
-        .select(`
+        .select(
+          `
           *,
           tracking_events (
             timestamp,
@@ -74,7 +70,8 @@ export async function GET(
             state,
             country
           )
-        `)
+        `
+        )
         .eq('order_id', orderId)
         .order('created_at', { ascending: false });
 
@@ -85,20 +82,16 @@ export async function GET(
       return successResponse({
         shipments: shipments || [],
       });
-
     } catch (error) {
       console.error('Error fetching shipments:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }
 
 // POST /api/orders/[id]/shipments - Create a new shipment (admin only)
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  return withAuth(req, (req, session) => 
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  return withAuth(req, (req, session) =>
     withValidation(req, createShipmentSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -128,8 +121,8 @@ export async function POST(
         }
 
         // Generate tracking number if not provided
-        const trackingNumber = validData.trackingNumber || 
-          trackingService.generateTrackingNumber(validData.carrier);
+        const trackingNumber =
+          validData.trackingNumber || trackingService.generateTrackingNumber(validData.carrier);
 
         // Create shipment
         const { data: shipment, error: shipmentError } = await supabase
@@ -154,22 +147,17 @@ export async function POST(
         }
 
         // Create initial tracking event
-        await supabase
-          .from('tracking_events')
-          .insert({
-            shipment_id: shipment.id,
-            timestamp: new Date().toISOString(),
-            status: 'pending',
-            description: 'Shipment created',
-            location: 'Origin Facility',
-          });
+        await supabase.from('tracking_events').insert({
+          shipment_id: shipment.id,
+          timestamp: new Date().toISOString(),
+          status: 'pending',
+          description: 'Shipment created',
+          location: 'Origin Facility',
+        });
 
         // Update order status to processing if it's still pending
         if (order.status === 'pending') {
-          await supabase
-            .from('orders')
-            .update({ status: 'processing' })
-            .eq('id', orderId);
+          await supabase.from('orders').update({ status: 'processing' }).eq('id', orderId);
         }
 
         // Send shipment notification
@@ -190,10 +178,9 @@ export async function POST(
         }
 
         return successResponse(shipment, 201);
-
       } catch (error) {
         console.error('Error creating shipment:', error);
-        return handleDatabaseError(error);
+        return handleDatabaseError(error as Error);
       }
     })
   );

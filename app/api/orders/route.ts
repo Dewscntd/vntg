@@ -3,11 +3,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError,
-  handleNotFound 
-} from '@/lib/api/index';
+import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
 
 // GET /api/orders - Get user's orders with optional filtering
 export async function GET(req: NextRequest) {
@@ -16,7 +12,7 @@ export async function GET(req: NextRequest) {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
       const { searchParams } = new URL(req.url);
-      
+
       // Get query parameters
       const paymentIntentId = searchParams.get('payment_intent_id');
       const status = searchParams.get('status');
@@ -25,7 +21,8 @@ export async function GET(req: NextRequest) {
 
       let query = supabase
         .from('orders')
-        .select(`
+        .select(
+          `
           id,
           order_number,
           status,
@@ -46,7 +43,8 @@ export async function GET(req: NextRequest) {
               image_url
             )
           )
-        `)
+        `
+        )
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
 
@@ -97,10 +95,9 @@ export async function GET(req: NextRequest) {
           hasMore: (count || 0) > offset + limit,
         },
       });
-
     } catch (error) {
       console.error('Error fetching orders:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

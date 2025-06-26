@@ -3,31 +3,29 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth } from '@/lib/api/middleware';
-import { 
-  successResponse, 
+import {
+  successResponse,
   errorResponse,
   handleDatabaseError,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 
 // POST /api/orders/[id]/cancel - Cancel an order
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
       const orderId = params.id;
-      
+
       const body = await req.json().catch(() => ({}));
       const { reason } = body;
 
       // Verify the order belongs to the user and can be cancelled
       const { data: order, error: fetchError } = await supabase
         .from('orders')
-        .select(`
+        .select(
+          `
           id,
           status,
           payment_intent_id,
@@ -35,7 +33,8 @@ export async function POST(
             product_id,
             quantity
           )
-        `)
+        `
+        )
         .eq('id', orderId)
         .eq('user_id', userId)
         .single();
@@ -53,14 +52,11 @@ export async function POST(
       }
 
       // Start transaction to cancel order and restore inventory
-      const { error: updateError } = await supabase.rpc(
-        'cancel_order_with_inventory_restore',
-        {
-          p_order_id: orderId,
-          p_user_id: userId,
-          p_reason: reason || null,
-        }
-      );
+      const { error: updateError } = await supabase.rpc('cancel_order_with_inventory_restore', {
+        p_order_id: orderId,
+        p_user_id: userId,
+        p_reason: reason || null,
+      });
 
       if (updateError) {
         throw updateError;
@@ -99,10 +95,9 @@ export async function POST(
         message: 'Order cancelled successfully',
         orderId,
       });
-
     } catch (error) {
       console.error('Error cancelling order:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

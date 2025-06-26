@@ -9,14 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { OrderSummary } from '@/components/checkout/order-summary';
 import { cn } from '@/lib/utils';
-import { 
-  MapPin, 
-  CreditCard, 
-  Truck, 
-  AlertCircle, 
-  Edit,
-  Check 
-} from 'lucide-react';
+import { MapPin, CreditCard, Truck, AlertCircle, Edit, Check } from 'lucide-react';
 
 interface OrderReviewProps {
   onNext: () => void;
@@ -25,14 +18,14 @@ interface OrderReviewProps {
 }
 
 export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps) {
-  const { 
-    shippingAddress, 
-    billingAddress, 
+  const {
+    shippingAddress,
+    billingAddress,
     selectedShippingMethod,
     orderSummary,
     processOrder,
     isLoading,
-    goToStep 
+    goToStep,
   } = useCheckout();
   const { items } = useCart();
   const [processing, setProcessing] = useState(false);
@@ -44,7 +37,7 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
 
     try {
       const orderId = await processOrder();
-      
+
       if (orderId) {
         // Order created successfully, proceed to confirmation
         onNext();
@@ -76,7 +69,7 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
   return (
     <div className={cn('space-y-6', className)}>
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Review Your Order</h2>
+        <h2 className="mb-2 text-xl font-semibold text-gray-900">Review Your Order</h2>
         <p className="text-sm text-gray-600">
           Please review your order details before placing your order.
         </p>
@@ -95,12 +88,8 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Order Items ({items.length})</span>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => window.open('/cart', '_blank')}
-            >
-              <Edit className="h-4 w-4 mr-1" />
+            <Button variant="ghost" size="sm" onClick={() => window.open('/cart', '_blank')}>
+              <Edit className="mr-1 h-4 w-4" />
               Edit Cart
             </Button>
           </CardTitle>
@@ -118,12 +107,8 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
               <MapPin className="h-5 w-5" />
               <span>Shipping Address</span>
             </div>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => goToStep(0)}
-            >
-              <Edit className="h-4 w-4 mr-1" />
+            <Button variant="ghost" size="sm" onClick={() => goToStep(0)}>
+              <Edit className="mr-1 h-4 w-4" />
               Edit
             </Button>
           </CardTitle>
@@ -139,12 +124,8 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
               {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zipCode}
             </p>
             <p>{shippingAddress.country}</p>
-            <p className="mt-2 text-gray-600">
-              Email: {shippingAddress.email}
-            </p>
-            <p className="text-gray-600">
-              Phone: {shippingAddress.phone}
-            </p>
+            <p className="mt-2 text-gray-600">Email: {shippingAddress.email}</p>
+            <p className="text-gray-600">Phone: {shippingAddress.phone}</p>
           </div>
         </CardContent>
       </Card>
@@ -158,12 +139,8 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
                 <CreditCard className="h-5 w-5" />
                 <span>Billing Address</span>
               </div>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => goToStep(1)}
-              >
-                <Edit className="h-4 w-4 mr-1" />
+              <Button variant="ghost" size="sm" onClick={() => goToStep(1)}>
+                <Edit className="mr-1 h-4 w-4" />
                 Edit
               </Button>
             </CardTitle>
@@ -193,18 +170,14 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
                 <Truck className="h-5 w-5" />
                 <span>Shipping Method</span>
               </div>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => goToStep(0)}
-              >
-                <Edit className="h-4 w-4 mr-1" />
+              <Button variant="ghost" size="sm" onClick={() => goToStep(0)}>
+                <Edit className="mr-1 h-4 w-4" />
                 Edit
               </Button>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">{selectedShippingMethod.name}</p>
                 <p className="text-sm text-gray-600">{selectedShippingMethod.description}</p>
@@ -214,7 +187,9 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
               </div>
               <div className="text-right">
                 <p className="font-medium">
-                  {selectedShippingMethod.price === 0 ? 'Free' : `$${selectedShippingMethod.price.toFixed(2)}`}
+                  {selectedShippingMethod.price === 0
+                    ? 'Free'
+                    : `$${selectedShippingMethod.price.toFixed(2)}`}
                 </p>
               </div>
             </div>
@@ -230,12 +205,8 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
               <CreditCard className="h-5 w-5" />
               <span>Payment Method</span>
             </div>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => goToStep(1)}
-            >
-              <Edit className="h-4 w-4 mr-1" />
+            <Button variant="ghost" size="sm" onClick={() => goToStep(1)}>
+              <Edit className="mr-1 h-4 w-4" />
               Edit
             </Button>
           </CardTitle>
@@ -246,9 +217,7 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
             <span className="text-sm">Credit/Debit Card</span>
             <Check className="h-4 w-4 text-green-600" />
           </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Your payment method is secure and encrypted
-          </p>
+          <p className="mt-1 text-xs text-gray-500">Your payment method is secure and encrypted</p>
         </CardContent>
       </Card>
 
@@ -289,7 +258,7 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
       </Card>
 
       {/* Terms and Conditions */}
-      <div className="text-xs text-gray-500 space-y-1">
+      <div className="space-y-1 text-xs text-gray-500">
         <p>
           By placing this order, you agree to our{' '}
           <a href="/terms" className="text-blue-600 hover:text-blue-800">
@@ -301,21 +270,15 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
           </a>
           .
         </p>
-        <p>
-          You will receive an email confirmation once your order is placed.
-        </p>
+        <p>You will receive an email confirmation once your order is placed.</p>
       </div>
 
       {/* Action Buttons */}
       <div className="flex justify-between pt-6">
-        <Button
-          variant="outline"
-          onClick={onPrevious}
-          disabled={processing || isLoading}
-        >
+        <Button variant="outline" onClick={onPrevious} disabled={processing || isLoading}>
           Back to Payment
         </Button>
-        
+
         <Button
           onClick={handlePlaceOrder}
           disabled={processing || isLoading}
@@ -323,7 +286,7 @@ export function OrderReview({ onNext, onPrevious, className }: OrderReviewProps)
         >
           {processing ? (
             <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
               <span>Placing Order...</span>
             </div>
           ) : (

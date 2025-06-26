@@ -2,30 +2,30 @@ import { useEffect, useRef } from 'react';
 import { enhancedInteractions } from '@/lib/animations/enhanced-interactions';
 
 // Hook for magnetic button effect
-export function useMagneticButton(strength: number = 0.3) {
-  const ref = useRef<HTMLElement>(null);
-  
+export function useMagneticButton<T extends HTMLElement = HTMLElement>(strength: number = 0.3) {
+  const ref = useRef<T>(null);
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     return enhancedInteractions.magneticButton(element, strength);
   }, [strength]);
-  
+
   return ref;
 }
 
 // Hook for ripple effect
 export function useRippleEffect(color?: string) {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     return enhancedInteractions.rippleEffect(element, color);
   }, [color]);
-  
+
   return ref;
 }
 
@@ -33,69 +33,69 @@ export function useRippleEffect(color?: string) {
 export function useCursorFollow() {
   const elementRef = useRef<HTMLElement>(null);
   const followerRef = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = elementRef.current;
     const follower = followerRef.current;
     if (!element || !follower) return;
-    
+
     return enhancedInteractions.cursorFollow(element, follower);
   }, []);
-  
+
   return { elementRef, followerRef };
 }
 
 // Hook for parallax scroll
 export function useParallaxScroll(speed: number = 0.5) {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     const trigger = enhancedInteractions.parallaxScroll(element, speed);
-    
+
     return () => {
       trigger.kill();
     };
   }, [speed]);
-  
+
   return ref;
 }
 
 // Hook for text reveal animation
 export function useTextReveal(options?: { stagger?: number; duration?: number }) {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     const animation = enhancedInteractions.textReveal(element, options);
-    
+
     return () => {
       animation.kill();
     };
   }, [options]);
-  
+
   return ref;
 }
 
 // Hook for image reveal animation
 export function useImageReveal(direction?: 'left' | 'right' | 'top' | 'bottom') {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     const animation = enhancedInteractions.imageReveal(element, direction);
-    
+
     return () => {
       animation.kill();
     };
   }, [direction]);
-  
+
   return ref;
 }
 
@@ -107,24 +107,20 @@ export function useEnhancedInteractions(
   }>
 ) {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     const cleanupFunctions: Array<() => void> = [];
-    
+
     interactions.forEach(({ type, options }) => {
       switch (type) {
         case 'magnetic':
-          cleanupFunctions.push(
-            enhancedInteractions.magneticButton(element, options?.strength)
-          );
+          cleanupFunctions.push(enhancedInteractions.magneticButton(element, options?.strength));
           break;
         case 'ripple':
-          cleanupFunctions.push(
-            enhancedInteractions.rippleEffect(element, options?.color)
-          );
+          cleanupFunctions.push(enhancedInteractions.rippleEffect(element, options?.color));
           break;
         case 'parallax':
           const trigger = enhancedInteractions.parallaxScroll(element, options?.speed);
@@ -140,12 +136,12 @@ export function useEnhancedInteractions(
           break;
       }
     });
-    
+
     return () => {
-      cleanupFunctions.forEach(cleanup => cleanup());
+      cleanupFunctions.forEach((cleanup) => cleanup());
     };
   }, [interactions]);
-  
+
   return ref;
 }
 
@@ -166,7 +162,7 @@ export function usePerformantAnimation() {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { 
+import {
   LayoutDashboard,
   Package,
   ShoppingCart,
@@ -16,7 +16,7 @@ import {
   X,
   FileText,
   Eye,
-  LogOut
+  LogOut,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/auth-context';
 
@@ -94,20 +94,22 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     <div className="min-h-screen bg-gray-50">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
-        <div className="flex flex-col h-full">
+      <div
+        className={cn(
+          'fixed inset-y-0 left-0 z-50 w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:static lg:inset-0 lg:translate-x-0',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex h-full flex-col">
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b">
+          <div className="flex h-16 items-center justify-between border-b px-6">
             <Link href="/admin" className="flex items-center">
               <h1 className="text-xl font-bold text-gray-900">VNTG Admin</h1>
             </Link>
@@ -122,7 +124,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 space-y-2 px-4 py-6">
             {navigation.map((item) => {
               const Icon = item.icon;
               return (
@@ -130,17 +132,17 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
                     isActive(item.href)
-                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? 'border-r-2 border-blue-700 bg-blue-50 text-blue-700'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
                   <Icon className="mr-3 h-5 w-5" />
                   {item.title}
                   {item.badge && (
-                    <span className="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
+                    <span className="ml-auto rounded-full bg-red-100 px-2 py-1 text-xs text-red-600">
                       {item.badge}
                     </span>
                   )}
@@ -150,7 +152,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t">
+          <div className="border-t p-4">
             <div className="space-y-2">
               <Link href="/">
                 <Button variant="outline" className="w-full justify-start">
@@ -158,9 +160,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   View Store
                 </Button>
               </Link>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-red-600 hover:bg-red-50 hover:text-red-700"
                 onClick={handleSignOut}
               >
                 <LogOut className="mr-2 h-4 w-4" />
@@ -174,13 +176,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <div className="sticky top-0 z-10 bg-white shadow-sm border-b lg:hidden">
-          <div className="flex items-center justify-between h-16 px-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSidebarOpen(true)}
-            >
+        <div className="sticky top-0 z-10 border-b bg-white shadow-sm lg:hidden">
+          <div className="flex h-16 items-center justify-between px-4">
+            <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)}>
               <Menu className="h-5 w-5" />
             </Button>
             <h1 className="text-lg font-semibold text-gray-900">Admin Panel</h1>
@@ -189,9 +187,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 // Wishlist service for managing user wishlists
+import React from 'react';
 
 export interface WishlistItem {
   id: string;
@@ -88,7 +89,7 @@ export class WishlistService {
   async isInWishlist(userId: string, productId: string): Promise<boolean> {
     try {
       const wishlist = await this.getUserWishlist(userId);
-      return wishlist.some(item => item.productId === productId);
+      return wishlist.some((item) => item.productId === productId);
     } catch (error) {
       console.error('Error checking wishlist:', error);
       return false;
@@ -98,7 +99,7 @@ export class WishlistService {
   // Toggle wishlist item
   async toggleWishlist(userId: string, productId: string): Promise<boolean> {
     const isInWishlist = await this.isInWishlist(userId, productId);
-    
+
     if (isInWishlist) {
       return await this.removeFromWishlist(userId, productId);
     } else {
@@ -195,15 +196,15 @@ export class WishlistService {
   }> {
     try {
       const wishlist = await this.getUserWishlist(userId);
-      
+
       const totalItems = wishlist.length;
       const totalValue = wishlist.reduce((sum, item) => sum + (item.product?.price || 0), 0);
       const averagePrice = totalItems > 0 ? totalValue / totalItems : 0;
-      
-      const sortedByDate = [...wishlist].sort((a, b) => 
-        new Date(a.addedAt).getTime() - new Date(b.addedAt).getTime()
+
+      const sortedByDate = [...wishlist].sort(
+        (a, b) => new Date(a.addedAt).getTime() - new Date(b.addedAt).getTime()
       );
-      
+
       const oldestItem = sortedByDate[0]?.addedAt || '';
       const newestItem = sortedByDate[sortedByDate.length - 1]?.addedAt || '';
 
@@ -279,7 +280,7 @@ export function useWishlist(userId?: string) {
 
   const loadWishlist = async () => {
     if (!userId) return;
-    
+
     setLoading(true);
     try {
       const items = await wishlistService.getUserWishlist(userId);
@@ -293,7 +294,7 @@ export function useWishlist(userId?: string) {
 
   const addToWishlist = async (productId: string) => {
     if (!userId) return false;
-    
+
     const success = await wishlistService.addToWishlist(userId, productId);
     if (success) {
       await loadWishlist();
@@ -303,7 +304,7 @@ export function useWishlist(userId?: string) {
 
   const removeFromWishlist = async (productId: string) => {
     if (!userId) return false;
-    
+
     const success = await wishlistService.removeFromWishlist(userId, productId);
     if (success) {
       await loadWishlist();
@@ -313,7 +314,7 @@ export function useWishlist(userId?: string) {
 
   const toggleWishlist = async (productId: string) => {
     if (!userId) return false;
-    
+
     const success = await wishlistService.toggleWishlist(userId, productId);
     if (success) {
       await loadWishlist();
@@ -322,7 +323,7 @@ export function useWishlist(userId?: string) {
   };
 
   const isInWishlist = (productId: string) => {
-    return wishlist.some(item => item.productId === productId);
+    return wishlist.some((item) => item.productId === productId);
   };
 
   return {
@@ -348,7 +349,7 @@ export function getWishlistItemAge(addedAt: string): string {
   const now = new Date();
   const added = new Date(addedAt);
   const diffInDays = Math.floor((now.getTime() - added.getTime()) / (1000 * 60 * 60 * 24));
-  
+
   if (diffInDays === 0) return 'Today';
   if (diffInDays === 1) return 'Yesterday';
   if (diffInDays < 7) return `${diffInDays} days ago`;

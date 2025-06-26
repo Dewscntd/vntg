@@ -97,9 +97,17 @@ export const animationPresets = {
 // Animation utility functions
 export const animationUtils = {
   // Animate element with preset
-  animate: (element: string | Element, preset: keyof typeof animationPresets, options?: gsap.TweenVars) => {
+  animate: (
+    element: string | Element,
+    preset: keyof typeof animationPresets,
+    options?: gsap.TweenVars
+  ) => {
     const animation = animationPresets[preset];
-    return gsap.fromTo(element, animation.from, { ...animation.to, ...options });
+    if ('from' in animation && 'to' in animation) {
+      return gsap.fromTo(element, animation.from, { ...animation.to, ...options });
+    } else {
+      return gsap.to(element, { ...animation, ...options });
+    }
   },
 
   // Animate multiple elements with stagger
@@ -110,11 +118,19 @@ export const animationUtils = {
     options?: gsap.TweenVars
   ) => {
     const animation = animationPresets[preset];
-    return gsap.fromTo(elements, animation.from, {
-      ...animation.to,
-      stagger: staggerAmount,
-      ...options,
-    });
+    if ('from' in animation && 'to' in animation) {
+      return gsap.fromTo(elements, animation.from, {
+        ...animation.to,
+        stagger: staggerAmount,
+        ...options,
+      });
+    } else {
+      return gsap.to(elements, {
+        ...animation,
+        stagger: staggerAmount,
+        ...options,
+      });
+    }
   },
 
   // Scroll-triggered animation
@@ -125,17 +141,31 @@ export const animationUtils = {
     animationOptions?: gsap.TweenVars
   ) => {
     const animation = animationPresets[preset];
-    return gsap.fromTo(element, animation.from, {
-      ...animation.to,
-      scrollTrigger: {
-        trigger: element,
-        start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse',
-        ...triggerOptions,
-      },
-      ...animationOptions,
-    });
+    if ('from' in animation && 'to' in animation) {
+      return gsap.fromTo(element, animation.from, {
+        ...animation.to,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          ...triggerOptions,
+        },
+        ...animationOptions,
+      });
+    } else {
+      return gsap.to(element, {
+        ...animation,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          ...triggerOptions,
+        },
+        ...animationOptions,
+      });
+    }
   },
 
   // Timeline for complex animations
@@ -156,11 +186,13 @@ export const animationUtils = {
     if (!el) return;
 
     el.addEventListener('mouseenter', () => {
-      gsap.to(el, hoverAnimation.to);
+      const hoverProps = 'to' in hoverAnimation ? hoverAnimation.to : hoverAnimation;
+      gsap.to(el, hoverProps);
     });
 
     el.addEventListener('mouseleave', () => {
-      gsap.to(el, { ...leaveAnimation.to, duration: 0.3 });
+      const leaveProps = 'to' in leaveAnimation ? leaveAnimation.to : leaveAnimation;
+      gsap.to(el, { ...leaveProps, duration: 0.3 });
     });
   },
 
@@ -217,55 +249,73 @@ export const productAnimations = {
       scale: 1.03,
       boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
       duration: 0.4,
-      ease: 'power3.out'
+      ease: 'power3.out',
     })
-    // Image zoom and slight rotation
-    .to(image, {
-      scale: 1.15,
-      rotation: 1,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, 0)
-    // Content slide up
-    .to(content, {
-      y: -4,
-      duration: 0.4,
-      ease: 'power2.out'
-    }, 0.1)
-    // Overlay fade in
-    .to(overlay, {
-      opacity: 1,
-      duration: 0.3
-    }, 0.1)
-    // Actions slide up and fade in
-    .fromTo(actions,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' },
-      0.2
-    )
-    // Badges subtle animation
-    .to(badges, {
-      scale: 1.05,
-      duration: 0.3,
-      ease: 'power2.out'
-    }, 0.1);
+      // Image zoom and slight rotation
+      .to(
+        image,
+        {
+          scale: 1.15,
+          rotation: 1,
+          duration: 0.6,
+          ease: 'power2.out',
+        },
+        0
+      )
+      // Content slide up
+      .to(
+        content,
+        {
+          y: -4,
+          duration: 0.4,
+          ease: 'power2.out',
+        },
+        0.1
+      )
+      // Overlay fade in
+      .to(
+        overlay,
+        {
+          opacity: 1,
+          duration: 0.3,
+        },
+        0.1
+      )
+      // Actions slide up and fade in
+      .fromTo(
+        actions,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' },
+        0.2
+      )
+      // Badges subtle animation
+      .to(
+        badges,
+        {
+          scale: 1.05,
+          duration: 0.3,
+          ease: 'power2.out',
+        },
+        0.1
+      );
 
     return tl;
   },
 
   // Enhanced card hover with magnetic effect
   cardMagneticHover: (card: Element) => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: Event) => {
+      const mouseEvent = e as MouseEvent;
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      const x = mouseEvent.clientX - rect.left - rect.width / 2;
+      const y = mouseEvent.clientY - rect.top - rect.height / 2;
 
       gsap.to(card, {
         x: x * 0.1,
         y: y * 0.1,
         rotation: x * 0.02,
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
     };
 
@@ -275,7 +325,7 @@ export const productAnimations = {
         y: 0,
         rotation: 0,
         duration: 0.5,
-        ease: 'elastic.out(1, 0.3)'
+        ease: 'elastic.out(1, 0.3)',
       });
     };
 
@@ -350,20 +400,25 @@ export const productAnimations = {
       .to(button, { scale: 1.05, duration: 0.2, ease: 'back.out(1.7)' })
       .to(button, { scale: 1, duration: 0.1 })
       // Cleanup
-      .call(() => button.removeChild(ripple));
+      .call(() => {
+        button.removeChild(ripple);
+      });
 
     // Cart icon animation if provided
     if (cartIcon) {
-      tl.to(cartIcon, {
-        scale: 1.3,
-        rotation: 360,
-        duration: 0.4,
-        ease: 'back.out(1.7)'
-      }, '-=0.3')
-      .to(cartIcon, {
+      tl.to(
+        cartIcon,
+        {
+          scale: 1.3,
+          rotation: 360,
+          duration: 0.4,
+          ease: 'back.out(1.7)',
+        },
+        '-=0.3'
+      ).to(cartIcon, {
         scale: 1,
         rotation: 360,
-        duration: 0.2
+        duration: 0.2,
       });
     }
 
@@ -380,7 +435,7 @@ export const productAnimations = {
     tl.to(image, {
       scale: 1.2,
       duration: 0.6,
-      ease: 'power2.out'
+      ease: 'power2.out',
     });
 
     return tl;
@@ -388,7 +443,8 @@ export const productAnimations = {
 
   // Product badge animations
   badgeEntrance: (badges: Element[]) => {
-    return gsap.fromTo(badges,
+    return gsap.fromTo(
+      badges,
       { scale: 0, rotation: -180, opacity: 0 },
       {
         scale: 1,
@@ -396,7 +452,7 @@ export const productAnimations = {
         opacity: 1,
         duration: 0.5,
         stagger: 0.1,
-        ease: 'back.out(1.7)'
+        ease: 'back.out(1.7)',
       }
     );
   },
@@ -414,14 +470,17 @@ export const productAnimations = {
     gsap.set(content, { scale: 0.8, opacity: 0, y: 50 });
 
     // Animate in
-    tl.to(backdrop, { opacity: 1, duration: 0.3 })
-      .to(content, {
+    tl.to(backdrop, { opacity: 1, duration: 0.3 }).to(
+      content,
+      {
         scale: 1,
         opacity: 1,
         y: 0,
         duration: 0.4,
-        ease: 'back.out(1.7)'
-      }, '-=0.1');
+        ease: 'back.out(1.7)',
+      },
+      '-=0.1'
+    );
 
     return tl;
   },
@@ -431,7 +490,9 @@ export const productAnimations = {
     const content = modal.querySelector('[data-content]');
 
     const tl = gsap.timeline({
-      onComplete: () => gsap.set(modal, { display: 'none' })
+      onComplete: () => {
+        gsap.set(modal, { display: 'none' });
+      },
     });
 
     tl.to(content, {
@@ -439,9 +500,8 @@ export const productAnimations = {
       opacity: 0,
       y: 50,
       duration: 0.3,
-      ease: 'power2.in'
-    })
-    .to(backdrop, { opacity: 0, duration: 0.2 }, '-=0.1');
+      ease: 'power2.in',
+    }).to(backdrop, { opacity: 0, duration: 0.2 }, '-=0.1');
 
     return tl;
   },

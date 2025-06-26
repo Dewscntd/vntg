@@ -17,7 +17,7 @@ export const TouchForm = forwardRef<HTMLFormElement, TouchFormProps>(
     const spacingClasses = {
       sm: 'space-y-4',
       md: 'space-y-6',
-      lg: 'space-y-8'
+      lg: 'space-y-8',
     };
 
     return (
@@ -44,42 +44,30 @@ export interface TouchInputProps extends React.InputHTMLAttributes<HTMLInputElem
 }
 
 export const TouchInput = forwardRef<HTMLInputElement, TouchInputProps>(
-  ({ 
-    label, 
-    error, 
-    hint, 
-    icon, 
-    touchSize = 'lg',
-    className, 
-    ...props 
-  }, ref) => {
+  ({ label, error, hint, icon, touchSize = 'lg', className, ...props }, ref) => {
     const sizeClasses = {
       md: 'h-12 px-4 text-base',
       lg: 'h-14 px-5 text-lg',
-      xl: 'h-16 px-6 text-xl'
+      xl: 'h-16 px-6 text-xl',
     };
 
     return (
       <div className="w-full space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-foreground mb-2">
-            {label}
-          </label>
-        )}
-        
+        {label && <label className="mb-2 block text-sm font-medium text-foreground">{label}</label>}
+
         <div className="relative">
           {icon && (
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 transform text-muted-foreground">
               {icon}
             </div>
           )}
-          
+
           <input
             ref={ref}
             className={cn(
               'w-full rounded-lg border border-input bg-background',
               'focus:border-primary focus:ring-2 focus:ring-primary/20',
-              'transition-all duration-200 touch-manipulation',
+              'touch-manipulation transition-all duration-200',
               'placeholder:text-muted-foreground',
               sizeClasses[touchSize],
               icon && 'pl-12',
@@ -89,14 +77,10 @@ export const TouchInput = forwardRef<HTMLInputElement, TouchInputProps>(
             {...props}
           />
         </div>
-        
-        {hint && !error && (
-          <p className="text-sm text-muted-foreground">{hint}</p>
-        )}
-        
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
+
+        {hint && !error && <p className="text-sm text-muted-foreground">{hint}</p>}
+
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }
@@ -114,36 +98,24 @@ export interface TouchTextareaProps extends React.TextareaHTMLAttributes<HTMLTex
 }
 
 export const TouchTextarea = forwardRef<HTMLTextAreaElement, TouchTextareaProps>(
-  ({ 
-    label, 
-    error, 
-    hint, 
-    touchSize = 'lg',
-    autoResize = false,
-    className, 
-    ...props 
-  }, ref) => {
+  ({ label, error, hint, touchSize = 'lg', autoResize = false, className, ...props }, ref) => {
     const sizeClasses = {
       md: 'min-h-[96px] p-4 text-base',
       lg: 'min-h-[112px] p-5 text-lg',
-      xl: 'min-h-[128px] p-6 text-xl'
+      xl: 'min-h-[128px] p-6 text-xl',
     };
 
     return (
       <div className="w-full space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-foreground mb-2">
-            {label}
-          </label>
-        )}
-        
+        {label && <label className="mb-2 block text-sm font-medium text-foreground">{label}</label>}
+
         <textarea
           ref={ref}
           className={cn(
             'w-full rounded-lg border border-input bg-background',
             'focus:border-primary focus:ring-2 focus:ring-primary/20',
-            'transition-all duration-200 touch-manipulation',
-            'placeholder:text-muted-foreground resize-none',
+            'touch-manipulation transition-all duration-200',
+            'resize-none placeholder:text-muted-foreground',
             sizeClasses[touchSize],
             autoResize && 'resize-y',
             error && 'border-destructive focus:border-destructive focus:ring-destructive/20',
@@ -151,14 +123,10 @@ export const TouchTextarea = forwardRef<HTMLTextAreaElement, TouchTextareaProps>
           )}
           {...props}
         />
-        
-        {hint && !error && (
-          <p className="text-sm text-muted-foreground">{hint}</p>
-        )}
-        
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
+
+        {hint && !error && <p className="text-sm text-muted-foreground">{hint}</p>}
+
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }
@@ -176,36 +144,24 @@ export interface TouchSelectProps extends React.SelectHTMLAttributes<HTMLSelectE
 }
 
 export const TouchSelect = forwardRef<HTMLSelectElement, TouchSelectProps>(
-  ({ 
-    label, 
-    error, 
-    hint, 
-    touchSize = 'lg',
-    options,
-    className, 
-    ...props 
-  }, ref) => {
+  ({ label, error, hint, touchSize = 'lg', options, className, ...props }, ref) => {
     const sizeClasses = {
       md: 'h-12 px-4 text-base',
       lg: 'h-14 px-5 text-lg',
-      xl: 'h-16 px-6 text-xl'
+      xl: 'h-16 px-6 text-xl',
     };
 
     return (
       <div className="w-full space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-foreground mb-2">
-            {label}
-          </label>
-        )}
-        
+        {label && <label className="mb-2 block text-sm font-medium text-foreground">{label}</label>}
+
         <select
           ref={ref}
           className={cn(
             'w-full rounded-lg border border-input bg-background',
             'focus:border-primary focus:ring-2 focus:ring-primary/20',
-            'transition-all duration-200 touch-manipulation',
-            'appearance-none cursor-pointer',
+            'touch-manipulation transition-all duration-200',
+            'cursor-pointer appearance-none',
             sizeClasses[touchSize],
             error && 'border-destructive focus:border-destructive focus:ring-destructive/20',
             className
@@ -213,23 +169,15 @@ export const TouchSelect = forwardRef<HTMLSelectElement, TouchSelectProps>(
           {...props}
         >
           {options.map((option) => (
-            <option 
-              key={option.value} 
-              value={option.value}
-              disabled={option.disabled}
-            >
+            <option key={option.value} value={option.value} disabled={option.disabled}>
               {option.label}
             </option>
           ))}
         </select>
-        
-        {hint && !error && (
-          <p className="text-sm text-muted-foreground">{hint}</p>
-        )}
-        
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
+
+        {hint && !error && <p className="text-sm text-muted-foreground">{hint}</p>}
+
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }
@@ -255,39 +203,35 @@ export function TouchCheckbox({
   error,
   hint,
   size = 'lg',
-  className
+  className,
 }: TouchCheckboxProps) {
   const sizeClasses = {
     md: 'h-5 w-5',
-    lg: 'h-6 w-6'
+    lg: 'h-6 w-6',
   };
 
   return (
     <div className={cn('space-y-2', className)}>
-      <label className="flex items-start space-x-3 cursor-pointer touch-manipulation">
+      <label className="flex cursor-pointer touch-manipulation items-start space-x-3">
         <input
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange?.(e.target.checked)}
           className={cn(
             'rounded border-2 border-input bg-background',
-            'focus:ring-2 focus:ring-primary/20 focus:border-primary',
-            'checked:bg-primary checked:border-primary',
+            'focus:border-primary focus:ring-2 focus:ring-primary/20',
+            'checked:border-primary checked:bg-primary',
             'transition-all duration-200',
             sizeClasses[size]
           )}
         />
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <span className="text-sm font-medium text-foreground">{label}</span>
-          {hint && (
-            <p className="text-xs text-muted-foreground mt-1">{hint}</p>
-          )}
+          {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
         </div>
       </label>
-      
-      {error && (
-        <p className="text-sm text-destructive ml-9">{error}</p>
-      )}
+
+      {error && <p className="ml-9 text-sm text-destructive">{error}</p>}
     </div>
   );
 }
@@ -304,26 +248,21 @@ export function TouchFormActions({
   children,
   className,
   layout = 'horizontal',
-  spacing = 'md'
+  spacing = 'md',
 }: TouchFormActionsProps) {
   const layoutClasses = {
     horizontal: 'flex flex-row',
-    vertical: 'flex flex-col'
+    vertical: 'flex flex-col',
   };
 
   const spacingClasses = {
     sm: layout === 'horizontal' ? 'space-x-2' : 'space-y-2',
     md: layout === 'horizontal' ? 'space-x-4' : 'space-y-4',
-    lg: layout === 'horizontal' ? 'space-x-6' : 'space-y-6'
+    lg: layout === 'horizontal' ? 'space-x-6' : 'space-y-6',
   };
 
   return (
-    <div className={cn(
-      layoutClasses[layout],
-      spacingClasses[spacing],
-      'w-full',
-      className
-    )}>
+    <div className={cn(layoutClasses[layout], spacingClasses[spacing], 'w-full', className)}>
       {children}
     </div>
   );

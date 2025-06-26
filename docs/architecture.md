@@ -21,6 +21,7 @@ This document provides a comprehensive overview of the VNTG e-commerce platform 
 ### Technology Stack
 
 #### Frontend
+
 - **Next.js 14** - React framework with App Router
 - **TypeScript** - Type safety and developer experience
 - **Tailwind CSS** - Utility-first CSS framework
@@ -29,6 +30,7 @@ This document provides a comprehensive overview of the VNTG e-commerce platform 
 - **Radix UI** - Accessible primitive components
 
 #### Backend
+
 - **Supabase** - Backend-as-a-Service platform
 - **PostgreSQL** - Relational database
 - **Row Level Security** - Database-level security
@@ -36,6 +38,7 @@ This document provides a comprehensive overview of the VNTG e-commerce platform 
 - **Real-time** - WebSocket connections
 
 #### External Services
+
 - **Stripe** - Payment processing
 - **Vercel** - Hosting and deployment
 - **Google Analytics** - Web analytics
@@ -57,6 +60,7 @@ This document provides a comprehensive overview of the VNTG e-commerce platform 
 ```
 
 **Benefits:**
+
 - Reusable components
 - Flexible composition
 - Separation of concerns
@@ -79,6 +83,7 @@ export function useCart() {
 ```
 
 **Benefits:**
+
 - Centralized state management
 - Type-safe context consumption
 - Prevents context misuse
@@ -99,6 +104,7 @@ export function CartProviderWrapper({ children }) {
 ```
 
 **Benefits:**
+
 - Encapsulates setup logic
 - Reduces boilerplate
 - Consistent initialization
@@ -111,17 +117,21 @@ export function CartProviderWrapper({ children }) {
 export function useCartActions() {
   const { addItem } = useCart();
   const { toast } = useToast();
-  
-  const addToCartWithToast = useCallback(async (productId, name) => {
-    await addItem(productId);
-    toast({ title: 'Added to cart', description: `${name} added` });
-  }, [addItem, toast]);
-  
+
+  const addToCartWithToast = useCallback(
+    async (productId, name) => {
+      await addItem(productId);
+      toast({ title: 'Added to cart', description: `${name} added` });
+    },
+    [addItem, toast]
+  );
+
   return { addToCartWithToast };
 }
 ```
 
 **Benefits:**
+
 - Reusable business logic
 - Separation of concerns
 - Easy to test
@@ -142,6 +152,7 @@ export function useCartActions() {
 ```
 
 **Benefits:**
+
 - Flexible rendering
 - Reusable data logic
 - Inversion of control
@@ -189,26 +200,31 @@ Atoms → Molecules → Organisms → Templates → Pages
 ```
 
 #### Atoms (Basic UI Elements)
+
 - Button, Input, Label
 - Icon, Badge, Separator
 - Typography components
 
 #### Molecules (Simple Components)
+
 - SearchBox, PriceDisplay
 - QuantitySelector, ProductBadge
 - FormField, NavigationItem
 
 #### Organisms (Complex Components)
+
 - ProductCard, CartItem
 - ProductGrid, CartDrawer
 - Header, Footer
 
 #### Templates (Page Layouts)
+
 - ShopLayout, ProductLayout
 - CartLayout, CheckoutLayout
 - AdminLayout, AuthLayout
 
 #### Pages (Complete Views)
+
 - ProductsPage, ProductDetailPage
 - CartPage, CheckoutPage
 - LoginPage, DashboardPage
@@ -222,7 +238,7 @@ Atoms → Molecules → Organisms → Templates → Pages
 function ProductListContainer() {
   const { data, loading, error } = useProducts();
   return (
-    <ProductListPresentation 
+    <ProductListPresentation
       products={data}
       loading={loading}
       error={error}
@@ -296,11 +312,7 @@ export async function GET(request: NextRequest) {
 ```typescript
 // Composable middleware
 export function withAuth(req, handler) {
-  return withValidation(req, schema, (req, data) =>
-    withRateLimit(req, () =>
-      handler(req, data)
-    )
-  );
+  return withValidation(req, schema, (req, data) => withRateLimit(req, () => handler(req, data)));
 }
 ```
 
@@ -472,11 +484,11 @@ export const cartAnimations = {
 // React hook integration
 export function useCartAnimation() {
   const ref = useRef();
-  
+
   useGSAP(() => {
     cartAnimations.slideIn(ref.current);
   }, []);
-  
+
   return ref;
 }
 ```

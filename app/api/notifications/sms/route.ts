@@ -1,9 +1,5 @@
 import { NextRequest } from 'next/server';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // POST /api/notifications/sms - Send SMS notification
 export async function POST(req: NextRequest) {
@@ -26,10 +22,9 @@ export async function POST(req: NextRequest) {
       message: 'SMS sent successfully',
       smsId: mockSmsId,
     });
-
   } catch (error) {
     console.error('SMS notification error:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }
 

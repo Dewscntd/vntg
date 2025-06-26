@@ -20,7 +20,7 @@ export class CacheService {
 
   constructor(config: CacheConfig = { ttl: 300, strategy: 'lru' }) {
     this.config = config;
-    
+
     // Clean up expired items periodically
     setInterval(() => this.cleanup(), 60000); // Every minute
   }
@@ -46,7 +46,7 @@ export class CacheService {
   // Get cache item
   get<T>(key: string): T | null {
     const item = this.cache.get(key);
-    
+
     if (!item) {
       return null;
     }
@@ -67,7 +67,7 @@ export class CacheService {
   // Check if key exists and is not expired
   has(key: string): boolean {
     const item = this.cache.get(key);
-    
+
     if (!item) {
       return false;
     }
@@ -99,9 +99,10 @@ export class CacheService {
   } {
     const size = this.cache.size;
     const totalAccess = Array.from(this.cache.values()).reduce(
-      (sum, item) => sum + item.accessCount, 0
+      (sum, item) => sum + item.accessCount,
+      0
     );
-    
+
     // Estimate memory usage (rough calculation)
     const memoryUsage = JSON.stringify(Array.from(this.cache.entries())).length;
 
@@ -144,12 +145,12 @@ export class CacheService {
     let oldestKey = '';
     let oldestTime = Date.now();
 
-    for (const [key, item] of this.cache.entries()) {
+    this.cache.forEach((item, key) => {
       if (item.lastAccessed < oldestTime) {
         oldestTime = item.lastAccessed;
         oldestKey = key;
       }
-    }
+    });
 
     return oldestKey;
   }
@@ -158,12 +159,12 @@ export class CacheService {
     let leastUsedKey = '';
     let leastCount = Infinity;
 
-    for (const [key, item] of this.cache.entries()) {
+    this.cache.forEach((item, key) => {
       if (item.accessCount < leastCount) {
         leastCount = item.accessCount;
         leastUsedKey = key;
       }
-    }
+    });
 
     return leastUsedKey;
   }
@@ -172,12 +173,12 @@ export class CacheService {
     let oldestKey = '';
     let oldestTime = Date.now();
 
-    for (const [key, item] of this.cache.entries()) {
+    this.cache.forEach((item, key) => {
       if (item.timestamp < oldestTime) {
         oldestTime = item.timestamp;
         oldestKey = key;
       }
-    }
+    });
 
     return oldestKey;
   }
@@ -185,12 +186,12 @@ export class CacheService {
   // Clean up expired items
   private cleanup(): void {
     const now = Date.now();
-    
-    for (const [key, item] of this.cache.entries()) {
+
+    this.cache.forEach((item, key) => {
       if (now - item.timestamp > item.ttl * 1000) {
         this.cache.delete(key);
       }
-    }
+    });
   }
 }
 
@@ -221,7 +222,7 @@ export function cached<T extends (...args: any[]) => any>(
 ): T {
   return ((...args: Parameters<T>) => {
     const key = keyGenerator ? keyGenerator(...args) : JSON.stringify(args);
-    
+
     // Try to get from cache
     const cached = cache.get(key);
     if (cached !== null) {
@@ -231,7 +232,7 @@ export function cached<T extends (...args: any[]) => any>(
     // Execute function and cache result
     const result = fn(...args);
     cache.set(key, result);
-    
+
     return result;
   }) as T;
 }
@@ -244,7 +245,7 @@ export function cachedAsync<T extends (...args: any[]) => Promise<any>>(
 ): T {
   return (async (...args: Parameters<T>) => {
     const key = keyGenerator ? keyGenerator(...args) : JSON.stringify(args);
-    
+
     // Try to get from cache
     const cached = cache.get(key);
     if (cached !== null) {
@@ -254,7 +255,7 @@ export function cachedAsync<T extends (...args: any[]) => Promise<any>>(
     // Execute function and cache result
     const result = await fn(...args);
     cache.set(key, result);
-    
+
     return result;
   }) as T;
 }
@@ -276,9 +277,9 @@ export class CacheWarmer {
   // Execute all warmup tasks
   async warmup(): Promise<void> {
     console.log(`Starting cache warmup with ${this.warmupTasks.length} tasks...`);
-    
+
     const startTime = Date.now();
-    
+
     await Promise.all(
       this.warmupTasks.map(async (task, index) => {
         try {
@@ -289,7 +290,7 @@ export class CacheWarmer {
         }
       })
     );
-    
+
     const duration = Date.now() - startTime;
     console.log(`Cache warmup completed in ${duration}ms`);
   }
@@ -302,7 +303,7 @@ export function generateCacheKey(prefix: string, ...parts: (string | number)[]):
 
 export function invalidatePattern(cache: CacheService, pattern: string): void {
   const regex = new RegExp(pattern);
-  
+
   for (const key of (cache as any).cache.keys()) {
     if (regex.test(key)) {
       cache.delete(key);
@@ -319,7 +320,7 @@ export function withCache(
   return function (handler: Function) {
     return async function (req: Request, ...args: any[]) {
       const key = keyGenerator ? keyGenerator(req) : req.url;
-      
+
       // Try cache first
       const cached = cache.get(key);
       if (cached) {
@@ -330,12 +331,12 @@ export function withCache(
 
       // Execute handler
       const response = await handler(req, ...args);
-      
+
       // Cache successful responses
       if (response.ok) {
         const data = await response.json();
         cache.set(key, data, ttl);
-        
+
         return new Response(JSON.stringify(data), {
           headers: { 'Content-Type': 'application/json' },
         });

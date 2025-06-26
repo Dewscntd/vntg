@@ -13,15 +13,10 @@ interface StripeProviderProps {
   options?: StripeElementsOptions;
 }
 
-export function StripeProvider({ 
-  children, 
-  clientSecret,
-  options = {} 
-}: StripeProviderProps) {
-  const elementsOptions: StripeElementsOptions = {
-    clientSecret,
+export function StripeProvider({ children, clientSecret, options = {} }: StripeProviderProps) {
+  const baseOptions = {
     appearance: {
-      theme: 'stripe',
+      theme: 'stripe' as const,
       variables: {
         colorPrimary: '#2563eb',
         colorBackground: '#ffffff',
@@ -54,8 +49,16 @@ export function StripeProvider({
         },
       },
     },
-    ...options,
   };
+
+  const elementsOptions: StripeElementsOptions = clientSecret
+    ? {
+        ...baseOptions,
+        clientSecret,
+        // Remove mode when clientSecret is present
+        ...Object.fromEntries(Object.entries(options).filter(([key]) => key !== 'mode')),
+      }
+    : { ...baseOptions, ...options };
 
   return (
     <Elements stripe={stripePromise} options={elementsOptions}>

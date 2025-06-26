@@ -6,7 +6,7 @@ import { useCart } from '@/lib/context/cart-context';
 export function useCartAccessibility() {
   const { isOpen, closeCart, items, itemCount } = useCart();
   const previousItemCount = useRef(itemCount);
-  const cartDrawerRef = useRef<HTMLElement>(null);
+  const cartDrawerRef = useRef<HTMLDivElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
 
   // Announce cart changes to screen readers
@@ -16,9 +16,9 @@ export function useCartAccessibility() {
     announcement.setAttribute('aria-atomic', 'true');
     announcement.className = 'sr-only';
     announcement.textContent = message;
-    
+
     document.body.appendChild(announcement);
-    
+
     // Remove after announcement
     setTimeout(() => {
       document.body.removeChild(announcement);
@@ -29,7 +29,7 @@ export function useCartAccessibility() {
   useEffect(() => {
     if (previousItemCount.current !== itemCount) {
       const difference = itemCount - previousItemCount.current;
-      
+
       if (difference > 0) {
         announceCartChange(
           `${difference} item${difference > 1 ? 's' : ''} added to cart. Cart now has ${itemCount} item${itemCount !== 1 ? 's' : ''}.`
@@ -39,7 +39,7 @@ export function useCartAccessibility() {
           `${Math.abs(difference)} item${Math.abs(difference) > 1 ? 's' : ''} removed from cart. Cart now has ${itemCount} item${itemCount !== 1 ? 's' : ''}.`
         );
       }
-      
+
       previousItemCount.current = itemCount;
     }
   }, [itemCount, announceCartChange]);
@@ -49,14 +49,14 @@ export function useCartAccessibility() {
     if (isOpen) {
       // Store the currently focused element
       lastFocusedElement.current = document.activeElement as HTMLElement;
-      
+
       // Focus the cart drawer
       setTimeout(() => {
         if (cartDrawerRef.current) {
           const firstFocusableElement = cartDrawerRef.current.querySelector(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
           ) as HTMLElement;
-          
+
           if (firstFocusableElement) {
             firstFocusableElement.focus();
           }
@@ -72,42 +72,45 @@ export function useCartAccessibility() {
   }, [isOpen]);
 
   // Keyboard navigation for cart drawer
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (!isOpen) return;
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!isOpen) return;
 
-    switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        closeCart();
-        break;
-        
-      case 'Tab':
-        // Trap focus within cart drawer
-        if (cartDrawerRef.current) {
-          const focusableElements = cartDrawerRef.current.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          
-          const firstElement = focusableElements[0] as HTMLElement;
-          const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-          
-          if (event.shiftKey) {
-            // Shift + Tab
-            if (document.activeElement === firstElement) {
-              event.preventDefault();
-              lastElement.focus();
-            }
-          } else {
-            // Tab
-            if (document.activeElement === lastElement) {
-              event.preventDefault();
-              firstElement.focus();
+      switch (event.key) {
+        case 'Escape':
+          event.preventDefault();
+          closeCart();
+          break;
+
+        case 'Tab':
+          // Trap focus within cart drawer
+          if (cartDrawerRef.current) {
+            const focusableElements = cartDrawerRef.current.querySelectorAll(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+
+            const firstElement = focusableElements[0] as HTMLElement;
+            const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+            if (event.shiftKey) {
+              // Shift + Tab
+              if (document.activeElement === firstElement) {
+                event.preventDefault();
+                lastElement.focus();
+              }
+            } else {
+              // Tab
+              if (document.activeElement === lastElement) {
+                event.preventDefault();
+                firstElement.focus();
+              }
             }
           }
-        }
-        break;
-    }
-  }, [isOpen, closeCart]);
+          break;
+      }
+    },
+    [isOpen, closeCart]
+  );
 
   // Set up keyboard event listeners
   useEffect(() => {
@@ -119,13 +122,13 @@ export function useCartAccessibility() {
   const getCartButtonProps = () => ({
     'aria-label': `Shopping cart with ${itemCount} item${itemCount !== 1 ? 's' : ''}`,
     'aria-expanded': isOpen,
-    'aria-haspopup': 'dialog',
+    'aria-haspopup': 'dialog' as const,
   });
 
   // ARIA attributes for cart drawer
   const getCartDrawerProps = () => ({
     role: 'dialog',
-    'aria-modal': 'true',
+    'aria-modal': true,
     'aria-label': 'Shopping cart',
     'aria-describedby': 'cart-description',
   });
@@ -189,44 +192,50 @@ export function useCartKeyboardShortcuts() {
 
 // Hook for cart screen reader announcements
 export function useCartAnnouncements() {
-  const announceToScreenReader = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', priority);
-    announcement.setAttribute('aria-atomic', 'true');
-    announcement.className = 'sr-only';
-    announcement.textContent = message;
-    
-    document.body.appendChild(announcement);
-    
-    setTimeout(() => {
-      if (document.body.contains(announcement)) {
-        document.body.removeChild(announcement);
-      }
-    }, 1000);
-  }, []);
+  const announceToScreenReader = useCallback(
+    (message: string, priority: 'polite' | 'assertive' = 'polite') => {
+      const announcement = document.createElement('div');
+      announcement.setAttribute('aria-live', priority);
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.className = 'sr-only';
+      announcement.textContent = message;
 
-  const announceCartAction = useCallback((action: string, itemName: string, quantity?: number) => {
-    let message = '';
-    
-    switch (action) {
-      case 'added':
-        message = `${itemName} ${quantity ? `(${quantity})` : ''} added to cart`;
-        break;
-      case 'removed':
-        message = `${itemName} removed from cart`;
-        break;
-      case 'updated':
-        message = `${itemName} quantity updated to ${quantity}`;
-        break;
-      case 'cleared':
-        message = 'Cart cleared';
-        break;
-      default:
-        message = `Cart ${action}`;
-    }
-    
-    announceToScreenReader(message);
-  }, [announceToScreenReader]);
+      document.body.appendChild(announcement);
+
+      setTimeout(() => {
+        if (document.body.contains(announcement)) {
+          document.body.removeChild(announcement);
+        }
+      }, 1000);
+    },
+    []
+  );
+
+  const announceCartAction = useCallback(
+    (action: string, itemName: string, quantity?: number) => {
+      let message = '';
+
+      switch (action) {
+        case 'added':
+          message = `${itemName} ${quantity ? `(${quantity})` : ''} added to cart`;
+          break;
+        case 'removed':
+          message = `${itemName} removed from cart`;
+          break;
+        case 'updated':
+          message = `${itemName} quantity updated to ${quantity}`;
+          break;
+        case 'cleared':
+          message = 'Cart cleared';
+          break;
+        default:
+          message = `Cart ${action}`;
+      }
+
+      announceToScreenReader(message);
+    },
+    [announceToScreenReader]
+  );
 
   return {
     announceToScreenReader,

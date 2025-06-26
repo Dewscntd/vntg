@@ -29,10 +29,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Auth protection for account routes
-  if (
-    req.nextUrl.pathname.startsWith('/account') ||
-    req.nextUrl.pathname.startsWith('/checkout')
-  ) {
+  if (req.nextUrl.pathname.startsWith('/account') || req.nextUrl.pathname.startsWith('/checkout')) {
     if (!session) {
       return NextResponse.redirect(new URL('/login', req.url));
     }

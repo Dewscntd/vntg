@@ -34,19 +34,19 @@ export async function POST(req: NextRequest) {
       case 'payment_intent.succeeded':
         await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent, supabase);
         break;
-      
+
       case 'payment_intent.payment_failed':
         await handlePaymentIntentFailed(event.data.object as Stripe.PaymentIntent, supabase);
         break;
-      
+
       case 'payment_intent.canceled':
         await handlePaymentIntentCanceled(event.data.object as Stripe.PaymentIntent, supabase);
         break;
-      
+
       case 'charge.dispute.created':
         await handleChargeDisputeCreated(event.data.object as Stripe.Dispute, supabase);
         break;
-      
+
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
@@ -58,19 +58,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handlePaymentIntentSucceeded(
-  paymentIntent: Stripe.PaymentIntent,
-  supabase: any
-) {
+async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent, supabase: any) {
   console.log('Payment succeeded:', paymentIntent.id);
 
   try {
     // Update payment intent status in database
     const { error: updateError } = await supabase
       .from('payment_intents')
-      .update({ 
+      .update({
         status: 'succeeded',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', paymentIntent.id);
 
@@ -81,9 +78,9 @@ async function handlePaymentIntentSucceeded(
     // Update related order status
     const { data: orders, error: orderError } = await supabase
       .from('orders')
-      .update({ 
+      .update({
         status: 'processing',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('payment_intent_id', paymentIntent.id)
       .select('id, user_id');
@@ -96,7 +93,7 @@ async function handlePaymentIntentSucceeded(
     // Send order confirmation email if not already sent
     if (orders && orders.length > 0) {
       const order = orders[0];
-      
+
       try {
         await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/emails/order-confirmation`, {
           method: 'POST',
@@ -112,16 +109,12 @@ async function handlePaymentIntentSucceeded(
         console.error('Failed to send confirmation email:', emailError);
       }
     }
-
   } catch (error) {
     console.error('Error in handlePaymentIntentSucceeded:', error);
   }
 }
 
-async function handlePaymentIntentFailed(
-  paymentIntent: Stripe.PaymentIntent,
-  supabase: any
-) {
+async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent, supabase: any) {
   console.log('Payment failed:', paymentIntent.id);
 
   try {
@@ -130,7 +123,7 @@ async function handlePaymentIntentFailed(
       .from('payment_intents')
       .update({
         status: 'requires_payment_method',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', paymentIntent.id);
 
@@ -144,7 +137,7 @@ async function handlePaymentIntentFailed(
       .update({
         status: 'cancelled',
         cancellation_reason: 'Payment failed',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('payment_intent_id', paymentIntent.id)
       .select('id');
@@ -162,25 +155,21 @@ async function handlePaymentIntentFailed(
     }
 
     // TODO: Send payment failure notification email
-
   } catch (error) {
     console.error('Error in handlePaymentIntentFailed:', error);
   }
 }
 
-async function handlePaymentIntentCanceled(
-  paymentIntent: Stripe.PaymentIntent,
-  supabase: any
-) {
+async function handlePaymentIntentCanceled(paymentIntent: Stripe.PaymentIntent, supabase: any) {
   console.log('Payment canceled:', paymentIntent.id);
 
   try {
     // Update payment intent status
     const { error: updateError } = await supabase
       .from('payment_intents')
-      .update({ 
+      .update({
         status: 'canceled',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', paymentIntent.id);
 
@@ -191,9 +180,9 @@ async function handlePaymentIntentCanceled(
     // Update order status to canceled and restore inventory
     const { data: orders, error: orderError } = await supabase
       .from('orders')
-      .update({ 
+      .update({
         status: 'cancelled',
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('payment_intent_id', paymentIntent.id)
       .select('id');
@@ -209,32 +198,28 @@ async function handlePaymentIntentCanceled(
         await restoreOrderInventory(order.id, supabase);
       }
     }
-
   } catch (error) {
     console.error('Error in handlePaymentIntentCanceled:', error);
   }
 }
 
-async function handleChargeDisputeCreated(
-  dispute: Stripe.Dispute,
-  supabase: any
-) {
+async function handleChargeDisputeCreated(dispute: Stripe.Dispute, supabase: any) {
   console.log('Dispute created:', dispute.id);
 
   try {
     // Log dispute for admin review
-    const { error } = await supabase
-      .from('disputes')
-      .insert({
-        stripe_dispute_id: dispute.id,
-        charge_id: dispute.charge,
-        amount: dispute.amount,
-        currency: dispute.currency,
-        reason: dispute.reason,
-        status: dispute.status,
-        evidence_due_by: new Date(dispute.evidence_details.due_by * 1000).toISOString(),
-        created_at: new Date(dispute.created * 1000).toISOString(),
-      });
+    const { error } = await supabase.from('disputes').insert({
+      stripe_dispute_id: dispute.id,
+      charge_id: dispute.charge,
+      amount: dispute.amount,
+      currency: dispute.currency,
+      reason: dispute.reason,
+      status: dispute.status,
+      evidence_due_by: dispute.evidence_details.due_by
+        ? new Date(dispute.evidence_details.due_by * 1000).toISOString()
+        : null,
+      created_at: new Date(dispute.created * 1000).toISOString(),
+    });
 
     if (error) {
       console.error('Error logging dispute:', error);
@@ -242,7 +227,6 @@ async function handleChargeDisputeCreated(
 
     // TODO: Send admin notification about dispute
     // TODO: Update order status if needed
-
   } catch (error) {
     console.error('Error in handleChargeDisputeCreated:', error);
   }
@@ -265,14 +249,13 @@ async function restoreOrderInventory(orderId: string, supabase: any) {
     for (const item of orderItems) {
       const { error: updateError } = await supabase.rpc('restore_product_inventory', {
         p_product_id: item.product_id,
-        p_quantity: item.quantity
+        p_quantity: item.quantity,
       });
 
       if (updateError) {
         console.error('Error restoring inventory:', updateError);
       }
     }
-
   } catch (error) {
     console.error('Error in restoreOrderInventory:', error);
   }

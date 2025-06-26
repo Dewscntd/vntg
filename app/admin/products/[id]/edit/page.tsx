@@ -9,7 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 
@@ -46,7 +52,7 @@ export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
   const productId = params.id as string;
-  
+
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -61,7 +67,7 @@ export default function EditProductPage() {
     inventory_count: '',
     category_id: '',
     is_featured: false,
-    specifications: {}
+    specifications: {},
   });
 
   useEffect(() => {
@@ -75,7 +81,7 @@ export default function EditProductPage() {
       if (response.ok) {
         const data = await response.json();
         const product: Product = data.data;
-        
+
         setFormData({
           name: product.name,
           description: product.description,
@@ -84,9 +90,9 @@ export default function EditProductPage() {
           inventory_count: product.inventory_count.toString(),
           category_id: product.category_id,
           is_featured: product.is_featured,
-          specifications: product.specifications || {}
+          specifications: product.specifications || {},
         });
-        
+
         setCurrentImageUrl(product.image_url);
       } else {
         alert('Product not found');
@@ -114,9 +120,9 @@ export default function EditProductPage() {
   };
 
   const handleInputChange = (field: keyof ProductFormData, value: string | boolean) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -169,7 +175,7 @@ export default function EditProductPage() {
         category_id: formData.category_id,
         is_featured: formData.is_featured,
         image_url: imageUrl,
-        specifications: formData.specifications
+        specifications: formData.specifications,
       };
 
       const response = await fetch(`/api/products/${productId}`, {
@@ -199,11 +205,11 @@ export default function EditProductPage() {
       <AdminLayout>
         <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-12 bg-gray-200 rounded mb-6"></div>
+            <div className="mb-4 h-8 w-1/4 rounded bg-gray-200"></div>
+            <div className="mb-6 h-12 rounded bg-gray-200"></div>
             <div className="space-y-6">
-              <div className="h-64 bg-gray-200 rounded"></div>
-              <div className="h-64 bg-gray-200 rounded"></div>
+              <div className="h-64 rounded bg-gray-200"></div>
+              <div className="h-64 rounded bg-gray-200"></div>
             </div>
           </div>
         </div>
@@ -218,12 +224,12 @@ export default function EditProductPage() {
         <div className="mb-8">
           <Link href="/admin/products">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Products
             </Button>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
-          <p className="text-gray-600 mt-1">Update product information</p>
+          <p className="mt-1 text-gray-600">Update product information</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -256,7 +262,7 @@ export default function EditProductPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <Label htmlFor="price">Price *</Label>
                   <Input
@@ -285,7 +291,7 @@ export default function EditProductPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <Label htmlFor="inventory_count">Inventory Count *</Label>
                   <Input
@@ -301,8 +307,8 @@ export default function EditProductPage() {
 
                 <div>
                   <Label htmlFor="category_id">Category *</Label>
-                  <Select 
-                    value={formData.category_id} 
+                  <Select
+                    value={formData.category_id}
                     onValueChange={(value) => handleInputChange('category_id', value)}
                   >
                     <SelectTrigger>
@@ -323,7 +329,9 @@ export default function EditProductPage() {
                 <Checkbox
                   id="is_featured"
                   checked={formData.is_featured}
-                  onCheckedChange={(checked) => handleInputChange('is_featured', checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    handleInputChange('is_featured', checked as boolean)
+                  }
                 />
                 <Label htmlFor="is_featured">Featured Product</Label>
               </div>
@@ -339,16 +347,16 @@ export default function EditProductPage() {
               <div className="space-y-4">
                 {imagePreview ? (
                   <div className="relative">
-                    <img
+                    <Image
                       src={imagePreview}
                       alt="Product preview"
-                      className="w-full h-64 object-cover rounded-lg"
+                      className="h-64 w-full rounded-lg object-cover"
                     />
                     <Button
                       type="button"
                       variant="destructive"
                       size="sm"
-                      className="absolute top-2 right-2"
+                      className="absolute right-2 top-2"
                       onClick={removeImage}
                     >
                       <X className="h-4 w-4" />
@@ -359,13 +367,13 @@ export default function EditProductPage() {
                     <img
                       src={currentImageUrl}
                       alt="Current product image"
-                      className="w-full h-64 object-cover rounded-lg"
+                      className="h-64 w-full rounded-lg object-cover"
                     />
                     <div className="mt-4">
                       <Label htmlFor="image" className="cursor-pointer">
                         <Button type="button" variant="outline" asChild>
                           <span>
-                            <Upload className="h-4 w-4 mr-2" />
+                            <Upload className="mr-2 h-4 w-4" />
                             Change Image
                           </span>
                         </Button>
@@ -380,7 +388,7 @@ export default function EditProductPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  <div className="rounded-lg border-2 border-dashed border-gray-300 p-6">
                     <div className="text-center">
                       <Upload className="mx-auto h-12 w-12 text-gray-400" />
                       <div className="mt-4">

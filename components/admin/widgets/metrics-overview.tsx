@@ -3,17 +3,17 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Package, 
-  ShoppingCart, 
-  Users, 
+import {
+  Package,
+  ShoppingCart,
+  Users,
   DollarSign,
   TrendingUp,
   TrendingDown,
   AlertTriangle,
   Activity,
   Eye,
-  Percent
+  Percent,
 } from 'lucide-react';
 
 interface MetricsData {
@@ -41,7 +41,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -61,14 +61,14 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[...Array(8)].map((_, i) => (
           <Card key={i}>
             <CardContent className="p-6">
               <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-8 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                <div className="mb-2 h-4 w-1/2 rounded bg-gray-200"></div>
+                <div className="mb-2 h-8 w-3/4 rounded bg-gray-200"></div>
+                <div className="h-3 w-1/3 rounded bg-gray-200"></div>
               </div>
             </CardContent>
           </Card>
@@ -83,9 +83,11 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       value: formatCurrency(data.totalRevenue),
       icon: DollarSign,
       trend: data.revenueGrowth,
-      subtitle: data.monthlyRevenue ? `${formatCurrency(data.monthlyRevenue)} this month` : 'All time',
+      subtitle: data.monthlyRevenue
+        ? `${formatCurrency(data.monthlyRevenue)} this month`
+        : 'All time',
       color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      bgColor: 'bg-green-50',
     },
     {
       title: 'Total Orders',
@@ -95,7 +97,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       subtitle: data.pendingOrders > 0 ? `${data.pendingOrders} pending` : 'All orders',
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      alert: data.pendingOrders > 0 ? data.pendingOrders : undefined
+      alert: data.pendingOrders > 0 ? data.pendingOrders : undefined,
     },
     {
       title: 'Total Products',
@@ -105,7 +107,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       alert: data.lowStockProducts > 0 ? data.lowStockProducts : undefined,
-      alertType: 'warning' as const
+      alertType: 'warning' as const,
     },
     {
       title: 'Total Users',
@@ -114,7 +116,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       trend: data.userGrowth,
       subtitle: 'Registered customers',
       color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50'
+      bgColor: 'bg-indigo-50',
     },
     {
       title: 'Average Order Value',
@@ -122,7 +124,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       icon: TrendingUp,
       subtitle: 'Per order',
       color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
+      bgColor: 'bg-emerald-50',
     },
     {
       title: 'Conversion Rate',
@@ -130,7 +132,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       icon: Percent,
       subtitle: 'Visitors to customers',
       color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
+      bgColor: 'bg-orange-50',
     },
     {
       title: 'Monthly Revenue',
@@ -139,7 +141,7 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       trend: data.revenueGrowth,
       subtitle: 'This month',
       color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      bgColor: 'bg-green-50',
     },
     {
       title: 'Monthly Orders',
@@ -148,46 +150,45 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
       trend: data.orderGrowth,
       subtitle: 'This month',
       color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
-    }
+      bgColor: 'bg-blue-50',
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {metrics.map((metric, index) => {
         const Icon = metric.icon;
         const isPositiveTrend = metric.trend && metric.trend > 0;
         const isNegativeTrend = metric.trend && metric.trend < 0;
-        
+
         return (
           <Card key={index} className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">
-                {metric.title}
-              </CardTitle>
-              <div className={`p-2 rounded-lg ${metric.bgColor}`}>
+              <CardTitle className="text-sm font-medium text-gray-600">{metric.title}</CardTitle>
+              <div className={`rounded-lg p-2 ${metric.bgColor}`}>
                 <Icon className={`h-4 w-4 ${metric.color}`} />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900 mb-1">
-                {metric.value}
-              </div>
-              
+              <div className="mb-1 text-2xl font-bold text-gray-900">{metric.value}</div>
+
               <div className="flex items-center justify-between">
-                <p className="text-xs text-gray-600">
-                  {metric.subtitle}
-                </p>
-                
+                <p className="text-xs text-gray-600">{metric.subtitle}</p>
+
                 {metric.trend !== undefined && (
-                  <div className={`flex items-center text-xs ${
-                    isPositiveTrend ? 'text-green-600' : 
-                    isNegativeTrend ? 'text-red-600' : 'text-gray-500'
-                  }`}>
+                  <div
+                    className={`flex items-center text-xs ${
+                      isPositiveTrend
+                        ? 'text-green-600'
+                        : isNegativeTrend
+                          ? 'text-red-600'
+                          : 'text-gray-500'
+                    }`}
+                  >
                     {isPositiveTrend ? (
-                      <TrendingUp className="h-3 w-3 mr-1" />
+                      <TrendingUp className="mr-1 h-3 w-3" />
                     ) : isNegativeTrend ? (
-                      <TrendingDown className="h-3 w-3 mr-1" />
+                      <TrendingDown className="mr-1 h-3 w-3" />
                     ) : null}
                     {formatPercentage(metric.trend)}
                   </div>
@@ -196,18 +197,18 @@ export function MetricsOverview({ data, loading }: MetricsOverviewProps) {
 
               {metric.alert && (
                 <div className="mt-2">
-                  <Badge 
+                  <Badge
                     variant={metric.alertType === 'warning' ? 'secondary' : 'default'}
                     className={`text-xs ${
-                      metric.alertType === 'warning' 
-                        ? 'bg-orange-100 text-orange-800' 
+                      metric.alertType === 'warning'
+                        ? 'bg-orange-100 text-orange-800'
                         : 'bg-blue-100 text-blue-800'
                     }`}
                   >
                     {metric.alertType === 'warning' ? (
-                      <AlertTriangle className="h-3 w-3 mr-1" />
+                      <AlertTriangle className="mr-1 h-3 w-3" />
                     ) : (
-                      <Activity className="h-3 w-3 mr-1" />
+                      <Activity className="mr-1 h-3 w-3" />
                     )}
                     {metric.alert} {metric.alertType === 'warning' ? 'low stock' : 'pending'}
                   </Badge>

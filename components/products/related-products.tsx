@@ -36,12 +36,12 @@ export function RelatedProducts({
   });
 
   // Filter out the current product
-  const relatedProducts = data?.products?.filter(product => product.id !== productId) || [];
+  const relatedProducts = data?.products?.filter((product: any) => product.id !== productId) || [];
 
   // Check if scroll arrows should be shown
   const checkScrollArrows = () => {
     if (!scrollContainerRef.current) return;
-    
+
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
     setShowLeftArrow(scrollLeft > 0);
     setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10); // 10px buffer
@@ -65,10 +65,10 @@ export function RelatedProducts({
       scrollContainer.addEventListener('scroll', checkScrollArrows);
       // Initial check
       checkScrollArrows();
-      
+
       // Check again after images load as this might change the scrollWidth
       window.addEventListener('load', checkScrollArrows);
-      
+
       return () => {
         scrollContainer.removeEventListener('scroll', checkScrollArrows);
         window.removeEventListener('load', checkScrollArrows);
@@ -141,7 +141,7 @@ export function RelatedProducts({
         {/* Scrollable container */}
         <div
           ref={scrollContainerRef}
-          className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide"
+          className="scrollbar-hide flex space-x-4 overflow-x-auto pb-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {isLoading ? (
@@ -158,7 +158,7 @@ export function RelatedProducts({
               Failed to load related products
             </div>
           ) : (
-            relatedProducts.map((product) => (
+            relatedProducts.map((product: any) => (
               <div key={product.id} className="min-w-[250px] max-w-[250px]">
                 <ProductCard product={product} />
               </div>

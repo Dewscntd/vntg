@@ -9,7 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 
@@ -43,7 +49,7 @@ export default function NewProductPage() {
     inventory_count: '',
     category_id: '',
     is_featured: false,
-    specifications: {}
+    specifications: {},
   });
 
   useEffect(() => {
@@ -63,9 +69,9 @@ export default function NewProductPage() {
   };
 
   const handleInputChange = (field: keyof ProductFormData, value: string | boolean) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -118,7 +124,7 @@ export default function NewProductPage() {
         category_id: formData.category_id,
         is_featured: formData.is_featured,
         image_url: imageUrl,
-        specifications: formData.specifications
+        specifications: formData.specifications,
       };
 
       const response = await fetch('/api/products', {
@@ -150,12 +156,12 @@ export default function NewProductPage() {
         <div className="mb-8">
           <Link href="/admin/products">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Products
             </Button>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
-          <p className="text-gray-600 mt-1">Create a new product for your store</p>
+          <p className="mt-1 text-gray-600">Create a new product for your store</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -188,7 +194,7 @@ export default function NewProductPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <Label htmlFor="price">Price *</Label>
                   <Input
@@ -217,7 +223,7 @@ export default function NewProductPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <Label htmlFor="inventory_count">Inventory Count *</Label>
                   <Input
@@ -233,8 +239,8 @@ export default function NewProductPage() {
 
                 <div>
                   <Label htmlFor="category_id">Category *</Label>
-                  <Select 
-                    value={formData.category_id} 
+                  <Select
+                    value={formData.category_id}
                     onValueChange={(value) => handleInputChange('category_id', value)}
                   >
                     <SelectTrigger>
@@ -255,7 +261,9 @@ export default function NewProductPage() {
                 <Checkbox
                   id="is_featured"
                   checked={formData.is_featured}
-                  onCheckedChange={(checked) => handleInputChange('is_featured', checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    handleInputChange('is_featured', checked as boolean)
+                  }
                 />
                 <Label htmlFor="is_featured">Featured Product</Label>
               </div>
@@ -271,23 +279,23 @@ export default function NewProductPage() {
               <div className="space-y-4">
                 {imagePreview ? (
                   <div className="relative">
-                    <img
+                    <Image
                       src={imagePreview}
                       alt="Product preview"
-                      className="w-full h-64 object-cover rounded-lg"
+                      className="h-64 w-full rounded-lg object-cover"
                     />
                     <Button
                       type="button"
                       variant="destructive"
                       size="sm"
-                      className="absolute top-2 right-2"
+                      className="absolute right-2 top-2"
                       onClick={removeImage}
                     >
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  <div className="rounded-lg border-2 border-dashed border-gray-300 p-6">
                     <div className="text-center">
                       <Upload className="mx-auto h-12 w-12 text-gray-400" />
                       <div className="mt-4">

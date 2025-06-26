@@ -14,17 +14,10 @@ export interface EnhancedInputProps extends React.InputHTMLAttributes<HTMLInputE
 }
 
 export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(
-  ({ 
-    className, 
-    label, 
-    error, 
-    success, 
-    icon, 
-    animateOnFocus = true,
-    onFocus,
-    onBlur,
-    ...props 
-  }, ref) => {
+  (
+    { className, label, error, success, icon, animateOnFocus = true, onFocus, onBlur, ...props },
+    ref
+  ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -65,21 +58,23 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(
     return (
       <div ref={containerRef} className="relative">
         {label && (
-          <label className={cn(
-            'block text-sm font-medium mb-2 transition-colors duration-200',
-            error ? 'text-destructive' : success ? 'text-green-600' : 'text-foreground'
-          )}>
+          <label
+            className={cn(
+              'mb-2 block text-sm font-medium transition-colors duration-200',
+              error ? 'text-destructive' : success ? 'text-green-600' : 'text-foreground'
+            )}
+          >
             {label}
           </label>
         )}
-        
+
         <div className="relative">
           {icon && (
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
               {icon}
             </div>
           )}
-          
+
           <input
             ref={ref}
             onFocus={handleFocus}
@@ -98,9 +93,9 @@ export const EnhancedInput = forwardRef<HTMLInputElement, EnhancedInputProps>(
             {...props}
           />
         </div>
-        
+
         {error && (
-          <p className="mt-1 text-sm text-destructive animate-in slide-in-from-top-1 duration-200">
+          <p className="mt-1 text-sm text-destructive duration-200 animate-in slide-in-from-top-1">
             {error}
           </p>
         )}
@@ -121,18 +116,21 @@ export interface EnhancedButtonProps extends React.ButtonHTMLAttributes<HTMLButt
 }
 
 export const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
-  ({ 
-    className, 
-    variant = 'default', 
-    size = 'default', 
-    loading = false,
-    ripple = true,
-    children,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    ...props 
-  }, ref) => {
+  (
+    {
+      className,
+      variant = 'default',
+      size = 'default',
+      loading = false,
+      ripple = true,
+      children,
+      onClick,
+      onMouseEnter,
+      onMouseLeave,
+      ...props
+    },
+    ref
+  ) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -163,14 +161,14 @@ export const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>
       outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
       secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
       ghost: 'hover:bg-accent hover:text-accent-foreground',
-      link: 'text-primary underline-offset-4 hover:underline'
+      link: 'text-primary underline-offset-4 hover:underline',
     };
 
     const sizeClasses = {
       default: 'h-10 px-4 py-2',
       sm: 'h-9 rounded-md px-3',
       lg: 'h-11 rounded-md px-8',
-      icon: 'h-10 w-10'
+      icon: 'h-10 w-10',
     };
 
     return (
@@ -181,7 +179,7 @@ export const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>
         onMouseLeave={handleMouseLeave}
         disabled={loading}
         className={cn(
-          'relative overflow-hidden inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium',
+          'relative inline-flex items-center justify-center overflow-hidden whitespace-nowrap rounded-md text-sm font-medium',
           'ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2',
           'focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
           variantClasses[variant],
@@ -209,11 +207,11 @@ export interface EnhancedBadgeProps {
   animate?: boolean;
 }
 
-export function EnhancedBadge({ 
-  children, 
-  variant = 'default', 
+export function EnhancedBadge({
+  children,
+  variant = 'default',
   className,
-  animate = true 
+  animate = true,
 }: EnhancedBadgeProps) {
   const badgeRef = useRef<HTMLDivElement>(null);
 
@@ -226,8 +224,9 @@ export function EnhancedBadge({
   const variantClasses = {
     default: 'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
     secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    destructive: 'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
-    outline: 'text-foreground'
+    destructive:
+      'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
+    outline: 'text-foreground',
   };
 
   return (
@@ -255,13 +254,13 @@ export interface EnhancedToastProps {
   duration?: number;
 }
 
-export function EnhancedToast({ 
-  title, 
-  description, 
+export function EnhancedToast({
+  title,
+  description,
   variant = 'default',
   onClose,
   autoClose = true,
-  duration = 5000
+  duration = 5000,
 }: EnhancedToastProps) {
   const toastRef = useRef<HTMLDivElement>(null);
 
@@ -286,28 +285,26 @@ export function EnhancedToast({
   const variantClasses = {
     default: 'bg-background border',
     destructive: 'bg-destructive text-destructive-foreground',
-    success: 'bg-green-600 text-white'
+    success: 'bg-green-600 text-white',
   };
 
   return (
     <div
       ref={toastRef}
       className={cn(
-        'fixed top-4 right-4 z-50 w-full max-w-sm rounded-lg p-4 shadow-lg',
+        'fixed right-4 top-4 z-50 w-full max-w-sm rounded-lg p-4 shadow-lg',
         variantClasses[variant]
       )}
     >
       <div className="flex items-start space-x-3">
         <div className="flex-1">
           <h4 className="font-semibold">{title}</h4>
-          {description && (
-            <p className="mt-1 text-sm opacity-90">{description}</p>
-          )}
+          {description && <p className="mt-1 text-sm opacity-90">{description}</p>}
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="text-current opacity-70 hover:opacity-100 transition-opacity"
+            className="text-current opacity-70 transition-opacity hover:opacity-100"
           >
             ×
           </button>

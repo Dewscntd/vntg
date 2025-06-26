@@ -54,12 +54,8 @@ export async function getById<T>(
   isServer = false
 ): Promise<T | null> {
   const supabase = isServer ? createServerClient() : createClient();
-  
-  const { data, error } = await supabase
-    .from(table)
-    .select('*')
-    .eq('id', id)
-    .single();
+
+  const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
 
   if (error) {
     if (error.code === 'PGRST116') {
@@ -80,12 +76,8 @@ export async function insert<T>(
   isServer = false
 ): Promise<T> {
   const supabase = isServer ? createServerClient() : createClient();
-  
-  const { data: result, error } = await supabase
-    .from(table)
-    .insert(data)
-    .select()
-    .single();
+
+  const { data: result, error } = await supabase.from(table).insert(data).select().single();
 
   if (error) {
     console.error(`Error inserting into ${table}:`, error);
@@ -103,7 +95,7 @@ export async function update<T>(
   isServer = false
 ): Promise<T> {
   const supabase = isServer ? createServerClient() : createClient();
-  
+
   const { data: result, error } = await supabase
     .from(table)
     .update(data)
@@ -126,11 +118,8 @@ export async function remove(
   isServer = false
 ): Promise<void> {
   const supabase = isServer ? createServerClient() : createClient();
-  
-  const { error } = await supabase
-    .from(table)
-    .delete()
-    .eq('id', id);
+
+  const { error } = await supabase.from(table).delete().eq('id', id);
 
   if (error) {
     console.error(`Error deleting from ${table}:`, error);
@@ -145,7 +134,7 @@ export async function count(
   isServer = false
 ): Promise<number> {
   const supabase = isServer ? createServerClient() : createClient();
-  
+
   let query = supabase.from(table).select('*', { count: 'exact', head: true });
 
   // Apply filters

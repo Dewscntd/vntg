@@ -19,7 +19,7 @@ export class FocusManager {
     if (currentFocus && currentFocus !== document.body) {
       this.focusStack.push(currentFocus);
     }
-    
+
     if (newFocus) {
       newFocus.focus();
     }
@@ -36,7 +36,7 @@ export class FocusManager {
   // Focus trap for modals and dialogs
   trapFocus(container: HTMLElement) {
     this.trapStack.push(container);
-    
+
     const focusableElements = this.getFocusableElements(container);
     if (focusableElements.length === 0) return;
 
@@ -79,12 +79,12 @@ export class FocusManager {
       'select:not([disabled])',
       'textarea:not([disabled])',
       '[tabindex]:not([tabindex="-1"])',
-      '[contenteditable="true"]'
+      '[contenteditable="true"]',
     ].join(', ');
 
     const elements = Array.from(container.querySelectorAll(focusableSelectors)) as HTMLElement[];
-    
-    return elements.filter(element => {
+
+    return elements.filter((element) => {
       return this.isVisible(element) && !this.isInert(element);
     });
   }
@@ -92,24 +92,25 @@ export class FocusManager {
   // Check if element is visible
   private isVisible(element: HTMLElement): boolean {
     const style = window.getComputedStyle(element);
-    return style.display !== 'none' && 
-           style.visibility !== 'hidden' && 
-           style.opacity !== '0' &&
-           element.offsetWidth > 0 && 
-           element.offsetHeight > 0;
+    return (
+      style.display !== 'none' &&
+      style.visibility !== 'hidden' &&
+      style.opacity !== '0' &&
+      element.offsetWidth > 0 &&
+      element.offsetHeight > 0
+    );
   }
 
   // Check if element is inert
   private isInert(element: HTMLElement): boolean {
-    return element.hasAttribute('inert') || 
-           element.closest('[inert]') !== null;
+    return element.hasAttribute('inert') || element.closest('[inert]') !== null;
   }
 
   // Move focus to next/previous focusable element
   moveFocus(direction: 'next' | 'previous', container?: HTMLElement) {
     const focusableElements = this.getFocusableElements(container || document.body);
     const currentIndex = focusableElements.indexOf(document.activeElement as HTMLElement);
-    
+
     let nextIndex: number;
     if (direction === 'next') {
       nextIndex = currentIndex + 1;
@@ -118,7 +119,7 @@ export class FocusManager {
       nextIndex = currentIndex - 1;
       if (nextIndex < 0) nextIndex = focusableElements.length - 1;
     }
-    
+
     focusableElements[nextIndex]?.focus();
   }
 
@@ -144,7 +145,7 @@ export function useFocusManagement() {
     restoreFocus: () => focusManager.restoreFocus(),
     trapFocus: (container: HTMLElement) => focusManager.trapFocus(container),
     getFocusableElements: (container: HTMLElement) => focusManager.getFocusableElements(container),
-    moveFocus: (direction: 'next' | 'previous', container?: HTMLElement) => 
+    moveFocus: (direction: 'next' | 'previous', container?: HTMLElement) =>
       focusManager.moveFocus(direction, container),
     focusFirst: (container: HTMLElement) => focusManager.focusFirst(container),
     focusLast: (container: HTMLElement) => focusManager.focusLast(container),
@@ -154,10 +155,10 @@ export function useFocusManagement() {
 // Hook for focus trap
 export function useFocusTrap(isActive: boolean) {
   const { trapFocus } = useFocusManagement();
-  
+
   return (container: HTMLElement | null) => {
     if (!container || !isActive) return;
-    
+
     return trapFocus(container);
   };
 }
@@ -165,10 +166,10 @@ export function useFocusTrap(isActive: boolean) {
 // Hook for focus restoration
 export function useFocusRestore() {
   const { saveFocus, restoreFocus } = useFocusManagement();
-  
+
   return {
     save: saveFocus,
-    restore: restoreFocus
+    restore: restoreFocus,
   };
 }
 
@@ -176,45 +177,57 @@ export function useFocusRestore() {
 export const keyboardNavigation = {
   // Handle arrow key navigation for grids/lists
   handleArrowKeys: (
-    e: KeyboardEvent, 
-    container: HTMLElement, 
+    e: KeyboardEvent,
+    container: HTMLElement,
     options: {
       orientation?: 'horizontal' | 'vertical' | 'both';
       wrap?: boolean;
       itemSelector?: string;
     } = {}
   ) => {
-    const { orientation = 'both', wrap = true, itemSelector = '[role="gridcell"], [role="option"], [role="menuitem"]' } = options;
-    
+    const {
+      orientation = 'both',
+      wrap = true,
+      itemSelector = '[role="gridcell"], [role="option"], [role="menuitem"]',
+    } = options;
+
     const items = Array.from(container.querySelectorAll(itemSelector)) as HTMLElement[];
     const currentIndex = items.indexOf(document.activeElement as HTMLElement);
-    
+
     if (currentIndex === -1) return;
-    
+
     let nextIndex = currentIndex;
-    
+
     switch (e.key) {
       case 'ArrowRight':
         if (orientation === 'horizontal' || orientation === 'both') {
-          nextIndex = wrap ? (currentIndex + 1) % items.length : Math.min(currentIndex + 1, items.length - 1);
+          nextIndex = wrap
+            ? (currentIndex + 1) % items.length
+            : Math.min(currentIndex + 1, items.length - 1);
           e.preventDefault();
         }
         break;
       case 'ArrowLeft':
         if (orientation === 'horizontal' || orientation === 'both') {
-          nextIndex = wrap ? (currentIndex - 1 + items.length) % items.length : Math.max(currentIndex - 1, 0);
+          nextIndex = wrap
+            ? (currentIndex - 1 + items.length) % items.length
+            : Math.max(currentIndex - 1, 0);
           e.preventDefault();
         }
         break;
       case 'ArrowDown':
         if (orientation === 'vertical' || orientation === 'both') {
-          nextIndex = wrap ? (currentIndex + 1) % items.length : Math.min(currentIndex + 1, items.length - 1);
+          nextIndex = wrap
+            ? (currentIndex + 1) % items.length
+            : Math.min(currentIndex + 1, items.length - 1);
           e.preventDefault();
         }
         break;
       case 'ArrowUp':
         if (orientation === 'vertical' || orientation === 'both') {
-          nextIndex = wrap ? (currentIndex - 1 + items.length) % items.length : Math.max(currentIndex - 1, 0);
+          nextIndex = wrap
+            ? (currentIndex - 1 + items.length) % items.length
+            : Math.max(currentIndex - 1, 0);
           e.preventDefault();
         }
         break;
@@ -227,7 +240,7 @@ export const keyboardNavigation = {
         e.preventDefault();
         break;
     }
-    
+
     if (nextIndex !== currentIndex) {
       items[nextIndex]?.focus();
     }
@@ -247,7 +260,7 @@ export const keyboardNavigation = {
       e.preventDefault();
       callback();
     }
-  }
+  },
 };
 
 export default FocusManager;

@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth/auth-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -17,16 +17,14 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  MapPin, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  ArrowLeft,
-  Home,
-  Building
-} from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { MapPin, Plus, Edit, Trash2, ArrowLeft, Home, Building } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Address {
@@ -67,7 +65,7 @@ export default function AddressBookPage() {
 
   useEffect(() => {
     fetchAddresses();
-  }, [session]);
+  }, [session, fetchAddresses]);
 
   const fetchAddresses = async () => {
     if (!session) return;
@@ -87,14 +85,14 @@ export default function AddressBookPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
-      const url = editingAddress 
+      const url = editingAddress
         ? `/api/user/addresses/${editingAddress.id}`
         : '/api/user/addresses';
-      
+
       const method = editingAddress ? 'PUT' : 'POST';
-      
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -189,10 +187,10 @@ export default function AddressBookPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Please sign in</h2>
-          <p className="text-gray-600 mb-4">You need to be signed in to manage your addresses.</p>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
+          <p className="mb-4 text-gray-600">You need to be signed in to manage your addresses.</p>
           <Link href="/auth/login">
             <Button>Sign In</Button>
           </Link>
@@ -208,41 +206,36 @@ export default function AddressBookPage() {
         <div className="mb-6">
           <Link href="/account/dashboard">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Dashboard
             </Button>
           </Link>
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Address Book</h1>
-            <p className="text-gray-600 mt-2">
-              Manage your shipping and billing addresses
-            </p>
+            <p className="mt-2 text-gray-600">Manage your shipping and billing addresses</p>
           </div>
-          
+
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={resetForm}>
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="mr-2 h-4 w-4" />
                 Add Address
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>
-                  {editingAddress ? 'Edit Address' : 'Add New Address'}
-                </DialogTitle>
+                <DialogTitle>{editingAddress ? 'Edit Address' : 'Add New Address'}</DialogTitle>
                 <DialogDescription>
-                  {editingAddress 
+                  {editingAddress
                     ? 'Update your address information'
-                    : 'Add a new shipping or billing address'
-                  }
+                    : 'Add a new shipping or billing address'}
                 </DialogDescription>
               </DialogHeader>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -250,7 +243,7 @@ export default function AddressBookPage() {
                     <Input
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       required
                     />
                   </div>
@@ -259,7 +252,7 @@ export default function AddressBookPage() {
                     <Input
                       id="lastName"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       required
                     />
                   </div>
@@ -270,7 +263,7 @@ export default function AddressBookPage() {
                   <Input
                     id="address"
                     value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     required
                   />
                 </div>
@@ -280,7 +273,7 @@ export default function AddressBookPage() {
                   <Input
                     id="address2"
                     value={formData.address2}
-                    onChange={(e) => setFormData({...formData, address2: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, address2: e.target.value })}
                   />
                 </div>
 
@@ -290,7 +283,7 @@ export default function AddressBookPage() {
                     <Input
                       id="city"
                       value={formData.city}
-                      onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       required
                     />
                   </div>
@@ -299,7 +292,7 @@ export default function AddressBookPage() {
                     <Input
                       id="state"
                       value={formData.state}
-                      onChange={(e) => setFormData({...formData, state: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                       required
                     />
                   </div>
@@ -311,7 +304,7 @@ export default function AddressBookPage() {
                     <Input
                       id="zipCode"
                       value={formData.zipCode}
-                      onChange={(e) => setFormData({...formData, zipCode: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
                       required
                     />
                   </div>
@@ -319,7 +312,7 @@ export default function AddressBookPage() {
                     <Label htmlFor="country">Country</Label>
                     <Select
                       value={formData.country}
-                      onValueChange={(value) => setFormData({...formData, country: value})}
+                      onValueChange={(value) => setFormData({ ...formData, country: value })}
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -339,7 +332,7 @@ export default function AddressBookPage() {
                     id="phone"
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
                 </div>
 
@@ -347,7 +340,9 @@ export default function AddressBookPage() {
                   <Label htmlFor="type">Address Type</Label>
                   <Select
                     value={formData.type}
-                    onValueChange={(value: 'shipping' | 'billing') => setFormData({...formData, type: value})}
+                    onValueChange={(value: 'shipping' | 'billing') =>
+                      setFormData({ ...formData, type: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -364,7 +359,7 @@ export default function AddressBookPage() {
                     type="checkbox"
                     id="isDefault"
                     checked={formData.isDefault}
-                    onChange={(e) => setFormData({...formData, isDefault: e.target.checked})}
+                    onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
                     className="rounded"
                   />
                   <Label htmlFor="isDefault">Set as default address</Label>
@@ -374,9 +369,7 @@ export default function AddressBookPage() {
                   <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit">
-                    {editingAddress ? 'Update Address' : 'Add Address'}
-                  </Button>
+                  <Button type="submit">{editingAddress ? 'Update Address' : 'Add Address'}</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -389,7 +382,7 @@ export default function AddressBookPage() {
             <div className="space-y-4">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="h-32 bg-gray-200 rounded-lg"></div>
+                  <div className="h-32 rounded-lg bg-gray-200"></div>
                 </div>
               ))}
             </div>
@@ -399,31 +392,31 @@ export default function AddressBookPage() {
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3">
-                      <div className="p-2 bg-gray-100 rounded-lg">
+                      <div className="rounded-lg bg-gray-100 p-2">
                         {address.type === 'shipping' ? (
                           <Home className="h-5 w-5 text-gray-600" />
                         ) : (
                           <Building className="h-5 w-5 text-gray-600" />
                         )}
                       </div>
-                      
+
                       <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
+                        <div className="mb-2 flex items-center space-x-2">
                           <h3 className="font-semibold">
                             {address.firstName} {address.lastName}
                           </h3>
                           <Badge variant={address.type === 'shipping' ? 'default' : 'secondary'}>
                             {address.type}
                           </Badge>
-                          {address.isDefault && (
-                            <Badge variant="outline">Default</Badge>
-                          )}
+                          {address.isDefault && <Badge variant="outline">Default</Badge>}
                         </div>
-                        
-                        <div className="text-sm text-gray-600 space-y-1">
+
+                        <div className="space-y-1 text-sm text-gray-600">
                           <p>{address.address}</p>
                           {address.address2 && <p>{address.address2}</p>}
-                          <p>{address.city}, {address.state} {address.zipCode}</p>
+                          <p>
+                            {address.city}, {address.state} {address.zipCode}
+                          </p>
                           <p>{address.country}</p>
                           {address.phone && <p>Phone: {address.phone}</p>}
                         </div>
@@ -440,15 +433,11 @@ export default function AddressBookPage() {
                           Set Default
                         </Button>
                       )}
-                      
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleEdit(address)}
-                      >
+
+                      <Button variant="ghost" size="sm" onClick={() => handleEdit(address)}>
                         <Edit className="h-4 w-4" />
                       </Button>
-                      
+
                       <Button
                         variant="ghost"
                         size="sm"
@@ -464,14 +453,14 @@ export default function AddressBookPage() {
             ))
           ) : (
             <Card>
-              <CardContent className="text-center py-12">
-                <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No addresses saved</h3>
-                <p className="text-gray-600 mb-6">
+              <CardContent className="py-12 text-center">
+                <MapPin className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">No addresses saved</h3>
+                <p className="mb-6 text-gray-600">
                   Add your shipping and billing addresses for faster checkout.
                 </p>
                 <Button onClick={() => setDialogOpen(true)}>
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 h-4 w-4" />
                   Add Your First Address
                 </Button>
               </CardContent>

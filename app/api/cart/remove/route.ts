@@ -4,15 +4,11 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { removeFromCartSchema } from '@/lib/validations/cart';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError, 
-  handleNotFound 
-} from '@/lib/api/index';
+import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
 
 // DELETE /api/cart/remove - Remove an item from the cart
 export async function DELETE(req: NextRequest) {
-  return withAuth(req, (req, session) => 
+  return withAuth(req, (req, session) =>
     withValidation(req, removeFromCartSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -35,18 +31,15 @@ export async function DELETE(req: NextRequest) {
         }
 
         // Delete the cart item
-        const { error } = await supabase
-          .from('cart_items')
-          .delete()
-          .eq('id', id);
+        const { error } = await supabase.from('cart_items').delete().eq('id', id);
 
         if (error) {
           throw error;
         }
 
-        return successResponse({ 
+        return successResponse({
           message: `Item removed from cart successfully`,
-          id
+          id,
         });
       } catch (error) {
         return handleDatabaseError(error as Error);

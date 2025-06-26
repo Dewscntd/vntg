@@ -2,13 +2,7 @@
 
 import { X, ShoppingBag } from 'lucide-react';
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -47,10 +41,10 @@ export function CartDrawer({ children, className }: CartDrawerProps) {
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>
       {children && <SheetTrigger asChild>{children}</SheetTrigger>}
-      
+
       <SheetContent
         ref={cartDrawerRef}
-        className={cn('w-full sm:max-w-lg flex flex-col', className)}
+        className={cn('flex w-full flex-col sm:max-w-lg', className)}
         {...getCartDrawerProps()}
       >
         <SheetHeader className="space-y-2.5 pr-6" data-cart-header>
@@ -66,10 +60,10 @@ export function CartDrawer({ children, className }: CartDrawerProps) {
         </SheetHeader>
 
         {/* Cart Content */}
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex min-h-0 flex-1 flex-col">
           {items.length === 0 ? (
             /* Empty Cart */
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex flex-1 items-center justify-center">
               <EmptyCart compact showSuggestions={false} />
             </div>
           ) : (
@@ -88,7 +82,7 @@ export function CartDrawer({ children, className }: CartDrawerProps) {
               </ScrollArea>
 
               {/* Cart Summary */}
-              <div className="border-t pt-4 mt-4" data-cart-summary>
+              <div className="mt-4 border-t pt-4" data-cart-summary>
                 <CartSummary compact />
               </div>
             </>
@@ -97,7 +91,7 @@ export function CartDrawer({ children, className }: CartDrawerProps) {
 
         {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
               <span className="text-sm">Updating cart...</span>
@@ -118,36 +112,30 @@ export function CartDrawerStandalone({ className }: { className?: string }) {
   return (
     <div className="fixed inset-0 z-50">
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/50 transition-opacity"
-        onClick={closeCart}
-      />
-      
+      <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={closeCart} />
+
       {/* Drawer */}
-      <div className={cn(
-        'fixed right-0 top-0 h-full w-full sm:max-w-lg bg-background shadow-xl transform transition-transform duration-300 ease-in-out',
-        className
-      )}>
-        <div className="flex flex-col h-full">
+      <div
+        className={cn(
+          'fixed right-0 top-0 h-full w-full transform bg-background shadow-xl transition-transform duration-300 ease-in-out sm:max-w-lg',
+          className
+        )}
+      >
+        <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
+          <div className="flex items-center justify-between border-b p-6">
+            <h2 className="flex items-center gap-2 text-lg font-semibold">
               <ShoppingBag className="h-5 w-5" />
               Shopping Cart
             </h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={closeCart}
-              className="h-8 w-8 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={closeCart} className="h-8 w-8 p-0">
               <X className="h-4 w-4" />
               <span className="sr-only">Close cart</span>
             </Button>
           </div>
 
           {/* Content */}
-          <div className="flex-1 flex flex-col min-h-0 p-6">
+          <div className="flex min-h-0 flex-1 flex-col p-6">
             <CartDrawer />
           </div>
         </div>

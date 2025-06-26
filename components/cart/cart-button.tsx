@@ -68,31 +68,20 @@ export function CartButton({
       size={showText ? 'default' : 'icon'}
       onClick={toggleCart}
       disabled={isLoading}
-      className={cn(
-        'relative',
-        !showText && sizeClasses[size],
-        className
-      )}
+      className={cn('relative', !showText && sizeClasses[size], className)}
       {...getCartButtonProps()}
     >
-      <ShoppingCart 
-        className={cn(iconSizes[size], showText && 'mr-2')} 
-        data-cart-icon 
-      />
-      
-      {showText && (
-        <span>
-          Cart {itemCount > 0 && `(${itemCount})`}
-        </span>
-      )}
+      <ShoppingCart className={cn(iconSizes[size], showText && 'mr-2')} data-cart-icon />
+
+      {showText && <span>Cart {itemCount > 0 && `(${itemCount})`}</span>}
 
       {/* Item Count Badge */}
       {showBadge && itemCount > 0 && (
         <Badge
           variant="destructive"
           className={cn(
-            'absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs font-bold flex items-center justify-center',
-            'animate-in zoom-in-50 duration-200'
+            'absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs font-bold',
+            'duration-200 animate-in zoom-in-50'
           )}
           aria-label={`${itemCount} item${itemCount === 1 ? '' : 's'} in cart`}
         >

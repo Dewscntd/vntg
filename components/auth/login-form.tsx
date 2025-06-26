@@ -39,7 +39,7 @@ export function LoginForm() {
 
     try {
       const { error } = await signIn(data.email, data.password);
-      
+
       if (error) {
         setError(error.message);
         return;
@@ -65,9 +65,7 @@ export function LoginForm() {
       </div>
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error}
-        </div>
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
       )}
 
       <Form {...form}>
@@ -126,10 +124,7 @@ export function LoginForm() {
 
       <div className="text-center text-sm">
         Don&apos;t have an account?{' '}
-        <Link
-          href="/auth/register"
-          className="text-primary underline-offset-4 hover:underline"
-        >
+        <Link href="/auth/register" className="text-primary underline-offset-4 hover:underline">
           Register
         </Link>
       </div>

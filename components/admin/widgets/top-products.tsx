@@ -28,13 +28,13 @@ interface TopProductsProps {
   limit?: number;
 }
 
-export function TopProducts({ 
-  products, 
-  loading, 
-  title = "Top Products",
+export function TopProducts({
+  products,
+  loading,
+  title = 'Top Products',
   showRevenue = true,
   showViews = false,
-  limit = 5
+  limit = 5,
 }: TopProductsProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -62,7 +62,7 @@ export function TopProducts({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Package className="h-5 w-5 mr-2" />
+            <Package className="mr-2 h-5 w-5" />
             {title}
           </CardTitle>
         </CardHeader>
@@ -71,12 +71,12 @@ export function TopProducts({
             {[...Array(limit)].map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="flex items-center space-x-4">
-                  <div className="h-12 w-12 bg-gray-200 rounded-lg"></div>
+                  <div className="h-12 w-12 rounded-lg bg-gray-200"></div>
                   <div className="flex-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
+                    <div className="h-3 w-1/2 rounded bg-gray-200"></div>
                   </div>
-                  <div className="h-4 bg-gray-200 rounded w-16"></div>
+                  <div className="h-4 w-16 rounded bg-gray-200"></div>
                 </div>
               </div>
             ))}
@@ -91,14 +91,14 @@ export function TopProducts({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Package className="h-5 w-5 mr-2" />
+            <Package className="mr-2 h-5 w-5" />
             {title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8">
-            <Package className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <p className="text-gray-500 text-sm">No product data available</p>
+          <div className="py-8 text-center">
+            <Package className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+            <p className="text-sm text-gray-500">No product data available</p>
           </div>
         </CardContent>
       </Card>
@@ -109,7 +109,7 @@ export function TopProducts({
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center">
-          <Package className="h-5 w-5 mr-2" />
+          <Package className="mr-2 h-5 w-5" />
           {title}
         </CardTitle>
         <Link href="/admin/products">
@@ -121,15 +121,23 @@ export function TopProducts({
       <CardContent>
         <div className="space-y-4">
           {displayProducts.map((product, index) => (
-            <div key={product.id} className="flex items-center space-x-4 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+            <div
+              key={product.id}
+              className="flex items-center space-x-4 rounded-lg border p-3 transition-colors hover:bg-gray-50"
+            >
               {/* Rank */}
               <div className="flex-shrink-0">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  index === 0 ? 'bg-yellow-100 text-yellow-800' :
-                  index === 1 ? 'bg-gray-100 text-gray-800' :
-                  index === 2 ? 'bg-orange-100 text-orange-800' :
-                  'bg-blue-100 text-blue-800'
-                }`}>
+                <div
+                  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+                    index === 0
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : index === 1
+                        ? 'bg-gray-100 text-gray-800'
+                        : index === 2
+                          ? 'bg-orange-100 text-orange-800'
+                          : 'bg-blue-100 text-blue-800'
+                  }`}
+                >
                   {index + 1}
                 </div>
               </div>
@@ -143,27 +151,27 @@ export function TopProducts({
                     className="h-12 w-12 rounded-lg object-cover"
                   />
                 ) : (
-                  <div className="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-200">
                     <Package className="h-6 w-6 text-gray-400" />
                   </div>
                 )}
               </div>
 
               {/* Product Info */}
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <Link href={`/admin/products/${product.id}/edit`}>
-                  <h4 className="font-medium text-gray-900 truncate hover:text-blue-600 transition-colors">
+                  <h4 className="truncate font-medium text-gray-900 transition-colors hover:text-blue-600">
                     {product.name}
                   </h4>
                 </Link>
-                <div className="flex items-center space-x-3 mt-1">
+                <div className="mt-1 flex items-center space-x-3">
                   <div className="flex items-center text-xs text-gray-500">
-                    <ShoppingCart className="h-3 w-3 mr-1" />
+                    <ShoppingCart className="mr-1 h-3 w-3" />
                     {formatNumber(product.sales_count)} sold
                   </div>
                   {showViews && product.views && (
                     <div className="flex items-center text-xs text-gray-500">
-                      <Eye className="h-3 w-3 mr-1" />
+                      <Eye className="mr-1 h-3 w-3" />
                       {formatNumber(product.views)} views
                     </div>
                   )}
@@ -182,15 +190,15 @@ export function TopProducts({
                     {formatCurrency(product.revenue)}
                   </div>
                 )}
-                <div className="flex items-center justify-end space-x-2 mt-1">
+                <div className="mt-1 flex items-center justify-end space-x-2">
                   {product.conversion_rate && (
-                    <div className="text-xs text-green-600 flex items-center">
-                      <TrendingUp className="h-3 w-3 mr-1" />
+                    <div className="flex items-center text-xs text-green-600">
+                      <TrendingUp className="mr-1 h-3 w-3" />
                       {product.conversion_rate.toFixed(1)}%
                     </div>
                   )}
                   {product.inventory_count !== undefined && (
-                    <Badge 
+                    <Badge
                       variant={product.inventory_count < 10 ? 'secondary' : 'outline'}
                       className={`text-xs ${
                         product.inventory_count < 10 ? 'bg-orange-100 text-orange-800' : ''
@@ -206,7 +214,7 @@ export function TopProducts({
         </div>
 
         {/* Summary Stats */}
-        <div className="mt-6 pt-4 border-t">
+        <div className="mt-6 border-t pt-4">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
               <p className="text-2xl font-bold text-gray-900">

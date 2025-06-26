@@ -5,17 +5,17 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Activity, 
-  ShoppingCart, 
-  User, 
-  Package, 
+import {
+  Activity,
+  ShoppingCart,
+  User,
+  Package,
   DollarSign,
   UserPlus,
   Edit,
   Trash2,
   Eye,
-  Clock
+  Clock,
 } from 'lucide-react';
 
 interface ActivityItem {
@@ -49,26 +49,26 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
     const date = new Date(dateString);
     const now = new Date();
     const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-    
+
     if (diffInMinutes < 1) return 'Just now';
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-    
+
     const diffInHours = Math.floor(diffInMinutes / 60);
     if (diffInHours < 24) return `${diffInHours}h ago`;
-    
+
     const diffInDays = Math.floor(diffInHours / 24);
     if (diffInDays < 7) return `${diffInDays}d ago`;
-    
+
     return date.toLocaleDateString('en-US', {
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -79,42 +79,44 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
           icon: ShoppingCart,
           color: 'text-blue-600',
           bgColor: 'bg-blue-50',
-          link: action.includes('created') ? `/admin/orders/${action.split(' ')[0]}` : '/admin/orders'
+          link: action.includes('created')
+            ? `/admin/orders/${action.split(' ')[0]}`
+            : '/admin/orders',
         };
       case 'user':
         return {
           icon: action.includes('registered') ? UserPlus : User,
           color: 'text-green-600',
           bgColor: 'bg-green-50',
-          link: '/admin/users'
+          link: '/admin/users',
         };
       case 'product':
         return {
           icon: action.includes('created') ? Package : action.includes('updated') ? Edit : Trash2,
           color: 'text-purple-600',
           bgColor: 'bg-purple-50',
-          link: '/admin/products'
+          link: '/admin/products',
         };
       case 'payment':
         return {
           icon: DollarSign,
           color: 'text-emerald-600',
           bgColor: 'bg-emerald-50',
-          link: '/admin/orders'
+          link: '/admin/orders',
         };
       case 'system':
         return {
           icon: Activity,
           color: 'text-gray-600',
           bgColor: 'bg-gray-50',
-          link: '/admin'
+          link: '/admin',
         };
       default:
         return {
           icon: Activity,
           color: 'text-gray-600',
           bgColor: 'bg-gray-50',
-          link: '/admin'
+          link: '/admin',
         };
     }
   };
@@ -126,7 +128,7 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Activity className="h-5 w-5 mr-2" />
+            <Activity className="mr-2 h-5 w-5" />
             Recent Activity
           </CardTitle>
         </CardHeader>
@@ -135,12 +137,12 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
             {[...Array(8)].map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="flex items-start space-x-4">
-                  <div className="h-10 w-10 bg-gray-200 rounded-full"></div>
+                  <div className="h-10 w-10 rounded-full bg-gray-200"></div>
                   <div className="flex-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
+                    <div className="h-3 w-1/2 rounded bg-gray-200"></div>
                   </div>
-                  <div className="h-3 bg-gray-200 rounded w-16"></div>
+                  <div className="h-3 w-16 rounded bg-gray-200"></div>
                 </div>
               </div>
             ))}
@@ -155,14 +157,14 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Activity className="h-5 w-5 mr-2" />
+            <Activity className="mr-2 h-5 w-5" />
             Recent Activity
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8">
-            <Clock className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <p className="text-gray-500 text-sm">No recent activity</p>
+          <div className="py-8 text-center">
+            <Clock className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+            <p className="text-sm text-gray-500">No recent activity</p>
           </div>
         </CardContent>
       </Card>
@@ -173,7 +175,7 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center">
-          <Activity className="h-5 w-5 mr-2" />
+          <Activity className="mr-2 h-5 w-5" />
           Recent Activity
         </CardTitle>
         <Button variant="outline" size="sm">
@@ -185,59 +187,58 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
           {displayActivities.map((activity) => {
             const config = getActivityConfig(activity.type, activity.action);
             const Icon = config.icon;
-            
+
             return (
-              <div key={activity.id} className="flex items-start space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div
+                key={activity.id}
+                className="flex items-start space-x-4 rounded-lg p-3 transition-colors hover:bg-gray-50"
+              >
                 {/* Activity Icon */}
-                <div className={`p-2 rounded-full ${config.bgColor} flex-shrink-0`}>
+                <div className={`rounded-full p-2 ${config.bgColor} flex-shrink-0`}>
                   <Icon className={`h-4 w-4 ${config.color}`} />
                 </div>
 
                 {/* Activity Content */}
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        {activity.action}
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {activity.description}
-                      </p>
-                      
+                      <p className="text-sm font-medium text-gray-900">{activity.action}</p>
+                      <p className="mt-1 text-sm text-gray-600">{activity.description}</p>
+
                       {/* User Info */}
                       {activity.user && (
-                        <div className="flex items-center mt-2">
+                        <div className="mt-2 flex items-center">
                           {activity.user.avatar_url ? (
                             <img
                               src={activity.user.avatar_url}
                               alt={activity.user.name}
-                              className="h-6 w-6 rounded-full mr-2"
+                              className="mr-2 h-6 w-6 rounded-full"
                             />
                           ) : (
-                            <div className="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                            <div className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-200">
                               <User className="h-3 w-3 text-gray-400" />
                             </div>
                           )}
-                          <span className="text-xs text-gray-500">
-                            {activity.user.name}
-                          </span>
+                          <span className="text-xs text-gray-500">{activity.user.name}</span>
                         </div>
                       )}
 
                       {/* Metadata */}
                       {activity.metadata && (
-                        <div className="flex items-center space-x-3 mt-2">
+                        <div className="mt-2 flex items-center space-x-3">
                           {activity.metadata.amount && (
                             <Badge variant="outline" className="text-xs">
                               {formatCurrency(activity.metadata.amount)}
                             </Badge>
                           )}
                           {activity.metadata.status && (
-                            <Badge 
+                            <Badge
                               variant={
-                                activity.metadata.status === 'completed' ? 'default' :
-                                activity.metadata.status === 'pending' ? 'secondary' :
-                                'outline'
+                                activity.metadata.status === 'completed'
+                                  ? 'default'
+                                  : activity.metadata.status === 'pending'
+                                    ? 'secondary'
+                                    : 'outline'
                               }
                               className="text-xs"
                             >
@@ -245,7 +246,7 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
                             </Badge>
                           )}
                           {activity.metadata.order_id && (
-                            <Link 
+                            <Link
                               href={`/admin/orders/${activity.metadata.order_id}`}
                               className="text-xs text-blue-600 hover:text-blue-800"
                             >
@@ -257,7 +258,7 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
                     </div>
 
                     {/* Timestamp */}
-                    <div className="text-xs text-gray-500 flex-shrink-0 ml-4">
+                    <div className="ml-4 flex-shrink-0 text-xs text-gray-500">
                       {formatDate(activity.timestamp)}
                     </div>
                   </div>
@@ -268,20 +269,20 @@ export function RecentActivity({ activities, loading, limit = 10 }: RecentActivi
         </div>
 
         {/* Activity Summary */}
-        <div className="mt-6 pt-4 border-t">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div className="mt-6 border-t pt-4">
+          <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
             {['order', 'user', 'product', 'payment'].map((type) => {
-              const count = activities.filter(a => a.type === type).length;
+              const count = activities.filter((a) => a.type === type).length;
               const config = getActivityConfig(type as ActivityItem['type'], '');
               const Icon = config.icon;
-              
+
               return (
                 <div key={type} className="flex flex-col items-center">
-                  <div className={`p-2 rounded-lg ${config.bgColor} mb-2`}>
+                  <div className={`rounded-lg p-2 ${config.bgColor} mb-2`}>
                     <Icon className={`h-4 w-4 ${config.color}`} />
                   </div>
                   <p className="text-sm font-medium text-gray-900">{count}</p>
-                  <p className="text-xs text-gray-600 capitalize">{type}s</p>
+                  <p className="text-xs capitalize text-gray-600">{type}s</p>
                 </div>
               );
             })}

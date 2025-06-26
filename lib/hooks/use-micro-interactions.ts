@@ -36,7 +36,7 @@ export function useButtonInteractions() {
     handlePress,
     handleHover,
     handleLeave,
-    createRipple
+    createRipple,
   };
 }
 
@@ -73,7 +73,7 @@ export function useInputInteractions() {
     handleFocus,
     handleBlur,
     showError,
-    showSuccess
+    showSuccess,
   };
 }
 
@@ -108,7 +108,7 @@ export function useLoadingAnimations() {
     skeletonRef,
     startSpinner,
     startDots,
-    startSkeleton
+    startSkeleton,
   };
 }
 
@@ -120,25 +120,25 @@ export function useModalAnimations() {
 
   const openModal = useCallback(() => {
     const animations = [];
-    
+
     if (backdropRef.current) {
       animations.push(microInteractions.modalBackdropFadeIn(backdropRef.current));
     }
-    
+
     if (contentRef.current) {
       animations.push(microInteractions.modalContentSlideIn(contentRef.current));
     }
-    
+
     return Promise.all(animations);
   }, []);
 
   const closeModal = useCallback(() => {
     const animations = [];
-    
+
     if (contentRef.current) {
       animations.push(microInteractions.modalContentSlideOut(contentRef.current));
     }
-    
+
     if (backdropRef.current) {
       setTimeout(() => {
         if (backdropRef.current) {
@@ -146,7 +146,7 @@ export function useModalAnimations() {
         }
       }, 200);
     }
-    
+
     return Promise.all(animations);
   }, []);
 
@@ -155,7 +155,7 @@ export function useModalAnimations() {
     backdropRef,
     contentRef,
     openModal,
-    closeModal
+    closeModal,
   };
 }
 
@@ -178,7 +178,7 @@ export function useNotificationAnimations() {
   return {
     notificationRef,
     slideIn,
-    slideOut
+    slideOut,
   };
 }
 
@@ -201,7 +201,7 @@ export function useBadgeAnimations() {
   return {
     badgeRef,
     popIn,
-    update
+    update,
   };
 }
 
@@ -231,7 +231,7 @@ export function useIconAnimations() {
     iconRef,
     spin,
     bounce,
-    pulse
+    pulse,
   };
 }
 
@@ -247,7 +247,7 @@ export function useProgressAnimations() {
 
   return {
     progressRef,
-    animateProgress
+    animateProgress,
   };
 }
 
@@ -270,7 +270,7 @@ export function useAccordionAnimations() {
   return {
     accordionRef,
     expand,
-    collapse
+    collapse,
   };
 }
 

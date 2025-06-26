@@ -29,6 +29,7 @@ All API responses follow this standard format:
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
@@ -45,6 +46,7 @@ All API responses follow this standard format:
 Retrieve a list of products with optional filtering and pagination.
 
 **Query Parameters:**
+
 - `page` (number): Page number (default: 1)
 - `limit` (number): Items per page (default: 12, max: 100)
 - `category` (string): Filter by category slug
@@ -56,11 +58,13 @@ Retrieve a list of products with optional filtering and pagination.
 - `in_stock` (boolean): Filter by stock availability
 
 **Example Request:**
+
 ```bash
 GET /api/products?page=1&limit=12&category=electronics&sort=price&order=asc
 ```
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -103,9 +107,11 @@ GET /api/products?page=1&limit=12&category=electronics&sort=price&order=asc
 Retrieve a single product by ID.
 
 **Parameters:**
+
 - `id` (string): Product ID
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -146,6 +152,7 @@ Create a new product.
 **Authentication Required**: Admin role
 
 **Request Body:**
+
 ```json
 {
   "name": "New Product",
@@ -175,6 +182,7 @@ Create a new product.
 Retrieve all product categories.
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -201,6 +209,7 @@ Retrieve the current user's cart.
 **Authentication Required**: Yes
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -227,7 +236,7 @@ Retrieve the current user's cart.
       }
     ],
     "subtotal": 159.98,
-    "tax": 12.80,
+    "tax": 12.8,
     "total": 172.78,
     "item_count": 2,
     "updated_at": "2024-01-01T00:00:00.000Z"
@@ -242,6 +251,7 @@ Add an item to the cart.
 **Authentication Required**: Yes
 
 **Request Body:**
+
 ```json
 {
   "product_id": "prod_123",
@@ -256,6 +266,7 @@ Update cart item quantity.
 **Authentication Required**: Yes
 
 **Request Body:**
+
 ```json
 {
   "item_id": "item_123",
@@ -270,6 +281,7 @@ Remove an item from the cart.
 **Authentication Required**: Yes
 
 **Request Body:**
+
 ```json
 {
   "item_id": "item_123"
@@ -285,6 +297,7 @@ Create a Stripe payment intent for checkout.
 **Authentication Required**: Yes
 
 **Request Body:**
+
 ```json
 {
   "amount": 17278,
@@ -293,6 +306,7 @@ Create a Stripe payment intent for checkout.
 ```
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -312,6 +326,7 @@ Create an order after successful payment.
 **Authentication Required**: Yes
 
 **Request Body:**
+
 ```json
 {
   "payment_intent_id": "pi_123",
@@ -339,11 +354,13 @@ Retrieve user's orders.
 **Authentication Required**: Yes
 
 **Query Parameters:**
+
 - `page` (number): Page number (default: 1)
 - `limit` (number): Items per page (default: 10)
 - `status` (string): Filter by order status
 
 **Example Response:**
+
 ```json
 {
   "success": true,
@@ -390,6 +407,7 @@ Retrieve a specific order.
 **Authentication Required**: Yes
 
 **Parameters:**
+
 - `id` (string): Order ID
 
 ## Webhooks
@@ -399,9 +417,11 @@ Retrieve a specific order.
 Stripe webhook endpoint for payment events.
 
 **Headers:**
+
 - `stripe-signature`: Stripe webhook signature
 
 **Events Handled:**
+
 - `payment_intent.succeeded`
 - `payment_intent.payment_failed`
 - `payment_intent.canceled`
@@ -414,6 +434,7 @@ Stripe webhook endpoint for payment events.
 System health check endpoint.
 
 **Example Response:**
+
 ```json
 {
   "status": "healthy",
@@ -436,16 +457,16 @@ System health check endpoint.
 
 ## Error Codes
 
-| Code | Description |
-|------|-------------|
-| 400 | Bad Request - Invalid input data |
-| 401 | Unauthorized - Authentication required |
-| 403 | Forbidden - Insufficient permissions |
-| 404 | Not Found - Resource not found |
-| 409 | Conflict - Resource already exists |
-| 422 | Unprocessable Entity - Validation error |
-| 429 | Too Many Requests - Rate limit exceeded |
-| 500 | Internal Server Error - Server error |
+| Code | Description                             |
+| ---- | --------------------------------------- |
+| 400  | Bad Request - Invalid input data        |
+| 401  | Unauthorized - Authentication required  |
+| 403  | Forbidden - Insufficient permissions    |
+| 404  | Not Found - Resource not found          |
+| 409  | Conflict - Resource already exists      |
+| 422  | Unprocessable Entity - Validation error |
+| 429  | Too Many Requests - Rate limit exceeded |
+| 500  | Internal Server Error - Server error    |
 
 ## Rate Limiting
 
@@ -458,6 +479,7 @@ API endpoints are rate limited to prevent abuse:
 - **Checkout endpoints**: 20 requests per minute
 
 Rate limit headers are included in responses:
+
 - `X-RateLimit-Limit`: Request limit per window
 - `X-RateLimit-Remaining`: Remaining requests in window
 - `X-RateLimit-Reset`: Time when window resets

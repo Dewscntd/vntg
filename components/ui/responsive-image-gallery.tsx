@@ -2,15 +2,15 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  ZoomIn, 
-  ZoomOut, 
-  X, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  X,
   Maximize2,
   Download,
-  Share2
+  Share2,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -57,14 +57,14 @@ export function ResponsiveImageGallery({
   autoPlayInterval = 5000,
   loop = true,
   onImageChange,
-  onImageClick
+  onImageClick,
 }: ResponsiveImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
   const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
-  
+
   const mainImageRef = useRef<HTMLDivElement>(null);
   const fullscreenRef = useRef<HTMLDivElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
@@ -77,25 +77,23 @@ export function ResponsiveImageGallery({
     video: 'aspect-video',
     wide: 'aspect-[21/9]',
     portrait: 'aspect-[3/4]',
-    auto: ''
+    auto: '',
   };
 
   // Navigation functions
   const goToNext = () => {
-    const nextIndex = currentIndex >= images.length - 1 
-      ? (loop ? 0 : currentIndex)
-      : currentIndex + 1;
-    
+    const nextIndex =
+      currentIndex >= images.length - 1 ? (loop ? 0 : currentIndex) : currentIndex + 1;
+
     setCurrentIndex(nextIndex);
     onImageChange?.(nextIndex);
     resetZoom();
   };
 
   const goToPrevious = () => {
-    const prevIndex = currentIndex <= 0 
-      ? (loop ? images.length - 1 : currentIndex)
-      : currentIndex - 1;
-    
+    const prevIndex =
+      currentIndex <= 0 ? (loop ? images.length - 1 : currentIndex) : currentIndex - 1;
+
     setCurrentIndex(prevIndex);
     onImageChange?.(prevIndex);
     resetZoom();
@@ -132,20 +130,20 @@ export function ResponsiveImageGallery({
   const swipeRef = useSwipeableCarousel({
     onNext: goToNext,
     onPrevious: goToPrevious,
-    threshold: 50
+    threshold: 50,
   });
 
   const zoomRef = useZoomable({
     onZoom: handleZoom,
     minScale: 1,
-    maxScale: 3
+    maxScale: 3,
   });
 
   // Auto-play functionality
   useEffect(() => {
     if (autoPlay && !isFullscreen) {
       autoPlayRef.current = setInterval(goToNext, autoPlayInterval);
-      
+
       return () => {
         if (autoPlayRef.current) {
           clearInterval(autoPlayRef.current);
@@ -204,17 +202,17 @@ export function ResponsiveImageGallery({
   }, [isFullscreen, zoomLevel]);
 
   const MainImageDisplay = ({ inFullscreen = false }) => (
-    <div 
+    <div
       ref={inFullscreen ? fullscreenRef : mainImageRef}
       className={cn(
         'relative overflow-hidden rounded-lg bg-muted',
         !inFullscreen && aspectRatioClasses[aspectRatio],
-        inFullscreen && 'w-full h-full flex items-center justify-center'
+        inFullscreen && 'flex h-full w-full items-center justify-center'
       )}
     >
       <div
         ref={enableZoom ? zoomRef : swipeRef}
-        className="relative w-full h-full cursor-pointer"
+        className="relative h-full w-full cursor-pointer"
         onClick={handleImageClick}
       >
         <Image
@@ -225,24 +223,27 @@ export function ResponsiveImageGallery({
           height={inFullscreen ? currentImage.height : undefined}
           className={cn(
             'object-cover transition-transform duration-300',
-            inFullscreen ? 'max-w-full max-h-full object-contain' : 'object-cover'
+            inFullscreen ? 'max-h-full max-w-full object-contain' : 'object-cover'
           )}
-          style={enableZoom ? {
-            transform: `scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`
-          } : undefined}
+          style={
+            enableZoom
+              ? {
+                  transform: `scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`,
+                }
+              : undefined
+          }
           placeholder={currentImage.blurDataURL ? 'blur' : 'empty'}
           blurDataURL={currentImage.blurDataURL}
           priority={currentIndex === 0}
-          sizes={inFullscreen 
-            ? '100vw' 
-            : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          sizes={
+            inFullscreen ? '100vw' : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           }
         />
       </div>
 
       {/* Image Controls */}
       {showControls && (
-        <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 hover:opacity-100 transition-opacity">
+        <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 transition-opacity hover:opacity-100">
           <TouchIconButton
             icon={<ChevronLeft />}
             label="Previous image"
@@ -250,10 +251,10 @@ export function ResponsiveImageGallery({
             variant="secondary"
             onClick={goToPrevious}
             disabled={!loop && currentIndex === 0}
-            className="bg-black/50 hover:bg-black/70 text-white border-0"
+            className="border-0 bg-black/50 text-white hover:bg-black/70"
             haptic
           />
-          
+
           <TouchIconButton
             icon={<ChevronRight />}
             label="Next image"
@@ -261,7 +262,7 @@ export function ResponsiveImageGallery({
             variant="secondary"
             onClick={goToNext}
             disabled={!loop && currentIndex === images.length - 1}
-            className="bg-black/50 hover:bg-black/70 text-white border-0"
+            className="border-0 bg-black/50 text-white hover:bg-black/70"
             haptic
           />
         </div>
@@ -269,7 +270,7 @@ export function ResponsiveImageGallery({
 
       {/* Zoom Controls */}
       {enableZoom && (
-        <div className="absolute top-4 right-4 flex space-x-2 opacity-0 hover:opacity-100 transition-opacity">
+        <div className="absolute right-4 top-4 flex space-x-2 opacity-0 transition-opacity hover:opacity-100">
           {isZoomed && (
             <TouchIconButton
               icon={<ZoomOut />}
@@ -277,17 +278,17 @@ export function ResponsiveImageGallery({
               size="md"
               variant="secondary"
               onClick={() => handleZoom(zoomLevel - 0.5)}
-              className="bg-black/50 hover:bg-black/70 text-white border-0"
+              className="border-0 bg-black/50 text-white hover:bg-black/70"
             />
           )}
-          
+
           <TouchIconButton
             icon={isZoomed ? <ZoomOut /> : <ZoomIn />}
-            label={isZoomed ? "Reset zoom" : "Zoom in"}
+            label={isZoomed ? 'Reset zoom' : 'Zoom in'}
             size="md"
             variant="secondary"
             onClick={toggleZoom}
-            className="bg-black/50 hover:bg-black/70 text-white border-0"
+            className="border-0 bg-black/50 text-white hover:bg-black/70"
           />
         </div>
       )}
@@ -300,14 +301,14 @@ export function ResponsiveImageGallery({
           size="md"
           variant="secondary"
           onClick={toggleFullscreen}
-          className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0"
+          className="absolute bottom-4 right-4 border-0 bg-black/50 text-white hover:bg-black/70"
         />
       )}
 
       {/* Image Caption */}
       {currentImage.caption && (
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-          <p className="text-white text-sm">{currentImage.caption}</p>
+          <p className="text-sm text-white">{currentImage.caption}</p>
         </div>
       )}
     </div>
@@ -321,15 +322,15 @@ export function ResponsiveImageGallery({
 
         {/* Thumbnail Navigation */}
         {showThumbnails && images.length > 1 && (
-          <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="scrollbar-hide flex space-x-2 overflow-x-auto pb-2">
             {images.map((image, index) => (
               <button
                 key={image.id}
                 onClick={() => goToImage(index)}
                 className={cn(
-                  'flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all touch-manipulation',
+                  'h-16 w-16 flex-shrink-0 touch-manipulation overflow-hidden rounded-lg border-2 transition-all sm:h-20 sm:w-20',
                   currentIndex === index
-                    ? 'border-primary scale-105 shadow-lg'
+                    ? 'scale-105 border-primary shadow-lg'
                     : 'border-transparent hover:border-muted-foreground/50'
                 )}
               >
@@ -338,7 +339,7 @@ export function ResponsiveImageGallery({
                   alt={`Thumbnail ${index + 1}`}
                   width={80}
                   height={80}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   sizes="80px"
                 />
               </button>
@@ -357,18 +358,18 @@ export function ResponsiveImageGallery({
       {/* Fullscreen Modal */}
       {isFullscreen && (
         <div className="fixed inset-0 z-50 bg-black">
-          <div className="relative w-full h-full">
+          <div className="relative h-full w-full">
             <MainImageDisplay inFullscreen />
-            
+
             {/* Fullscreen Controls */}
-            <div className="absolute top-4 right-4 flex space-x-2">
+            <div className="absolute right-4 top-4 flex space-x-2">
               <TouchIconButton
                 icon={<X />}
                 label="Close fullscreen"
                 size="lg"
                 variant="secondary"
                 onClick={toggleFullscreen}
-                className="bg-black/50 hover:bg-black/70 text-white border-0"
+                className="border-0 bg-black/50 text-white hover:bg-black/70"
                 haptic
               />
             </div>

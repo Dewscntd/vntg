@@ -3,11 +3,11 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
+import {
+  successResponse,
   errorResponse,
   handleDatabaseError,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 import { z } from 'zod';
 
@@ -26,11 +26,8 @@ const addressSchema = z.object({
 });
 
 // PUT /api/user/addresses/[id] - Update an address
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  return withAuth(req, (req, session) => 
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  return withAuth(req, (req, session) =>
     withValidation(req, addressSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -102,20 +99,16 @@ export async function PUT(
         };
 
         return successResponse(transformedAddress);
-
       } catch (error) {
         console.error('Error updating address:', error);
-        return handleDatabaseError(error);
+        return handleDatabaseError(error as Error);
       }
     })
   );
 }
 
 // DELETE /api/user/addresses/[id] - Delete an address
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -146,10 +139,9 @@ export async function DELETE(
       }
 
       return successResponse({ message: 'Address deleted successfully' });
-
     } catch (error) {
       console.error('Error deleting address:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

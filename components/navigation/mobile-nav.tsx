@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  Menu, 
-  X, 
-  ChevronRight, 
+import {
+  Menu,
+  X,
+  ChevronRight,
   ChevronDown,
   Home,
   Package,
@@ -14,7 +14,7 @@ import {
   User,
   Search,
   Phone,
-  Info
+  Info,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -179,7 +179,7 @@ export function MobileNav({ className }: MobileNavProps) {
               className={cn(
                 'flex flex-1 items-center space-x-3 rounded-md p-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
                 level > 0 && 'ml-4',
-                isActive && 'bg-accent text-accent-foreground font-medium'
+                isActive && 'bg-accent font-medium text-accent-foreground'
               )}
               onClick={() => setIsOpen(false)}
             >
@@ -220,18 +220,18 @@ export function MobileNav({ className }: MobileNavProps) {
         />
       </SheetTrigger>
 
-      <SheetContent 
-        side="left" 
-        className="w-80 p-0 flex flex-col"
+      <SheetContent
+        side="left"
+        className="flex w-80 flex-col p-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <SheetHeader className="p-6 pb-4">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">V</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+                <span className="text-lg font-bold text-primary-foreground">V</span>
               </div>
-              <span className="font-bold text-xl">VNTG</span>
+              <span className="text-xl font-bold">VNTG</span>
             </SheetTitle>
             <TouchIconButton
               variant="ghost"
@@ -248,7 +248,7 @@ export function MobileNav({ className }: MobileNavProps) {
           <div className="space-y-6">
             {/* Main Navigation */}
             <div className="space-y-1">
-              <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Navigation
               </h3>
               {navItems.map((item) => (
@@ -260,11 +260,11 @@ export function MobileNav({ className }: MobileNavProps) {
 
             {/* Categories */}
             <div className="space-y-1">
-              <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Categories
               </h3>
               <div className="pl-3">
-                <CategoryNavigation 
+                <CategoryNavigation
                   orientation="vertical"
                   showAllLink={false}
                   className="space-y-1"
@@ -276,7 +276,7 @@ export function MobileNav({ className }: MobileNavProps) {
 
             {/* Account Section */}
             <div className="space-y-1">
-              <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Account
               </h3>
               {accountItems.map((item) => (
@@ -287,11 +287,9 @@ export function MobileNav({ className }: MobileNavProps) {
         </ScrollArea>
 
         {/* Footer */}
-        <div className="p-6 pt-4 border-t">
+        <div className="border-t p-6 pt-4">
           <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              © 2024 VNTG. All rights reserved.
-            </p>
+            <p className="text-xs text-muted-foreground">© 2024 VNTG. All rights reserved.</p>
           </div>
         </div>
       </SheetContent>

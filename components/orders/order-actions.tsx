@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -20,16 +20,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { 
-  RotateCcw, 
-  X, 
-  Download, 
-  MessageSquare, 
+import {
+  RotateCcw,
+  X,
+  Download,
+  MessageSquare,
   MoreHorizontal,
   AlertTriangle,
   Package,
   Truck,
-  Phone
+  Phone,
 } from 'lucide-react';
 import { canCancelOrder, canReturnOrder, canReorderOrder } from './order-status';
 import { cn } from '@/lib/utils';
@@ -59,7 +59,7 @@ export function OrderActions({
   onReturn,
   onDownloadInvoice,
   onContactSupport,
-  className
+  className,
 }: OrderActionsProps) {
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [returnDialogOpen, setReturnDialogOpen] = useState(false);
@@ -73,7 +73,7 @@ export function OrderActions({
 
   const handleCancel = async () => {
     if (!onCancel) return;
-    
+
     setIsLoading(true);
     try {
       await onCancel(order.id, cancelReason);
@@ -88,7 +88,7 @@ export function OrderActions({
 
   const handleReturn = async () => {
     if (!onReturn) return;
-    
+
     setIsLoading(true);
     try {
       await onReturn(order.id, returnReason);
@@ -126,7 +126,7 @@ export function OrderActions({
           {/* Primary Actions */}
           {canReorderItem && onReorder && (
             <Button onClick={handleReorder} className="flex-1 sm:flex-none">
-              <RotateCcw className="h-4 w-4 mr-2" />
+              <RotateCcw className="mr-2 h-4 w-4" />
               Reorder
             </Button>
           )}
@@ -135,7 +135,7 @@ export function OrderActions({
             <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="flex-1 sm:flex-none">
-                  <X className="h-4 w-4 mr-2" />
+                  <X className="mr-2 h-4 w-4" />
                   Cancel Order
                 </Button>
               </DialogTrigger>
@@ -143,11 +143,11 @@ export function OrderActions({
                 <DialogHeader>
                   <DialogTitle>Cancel Order</DialogTitle>
                   <DialogDescription>
-                    Are you sure you want to cancel order {order.order_number}? 
-                    This action cannot be undone.
+                    Are you sure you want to cancel order {order.order_number}? This action cannot
+                    be undone.
                   </DialogDescription>
                 </DialogHeader>
-                
+
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="cancel-reason">Reason for cancellation (optional)</Label>
@@ -169,11 +169,7 @@ export function OrderActions({
                   >
                     Keep Order
                   </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={handleCancel}
-                    disabled={isLoading}
-                  >
+                  <Button variant="destructive" onClick={handleCancel} disabled={isLoading}>
                     {isLoading ? 'Cancelling...' : 'Cancel Order'}
                   </Button>
                 </DialogFooter>
@@ -185,7 +181,7 @@ export function OrderActions({
             <Dialog open={returnDialogOpen} onOpenChange={setReturnDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="flex-1 sm:flex-none">
-                  <Package className="h-4 w-4 mr-2" />
+                  <Package className="mr-2 h-4 w-4" />
                   Return Order
                 </Button>
               </DialogTrigger>
@@ -193,11 +189,11 @@ export function OrderActions({
                 <DialogHeader>
                   <DialogTitle>Return Order</DialogTitle>
                   <DialogDescription>
-                    Request a return for order {order.order_number}. 
-                    Our team will review your request and provide return instructions.
+                    Request a return for order {order.order_number}. Our team will review your
+                    request and provide return instructions.
                   </DialogDescription>
                 </DialogHeader>
-                
+
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="return-reason">Reason for return *</Label>
@@ -220,10 +216,7 @@ export function OrderActions({
                   >
                     Cancel
                   </Button>
-                  <Button
-                    onClick={handleReturn}
-                    disabled={isLoading || !returnReason.trim()}
-                  >
+                  <Button onClick={handleReturn} disabled={isLoading || !returnReason.trim()}>
                     {isLoading ? 'Submitting...' : 'Submit Return Request'}
                   </Button>
                 </DialogFooter>
@@ -241,27 +234,27 @@ export function OrderActions({
             <DropdownMenuContent align="end">
               {onDownloadInvoice && (
                 <DropdownMenuItem onClick={handleDownloadInvoice}>
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="mr-2 h-4 w-4" />
                   Download Invoice
                 </DropdownMenuItem>
               )}
-              
+
               {order.status === 'shipped' && (
                 <DropdownMenuItem>
-                  <Truck className="h-4 w-4 mr-2" />
+                  <Truck className="mr-2 h-4 w-4" />
                   Track Package
                 </DropdownMenuItem>
               )}
-              
+
               {onContactSupport && (
                 <DropdownMenuItem onClick={handleContactSupport}>
-                  <Phone className="h-4 w-4 mr-2" />
+                  <Phone className="mr-2 h-4 w-4" />
                   Contact Support
                 </DropdownMenuItem>
               )}
-              
+
               <DropdownMenuItem>
-                <MessageSquare className="h-4 w-4 mr-2" />
+                <MessageSquare className="mr-2 h-4 w-4" />
                 Report Issue
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -270,7 +263,7 @@ export function OrderActions({
 
         {/* Status-specific actions */}
         {order.status === 'shipped' && (
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+          <div className="mt-4 rounded-lg bg-blue-50 p-3">
             <div className="flex items-center space-x-2">
               <Truck className="h-4 w-4 text-blue-600" />
               <span className="text-sm text-blue-800">
@@ -281,7 +274,7 @@ export function OrderActions({
         )}
 
         {order.status === 'delivered' && (
-          <div className="mt-4 p-3 bg-green-50 rounded-lg">
+          <div className="mt-4 rounded-lg bg-green-50 p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Package className="h-4 w-4 text-green-600" />
@@ -297,14 +290,13 @@ export function OrderActions({
         )}
 
         {(order.status === 'cancelled' || order.status === 'returned') && (
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+          <div className="mt-4 rounded-lg bg-gray-50 p-3">
             <div className="flex items-center space-x-2">
               <AlertTriangle className="h-4 w-4 text-gray-600" />
               <span className="text-sm text-gray-700">
-                {order.status === 'cancelled' 
+                {order.status === 'cancelled'
                   ? 'Order cancelled. Refund processed within 3-5 business days.'
-                  : 'Return processed. Refund will be issued once we receive the items.'
-                }
+                  : 'Return processed. Refund will be issued once we receive the items.'}
               </span>
             </div>
           </div>
@@ -328,16 +320,12 @@ export function QuickActions({ order, onReorder, onCancel, className }: QuickAct
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       {canReorderItem && onReorder && (
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => onReorder(order.id)}
-        >
-          <RotateCcw className="h-3 w-3 mr-1" />
+        <Button size="sm" variant="outline" onClick={() => onReorder(order.id)}>
+          <RotateCcw className="mr-1 h-3 w-3" />
           Reorder
         </Button>
       )}
-      
+
       {canCancel && onCancel && (
         <Button
           size="sm"
@@ -345,7 +333,7 @@ export function QuickActions({ order, onReorder, onCancel, className }: QuickAct
           onClick={() => onCancel(order.id)}
           className="text-red-600 hover:text-red-700"
         >
-          <X className="h-3 w-3 mr-1" />
+          <X className="mr-1 h-3 w-3" />
           Cancel
         </Button>
       )}

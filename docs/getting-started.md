@@ -184,25 +184,30 @@ vntg/
 ## Key Concepts
 
 ### App Router
+
 VNTG uses Next.js 14's App Router for:
+
 - File-based routing
 - Server and client components
 - Nested layouts
 - Loading and error states
 
 ### Component Architecture
+
 - **UI Components**: Base components from shadcn/ui
 - **Feature Components**: Business logic components
 - **Layout Components**: Page structure components
 - **Provider Components**: Context and state management
 
 ### State Management
+
 - **React Context**: Global state (auth, cart)
 - **Local State**: Component-specific state
 - **Server State**: API data with caching
 - **Persistent State**: localStorage for offline support
 
 ### Styling
+
 - **Tailwind CSS**: Utility-first styling
 - **CSS Variables**: Theme customization
 - **Component Variants**: Consistent design system
@@ -322,6 +327,7 @@ NEXT_PUBLIC_APP_NAME=            # App name
 ## Common Issues
 
 ### Port Already in Use
+
 ```bash
 # Kill process on port 3000
 npx kill-port 3000
@@ -331,6 +337,7 @@ npm run dev -- -p 3001
 ```
 
 ### Environment Variables Not Loading
+
 ```bash
 # Check file name
 ls -la .env*
@@ -340,6 +347,7 @@ npm run dev
 ```
 
 ### Database Connection Issues
+
 ```bash
 # Check Supabase project status
 # Verify environment variables
@@ -347,6 +355,7 @@ npm run dev
 ```
 
 ### Build Errors
+
 ```bash
 # Clear Next.js cache
 rm -rf .next

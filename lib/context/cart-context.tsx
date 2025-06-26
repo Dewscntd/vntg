@@ -8,7 +8,7 @@ import {
   clearCartFromStorage,
   syncCartWithServer,
   trackCartEvent,
-  setupCartAbandonmentTracking
+  setupCartAbandonmentTracking,
 } from '@/lib/utils/cart-persistence';
 import { cartAnalytics } from '@/lib/utils/cart-analytics';
 import { trackCartAbandonment, setupAbandonmentTracking } from '@/lib/utils/cart-abandonment';
@@ -76,10 +76,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload };
-    
+
     case 'SET_ERROR':
       return { ...state, error: action.payload, isLoading: false };
-    
+
     case 'SET_CART':
       return {
         ...state,
@@ -89,12 +89,12 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         isLoading: false,
         error: null,
       };
-    
+
     case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
-        item => item.product_id === action.payload.product_id
+        (item) => item.product_id === action.payload.product_id
       );
-      
+
       let newItems: CartItem[];
       if (existingItemIndex >= 0) {
         // Update existing item
@@ -107,14 +107,14 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         // Add new item
         newItems = [...state.items, action.payload];
       }
-      
+
       const newTotal = newItems.reduce((sum, item) => {
         const price = item.product.discount_percent
           ? item.product.price * (1 - item.product.discount_percent / 100)
           : item.product.price;
-        return sum + (price * item.quantity);
+        return sum + price * item.quantity;
       }, 0);
-      
+
       return {
         ...state,
         items: newItems,
@@ -124,21 +124,19 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         error: null,
       };
     }
-    
+
     case 'UPDATE_ITEM': {
-      const newItems = state.items.map(item =>
-        item.id === action.payload.id
-          ? { ...item, quantity: action.payload.quantity }
-          : item
+      const newItems = state.items.map((item) =>
+        item.id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item
       );
-      
+
       const newTotal = newItems.reduce((sum, item) => {
         const price = item.product.discount_percent
           ? item.product.price * (1 - item.product.discount_percent / 100)
           : item.product.price;
-        return sum + (price * item.quantity);
+        return sum + price * item.quantity;
       }, 0);
-      
+
       return {
         ...state,
         items: newItems,
@@ -148,16 +146,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         error: null,
       };
     }
-    
+
     case 'REMOVE_ITEM': {
-      const newItems = state.items.filter(item => item.id !== action.payload);
+      const newItems = state.items.filter((item) => item.id !== action.payload);
       const newTotal = newItems.reduce((sum, item) => {
         const price = item.product.discount_percent
           ? item.product.price * (1 - item.product.discount_percent / 100)
           : item.product.price;
-        return sum + (price * item.quantity);
+        return sum + price * item.quantity;
       }, 0);
-      
+
       return {
         ...state,
         items: newItems,
@@ -167,7 +165,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         error: null,
       };
     }
-    
+
     case 'CLEAR_CART':
       return {
         ...state,
@@ -177,16 +175,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         isLoading: false,
         error: null,
       };
-    
+
     case 'OPEN_CART':
       return { ...state, isOpen: true };
-    
+
     case 'CLOSE_CART':
       return { ...state, isOpen: false };
-    
+
     case 'TOGGLE_CART':
       return { ...state, isOpen: !state.isOpen };
-    
+
     default:
       return state;
   }
@@ -208,18 +206,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     dispatch({ type: 'SET_LOADING', payload: true });
-    
+
     try {
       const response = await fetch('/api/cart', {
         headers: {
-          'Authorization': `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session.access_token}`,
         },
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch cart');
       }
-      
+
       const data = await response.json();
       dispatch({
         type: 'SET_CART',
@@ -240,7 +238,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // User is logged in - sync with server
       const localCart = loadCartFromStorage();
       if (localCart) {
-        syncCartWithServer(localCart, session.access_token).then(syncedCart => {
+        syncCartWithServer(localCart, session.access_token).then((syncedCart) => {
           if (syncedCart) {
             dispatch({
               type: 'SET_CART',
@@ -269,13 +267,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Set up cart abandonment tracking
   useEffect(() => {
-    const cleanup1 = setupCartAbandonmentTracking();
-    const cleanup2 = setupAbandonmentTracking();
+    const cleanup = setupAbandonmentTracking();
 
-    return () => {
-      cleanup1();
-      cleanup2();
-    };
+    return cleanup;
   }, []);
 
   // Save to local storage when cart changes (for non-authenticated users)
@@ -299,22 +293,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     dispatch({ type: 'SET_LOADING', payload: true });
-    
+
     try {
       const response = await fetch('/api/cart/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ product_id: productId, quantity }),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to add item to cart');
       }
-      
+
       // Refresh cart after adding
       await fetchCart();
 
@@ -325,7 +319,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
 
       // Track detailed analytics
-      const addedItem = state.items.find(item => item.product_id === productId);
+      const addedItem = state.items.find((item) => item.product_id === productId);
       if (addedItem) {
         cartAnalytics.addToCart(addedItem, session?.user?.id);
       }
@@ -338,21 +332,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!session) return;
 
     dispatch({ type: 'SET_LOADING', payload: true });
-    
+
     try {
       const response = await fetch('/api/cart/remove', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ id: itemId }),
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to remove item from cart');
       }
-      
+
       dispatch({ type: 'REMOVE_ITEM', payload: itemId });
 
       // Track analytics event
@@ -361,7 +355,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
 
       // Track detailed analytics
-      const removedItem = state.items.find(item => item.id === itemId);
+      const removedItem = state.items.find((item) => item.id === itemId);
       if (removedItem) {
         cartAnalytics.removeFromCart(removedItem, session?.user?.id);
       }
@@ -374,21 +368,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!session) return;
 
     dispatch({ type: 'SET_LOADING', payload: true });
-    
+
     try {
       const response = await fetch('/api/cart/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ id: itemId, quantity }),
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to update cart item');
       }
-      
+
       dispatch({ type: 'UPDATE_ITEM', payload: { id: itemId, quantity } });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
@@ -431,11 +425,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     refreshCart,
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 // Hook

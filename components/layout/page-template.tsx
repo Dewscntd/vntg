@@ -24,29 +24,37 @@ export function PageTemplate({
   showHeader = true,
   transition = { variant: 'fade', duration: 0.6, delay: 0 },
   maxWidth = 'full',
-  padding = true
+  padding = true,
 }: PageTemplateProps) {
   const getMaxWidthClass = () => {
     switch (maxWidth) {
-      case 'sm': return 'max-w-sm';
-      case 'md': return 'max-w-md';
-      case 'lg': return 'max-w-lg';
-      case 'xl': return 'max-w-xl';
-      case '2xl': return 'max-w-2xl';
-      default: return 'max-w-full';
+      case 'sm':
+        return 'max-w-sm';
+      case 'md':
+        return 'max-w-md';
+      case 'lg':
+        return 'max-w-lg';
+      case 'xl':
+        return 'max-w-xl';
+      case '2xl':
+        return 'max-w-2xl';
+      default:
+        return 'max-w-full';
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
       {showHeader && <Header />}
-      
-      <main className={cn(
-        'w-full',
-        padding && 'container mx-auto px-4 py-8',
-        getMaxWidthClass(),
-        className
-      )}>
+
+      <main
+        className={cn(
+          'w-full',
+          padding && 'container mx-auto px-4 py-8',
+          getMaxWidthClass(),
+          className
+        )}
+      >
         <PageTransition
           variant={transition.variant}
           duration={transition.duration}
@@ -62,7 +70,7 @@ export function PageTemplate({
 // Specialized templates for different page types
 export function ShopPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="full"
       transition={{ variant: 'slide', duration: 0.6, delay: 0.1 }}
@@ -74,7 +82,7 @@ export function ShopPageTemplate({ children, ...props }: Omit<PageTemplateProps,
 
 export function ProductPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="full"
       transition={{ variant: 'fade', duration: 0.8, delay: 0.1 }}
@@ -84,14 +92,17 @@ export function ProductPageTemplate({ children, ...props }: Omit<PageTemplatePro
   );
 }
 
-export function AuthPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth' | 'showHeader'>) {
+export function AuthPageTemplate({
+  children,
+  ...props
+}: Omit<PageTemplateProps, 'maxWidth' | 'showHeader'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="md"
       showHeader={false}
       transition={{ variant: 'scale', duration: 0.6, delay: 0.2 }}
-      className="flex items-center justify-center min-h-screen"
+      className="flex min-h-screen items-center justify-center"
     >
       {children}
     </PageTemplate>
@@ -100,7 +111,7 @@ export function AuthPageTemplate({ children, ...props }: Omit<PageTemplateProps,
 
 export function CartPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="2xl"
       transition={{ variant: 'slide', duration: 0.6, delay: 0.1 }}
@@ -112,7 +123,7 @@ export function CartPageTemplate({ children, ...props }: Omit<PageTemplateProps,
 
 export function CheckoutPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="2xl"
       transition={{ variant: 'fade', duration: 0.6, delay: 0.1 }}
@@ -124,7 +135,7 @@ export function CheckoutPageTemplate({ children, ...props }: Omit<PageTemplatePr
 
 export function AccountPageTemplate({ children, ...props }: Omit<PageTemplateProps, 'maxWidth'>) {
   return (
-    <PageTemplate 
+    <PageTemplate
       {...props}
       maxWidth="2xl"
       transition={{ variant: 'slide', duration: 0.6, delay: 0.1 }}

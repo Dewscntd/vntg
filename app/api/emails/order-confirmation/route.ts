@@ -3,13 +3,15 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { Resend } from 'resend';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid build-time errors
+const getResendClient = () => {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+};
 
 // POST /api/emails/order-confirmation - Send order confirmation email
 export async function POST(req: NextRequest) {
@@ -24,9 +26,7 @@ export async function POST(req: NextRequest) {
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
     // Get order details
-    let orderQuery = supabase
-      .from('orders')
-      .select(`
+    let orderQuery = supabase.from('orders').select(`
         id,
         order_number,
         status,
@@ -62,23 +62,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Extract email from order or use provided email
-    const recipientEmail = userEmail || 
-                          order.users?.email || 
-                          (order.shipping_address as any)?.email;
+    const users = Array.isArray(order.users) ? order.users[0] : order.users;
+    const recipientEmail = userEmail || users?.email || (order.shipping_address as any)?.email;
 
     if (!recipientEmail) {
       return errorResponse('No email address found', 400);
     }
 
     // Extract customer name
-    const customerName = order.users?.full_name || 
-                        `${(order.shipping_address as any)?.firstName} ${(order.shipping_address as any)?.lastName}` ||
-                        'Valued Customer';
+    const customerName =
+      users?.full_name ||
+      `${(order.shipping_address as any)?.firstName} ${(order.shipping_address as any)?.lastName}` ||
+      'Valued Customer';
 
     // Calculate order summary
-    const subtotal = order.order_items?.reduce((sum, item) => {
-      return sum + (item.price * item.quantity);
-    }, 0) || 0;
+    const subtotal =
+      order.order_items?.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+      }, 0) || 0;
 
     const shipping = 0; // Calculate based on shipping method
     const tax = order.total - subtotal - shipping;
@@ -93,6 +94,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Send email
+    const resend = getResendClient();
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'VNTG <orders@vntg.com>',
       to: [recipientEmail],
@@ -110,10 +112,9 @@ export async function POST(req: NextRequest) {
       emailId: emailData?.id,
       sentTo: recipientEmail,
     });
-
   } catch (error) {
     console.error('Error in order confirmation email:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }
 
@@ -131,7 +132,7 @@ function generateOrderConfirmationEmail({
   tax: number;
 }) {
   const shippingAddress = order.shipping_address as any;
-  
+
   return `
     <!DOCTYPE html>
     <html>
@@ -168,7 +169,10 @@ function generateOrderConfirmationEmail({
           
           <div class="order-details">
             <h2>Items Ordered</h2>
-            ${order.order_items?.map((item: any) => `
+            ${
+              order.order_items
+                ?.map(
+                  (item: any) => `
               <div class="item">
                 <div>
                   <strong>${item.products?.name}</strong><br>
@@ -176,7 +180,10 @@ function generateOrderConfirmationEmail({
                 </div>
                 <div>$${(item.price * item.quantity).toFixed(2)}</div>
               </div>
-            `).join('') || ''}
+            `
+                )
+                .join('') || ''
+            }
             
             <div class="item">
               <div>Subtotal</div>

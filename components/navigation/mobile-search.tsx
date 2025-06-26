@@ -39,7 +39,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
     'retro sneakers',
     'classic watches',
     'designer bags',
-    'vintage denim'
+    'vintage denim',
   ];
 
   const mockSuggestions: SearchSuggestion[] = [
@@ -74,10 +74,10 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
   // Handle search input changes
   const handleInputChange = (value: string) => {
     setQuery(value);
-    
+
     if (value.length > 0) {
       // Filter suggestions based on query
-      const filtered = mockSuggestions.filter(suggestion =>
+      const filtered = mockSuggestions.filter((suggestion) =>
         suggestion.text.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filtered);
@@ -93,9 +93,9 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
     // Add to recent searches
     const newRecentSearches = [
       searchQuery,
-      ...recentSearches.filter(search => search !== searchQuery)
+      ...recentSearches.filter((search) => search !== searchQuery),
     ].slice(0, 5);
-    
+
     setRecentSearches(newRecentSearches);
     localStorage.setItem('recent-searches', JSON.stringify(newRecentSearches));
 
@@ -135,7 +135,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
           ref={triggerRef}
           variant="ghost"
           size="icon"
-          className={cn('lg:hidden touch-manipulation', className)}
+          className={cn('touch-manipulation lg:hidden', className)}
           onClick={handleTriggerClick}
           aria-label="Open search"
         >
@@ -143,15 +143,15 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
         </Button>
       </SheetTrigger>
 
-      <SheetContent 
-        side="top" 
-        className="h-full p-0 flex flex-col"
+      <SheetContent
+        side="top"
+        className="flex h-full flex-col p-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <SheetHeader className="p-4 pb-0">
           <div className="flex items-center space-x-3">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
               <Input
                 ref={inputRef}
                 value={query}
@@ -162,7 +162,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
                   }
                 }}
                 placeholder={placeholder}
-                className="pl-10 pr-4 h-12 text-base touch-manipulation"
+                className="h-12 touch-manipulation pl-10 pr-4 text-base"
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
@@ -173,7 +173,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="touch-manipulation shrink-0"
+              className="shrink-0 touch-manipulation"
               aria-label="Close search"
             >
               <X className="h-5 w-5" />
@@ -186,15 +186,13 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {/* Search Suggestions */}
             {query && suggestions.length > 0 && (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-muted-foreground">
-                  Suggestions
-                </h3>
+                <h3 className="text-sm font-semibold text-muted-foreground">Suggestions</h3>
                 <div className="space-y-1">
                   {suggestions.map((suggestion) => (
                     <button
                       key={suggestion.id}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full flex items-center justify-between p-3 text-left rounded-lg hover:bg-accent transition-colors touch-manipulation"
+                      className="flex w-full touch-manipulation items-center justify-between rounded-lg p-3 text-left transition-colors hover:bg-accent"
                     >
                       <div className="flex items-center space-x-3">
                         <Search className="h-4 w-4 text-muted-foreground" />
@@ -206,7 +204,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
                         )}
                         {suggestion.type === 'trending' && (
                           <Badge variant="secondary" className="text-xs">
-                            <TrendingUp className="h-3 w-3 mr-1" />
+                            <TrendingUp className="mr-1 h-3 w-3" />
                             Trending
                           </Badge>
                         )}
@@ -226,9 +224,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {!query && recentSearches.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
-                    Recent Searches
-                  </h3>
+                  <h3 className="text-sm font-semibold text-muted-foreground">Recent Searches</h3>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -243,7 +239,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
                     <button
                       key={index}
                       onClick={() => handleSearch(search)}
-                      className="w-full flex items-center space-x-3 p-3 text-left rounded-lg hover:bg-accent transition-colors touch-manipulation"
+                      className="flex w-full touch-manipulation items-center space-x-3 rounded-lg p-3 text-left transition-colors hover:bg-accent"
                     >
                       <Search className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm">{search}</span>
@@ -256,15 +252,13 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {/* Trending Searches */}
             {!query && (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-muted-foreground">
-                  Trending Searches
-                </h3>
+                <h3 className="text-sm font-semibold text-muted-foreground">Trending Searches</h3>
                 <div className="flex flex-wrap gap-2">
                   {trendingSearches.map((search, index) => (
                     <button
                       key={index}
                       onClick={() => handleSearch(search)}
-                      className="inline-flex items-center space-x-1 px-3 py-2 rounded-full bg-muted hover:bg-accent transition-colors touch-manipulation"
+                      className="inline-flex touch-manipulation items-center space-x-1 rounded-full bg-muted px-3 py-2 transition-colors hover:bg-accent"
                     >
                       <TrendingUp className="h-3 w-3" />
                       <span className="text-xs">{search}</span>
@@ -276,11 +270,9 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
 
             {/* Empty State */}
             {query && suggestions.length === 0 && (
-              <div className="text-center py-8">
-                <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-sm text-muted-foreground">
-                  No suggestions found for "{query}"
-                </p>
+              <div className="py-8 text-center">
+                <Search className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">No suggestions found for "{query}"</p>
                 <Button
                   variant="outline"
                   size="sm"

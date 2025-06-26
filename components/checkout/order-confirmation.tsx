@@ -82,7 +82,7 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
     return (
       <div className={cn('space-y-6', className)}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="text-gray-600">Processing your order...</p>
         </div>
       </div>
@@ -93,12 +93,10 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
     <div className={cn('space-y-6', className)}>
       {/* Success Header */}
       <div className="text-center">
-        <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
           <CheckCircle className="h-8 w-8 text-green-600" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Order Confirmed!
-        </h1>
+        <h1 className="mb-2 text-2xl font-bold text-gray-900">Order Confirmed!</h1>
         <p className="text-gray-600">
           Thank you for your purchase. Your order has been successfully placed.
         </p>
@@ -115,7 +113,7 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
         <CardContent className="space-y-4">
           {orderDetails ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-sm text-gray-600">Order Number</p>
                   <p className="font-medium">{orderDetails.orderNumber}</p>
@@ -135,16 +133,16 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
                   <p className="font-medium">${orderDetails.total.toFixed(2)}</p>
                 </div>
               </div>
-              
+
               <Separator />
-              
+
               <div>
-                <p className="text-sm text-gray-600 mb-2">Estimated Delivery</p>
+                <p className="mb-2 text-sm text-gray-600">Estimated Delivery</p>
                 <p className="font-medium">{orderDetails.estimatedDelivery}</p>
               </div>
             </>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <p className="text-sm text-gray-600">Order Number</p>
                 <p className="font-medium">{orderId || 'Processing...'}</p>
@@ -189,7 +187,8 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
               <div>
                 <p className="font-medium">Confirmation Email Sent</p>
                 <p className="text-sm text-gray-600">
-                  We've sent a confirmation email to {shippingAddress?.email || 'your email address'}
+                  We've sent a confirmation email to{' '}
+                  {shippingAddress?.email || 'your email address'}
                 </p>
               </div>
             </div>
@@ -204,7 +203,7 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
               <span className="text-xs font-medium text-blue-600">1</span>
             </div>
             <div>
@@ -214,9 +213,9 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
               <span className="text-xs font-medium text-blue-600">2</span>
             </div>
             <div>
@@ -226,9 +225,9 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
               <span className="text-xs font-medium text-blue-600">3</span>
             </div>
             <div>
@@ -242,18 +241,18 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <Button onClick={handleContinueShopping} className="flex-1">
           Continue Shopping
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
-        
+
         {orderId && (
           <Button variant="outline" onClick={handleViewOrder} className="flex-1">
             View Order Details
           </Button>
         )}
-        
+
         <Button variant="outline" className="flex-1">
           <Download className="mr-2 h-4 w-4" />
           Download Receipt
@@ -264,20 +263,12 @@ export function OrderConfirmation({ orderId, className }: OrderConfirmationProps
       <Card>
         <CardContent className="pt-6">
           <div className="text-center">
-            <p className="text-sm text-gray-600 mb-2">
-              Need help with your order?
-            </p>
+            <p className="mb-2 text-sm text-gray-600">Need help with your order?</p>
             <div className="space-x-4">
-              <Link 
-                href="/support" 
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
+              <Link href="/support" className="text-sm text-blue-600 hover:text-blue-800">
                 Contact Support
               </Link>
-              <Link 
-                href="/account/orders" 
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
+              <Link href="/account/orders" className="text-sm text-blue-600 hover:text-blue-800">
                 Track Orders
               </Link>
             </div>

@@ -3,11 +3,11 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAdmin } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleServerError, 
-  handleDatabaseError, 
-  errorResponse 
+import {
+  successResponse,
+  handleServerError,
+  handleDatabaseError,
+  errorResponse,
 } from '@/lib/api/index';
 
 // POST /api/products/upload - Upload a product image (admin only)
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   return withAdmin(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
-      
+
       // Check if the request is multipart/form-data
       const contentType = req.headers.get('content-type') || '';
       if (!contentType.includes('multipart/form-data')) {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       // Parse the form data
       const formData = await req.formData();
       const file = formData.get('file') as File | null;
-      
+
       if (!file) {
         return errorResponse('No file provided', 400);
       }
@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
       const buffer = new Uint8Array(arrayBuffer);
 
       // Upload to Supabase Storage
-      const { data, error } = await supabase
-        .storage
+      const { data, error } = await supabase.storage
         .from('product-images')
         .upload(filePath, buffer, {
           contentType: file.type,
@@ -66,8 +65,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Get the public URL
-      const { data: publicUrlData } = supabase
-        .storage
+      const { data: publicUrlData } = supabase.storage
         .from('product-images')
         .getPublicUrl(filePath);
 

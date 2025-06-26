@@ -55,11 +55,7 @@ export function handleZodError(error: ZodError): NextResponse {
 // Handle database errors
 export function handleDatabaseError(error: Error): NextResponse {
   console.error('Database error:', error);
-  return errorResponse(
-    'Database operation failed',
-    500,
-    'DATABASE_ERROR'
-  );
+  return errorResponse('Database operation failed', 500, 'DATABASE_ERROR');
 }
 
 // Handle unauthorized access
@@ -75,11 +71,7 @@ export function handleNotFound(message = 'Resource not found'): NextResponse {
 // Handle server errors
 export function handleServerError(error: Error): NextResponse {
   console.error('Server error:', error);
-  return errorResponse(
-    'Internal server error',
-    500,
-    'SERVER_ERROR'
-  );
+  return errorResponse('Internal server error', 500, 'SERVER_ERROR');
 }
 
 // Check if user is authenticated

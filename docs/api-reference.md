@@ -7,11 +7,13 @@ The VNTG API provides RESTful endpoints for managing products, cart operations, 
 ## 🔐 Authentication
 
 ### Authentication Methods
+
 - **JWT Tokens** - Supabase Auth JWT tokens in Authorization header
 - **Session Cookies** - httpOnly cookies for web clients
 - **API Keys** - Service-to-service authentication
 
 ### Authorization Header
+
 ```http
 Authorization: Bearer <jwt_token>
 ```
@@ -19,6 +21,7 @@ Authorization: Bearer <jwt_token>
 ### Authentication Endpoints
 
 #### POST /api/auth/login
+
 Authenticate user with email and password.
 
 ```http
@@ -32,6 +35,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -51,6 +55,7 @@ Content-Type: application/json
 ```
 
 #### POST /api/auth/register
+
 Register new user account.
 
 ```http
@@ -65,6 +70,7 @@ Content-Type: application/json
 ```
 
 #### POST /api/auth/logout
+
 Logout current user session.
 
 ```http
@@ -75,6 +81,7 @@ Authorization: Bearer <jwt_token>
 ## 🛍️ Products API
 
 ### GET /api/products
+
 Retrieve products with filtering and pagination.
 
 ```http
@@ -82,6 +89,7 @@ GET /api/products?search=query&category=id&sort=price&order=asc&page=1&limit=12
 ```
 
 **Query Parameters:**
+
 - `search` (string) - Search query for product name/description
 - `category` (string) - Category ID filter
 - `sort` (string) - Sort field: `name`, `price`, `created_at`, `updated_at`
@@ -93,6 +101,7 @@ GET /api/products?search=query&category=id&sort=price&order=asc&page=1&limit=12
 - `sale` (boolean) - Filter sale products
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -129,6 +138,7 @@ GET /api/products?search=query&category=id&sort=price&order=asc&page=1&limit=12
 ```
 
 ### GET /api/products/[id]
+
 Retrieve single product by ID.
 
 ```http
@@ -136,6 +146,7 @@ GET /api/products/uuid
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -146,10 +157,7 @@ GET /api/products/uuid
     "price": 99.99,
     "discount_percent": 10,
     "image_url": "https://example.com/image.jpg",
-    "images": [
-      "https://example.com/image1.jpg",
-      "https://example.com/image2.jpg"
-    ],
+    "images": ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
     "inventory_count": 50,
     "is_featured": true,
     "is_new": false,
@@ -178,6 +186,7 @@ GET /api/products/uuid
 ```
 
 ### POST /api/products (Admin Only)
+
 Create new product.
 
 ```http
@@ -199,6 +208,7 @@ Content-Type: application/json
 ```
 
 ### PUT /api/products/[id] (Admin Only)
+
 Update existing product.
 
 ```http
@@ -214,6 +224,7 @@ Content-Type: application/json
 ```
 
 ### DELETE /api/products/[id] (Admin Only)
+
 Delete product.
 
 ```http
@@ -224,6 +235,7 @@ Authorization: Bearer <admin_jwt_token>
 ## 🛒 Cart API
 
 ### GET /api/cart
+
 Retrieve user's cart items.
 
 ```http
@@ -232,6 +244,7 @@ Authorization: Bearer <jwt_token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -261,6 +274,7 @@ Authorization: Bearer <jwt_token>
 ```
 
 ### POST /api/cart/add
+
 Add item to cart.
 
 ```http
@@ -275,6 +289,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -288,6 +303,7 @@ Content-Type: application/json
 ```
 
 ### PUT /api/cart/update
+
 Update cart item quantity.
 
 ```http
@@ -302,6 +318,7 @@ Content-Type: application/json
 ```
 
 ### DELETE /api/cart/remove
+
 Remove item from cart.
 
 ```http
@@ -315,6 +332,7 @@ Content-Type: application/json
 ```
 
 ### POST /api/cart/sync
+
 Sync cart data (for cross-device synchronization).
 
 ```http
@@ -333,6 +351,7 @@ Content-Type: application/json
 ```
 
 ### DELETE /api/cart/clear
+
 Clear all items from cart.
 
 ```http
@@ -343,6 +362,7 @@ Authorization: Bearer <jwt_token>
 ## 📂 Categories API
 
 ### GET /api/categories
+
 Retrieve all product categories.
 
 ```http
@@ -350,6 +370,7 @@ GET /api/categories
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -376,6 +397,7 @@ GET /api/categories
 ```
 
 ### GET /api/categories/[id]
+
 Retrieve single category with products.
 
 ```http
@@ -383,6 +405,7 @@ GET /api/categories/uuid?page=1&limit=12
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -414,6 +437,7 @@ GET /api/categories/uuid?page=1&limit=12
 ## 🔍 Search API
 
 ### GET /api/search
+
 Search products with advanced filtering.
 
 ```http
@@ -421,6 +445,7 @@ GET /api/search?q=query&category=id&min_price=10&max_price=100
 ```
 
 **Query Parameters:**
+
 - `q` (string) - Search query
 - `category` (string) - Category filter
 - `min_price` (number) - Minimum price filter
@@ -429,6 +454,7 @@ GET /api/search?q=query&category=id&min_price=10&max_price=100
 - `order` (string) - Sort order
 
 ### GET /api/search/suggestions
+
 Get search suggestions for autocomplete.
 
 ```http
@@ -436,15 +462,12 @@ GET /api/search/suggestions?q=partial_query&limit=5
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
   "data": {
-    "suggestions": [
-      "iPhone 15",
-      "iPhone 14",
-      "iPhone case"
-    ],
+    "suggestions": ["iPhone 15", "iPhone 14", "iPhone case"],
     "products": [
       {
         "id": "uuid",
@@ -460,6 +483,7 @@ GET /api/search/suggestions?q=partial_query&limit=5
 ## 📊 Analytics API
 
 ### POST /api/analytics/events
+
 Track custom analytics events.
 
 ```http
@@ -480,6 +504,7 @@ Content-Type: application/json
 ```
 
 ### POST /api/analytics/cart-abandonment
+
 Track cart abandonment events.
 
 ```http
@@ -505,6 +530,7 @@ Content-Type: application/json
 ## 🔔 Webhooks
 
 ### POST /api/webhooks/stripe
+
 Handle Stripe webhook events.
 
 ```http
@@ -528,6 +554,7 @@ Content-Type: application/json
 ## 📝 Error Handling
 
 ### Error Response Format
+
 All API errors follow a consistent format:
 
 ```json
@@ -545,6 +572,7 @@ All API errors follow a consistent format:
 ```
 
 ### HTTP Status Codes
+
 - `200` - Success
 - `201` - Created
 - `400` - Bad Request (validation error)
@@ -557,6 +585,7 @@ All API errors follow a consistent format:
 - `500` - Internal Server Error
 
 ### Common Error Codes
+
 - `VALIDATION_ERROR` - Input validation failed
 - `AUTHENTICATION_REQUIRED` - User must be authenticated
 - `INSUFFICIENT_PERMISSIONS` - User lacks required permissions
@@ -568,11 +597,13 @@ All API errors follow a consistent format:
 ## 🔒 Rate Limiting
 
 ### Rate Limits
+
 - **Anonymous users**: 100 requests per hour
 - **Authenticated users**: 1000 requests per hour
 - **Admin users**: 5000 requests per hour
 
 ### Rate Limit Headers
+
 ```http
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
@@ -582,6 +613,7 @@ X-RateLimit-Reset: 1234567890
 ## 📋 Request/Response Examples
 
 ### Successful Response
+
 ```json
 {
   "success": true,
@@ -597,6 +629,7 @@ X-RateLimit-Reset: 1234567890
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
@@ -620,6 +653,7 @@ X-RateLimit-Reset: 1234567890
 ## 🧪 Testing
 
 ### API Testing
+
 Use the provided test utilities for API testing:
 
 ```typescript
@@ -636,6 +670,7 @@ test('should fetch products', async () => {
 ```
 
 ### Mock Data
+
 Mock data is available for testing:
 
 ```typescript

@@ -31,7 +31,7 @@ export function TouchCarousel({
   autoPlayInterval = 5000,
   loop = true,
   itemsPerView = { mobile: 1, tablet: 2, desktop: 3 },
-  gap = 'md'
+  gap = 'md',
 }: TouchCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -46,13 +46,13 @@ export function TouchCarousel({
     none: 'gap-0',
     sm: 'gap-2',
     md: 'gap-4',
-    lg: 'gap-6'
+    lg: 'gap-6',
   };
 
   // Navigation functions
   const goToNext = () => {
     if (isTransitioning) return;
-    
+
     setIsTransitioning(true);
     if (currentIndex >= maxIndex) {
       if (loop) {
@@ -61,13 +61,13 @@ export function TouchCarousel({
     } else {
       setCurrentIndex(currentIndex + 1);
     }
-    
+
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const goToPrevious = () => {
     if (isTransitioning) return;
-    
+
     setIsTransitioning(true);
     if (currentIndex <= 0) {
       if (loop) {
@@ -76,13 +76,13 @@ export function TouchCarousel({
     } else {
       setCurrentIndex(currentIndex - 1);
     }
-    
+
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const goToSlide = (index: number) => {
     if (isTransitioning || index === currentIndex) return;
-    
+
     setIsTransitioning(true);
     setCurrentIndex(index);
     setTimeout(() => setIsTransitioning(false), 300);
@@ -92,14 +92,14 @@ export function TouchCarousel({
   const swipeRef = useSwipeableCarousel({
     onNext: goToNext,
     onPrevious: goToPrevious,
-    threshold: 50
+    threshold: 50,
   });
 
   // Auto-play functionality
   useEffect(() => {
     if (autoPlay) {
       autoPlayRef.current = setInterval(goToNext, autoPlayInterval);
-      
+
       return () => {
         if (autoPlayRef.current) {
           clearInterval(autoPlayRef.current);
@@ -122,21 +122,15 @@ export function TouchCarousel({
   };
 
   return (
-    <div 
+    <div
       className={cn('relative w-full', className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Carousel Container */}
-      <div 
-        ref={swipeRef}
-        className="relative overflow-hidden rounded-lg"
-      >
-        <div 
-          className={cn(
-            'flex transition-transform duration-300 ease-out',
-            gapClasses[gap]
-          )}
+      <div ref={swipeRef} className="relative overflow-hidden rounded-lg">
+        <div
+          className={cn('flex transition-transform duration-300 ease-out', gapClasses[gap])}
           style={{
             transform: `translateX(-${currentIndex * (100 / itemsPerView.mobile!)}%)`,
           }}
@@ -149,7 +143,7 @@ export function TouchCarousel({
                 `w-full sm:w-1/${itemsPerView.tablet} lg:w-1/${itemsPerView.desktop}`
               )}
               style={{
-                width: `${100 / itemsPerView.mobile!}%`
+                width: `${100 / itemsPerView.mobile!}%`,
               }}
             >
               {child}
@@ -168,7 +162,7 @@ export function TouchCarousel({
             variant="secondary"
             onClick={goToPrevious}
             disabled={!loop && currentIndex === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg"
+            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 bg-white/90 shadow-lg hover:bg-white"
             haptic
           />
           <TouchIconButton
@@ -178,7 +172,7 @@ export function TouchCarousel({
             variant="secondary"
             onClick={goToNext}
             disabled={!loop && currentIndex === maxIndex}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg"
+            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 bg-white/90 shadow-lg hover:bg-white"
             haptic
           />
         </>
@@ -186,15 +180,15 @@ export function TouchCarousel({
 
       {/* Dots Indicator */}
       {showDots && (
-        <div className="flex justify-center space-x-2 mt-4">
+        <div className="mt-4 flex justify-center space-x-2">
           {Array.from({ length: totalItems }).map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={cn(
-                'w-3 h-3 rounded-full transition-all duration-200 touch-manipulation',
+                'h-3 w-3 touch-manipulation rounded-full transition-all duration-200',
                 currentIndex === index
-                  ? 'bg-primary scale-110'
+                  ? 'scale-110 bg-primary'
                   : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
               )}
               aria-label={`Go to slide ${index + 1}`}
@@ -224,7 +218,7 @@ export function TouchImageCarousel({
   className,
   aspectRatio = 'video',
   showThumbnails = false,
-  enableZoom = false
+  enableZoom = false,
 }: TouchImageCarouselProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [zoomScale, setZoomScale] = useState(1);
@@ -233,7 +227,7 @@ export function TouchImageCarousel({
     square: 'aspect-square',
     video: 'aspect-video',
     wide: 'aspect-[21/9]',
-    tall: 'aspect-[3/4]'
+    tall: 'aspect-[3/4]',
   };
 
   const imageSlides = images.map((image, index) => (
@@ -242,13 +236,13 @@ export function TouchImageCarousel({
         src={image.src}
         alt={image.alt}
         className={cn(
-          'w-full h-full object-cover transition-transform duration-200',
+          'h-full w-full object-cover transition-transform duration-200',
           enableZoom && 'cursor-zoom-in'
         )}
         style={enableZoom ? { transform: `scale(${zoomScale})` } : undefined}
       />
       {image.caption && (
-        <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3">
+        <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 text-white">
           <p className="text-sm">{image.caption}</p>
         </div>
       )}
@@ -267,22 +261,22 @@ export function TouchImageCarousel({
 
       {/* Thumbnail Navigation */}
       {showThumbnails && (
-        <div className="flex space-x-2 mt-4 overflow-x-auto pb-2">
+        <div className="mt-4 flex space-x-2 overflow-x-auto pb-2">
           {images.map((image, index) => (
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
               className={cn(
-                'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all touch-manipulation',
+                'h-16 w-16 flex-shrink-0 touch-manipulation overflow-hidden rounded-lg border-2 transition-all',
                 selectedIndex === index
-                  ? 'border-primary scale-105'
+                  ? 'scale-105 border-primary'
                   : 'border-transparent hover:border-muted-foreground/50'
               )}
             >
               <img
                 src={image.src}
                 alt={`Thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </button>
           ))}
@@ -306,7 +300,7 @@ export function DismissibleCard({
   className,
   onDismiss,
   dismissThreshold = 100,
-  showDismissHint = false
+  showDismissHint = false,
 }: DismissibleCardProps) {
   const [isDismissed, setIsDismissed] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
@@ -318,7 +312,7 @@ export function DismissibleCard({
 
   const dismissRef = useDismissible({
     onDismiss: handleDismiss,
-    threshold: dismissThreshold
+    threshold: dismissThreshold,
   });
 
   if (isDismissed) {
@@ -328,16 +322,13 @@ export function DismissibleCard({
   return (
     <div
       ref={dismissRef}
-      className={cn(
-        'relative transition-transform duration-200',
-        className
-      )}
+      className={cn('relative transition-transform duration-200', className)}
       style={{ transform: `translateX(${swipeOffset}px)` }}
     >
       {children}
 
       {showDismissHint && (
-        <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-muted/80 px-2 py-1 rounded">
+        <div className="absolute right-2 top-2 rounded bg-muted/80 px-2 py-1 text-xs text-muted-foreground">
           Swipe to dismiss
         </div>
       )}

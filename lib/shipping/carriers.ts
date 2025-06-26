@@ -48,7 +48,8 @@ export const CARRIERS: Record<string, ShippingCarrier> = {
     name: 'USPS',
     code: 'usps',
     apiEndpoint: 'https://secure.shippingapis.com/ShippingAPI.dll',
-    trackingUrlTemplate: 'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1={trackingNumber}',
+    trackingUrlTemplate:
+      'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1={trackingNumber}',
     supportedServices: ['priority', 'express', 'ground'],
   },
   dhl: {
@@ -78,13 +79,13 @@ export class TrackingService {
   // Detect carrier from tracking number
   detectCarrier(trackingNumber: string): string | null {
     const cleanNumber = trackingNumber.replace(/\s/g, '').toUpperCase();
-    
+
     for (const [carrier, pattern] of Object.entries(TRACKING_PATTERNS)) {
       if (pattern.test(cleanNumber)) {
         return carrier;
       }
     }
-    
+
     return null;
   }
 
@@ -94,7 +95,7 @@ export class TrackingService {
     if (!carrierInfo) {
       throw new Error(`Unsupported carrier: ${carrier}`);
     }
-    
+
     return carrierInfo.trackingUrlTemplate.replace('{trackingNumber}', trackingNumber);
   }
 
@@ -250,7 +251,7 @@ export class TrackingService {
   // Universal tracking method
   async trackPackage(trackingNumber: string, carrier?: string): Promise<TrackingInfo> {
     const detectedCarrier = carrier || this.detectCarrier(trackingNumber);
-    
+
     if (!detectedCarrier) {
       throw new Error('Unable to detect carrier from tracking number');
     }
@@ -272,7 +273,7 @@ export class TrackingService {
   // Generate tracking number (mock implementation)
   generateTrackingNumber(carrier: string): string {
     const timestamp = Date.now().toString();
-    
+
     switch (carrier) {
       case 'ups':
         return `1Z${timestamp.slice(-16).padStart(16, '0')}`;
@@ -305,7 +306,7 @@ export function formatTrackingStatus(status: string): string {
     pending: 'Pending',
     unknown: 'Unknown',
   };
-  
+
   return statusMap[status] || status;
 }
 
@@ -317,6 +318,6 @@ export function getStatusColor(status: string): string {
     pending: 'yellow',
     unknown: 'gray',
   };
-  
+
   return colorMap[status] || 'gray';
 }

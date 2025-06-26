@@ -6,17 +6,15 @@ import { useCart } from '@/lib/context/cart-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { OrderCard } from '@/components/orders/order-card';
-import { 
-  Search, 
-  Filter, 
-  Package, 
-  Calendar,
-  SortAsc,
-  SortDesc,
-  RefreshCw
-} from 'lucide-react';
+import { Search, Filter, Package, Calendar, SortAsc, SortDesc, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Order {
@@ -74,17 +72,18 @@ export default function OrderHistoryPage() {
       const response = await fetch(`/api/orders?${params}`);
       if (response.ok) {
         const data = await response.json();
-        
+
         // Filter and sort orders client-side for now
         let filteredOrders = data.orders || [];
-        
+
         // Search filter
         if (currentFilters.search) {
-          filteredOrders = filteredOrders.filter((order: Order) =>
-            order.order_number.toLowerCase().includes(currentFilters.search.toLowerCase()) ||
-            order.order_items.some((item: any) => 
-              item.products?.name.toLowerCase().includes(currentFilters.search.toLowerCase())
-            )
+          filteredOrders = filteredOrders.filter(
+            (order: Order) =>
+              order.order_number.toLowerCase().includes(currentFilters.search.toLowerCase()) ||
+              order.order_items.some((item: any) =>
+                item.products?.name.toLowerCase().includes(currentFilters.search.toLowerCase())
+              )
           );
         }
 
@@ -92,7 +91,7 @@ export default function OrderHistoryPage() {
         if (currentFilters.dateRange !== 'all') {
           const now = new Date();
           const filterDate = new Date();
-          
+
           switch (currentFilters.dateRange) {
             case 'week':
               filterDate.setDate(now.getDate() - 7);
@@ -107,16 +106,16 @@ export default function OrderHistoryPage() {
               filterDate.setFullYear(now.getFullYear() - 1);
               break;
           }
-          
-          filteredOrders = filteredOrders.filter((order: Order) =>
-            new Date(order.created_at) >= filterDate
+
+          filteredOrders = filteredOrders.filter(
+            (order: Order) => new Date(order.created_at) >= filterDate
           );
         }
 
         // Sort orders
         filteredOrders.sort((a: Order, b: Order) => {
           let aValue, bValue;
-          
+
           switch (currentFilters.sortBy) {
             case 'total':
               aValue = a.total;
@@ -168,12 +167,12 @@ export default function OrderHistoryPage() {
       const response = await fetch(`/api/orders/${orderId}`);
       if (response.ok) {
         const orderData = await response.json();
-        
+
         // Add all items from the order to cart
         for (const item of orderData.order_items) {
           await addItem(item.products.id, item.quantity);
         }
-        
+
         // Show success message or redirect to cart
         alert('Items added to cart successfully!');
       }
@@ -190,7 +189,7 @@ export default function OrderHistoryPage() {
       const response = await fetch(`/api/orders/${orderId}/cancel`, {
         method: 'POST',
       });
-      
+
       if (response.ok) {
         // Refresh orders
         fetchOrders(filters, 0);
@@ -210,10 +209,10 @@ export default function OrderHistoryPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Please sign in</h2>
-          <p className="text-gray-600 mb-4">You need to be signed in to view your orders.</p>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
+          <p className="mb-4 text-gray-600">You need to be signed in to view your orders.</p>
         </div>
       </div>
     );
@@ -225,9 +224,7 @@ export default function OrderHistoryPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Order History</h1>
-          <p className="text-gray-600 mt-2">
-            View and manage all your orders.
-          </p>
+          <p className="mt-2 text-gray-600">View and manage all your orders.</p>
         </div>
 
         {/* Filters */}
@@ -239,10 +236,10 @@ export default function OrderHistoryPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   placeholder="Search orders..."
                   value={filters.search}
@@ -305,7 +302,9 @@ export default function OrderHistoryPage() {
               {/* Sort Order */}
               <Button
                 variant="outline"
-                onClick={() => handleFilterChange('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')}
+                onClick={() =>
+                  handleFilterChange('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')
+                }
                 className="flex items-center space-x-2"
               >
                 {filters.sortOrder === 'asc' ? (
@@ -325,7 +324,7 @@ export default function OrderHistoryPage() {
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="h-32 bg-gray-200 rounded-lg"></div>
+                  <div className="h-32 rounded-lg bg-gray-200"></div>
                 </div>
               ))}
             </div>
@@ -339,17 +338,11 @@ export default function OrderHistoryPage() {
                   onCancel={handleCancel}
                 />
               ))}
-              
+
               {pagination.hasMore && (
                 <div className="text-center">
-                  <Button
-                    onClick={loadMore}
-                    disabled={loading}
-                    variant="outline"
-                  >
-                    {loading ? (
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                    ) : null}
+                  <Button onClick={loadMore} disabled={loading} variant="outline">
+                    {loading ? <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> : null}
                     Load More Orders
                   </Button>
                 </div>
@@ -357,18 +350,15 @@ export default function OrderHistoryPage() {
             </>
           ) : (
             <Card>
-              <CardContent className="text-center py-12">
-                <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No orders found</h3>
-                <p className="text-gray-600 mb-6">
+              <CardContent className="py-12 text-center">
+                <Package className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">No orders found</h3>
+                <p className="mb-6 text-gray-600">
                   {filters.search || filters.status !== 'all' || filters.dateRange !== 'all'
                     ? 'Try adjusting your filters to see more orders.'
-                    : 'You haven\'t placed any orders yet. Start shopping to see your orders here.'
-                  }
+                    : "You haven't placed any orders yet. Start shopping to see your orders here."}
                 </p>
-                <Button onClick={() => window.location.href = '/products'}>
-                  Start Shopping
-                </Button>
+                <Button onClick={() => (window.location.href = '/products')}>Start Shopping</Button>
               </CardContent>
             </Card>
           )}

@@ -1,12 +1,14 @@
 import { NextRequest } from 'next/server';
 import { Resend } from 'resend';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid build-time errors
+const getResendClient = () => {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+};
 
 // POST /api/notifications/email - Send email notification
 export async function POST(req: NextRequest) {
@@ -19,6 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Send email
+    const resend = getResendClient();
     const { data, error } = await resend.emails.send({
       from: 'VNTG <notifications@vntg.com>',
       to: [to],
@@ -35,9 +38,8 @@ export async function POST(req: NextRequest) {
       message: 'Email sent successfully',
       emailId: data?.id,
     });
-
   } catch (error) {
     console.error('Email notification error:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }

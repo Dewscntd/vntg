@@ -7,6 +7,7 @@ The VNTG product catalog system provides a comprehensive solution for browsing, 
 ## 🏗️ Architecture
 
 ### Core Components
+
 - **Product Pages** - Listing, detail, category, and search pages
 - **Navigation Components** - Search, filters, sorting, breadcrumbs
 - **Product Components** - Cards, grids, galleries, information displays
@@ -30,6 +31,7 @@ Main product catalog page with full browsing capabilities.
 ```
 
 **URL Parameters:**
+
 ```
 /products?search=query&category=id&sort=price&order=asc&page=1
 ```
@@ -81,6 +83,7 @@ Search-specific product results.
 ### Product Display Components
 
 #### ProductCard
+
 Individual product display card.
 
 ```tsx
@@ -88,13 +91,14 @@ import { ProductCard } from '@/components/products';
 
 <ProductCard
   product={product}
-  priority={false}        // Priority loading for above-fold
+  priority={false} // Priority loading for above-fold
   onQuickView={handleQuickView}
   className="custom-class"
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Responsive image with lazy loading
 - ✅ Product badges (sale, new, featured)
 - ✅ Price display with discounts
@@ -103,6 +107,7 @@ import { ProductCard } from '@/components/products';
 - ✅ Accessibility support
 
 #### ProductGrid
+
 Grid layout for multiple products.
 
 ```tsx
@@ -115,10 +120,11 @@ import { ProductGrid } from '@/components/products';
   enableQuickView={true}
   animateEntrance={true}
   className="custom-grid"
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Responsive grid layout (1-4 columns)
 - ✅ Skeleton loading states
 - ✅ Staggered entrance animations
@@ -126,6 +132,7 @@ import { ProductGrid } from '@/components/products';
 - ✅ Empty state handling
 
 #### ProductImageGallery
+
 Image gallery for product detail pages.
 
 ```tsx
@@ -136,10 +143,11 @@ import { ProductImageGallery } from '@/components/products/detail';
   productName={product.name}
   enableZoom={true}
   showThumbnails={true}
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Main image with thumbnail navigation
 - ✅ Zoom functionality
 - ✅ Touch/swipe support
@@ -147,6 +155,7 @@ import { ProductImageGallery } from '@/components/products/detail';
 - ✅ Lazy loading
 
 #### ProductInformation
+
 Product details and specifications.
 
 ```tsx
@@ -157,10 +166,11 @@ import { ProductInformation } from '@/components/products/detail';
   showDescription={true}
   showSpecifications={true}
   showReviews={true}
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Product name and description
 - ✅ Price with discount display
 - ✅ Stock status and availability
@@ -170,6 +180,7 @@ import { ProductInformation } from '@/components/products/detail';
 ### Navigation Components
 
 #### ProductSearch
+
 Search input with autocomplete.
 
 ```tsx
@@ -180,10 +191,11 @@ import { ProductSearch } from '@/components/products/browse';
   showSuggestions={true}
   onSearch={handleSearch}
   className="w-full"
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Real-time search suggestions
 - ✅ Debounced input for performance
 - ✅ Keyboard navigation
@@ -191,6 +203,7 @@ import { ProductSearch } from '@/components/products/browse';
 - ✅ Mobile-optimized
 
 #### ProductFilters
+
 Advanced filtering interface.
 
 ```tsx
@@ -200,10 +213,11 @@ import { ProductFilters } from '@/components/products/browse';
   onFiltersChange={handleFiltersChange}
   showMobileToggle={true}
   className="sidebar-filters"
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Category dropdown
 - ✅ Price range slider
 - ✅ Product type checkboxes
@@ -211,44 +225,41 @@ import { ProductFilters } from '@/components/products/browse';
 - ✅ Mobile-responsive design
 
 #### ProductSorting
+
 Sort options for product lists.
 
 ```tsx
 import { ProductSorting } from '@/components/products/browse';
 
-<ProductSorting
-  currentSort="price"
-  currentOrder="asc"
-  onSortChange={handleSortChange}
-/>
+<ProductSorting currentSort="price" currentOrder="asc" onSortChange={handleSortChange} />;
 ```
 
 **Features:**
+
 - ✅ Multiple sort options
 - ✅ Ascending/descending order
 - ✅ URL parameter integration
 - ✅ Clean dropdown interface
 
 #### Breadcrumb
+
 Navigation breadcrumbs.
 
 ```tsx
 import { Breadcrumb } from '@/components/navigation';
 
-<Breadcrumb
-  items={breadcrumbItems}
-  showHome={true}
-  className="mb-6"
-/>
+<Breadcrumb items={breadcrumbItems} showHome={true} className="mb-6" />;
 ```
 
 **Features:**
+
 - ✅ Hierarchical navigation
 - ✅ Current page highlighting
 - ✅ Home icon integration
 - ✅ Accessible markup
 
 #### Pagination
+
 Page navigation for large datasets.
 
 ```tsx
@@ -259,10 +270,11 @@ import { Pagination } from '@/components/navigation';
   totalPages={totalPages}
   onPageChange={handlePageChange}
   showInfo={true}
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Smart page number display
 - ✅ Previous/next navigation
 - ✅ Results information
@@ -271,6 +283,7 @@ import { Pagination } from '@/components/navigation';
 ### Performance Components
 
 #### LazyImage
+
 Optimized image loading.
 
 ```tsx
@@ -283,16 +296,18 @@ import { LazyImage } from '@/components/ui';
   height={300}
   placeholder="skeleton"
   rootMargin="50px"
-/>
+/>;
 ```
 
 **Features:**
+
 - ✅ Intersection Observer
 - ✅ Multiple placeholder options
 - ✅ Error handling
 - ✅ Smooth transitions
 
 #### ProductSkeleton
+
 Loading state components.
 
 ```tsx
@@ -306,25 +321,24 @@ import { ProductCardSkeleton, ProductGridSkeleton } from '@/components/products/
 ```
 
 **Features:**
+
 - ✅ Realistic loading states
 - ✅ Configurable count
 - ✅ Smooth animations
 - ✅ Responsive design
 
 #### QuickViewModal
+
 Product preview modal.
 
 ```tsx
 import { QuickViewModal } from '@/components/products';
 
-<QuickViewModal
-  productId={productId}
-  isOpen={isOpen}
-  onClose={handleClose}
-/>
+<QuickViewModal productId={productId} isOpen={isOpen} onClose={handleClose} />;
 ```
 
 **Features:**
+
 - ✅ Product preview without navigation
 - ✅ Add to cart functionality
 - ✅ Variant selection
@@ -336,6 +350,7 @@ import { QuickViewModal } from '@/components/products';
 ### Data Fetching Hooks
 
 #### useProducts
+
 Fetch products with filtering and pagination.
 
 ```tsx
@@ -346,82 +361,66 @@ const {
   isLoading,
   error,
   pagination,
-  refetch
+  refetch,
 } = useProducts({
   search: 'query',
   category: 'category-id',
   sort: 'price',
   order: 'asc',
   page: 1,
-  limit: 12
+  limit: 12,
 });
 ```
 
 #### useProduct
+
 Fetch single product details.
 
 ```tsx
 import { useProduct } from '@/lib/hooks';
 
-const {
-  data: product,
-  isLoading,
-  error,
-  refetch
-} = useProduct(productId);
+const { data: product, isLoading, error, refetch } = useProduct(productId);
 ```
 
 #### useCategories
+
 Fetch product categories.
 
 ```tsx
 import { useCategories } from '@/lib/hooks';
 
-const {
-  data: categories,
-  isLoading,
-  error
-} = useCategories();
+const { data: categories, isLoading, error } = useCategories();
 ```
 
 ### Search and Filter Hooks
 
 #### useProductSearch
+
 Search functionality with debouncing.
 
 ```tsx
 import { useProductSearch } from '@/lib/hooks';
 
-const {
-  query,
-  setQuery,
-  suggestions,
-  isSearching,
-  results
-} = useProductSearch({
+const { query, setQuery, suggestions, isSearching, results } = useProductSearch({
   debounceMs: 300,
-  minLength: 2
+  minLength: 2,
 });
 ```
 
 #### useProductFilters
+
 Filter state management.
 
 ```tsx
 import { useProductFilters } from '@/lib/hooks';
 
-const {
-  filters,
-  updateFilter,
-  clearFilters,
-  activeFilters,
-  filterCount
-} = useProductFilters();
+const { filters, updateFilter, clearFilters, activeFilters, filterCount } = useProductFilters();
 ```
 
 ### Animation Hooks
 
 #### useProductCardAnimation
+
 GSAP animations for product cards.
 
 ```tsx
@@ -429,13 +428,14 @@ import { useProductCardAnimation } from '@/lib/hooks/use-gsap';
 
 const cardRef = useProductCardAnimation({
   hoverScale: 1.05,
-  duration: 0.3
+  duration: 0.3,
 });
 
 return <div ref={cardRef}>Product Card</div>;
 ```
 
 #### useGridAnimation
+
 Staggered animations for product grids.
 
 ```tsx
@@ -453,6 +453,7 @@ useEffect(() => {
 ## 🎨 Styling and Theming
 
 ### Design System
+
 Product components follow a consistent design system.
 
 ```css
@@ -467,26 +468,28 @@ Product components follow a consistent design system.
 ```
 
 ### Responsive Breakpoints
+
 ```css
 /* Grid responsive behavior */
 .product-grid {
-  grid-template-columns: 1fr;                    /* Mobile */
-  
+  grid-template-columns: 1fr; /* Mobile */
+
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);       /* Tablet */
+    grid-template-columns: repeat(2, 1fr); /* Tablet */
   }
-  
+
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);       /* Desktop */
+    grid-template-columns: repeat(3, 1fr); /* Desktop */
   }
-  
+
   @media (min-width: 1280px) {
-    grid-template-columns: repeat(4, 1fr);       /* Large */
+    grid-template-columns: repeat(4, 1fr); /* Large */
   }
 }
 ```
 
 ### Component Variants
+
 ```tsx
 // Product card variants
 <ProductCard variant="default" />    // Standard card
@@ -498,17 +501,16 @@ Product components follow a consistent design system.
 ## 🔍 SEO Optimization
 
 ### Meta Tags
+
 Automatic meta tag generation for product pages.
 
 ```tsx
 // Product detail page SEO
-<ProductSEO
-  product={product}
-  canonical={`https://vntg.com/products/${product.id}`}
-/>
+<ProductSEO product={product} canonical={`https://vntg.com/products/${product.id}`} />
 ```
 
 ### Structured Data
+
 JSON-LD structured data for search engines.
 
 ```json
@@ -532,6 +534,7 @@ JSON-LD structured data for search engines.
 ```
 
 ### URL Structure
+
 SEO-friendly URL patterns.
 
 ```
@@ -545,6 +548,7 @@ SEO-friendly URL patterns.
 ## 📊 Performance Optimizations
 
 ### Image Optimization
+
 - Next.js Image component with automatic optimization
 - WebP format with fallbacks
 - Responsive images with srcset
@@ -552,18 +556,21 @@ SEO-friendly URL patterns.
 - Priority loading for above-fold images
 
 ### Code Splitting
+
 - Route-based code splitting
 - Dynamic imports for heavy components
 - Lazy loading of non-critical features
 - Vendor chunk optimization
 
 ### Caching Strategy
+
 - Static page generation for product listings
 - Incremental Static Regeneration for product details
 - API response caching
 - Browser caching with proper headers
 
 ### Loading Performance
+
 - Skeleton loading states
 - Progressive image loading
 - Debounced search inputs
@@ -572,6 +579,7 @@ SEO-friendly URL patterns.
 ## 🧪 Testing
 
 ### Unit Tests
+
 ```tsx
 // Product component tests
 import { render, screen } from '@testing-library/react';
@@ -582,25 +590,26 @@ test('renders product card with correct information', () => {
     id: '1',
     name: 'Test Product',
     price: 99.99,
-    image_url: '/test.jpg'
+    image_url: '/test.jpg',
   };
-  
+
   render(<ProductCard product={product} />);
-  
+
   expect(screen.getByText('Test Product')).toBeInTheDocument();
   expect(screen.getByText('$99.99')).toBeInTheDocument();
 });
 ```
 
 ### Integration Tests
+
 ```tsx
 // Product listing integration test
 test('filters products by category', async () => {
   render(<ProductsPage />);
-  
+
   const categoryFilter = screen.getByLabelText('Category');
   fireEvent.change(categoryFilter, { target: { value: 'electronics' } });
-  
+
   await waitFor(() => {
     expect(screen.getByText('Electronics Products')).toBeInTheDocument();
   });
@@ -608,14 +617,15 @@ test('filters products by category', async () => {
 ```
 
 ### E2E Tests
+
 ```typescript
 // Product browsing E2E test
 test('user can browse and view product details', async ({ page }) => {
   await page.goto('/products');
-  
+
   // Click on first product
   await page.click('[data-testid="product-card"]:first-child');
-  
+
   // Verify product detail page
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('[data-testid="add-to-cart"]')).toBeVisible();
@@ -625,6 +635,7 @@ test('user can browse and view product details', async ({ page }) => {
 ## 🔧 Configuration
 
 ### Environment Variables
+
 ```env
 # Product catalog configuration
 NEXT_PUBLIC_PRODUCTS_PER_PAGE=12
@@ -634,6 +645,7 @@ NEXT_PUBLIC_MAX_SEARCH_SUGGESTIONS=5
 ```
 
 ### Feature Flags
+
 ```typescript
 // Feature configuration
 export const productConfig = {
@@ -647,6 +659,7 @@ export const productConfig = {
 ## 🚀 Future Enhancements
 
 ### Planned Features
+
 - Advanced product recommendations
 - Product comparison functionality
 - Wishlist integration
@@ -657,6 +670,7 @@ export const productConfig = {
 - Product import/export
 
 ### Performance Improvements
+
 - Service worker for offline browsing
 - Predictive loading of product details
 - Advanced image optimization

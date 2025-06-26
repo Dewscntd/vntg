@@ -24,7 +24,7 @@ export function PullToRefresh({
   disabled = false,
   refreshingText = 'Refreshing...',
   pullText = 'Pull to refresh',
-  releaseText = 'Release to refresh'
+  releaseText = 'Release to refresh',
 }: PullToRefreshProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
@@ -47,10 +47,10 @@ export function PullToRefresh({
 
   const handleTouchStart = (e: TouchEvent) => {
     if (disabled || isRefreshing) return;
-    
+
     const touch = e.touches[0];
     startYRef.current = touch.clientY;
-    
+
     // Only start pulling if we're at the top of the scroll container
     const scrollTop = containerRef.current?.scrollTop || 0;
     if (scrollTop === 0) {
@@ -63,11 +63,11 @@ export function PullToRefresh({
 
     const touch = e.touches[0];
     const deltaY = touch.clientY - startYRef.current;
-    
+
     if (deltaY > 0) {
       // Prevent default scrolling when pulling down
       e.preventDefault();
-      
+
       // Apply resistance to the pull distance
       const resistance = 0.5;
       const distance = Math.min(deltaY * resistance, threshold * 1.5);
@@ -124,15 +124,15 @@ export function PullToRefresh({
       className={cn('relative overflow-auto', className)}
       style={{
         transform: `translateY(${Math.min(pullDistance, threshold)}px)`,
-        transition: isPulling ? 'none' : 'transform 0.3s ease-out'
+        transition: isPulling ? 'none' : 'transform 0.3s ease-out',
       }}
     >
       {/* Pull to refresh indicator */}
       <div
-        className="absolute top-0 left-0 right-0 flex items-center justify-center py-4 bg-background/90 backdrop-blur-sm border-b z-10"
+        className="absolute left-0 right-0 top-0 z-10 flex items-center justify-center border-b bg-background/90 py-4 backdrop-blur-sm"
         style={{
           transform: `translateY(-100%)`,
-          opacity: getIndicatorOpacity()
+          opacity: getIndicatorOpacity(),
         }}
       >
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -146,9 +146,7 @@ export function PullToRefresh({
       </div>
 
       {/* Content */}
-      <div className="relative z-0">
-        {children}
-      </div>
+      <div className="relative z-0">{children}</div>
     </div>
   );
 }
@@ -165,14 +163,14 @@ export function SimplePullToRefresh({
   children,
   onRefresh,
   className,
-  disabled = false
+  disabled = false,
 }: SimplePullToRefreshProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const pullRef = usePullToRefresh({
     onRefresh: async () => {
       if (disabled || isRefreshing) return;
-      
+
       setIsRefreshing(true);
       try {
         await onRefresh();
@@ -181,23 +179,21 @@ export function SimplePullToRefresh({
       }
     },
     threshold: 100,
-    enabled: !disabled
+    enabled: !disabled,
   });
 
   return (
     <div ref={pullRef} className={cn('relative', className)}>
       {isRefreshing && (
-        <div className="absolute top-0 left-0 right-0 flex items-center justify-center py-2 bg-primary/10 z-10">
+        <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-center bg-primary/10 py-2">
           <div className="flex items-center space-x-2 text-sm text-primary">
             <RefreshCw className="h-4 w-4 animate-spin" />
             <span>Refreshing...</span>
           </div>
         </div>
       )}
-      
-      <div className={cn(isRefreshing && 'pt-10')}>
-        {children}
-      </div>
+
+      <div className={cn(isRefreshing && 'pt-10')}>{children}</div>
     </div>
   );
 }
@@ -208,7 +204,7 @@ export function useRefreshControl() {
 
   const refresh = async (refreshFn: () => Promise<void> | void) => {
     if (isRefreshing) return;
-    
+
     setIsRefreshing(true);
     try {
       await refreshFn();
@@ -219,6 +215,6 @@ export function useRefreshControl() {
 
   return {
     isRefreshing,
-    refresh
+    refresh,
   };
 }

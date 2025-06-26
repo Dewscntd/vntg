@@ -4,16 +4,16 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { updateCartItemSchema } from '@/lib/validations/cart';
 import { withAuth, withValidation } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError, 
+import {
+  successResponse,
+  handleDatabaseError,
   errorResponse,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 
 // PUT /api/cart/update - Update cart item quantity
 export async function PUT(req: NextRequest) {
-  return withAuth(req, (req, session) => 
+  return withAuth(req, (req, session) =>
     withValidation(req, updateCartItemSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });

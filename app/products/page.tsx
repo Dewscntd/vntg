@@ -26,19 +26,22 @@ export default function ProductsPage() {
 
   const { data, isLoading, error, refetch } = useProducts({
     url: `/api/products?${new URLSearchParams(
-      Object.entries(queryParams).reduce((acc, [key, value]) => {
-        if (value !== undefined) {
-          acc[key] = String(value);
-        }
-        return acc;
-      }, {} as Record<string, string>)
+      Object.entries(queryParams).reduce(
+        (acc, [key, value]) => {
+          if (value !== undefined) {
+            acc[key] = String(value);
+          }
+          return acc;
+        },
+        {} as Record<string, string>
+      )
     ).toString()}`,
     cacheKey: `products-${JSON.stringify(queryParams)}`,
   });
 
   // Update query params when URL search params change
   useEffect(() => {
-    setQueryParams(prev => ({
+    setQueryParams((prev) => ({
       ...prev,
       category_id: searchParams.get('category') || undefined,
       search: searchParams.get('search') || undefined,
@@ -54,7 +57,7 @@ export default function ProductsPage() {
 
   const handleLoadMore = () => {
     if (pagination && pagination.offset + pagination.limit < pagination.total) {
-      setQueryParams(prev => ({
+      setQueryParams((prev) => ({
         ...prev,
         offset: prev.offset + prev.limit,
       }));
@@ -63,11 +66,9 @@ export default function ProductsPage() {
 
   const hasMore = pagination && pagination.offset + pagination.limit < pagination.total;
 
-  const paginationData = pagination ? calculatePagination(
-    pagination.offset,
-    pagination.limit,
-    pagination.total
-  ) : null;
+  const paginationData = pagination
+    ? calculatePagination(pagination.offset, pagination.limit, pagination.total)
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -79,9 +80,7 @@ export default function ProductsPage() {
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-        <p className="text-muted-foreground mt-2">
-          Discover our collection of premium products
-        </p>
+        <p className="mt-2 text-muted-foreground">Discover our collection of premium products</p>
       </div>
 
       {/* Search and Filters */}
@@ -101,38 +100,39 @@ export default function ProductsPage() {
           {/* Main Content */}
           <div className="flex-1 lg:min-w-0">
             {/* Sorting and Results Info */}
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+            <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <div className="text-sm text-muted-foreground">
                 {pagination && (
                   <>
-                    Showing {Math.min(pagination.offset + pagination.limit, pagination.total)} of {pagination.total} products
+                    Showing {Math.min(pagination.offset + pagination.limit, pagination.total)} of{' '}
+                    {pagination.total} products
                   </>
                 )}
               </div>
               <ProductSorting />
             </div>
 
-      {/* Loading State */}
-      {isLoading && products.length === 0 && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2 text-muted-foreground">Loading products...</span>
-        </div>
-      )}
+            {/* Loading State */}
+            {isLoading && products.length === 0 && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <span className="ml-2 text-muted-foreground">Loading products...</span>
+              </div>
+            )}
 
-      {/* Error State */}
-      {error && (
-        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
-          <p className="text-destructive font-medium">Failed to load products</p>
-          <p className="text-sm text-muted-foreground mt-1">{error.message}</p>
-          <button
-            onClick={() => refetch()}
-            className="mt-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Try Again
-          </button>
-        </div>
-      )}
+            {/* Error State */}
+            {error && (
+              <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
+                <p className="font-medium text-destructive">Failed to load products</p>
+                <p className="mt-1 text-sm text-muted-foreground">{error.message}</p>
+                <button
+                  onClick={() => refetch()}
+                  className="mt-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
 
             {/* Products Grid */}
             <ProductGrid
@@ -152,11 +152,12 @@ export default function ProductsPage() {
 
             {/* Empty State */}
             {!isLoading && !error && products.length === 0 && (
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <div className="mx-auto max-w-md">
                   <h3 className="text-lg font-medium text-foreground">No products found</h3>
-                  <p className="text-muted-foreground mt-2">
-                    We couldn't find any products matching your criteria. Try adjusting your filters or search terms.
+                  <p className="mt-2 text-muted-foreground">
+                    We couldn't find any products matching your criteria. Try adjusting your filters
+                    or search terms.
                   </p>
                 </div>
               </div>

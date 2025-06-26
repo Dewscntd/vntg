@@ -28,16 +28,16 @@ export default function CartPage() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="mx-auto max-w-6xl">
           <div className="animate-pulse">
-            <div className="h-8 bg-muted rounded w-48 mb-6"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-4">
+            <div className="mb-6 h-8 w-48 rounded bg-muted"></div>
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+              <div className="space-y-4 lg:col-span-2">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-32 bg-muted rounded"></div>
+                  <div key={i} className="h-32 rounded bg-muted"></div>
                 ))}
               </div>
-              <div className="h-96 bg-muted rounded"></div>
+              <div className="h-96 rounded bg-muted"></div>
             </div>
           </div>
         </div>
@@ -48,10 +48,12 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-            <Link href="/" className="hover:text-foreground">Home</Link>
+          <nav className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
+            <Link href="/" className="hover:text-foreground">
+              Home
+            </Link>
             <span>/</span>
             <span className="text-foreground">Shopping Cart</span>
           </nav>
@@ -64,26 +66,28 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-foreground">Home</Link>
+        <nav className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-foreground">
+            Home
+          </Link>
           <span>/</span>
           <span className="text-foreground">Shopping Cart</span>
         </nav>
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-3">
+            <h1 className="flex items-center gap-3 text-3xl font-bold">
               <ShoppingBag className="h-8 w-8" />
               Shopping Cart
             </h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="mt-1 text-muted-foreground">
               {itemCount} {itemCount === 1 ? 'item' : 'items'} in your cart
             </p>
           </div>
-          
+
           <Button variant="outline" asChild>
             <Link href="/products">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -92,7 +96,7 @@ export default function CartPage() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Cart Items */}
           <div className="lg:col-span-2">
             <Card>
@@ -111,7 +115,7 @@ export default function CartPage() {
             </Card>
 
             {/* Additional Actions */}
-            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <div className="mt-6 flex flex-col gap-4 sm:flex-row">
               <Button variant="outline" className="flex-1">
                 Save for Later
               </Button>
@@ -128,10 +132,7 @@ export default function CartPage() {
           <div className="space-y-6">
             <Card>
               <CardContent className="p-6">
-                <CartSummary 
-                  showCheckoutButton={true}
-                  showContinueShoppingButton={false}
-                />
+                <CartSummary showCheckoutButton={true} showContinueShoppingButton={false} />
               </CardContent>
             </Card>
 
@@ -145,7 +146,7 @@ export default function CartPage() {
                   <input
                     type="text"
                     placeholder="Enter promo code"
-                    className="flex-1 px-3 py-2 border rounded-md text-sm"
+                    className="flex-1 rounded-md border px-3 py-2 text-sm"
                   />
                   <Button size="sm">Apply</Button>
                 </div>
@@ -158,22 +159,22 @@ export default function CartPage() {
             {/* Security & Trust */}
             <Card className="bg-muted/50">
               <CardContent className="p-4">
-                <h3 className="font-medium mb-3">Secure Shopping</h3>
+                <h3 className="mb-3 font-medium">Secure Shopping</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
                     <span>SSL encrypted checkout</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
                     <span>30-day return policy</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
                     <span>24/7 customer support</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
                     <span>Free shipping over $50</span>
                   </div>
                 </div>
@@ -187,9 +188,7 @@ export default function CartPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="text-sm text-muted-foreground">
-                    Based on items in your cart
-                  </div>
+                  <div className="text-sm text-muted-foreground">Based on items in your cart</div>
                   <Button variant="outline" size="sm" className="w-full">
                     View Recommendations
                   </Button>
@@ -201,8 +200,8 @@ export default function CartPage() {
 
         {/* Help Section */}
         <div className="mt-12 text-center">
-          <h2 className="text-xl font-semibold mb-4">Need Help?</h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <h2 className="mb-4 text-xl font-semibold">Need Help?</h2>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button variant="outline" asChild>
               <Link href="/help/shipping">Shipping Info</Link>
             </Button>

@@ -49,7 +49,7 @@ export default function OrderDetailPage() {
 
       try {
         const response = await fetch(`/api/orders/${orderId}`);
-        
+
         if (response.ok) {
           const orderData = await response.json();
           setOrder(orderData);
@@ -65,9 +65,7 @@ export default function OrderDetailPage() {
         setLoading(false);
       }
     };
-
-    fetchOrder();
-  }, [session, orderId]);
+  }, [session, orderId, fetchOrder]);
 
   const handleReorder = async (orderIdToReorder: string) => {
     if (!order) return;
@@ -77,7 +75,7 @@ export default function OrderDetailPage() {
       for (const item of order.order_items) {
         await addItem(item.products.id, item.quantity);
       }
-      
+
       // Redirect to cart
       router.push('/cart');
     } catch (error) {
@@ -93,7 +91,7 @@ export default function OrderDetailPage() {
       const response = await fetch(`/api/orders/${orderIdToCancel}/cancel`, {
         method: 'POST',
       });
-      
+
       if (response.ok) {
         // Refresh order data
         const updatedResponse = await fetch(`/api/orders/${orderIdToCancel}`);
@@ -121,7 +119,7 @@ export default function OrderDetailPage() {
         },
         body: JSON.stringify({ reason }),
       });
-      
+
       if (response.ok) {
         // Refresh order data
         const updatedResponse = await fetch(`/api/orders/${orderIdToReturn}`);
@@ -129,7 +127,9 @@ export default function OrderDetailPage() {
           const updatedOrder = await updatedResponse.json();
           setOrder(updatedOrder);
         }
-        alert('Return request submitted successfully. We will contact you with return instructions.');
+        alert(
+          'Return request submitted successfully. We will contact you with return instructions.'
+        );
       } else {
         const errorData = await response.json();
         alert(errorData.message || 'Failed to submit return request. Please contact support.');
@@ -142,10 +142,10 @@ export default function OrderDetailPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Please sign in</h2>
-          <p className="text-gray-600 mb-4">You need to be signed in to view order details.</p>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
+          <p className="mb-4 text-gray-600">You need to be signed in to view order details.</p>
           <Link href="/auth/login">
             <Button>Sign In</Button>
           </Link>
@@ -161,16 +161,16 @@ export default function OrderDetailPage() {
           <div className="mb-6">
             <Link href="/account/orders">
               <Button variant="ghost" className="mb-4">
-                <ArrowLeft className="h-4 w-4 mr-2" />
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Orders
               </Button>
             </Link>
           </div>
-          
+
           <div className="space-y-6">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="h-32 bg-gray-200 rounded-lg"></div>
+                <div className="h-32 rounded-lg bg-gray-200"></div>
               </div>
             ))}
           </div>
@@ -186,17 +186,17 @@ export default function OrderDetailPage() {
           <div className="mb-6">
             <Link href="/account/orders">
               <Button variant="ghost" className="mb-4">
-                <ArrowLeft className="h-4 w-4 mr-2" />
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Orders
               </Button>
             </Link>
           </div>
-          
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+
+          <div className="py-12 text-center">
+            <h2 className="mb-2 text-2xl font-semibold text-gray-900">
               {error || 'Order not found'}
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="mb-6 text-gray-600">
               The order you're looking for doesn't exist or you don't have permission to view it.
             </p>
             <div className="space-x-4">
@@ -204,7 +204,7 @@ export default function OrderDetailPage() {
                 <Button variant="outline">View All Orders</Button>
               </Link>
               <Button onClick={() => window.location.reload()}>
-                <RefreshCw className="h-4 w-4 mr-2" />
+                <RefreshCw className="mr-2 h-4 w-4" />
                 Try Again
               </Button>
             </div>
@@ -221,7 +221,7 @@ export default function OrderDetailPage() {
         <div className="mb-6">
           <Link href="/account/orders">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Orders
             </Button>
           </Link>

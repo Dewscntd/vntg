@@ -8,15 +8,15 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { OrderStatus } from '@/components/orders/order-status';
 import { OrderActions } from '@/components/orders/order-actions';
-import { 
-  Package, 
-  MapPin, 
-  CreditCard, 
+import {
+  Package,
+  MapPin,
+  CreditCard,
   Calendar,
   DollarSign,
   Truck,
   Phone,
-  Mail
+  Mail,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -65,12 +65,12 @@ interface OrderDetailsProps {
   className?: string;
 }
 
-export function OrderDetails({ 
-  order, 
-  onReorder, 
-  onCancel, 
-  onReturn, 
-  className 
+export function OrderDetails({
+  order,
+  onReorder,
+  onCancel,
+  onReturn,
+  className,
 }: OrderDetailsProps) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -97,15 +97,13 @@ export function OrderDetails({
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-2xl">{order.order_number}</CardTitle>
-              <p className="text-gray-600 mt-1">
-                Placed on {formatDate(order.created_at)}
-              </p>
+              <p className="mt-1 text-gray-600">Placed on {formatDate(order.created_at)}</p>
             </div>
             <OrderStatus status={order.status} />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="flex items-center space-x-2">
               <DollarSign className="h-5 w-5 text-gray-500" />
               <div>
@@ -113,7 +111,7 @@ export function OrderDetails({
                 <p className="font-semibold">{formatCurrency(order.total)}</p>
               </div>
             </div>
-            
+
             {order.estimated_delivery && (
               <div className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5 text-gray-500" />
@@ -125,7 +123,7 @@ export function OrderDetails({
                 </div>
               </div>
             )}
-            
+
             <div className="flex items-center space-x-2">
               <Package className="h-5 w-5 text-gray-500" />
               <div>
@@ -138,12 +136,7 @@ export function OrderDetails({
       </Card>
 
       {/* Order Actions */}
-      <OrderActions
-        order={order}
-        onReorder={onReorder}
-        onCancel={onCancel}
-        onReturn={onReturn}
-      />
+      <OrderActions order={order} onReorder={onReorder} onCancel={onCancel} onReturn={onReturn} />
 
       {/* Order Items */}
       <Card>
@@ -158,7 +151,7 @@ export function OrderDetails({
             {order.order_items.map((item, index) => (
               <div key={item.id}>
                 <div className="flex items-center space-x-4">
-                  <div className="relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden">
+                  <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
                     {item.products.image_url ? (
                       <Image
                         src={item.products.image_url}
@@ -167,41 +160,31 @@ export function OrderDetails({
                         className="object-cover"
                       />
                     ) : (
-                      <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+                      <div className="flex h-full w-full items-center justify-center bg-gray-200">
                         <Package className="h-6 w-6 text-gray-400" />
                       </div>
                     )}
                   </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-gray-900 truncate">
-                      {item.products.name}
-                    </h4>
+
+                  <div className="min-w-0 flex-1">
+                    <h4 className="truncate font-medium text-gray-900">{item.products.name}</h4>
                     {item.products.categories && (
-                      <p className="text-sm text-gray-500">
-                        {item.products.categories.name}
-                      </p>
+                      <p className="text-sm text-gray-500">{item.products.categories.name}</p>
                     )}
-                    <div className="flex items-center space-x-4 mt-1">
-                      <span className="text-sm text-gray-600">
-                        Qty: {item.quantity}
-                      </span>
+                    <div className="mt-1 flex items-center space-x-4">
+                      <span className="text-sm text-gray-600">Qty: {item.quantity}</span>
                       <span className="text-sm text-gray-600">
                         {formatCurrency(item.price)} each
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="text-right">
-                    <p className="font-semibold">
-                      {formatCurrency(item.price * item.quantity)}
-                    </p>
+                    <p className="font-semibold">{formatCurrency(item.price * item.quantity)}</p>
                   </div>
                 </div>
-                
-                {index < order.order_items.length - 1 && (
-                  <Separator className="mt-4" />
-                )}
+
+                {index < order.order_items.length - 1 && <Separator className="mt-4" />}
               </div>
             ))}
           </div>
@@ -223,10 +206,7 @@ export function OrderDetails({
               <div className="flex justify-between">
                 <span>Shipping</span>
                 <span>
-                  {order.summary.shipping === 0 
-                    ? 'Free' 
-                    : formatCurrency(order.summary.shipping)
-                  }
+                  {order.summary.shipping === 0 ? 'Free' : formatCurrency(order.summary.shipping)}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -234,7 +214,7 @@ export function OrderDetails({
                 <span>{formatCurrency(order.summary.tax)}</span>
               </div>
               <Separator />
-              <div className="flex justify-between font-semibold text-lg">
+              <div className="flex justify-between text-lg font-semibold">
                 <span>Total</span>
                 <span>{formatCurrency(order.summary.total)}</span>
               </div>
@@ -257,16 +237,15 @@ export function OrderDetails({
               {order.shipping_address.firstName} {order.shipping_address.lastName}
             </p>
             <p>{order.shipping_address.address}</p>
-            {order.shipping_address.address2 && (
-              <p>{order.shipping_address.address2}</p>
-            )}
+            {order.shipping_address.address2 && <p>{order.shipping_address.address2}</p>}
             <p>
-              {order.shipping_address.city}, {order.shipping_address.state} {order.shipping_address.zipCode}
+              {order.shipping_address.city}, {order.shipping_address.state}{' '}
+              {order.shipping_address.zipCode}
             </p>
             <p>{order.shipping_address.country}</p>
-            
+
             <Separator className="my-3" />
-            
+
             <div className="flex items-center space-x-4 text-sm text-gray-600">
               <div className="flex items-center space-x-1">
                 <Mail className="h-4 w-4" />
@@ -296,9 +275,7 @@ export function OrderDetails({
             <Badge variant="secondary">Paid</Badge>
           </div>
           {order.payment_intent_id && (
-            <p className="text-xs text-gray-500 mt-2">
-              Payment ID: {order.payment_intent_id}
-            </p>
+            <p className="mt-2 text-xs text-gray-500">Payment ID: {order.payment_intent_id}</p>
           )}
         </CardContent>
       </Card>

@@ -1,5 +1,10 @@
 // Navigation components
-export { Breadcrumb, generateProductBreadcrumbs, generateCategoryBreadcrumbs, generateSearchBreadcrumbs } from './breadcrumb';
+export {
+  Breadcrumb,
+  generateProductBreadcrumbs,
+  generateCategoryBreadcrumbs,
+  generateSearchBreadcrumbs,
+} from './breadcrumb';
 export { Pagination, calculatePagination } from './pagination';
 export { CategoryNavigation } from './category-navigation';
 export { MobileNav } from './mobile-nav';

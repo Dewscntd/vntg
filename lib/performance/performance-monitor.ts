@@ -57,13 +57,15 @@ export class PerformanceMonitor {
           const entries = list.getEntries();
           entries.forEach((entry: any) => {
             this.recordMetric('TTFB', entry.responseStart - entry.requestStart);
-            this.recordMetric('DOMContentLoaded', entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart);
+            this.recordMetric(
+              'DOMContentLoaded',
+              entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart
+            );
             this.recordMetric('LoadComplete', entry.loadEventEnd - entry.loadEventStart);
           });
         });
         navigationObserver.observe({ entryTypes: ['navigation'] });
         this.observers.set('navigation', navigationObserver);
-
       } catch (error) {
         console.warn('Performance monitoring setup failed:', error);
       }
@@ -90,14 +92,14 @@ export class PerformanceMonitor {
 
   getMetrics(): Record<string, { avg: number; min: number; max: number; count: number }> {
     const result: Record<string, { avg: number; min: number; max: number; count: number }> = {};
-    
+
     this.metrics.forEach((values, name) => {
       if (values.length > 0) {
         result[name] = {
           avg: values.reduce((sum, val) => sum + val, 0) / values.length,
           min: Math.min(...values),
           max: Math.max(...values),
-          count: values.length
+          count: values.length,
         };
       }
     });
@@ -116,7 +118,7 @@ export class PerformanceMonitor {
     if (typeof window !== 'undefined' && 'performance' in window) {
       performance.mark(`${name}-end`);
       performance.measure(name, `${name}-start`, `${name}-end`);
-      
+
       const measure = performance.getEntriesByName(name, 'measure')[0];
       if (measure) {
         this.recordMetric(name, measure.duration);
@@ -132,7 +134,7 @@ export class PerformanceMonitor {
         used: memory.usedJSHeapSize,
         total: memory.totalJSHeapSize,
         limit: memory.jsHeapSizeLimit,
-        percentage: (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100
+        percentage: (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100,
       };
     }
     return null;
@@ -146,7 +148,7 @@ export class PerformanceMonitor {
         effectiveType: connection.effectiveType,
         downlink: connection.downlink,
         rtt: connection.rtt,
-        saveData: connection.saveData
+        saveData: connection.saveData,
       };
     }
     return null;
@@ -163,17 +165,17 @@ export class PerformanceMonitor {
       metrics,
       memory,
       network,
-      userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'unknown'
+      userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'unknown',
     };
   }
 
   // Send report to analytics (placeholder)
   sendReport() {
     const report = this.generateReport();
-    
+
     // In a real application, you would send this to your analytics service
     console.log('Performance Report:', report);
-    
+
     // Example: Send to analytics service
     // fetch('/api/analytics/performance', {
     //   method: 'POST',
@@ -184,7 +186,7 @@ export class PerformanceMonitor {
 
   // Cleanup observers
   disconnect() {
-    this.observers.forEach(observer => observer.disconnect());
+    this.observers.forEach((observer) => observer.disconnect());
     this.observers.clear();
   }
 }
@@ -203,7 +205,7 @@ export function usePerformanceMonitor() {
     endMeasure,
     getMetrics,
     getReport,
-    recordMetric: (name: string, value: number) => monitor.recordMetric(name, value)
+    recordMetric: (name: string, value: number) => monitor.recordMetric(name, value),
   };
 }
 
@@ -211,11 +213,11 @@ export function usePerformanceMonitor() {
 export function measurePerformance(name: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
-    
+
     descriptor.value = async function (...args: any[]) {
       const monitor = PerformanceMonitor.getInstance();
       monitor.startMeasure(`${name}-${propertyKey}`);
-      
+
       try {
         const result = await originalMethod.apply(this, args);
         return result;
@@ -223,7 +225,7 @@ export function measurePerformance(name: string) {
         monitor.endMeasure(`${name}-${propertyKey}`);
       }
     };
-    
+
     return descriptor;
   };
 }
@@ -232,12 +234,12 @@ export function measurePerformance(name: string) {
 export function initializePerformanceMonitoring() {
   if (typeof window !== 'undefined') {
     const monitor = PerformanceMonitor.getInstance();
-    
+
     // Send report every 30 seconds
     setInterval(() => {
       monitor.sendReport();
     }, 30000);
-    
+
     // Send report on page unload
     window.addEventListener('beforeunload', () => {
       monitor.sendReport();

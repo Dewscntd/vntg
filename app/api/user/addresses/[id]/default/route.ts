@@ -3,17 +3,10 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError,
-  handleNotFound 
-} from '@/lib/api/index';
+import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
 
 // POST /api/user/addresses/[id]/default - Set address as default
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -71,10 +64,9 @@ export async function POST(
       };
 
       return successResponse(transformedAddress);
-
     } catch (error) {
       console.error('Error setting default address:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

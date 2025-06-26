@@ -20,12 +20,12 @@ export function ProductDetailSkeleton({ className }: ProductDetailSkeletonProps)
       </div>
 
       {/* Product details grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
+      <div className="mb-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Product images skeleton */}
         <div className="space-y-4">
           {/* Main image */}
           <Skeleton className="aspect-square w-full rounded-lg" />
-          
+
           {/* Thumbnail images */}
           <div className="flex space-x-2">
             {Array.from({ length: 4 }).map((_, index) => (
@@ -94,7 +94,7 @@ export function ProductDetailSkeleton({ className }: ProductDetailSkeletonProps)
         <Skeleton className="h-6 w-32" />
         <div className="space-y-4">
           {Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="border rounded-lg p-4 space-y-3">
+            <div key={index} className="space-y-3 rounded-lg border p-4">
               <div className="flex items-center space-x-3">
                 <Skeleton className="h-8 w-8 rounded-full" />
                 <div className="space-y-1">
@@ -112,7 +112,7 @@ export function ProductDetailSkeleton({ className }: ProductDetailSkeletonProps)
       {/* Related products skeleton */}
       <div className="space-y-6">
         <Skeleton className="h-6 w-40" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className="space-y-3">
               <Skeleton className="aspect-square w-full rounded-lg" />

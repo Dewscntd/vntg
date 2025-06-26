@@ -1,14 +1,20 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/admin-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Search,
   Filter,
   User,
@@ -18,7 +24,7 @@ import {
   MoreHorizontal,
   UserCheck,
   UserX,
-  Download
+  Download,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -48,7 +54,7 @@ interface UsersResponse {
   hasMore: boolean;
 }
 
-export default function AdminUsersPage() {
+function AdminUsersContent() {
   const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -142,7 +148,7 @@ export default function AdminUsersPage() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
   };
 
@@ -151,7 +157,7 @@ export default function AdminUsersPage() {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -165,17 +171,17 @@ export default function AdminUsersPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-              <p className="text-gray-600 mt-1">Manage user accounts and permissions</p>
+              <p className="mt-1 text-gray-600">Manage user accounts and permissions</p>
             </div>
             <Button variant="outline">
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="mr-2 h-4 w-4" />
               Export Users
             </Button>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -187,7 +193,7 @@ export default function AdminUsersPage() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -195,13 +201,13 @@ export default function AdminUsersPage() {
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Admins</p>
                   <p className="text-2xl font-bold text-gray-900">
-                    {users.filter(u => u.role === 'admin').length}
+                    {users.filter((u) => u.role === 'admin').length}
                   </p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -209,13 +215,13 @@ export default function AdminUsersPage() {
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Customers</p>
                   <p className="text-2xl font-bold text-gray-900">
-                    {users.filter(u => u.role === 'customer').length}
+                    {users.filter((u) => u.role === 'customer').length}
                   </p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -223,11 +229,16 @@ export default function AdminUsersPage() {
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">New This Month</p>
                   <p className="text-2xl font-bold text-gray-900">
-                    {users.filter(u => {
-                      const created = new Date(u.created_at);
-                      const now = new Date();
-                      return created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear();
-                    }).length}
+                    {
+                      users.filter((u) => {
+                        const created = new Date(u.created_at);
+                        const now = new Date();
+                        return (
+                          created.getMonth() === now.getMonth() &&
+                          created.getFullYear() === now.getFullYear()
+                        );
+                      }).length
+                    }
                   </p>
                 </div>
               </div>
@@ -238,9 +249,9 @@ export default function AdminUsersPage() {
         {/* Filters */}
         <Card className="mb-6">
           <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   placeholder="Search users..."
                   value={searchQuery}
@@ -248,7 +259,7 @@ export default function AdminUsersPage() {
                   className="pl-10"
                 />
               </div>
-              
+
               <Select value={roleFilter} onValueChange={setRoleFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Roles" />
@@ -291,7 +302,7 @@ export default function AdminUsersPage() {
             <CardTitle className="flex items-center justify-between">
               <span>Users ({total})</span>
               {loading && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
               )}
             </CardTitle>
           </CardHeader>
@@ -300,12 +311,12 @@ export default function AdminUsersPage() {
               <div className="space-y-4">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-16 bg-gray-200 rounded"></div>
+                    <div className="h-16 rounded bg-gray-200"></div>
                   </div>
                 ))}
               </div>
             ) : users.length === 0 ? (
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <User className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No users</h3>
                 <p className="mt-1 text-sm text-gray-500">No users match your current filters.</p>
@@ -315,19 +326,19 @@ export default function AdminUsersPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         User
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Role
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Last Active
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Joined
                       </th>
                       <th className="relative px-6 py-3">
@@ -335,12 +346,12 @@ export default function AdminUsersPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-200 bg-white">
                     {users.map((user) => (
                       <tr key={user.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10">
+                            <div className="h-10 w-10 flex-shrink-0">
                               {user.avatar_url ? (
                                 <img
                                   className="h-10 w-10 rounded-full"
@@ -348,7 +359,7 @@ export default function AdminUsersPage() {
                                   alt={user.full_name}
                                 />
                               ) : (
-                                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
                                   <User className="h-5 w-5 text-gray-400" />
                                 </div>
                               )}
@@ -357,39 +368,37 @@ export default function AdminUsersPage() {
                               <div className="text-sm font-medium text-gray-900">
                                 {user.full_name || 'No name'}
                               </div>
-                              <div className="text-sm text-gray-500">
-                                {user.email}
-                              </div>
+                              <div className="text-sm text-gray-500">{user.email}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4">
                           <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
                             {user.role === 'admin' ? (
                               <>
-                                <Shield className="h-3 w-3 mr-1" />
+                                <Shield className="mr-1 h-3 w-3" />
                                 Admin
                               </>
                             ) : (
                               <>
-                                <User className="h-3 w-3 mr-1" />
+                                <User className="mr-1 h-3 w-3" />
                                 Customer
                               </>
                             )}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4">
                           <Badge variant={user.is_active ? 'default' : 'secondary'}>
                             {user.is_active ? 'Active' : 'Inactive'}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                           {formatDate(user.last_sign_in_at)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                           {formatDate(user.created_at)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="sm">
@@ -401,14 +410,14 @@ export default function AdminUsersPage() {
                                 <DropdownMenuItem
                                   onClick={() => handleRoleUpdate(user.id, 'admin')}
                                 >
-                                  <Shield className="h-4 w-4 mr-2" />
+                                  <Shield className="mr-2 h-4 w-4" />
                                   Make Admin
                                 </DropdownMenuItem>
                               ) : (
                                 <DropdownMenuItem
                                   onClick={() => handleRoleUpdate(user.id, 'customer')}
                                 >
-                                  <User className="h-4 w-4 mr-2" />
+                                  <User className="mr-2 h-4 w-4" />
                                   Make Customer
                                 </DropdownMenuItem>
                               )}
@@ -416,7 +425,7 @@ export default function AdminUsersPage() {
                                 onClick={() => handleDeleteUser(user.id)}
                                 className="text-red-600"
                               >
-                                <UserX className="h-4 w-4 mr-2" />
+                                <UserX className="mr-2 h-4 w-4" />
                                 Delete User
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -431,9 +440,10 @@ export default function AdminUsersPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6">
+              <div className="mt-6 flex items-center justify-between">
                 <div className="text-sm text-gray-700">
-                  Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, total)} of {total} results
+                  Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total}{' '}
+                  results
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button
@@ -462,5 +472,17 @@ export default function AdminUsersPage() {
         </Card>
       </div>
     </AdminLayout>
+  );
+}
+
+export default function AdminUsersPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <AdminUsersContent />
+    </Suspense>
   );
 }

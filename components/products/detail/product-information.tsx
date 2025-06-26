@@ -45,7 +45,7 @@ export function ProductInformation({ product, className }: ProductInformationPro
 
   const handleAddToCart = async () => {
     if (isOutOfStock || quantity < 1) return;
-    
+
     await addToCart({
       product_id: product.id,
       quantity,
@@ -57,9 +57,7 @@ export function ProductInformation({ product, className }: ProductInformationPro
       {/* Product badges */}
       <div className="flex flex-wrap gap-2">
         {product.is_new && <ProductBadge type="new" />}
-        {product.is_sale && (
-          <ProductBadge type="sale" value={product.discount_percent} />
-        )}
+        {product.is_sale && <ProductBadge type="sale" value={product.discount_percent} />}
         {isOutOfStock && <ProductBadge type="out-of-stock" />}
         {product.is_featured && <ProductBadge type="featured" />}
       </div>
@@ -76,12 +74,8 @@ export function ProductInformation({ product, className }: ProductInformationPro
 
       {/* Product price */}
       <div>
-        <ProductPrice
-          price={product.price}
-          discount_percent={product.discount_percent}
-          size="lg"
-        />
-        
+        <ProductPrice price={product.price} discount_percent={product.discount_percent} size="lg" />
+
         {/* Inventory status */}
         <div className="mt-2 text-sm">
           {isOutOfStock ? (

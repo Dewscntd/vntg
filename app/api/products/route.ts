@@ -12,22 +12,20 @@ export async function GET(req: NextRequest) {
   return withQueryValidation(req, productQuerySchema, async (req, query) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
-      const { 
-        limit, 
-        offset, 
-        orderBy, 
-        orderDirection, 
-        category_id, 
+      const {
+        limit,
+        offset,
+        orderBy,
+        orderDirection,
+        category_id,
         is_featured,
         search,
         min_price,
-        max_price
+        max_price,
       } = query;
 
       // Start building the query
-      let dbQuery = supabase
-        .from('products')
-        .select('*, categories(id, name)', { count: 'exact' });
+      let dbQuery = supabase.from('products').select('*, categories(id, name)', { count: 'exact' });
 
       // Apply filters
       if (category_id) {
@@ -51,10 +49,10 @@ export async function GET(req: NextRequest) {
       }
 
       // Apply ordering
-      dbQuery = dbQuery.order(orderBy, { ascending: orderDirection === 'asc' });
+      dbQuery = dbQuery.order(orderBy || 'created_at', { ascending: orderDirection === 'asc' });
 
       // Apply pagination
-      dbQuery = dbQuery.range(offset, offset + limit - 1);
+      dbQuery = dbQuery.range(offset || 0, (offset || 0) + (limit || 10) - 1);
 
       // Execute the query
       const { data: products, count, error } = await dbQuery;
@@ -79,11 +77,11 @@ export async function GET(req: NextRequest) {
 
 // POST /api/products - Create a new product (admin only)
 export async function POST(req: NextRequest) {
-  return withAdmin(req, (req, session) => 
+  return withAdmin(req, (req, session) =>
     withValidation(req, createProductSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
-        
+
         // Insert the new product
         const { data: product, error } = await supabase
           .from('products')

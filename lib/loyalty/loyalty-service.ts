@@ -65,7 +65,12 @@ export class LoyaltyService {
       id: 'gold',
       name: 'Gold',
       minPoints: 1500,
-      benefits: ['2x points on purchases', 'Free shipping', 'Priority support', 'Exclusive products'],
+      benefits: [
+        '2x points on purchases',
+        'Free shipping',
+        'Priority support',
+        'Exclusive products',
+      ],
       pointsMultiplier: 2,
       color: '#FFD700',
     },
@@ -73,7 +78,13 @@ export class LoyaltyService {
       id: 'platinum',
       name: 'Platinum',
       minPoints: 5000,
-      benefits: ['3x points on purchases', 'Free shipping', 'Priority support', 'Personal shopper', 'VIP events'],
+      benefits: [
+        '3x points on purchases',
+        'Free shipping',
+        'Priority support',
+        'Personal shopper',
+        'VIP events',
+      ],
       pointsMultiplier: 3,
       color: '#E5E4E2',
     },
@@ -120,7 +131,7 @@ export class LoyaltyService {
 
   // Calculate points earned from purchase
   calculatePointsEarned(orderTotal: number, userTier: string): number {
-    const tier = this.tiers.find(t => t.id === userTier) || this.tiers[0];
+    const tier = this.tiers.find((t) => t.id === userTier) || this.tiers[0];
     const basePoints = Math.floor(orderTotal); // 1 point per dollar
     return Math.floor(basePoints * tier.pointsMultiplier);
   }
@@ -128,15 +139,15 @@ export class LoyaltyService {
   // Get user's current tier
   getUserTier(totalPoints: number): LoyaltyTier {
     const sortedTiers = [...this.tiers].sort((a, b) => b.minPoints - a.minPoints);
-    return sortedTiers.find(tier => totalPoints >= tier.minPoints) || this.tiers[0];
+    return sortedTiers.find((tier) => totalPoints >= tier.minPoints) || this.tiers[0];
   }
 
   // Get next tier for user
   getNextTier(totalPoints: number): LoyaltyTier | null {
     const currentTier = this.getUserTier(totalPoints);
     const sortedTiers = [...this.tiers].sort((a, b) => a.minPoints - b.minPoints);
-    const currentIndex = sortedTiers.findIndex(tier => tier.id === currentTier.id);
-    
+    const currentIndex = sortedTiers.findIndex((tier) => tier.id === currentTier.id);
+
     return currentIndex < sortedTiers.length - 1 ? sortedTiers[currentIndex + 1] : null;
   }
 
@@ -152,10 +163,10 @@ export class LoyaltyService {
       // Get user's current loyalty data
       const userLoyalty = await this.getUserLoyalty(userId);
       const currentTier = this.getUserTier(userLoyalty.totalPoints);
-      
+
       // Calculate points to award
       const pointsEarned = this.calculatePointsEarned(orderTotal, currentTier.id);
-      
+
       // Award points
       const response = await fetch('/api/loyalty/award-points', {
         method: 'POST',
@@ -179,9 +190,12 @@ export class LoyaltyService {
   }
 
   // Redeem reward
-  async redeemReward(userId: string, rewardId: string): Promise<{ success: boolean; code?: string }> {
+  async redeemReward(
+    userId: string,
+    rewardId: string
+  ): Promise<{ success: boolean; code?: string }> {
     try {
-      const reward = this.rewards.find(r => r.id === rewardId);
+      const reward = this.rewards.find((r) => r.id === rewardId);
       if (!reward) {
         throw new Error('Reward not found');
       }
@@ -217,7 +231,7 @@ export class LoyaltyService {
       if (response.ok) {
         return await response.json();
       }
-      
+
       // Return default loyalty data if not found
       return {
         userId,
@@ -250,14 +264,12 @@ export class LoyaltyService {
 
   // Get available rewards
   getAvailableRewards(userPoints: number): LoyaltyReward[] {
-    return this.rewards.filter(reward => 
-      reward.isActive && reward.pointsCost <= userPoints
-    );
+    return this.rewards.filter((reward) => reward.isActive && reward.pointsCost <= userPoints);
   }
 
   // Get all rewards
   getAllRewards(): LoyaltyReward[] {
-    return this.rewards.filter(reward => reward.isActive);
+    return this.rewards.filter((reward) => reward.isActive);
   }
 
   // Get all tiers
@@ -267,7 +279,7 @@ export class LoyaltyService {
 
   // Check if user can redeem reward
   canRedeemReward(userPoints: number, rewardId: string): boolean {
-    const reward = this.rewards.find(r => r.id === rewardId);
+    const reward = this.rewards.find((r) => r.id === rewardId);
     return reward ? reward.isActive && userPoints >= reward.pointsCost : false;
   }
 
@@ -275,12 +287,12 @@ export class LoyaltyService {
   getTierProgress(totalPoints: number): number {
     const currentTier = this.getUserTier(totalPoints);
     const nextTier = this.getNextTier(totalPoints);
-    
+
     if (!nextTier) return 100; // Already at highest tier
-    
+
     const pointsInCurrentTier = totalPoints - currentTier.minPoints;
     const pointsNeededForNextTier = nextTier.minPoints - currentTier.minPoints;
-    
+
     return Math.min(100, (pointsInCurrentTier / pointsNeededForNextTier) * 100);
   }
 
@@ -291,7 +303,7 @@ export class LoyaltyService {
 
   // Get tier color
   getTierColor(tierId: string): string {
-    const tier = this.tiers.find(t => t.id === tierId);
+    const tier = this.tiers.find((t) => t.id === tierId);
     return tier?.color || '#CD7F32';
   }
 }

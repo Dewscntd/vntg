@@ -3,24 +3,21 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth } from '@/lib/api/middleware';
-import { 
-  successResponse, 
+import {
+  successResponse,
   errorResponse,
   handleDatabaseError,
-  handleNotFound 
+  handleNotFound,
 } from '@/lib/api/index';
 
 // POST /api/orders/[id]/return - Request order return
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
       const orderId = params.id;
-      
+
       const body = await req.json();
       const { reason } = body;
 
@@ -42,15 +39,12 @@ export async function POST(
 
       // Check if order can be returned (only delivered orders within return window)
       if (order.status !== 'delivered') {
-        return errorResponse(
-          'Only delivered orders can be returned.',
-          400
-        );
+        return errorResponse('Only delivered orders can be returned.', 400);
       }
 
       // Check return window (30 days)
       const orderDate = new Date(order.created_at);
-      const returnDeadline = new Date(orderDate.getTime() + (30 * 24 * 60 * 60 * 1000));
+      const returnDeadline = new Date(orderDate.getTime() + 30 * 24 * 60 * 60 * 1000);
       const now = new Date();
 
       if (now > returnDeadline) {
@@ -117,10 +111,9 @@ export async function POST(
         returnRequestId: returnRequest.id,
         status: returnRequest.status,
       });
-
     } catch (error) {
       console.error('Error creating return request:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

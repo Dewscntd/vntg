@@ -14,7 +14,7 @@ import {
   useProductCardAnimation,
   useEnhancedAddToCartAnimation,
   useProductBadgeAnimation,
-  useProductImageZoom
+  useProductImageZoom,
 } from '@/lib/hooks/use-gsap';
 import { useRippleEffect } from '@/lib/hooks/use-enhanced-interactions';
 
@@ -47,7 +47,7 @@ export function ProductCard({
   onQuickView,
   priority = false,
   animationVariant = 'default',
-  enableImageZoom = true
+  enableImageZoom = true,
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -124,34 +124,30 @@ export function ProductCard({
           />
 
           {/* Product badges with animation */}
-          <div
-            ref={badgeRef}
-            className="absolute left-2 top-2 flex flex-col gap-1"
-          >
-            {product.is_featured && <ProductBadge variant="featured" />}
-            {product.is_new && <ProductBadge variant="new" />}
-            {product.is_sale && <ProductBadge variant="sale" />}
-            {isOutOfStock && <ProductBadge variant="out-of-stock" />}
+          <div ref={badgeRef} className="absolute left-2 top-2 flex flex-col gap-1">
+            {product.is_featured && <ProductBadge type="featured" />}
+            {product.is_new && <ProductBadge type="new" />}
+            {product.is_sale && <ProductBadge type="sale" value={product.discount_percent} />}
+            {isOutOfStock && <ProductBadge type="out-of-stock" />}
           </div>
 
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100" />
 
           {/* Hover Actions */}
-          <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-            <Button
-              ref={(el) => {
-                if (addToCartRef.current) addToCartRef.current = el;
-                if (rippleRef.current) rippleRef.current = el;
-              }}
-              size="sm"
-              onClick={handleAddToCart}
-              disabled={isOutOfStock || isLoading}
-              className="flex-1 h-8 text-xs relative overflow-hidden"
-            >
-              <ShoppingCart className="h-3 w-3 mr-1" data-cart-icon />
-              {isLoading ? 'Adding...' : isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-            </Button>
+          <div className="absolute bottom-3 left-3 right-3 flex translate-y-4 transform gap-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <div ref={rippleRef as React.RefObject<HTMLDivElement>} className="flex-1">
+              <Button
+                ref={addToCartRef}
+                size="sm"
+                onClick={handleAddToCart}
+                disabled={isOutOfStock || isLoading}
+                className="relative h-8 w-full overflow-hidden text-xs"
+              >
+                <ShoppingCart className="mr-1 h-3 w-3" data-cart-icon />
+                {isLoading ? 'Adding...' : isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+              </Button>
+            </div>
 
             {onQuickView && (
               <Button
@@ -173,10 +169,7 @@ export function ProductCard({
           )}
           <h3 className="line-clamp-1 text-sm font-medium">{product.name}</h3>
           <div className="mt-1">
-            <ProductPrice
-              price={product.price}
-              discount_percent={product.discount_percent}
-            />
+            <ProductPrice price={product.price} discount_percent={product.discount_percent} />
           </div>
         </div>
       </Link>

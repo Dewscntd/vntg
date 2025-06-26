@@ -5,19 +5,14 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/auth/auth-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { OrderCard } from '@/components/orders/order-card';
-import { 
-  User, 
-  Package, 
-  CreditCard, 
-  MapPin, 
+import {
+  User,
+  Package,
+  CreditCard,
+  MapPin,
   Settings,
   ShoppingBag,
-  Clock,
-  CheckCircle,
-  ArrowRight,
-  Plus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -60,14 +55,16 @@ export default function AccountDashboard() {
         if (allOrdersResponse.ok) {
           const allOrdersData = await allOrdersResponse.json();
           const orders = allOrdersData.orders || [];
-          
+
           const dashboardStats: DashboardStats = {
             totalOrders: orders.length,
-            pendingOrders: orders.filter((o: any) => o.status === 'pending' || o.status === 'processing').length,
+            pendingOrders: orders.filter(
+              (o: any) => o.status === 'pending' || o.status === 'processing'
+            ).length,
             completedOrders: orders.filter((o: any) => o.status === 'delivered').length,
             totalSpent: orders.reduce((sum: number, order: any) => sum + order.total, 0),
           };
-          
+
           setStats(dashboardStats);
         }
       } catch (error) {
@@ -82,10 +79,10 @@ export default function AccountDashboard() {
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Please sign in</h2>
-          <p className="text-gray-600 mb-4">You need to be signed in to access your account.</p>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
+          <p className="mb-4 text-gray-600">You need to be signed in to access your account.</p>
           <Link href="/auth/login">
             <Button>Sign In</Button>
           </Link>
@@ -100,16 +97,19 @@ export default function AccountDashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.full_name || user?.email?.split('@')[0] || 'there'}!
+            Welcome back,{' '}
+            {user?.user_metadata?.full_name ||
+              user?.user_metadata?.name ||
+              user?.email?.split('@')[0] ||
+              'there'}
+            !
           </h1>
-          <p className="text-gray-600 mt-2">
-            Manage your orders, profile, and account settings.
-          </p>
+          <p className="mt-2 text-gray-600">Manage your orders, profile, and account settings.</p>
         </div>
 
         {/* Quick Stats */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center">
@@ -162,7 +162,7 @@ export default function AccountDashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Recent Orders */}
           <div className="lg:col-span-2">
             <Card>
@@ -175,7 +175,7 @@ export default function AccountDashboard() {
                   <Link href="/account/orders">
                     <Button variant="outline" size="sm">
                       View All
-                      <ArrowRight className="h-4 w-4 ml-1" />
+                      <ArrowRight className="ml-1 h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
@@ -185,7 +185,7 @@ export default function AccountDashboard() {
                   <div className="space-y-4">
                     {[...Array(3)].map((_, i) => (
                       <div key={i} className="animate-pulse">
-                        <div className="h-24 bg-gray-200 rounded-lg"></div>
+                        <div className="h-24 rounded-lg bg-gray-200"></div>
                       </div>
                     ))}
                   </div>
@@ -195,18 +195,18 @@ export default function AccountDashboard() {
                       <OrderCard
                         key={order.id}
                         order={order as any}
-                        className="border-0 shadow-none bg-gray-50"
+                        className="border-0 bg-gray-50 shadow-none"
                       />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
-                    <p className="text-gray-600 mb-4">Start shopping to see your orders here.</p>
+                  <div className="py-8 text-center">
+                    <Package className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                    <h3 className="mb-2 text-lg font-medium text-gray-900">No orders yet</h3>
+                    <p className="mb-4 text-gray-600">Start shopping to see your orders here.</p>
                     <Link href="/products">
                       <Button>
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="mr-2 h-4 w-4" />
                         Start Shopping
                       </Button>
                     </Link>
@@ -229,7 +229,9 @@ export default function AccountDashboard() {
               <CardContent className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Name</p>
-                  <p className="font-medium">{user?.full_name || 'Not set'}</p>
+                  <p className="font-medium">
+                    {user?.user_metadata?.full_name || user?.user_metadata?.name || 'Not set'}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Email</p>
@@ -237,7 +239,7 @@ export default function AccountDashboard() {
                 </div>
                 <Link href="/account/settings">
                   <Button variant="outline" className="w-full">
-                    <Settings className="h-4 w-4 mr-2" />
+                    <Settings className="mr-2 h-4 w-4" />
                     Edit Profile
                   </Button>
                 </Link>
@@ -252,28 +254,28 @@ export default function AccountDashboard() {
               <CardContent className="space-y-3">
                 <Link href="/account/orders" className="block">
                   <Button variant="ghost" className="w-full justify-start">
-                    <Package className="h-4 w-4 mr-2" />
+                    <Package className="mr-2 h-4 w-4" />
                     Order History
                   </Button>
                 </Link>
-                
+
                 <Link href="/account/addresses" className="block">
                   <Button variant="ghost" className="w-full justify-start">
-                    <MapPin className="h-4 w-4 mr-2" />
+                    <MapPin className="mr-2 h-4 w-4" />
                     Address Book
                   </Button>
                 </Link>
-                
+
                 <Link href="/account/settings" className="block">
                   <Button variant="ghost" className="w-full justify-start">
-                    <Settings className="h-4 w-4 mr-2" />
+                    <Settings className="mr-2 h-4 w-4" />
                     Account Settings
                   </Button>
                 </Link>
-                
+
                 <Link href="/products" className="block">
                   <Button variant="ghost" className="w-full justify-start">
-                    <ShoppingBag className="h-4 w-4 mr-2" />
+                    <ShoppingBag className="mr-2 h-4 w-4" />
                     Continue Shopping
                   </Button>
                 </Link>

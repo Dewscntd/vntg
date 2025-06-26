@@ -25,10 +25,10 @@ interface RouteTransitionProviderProps {
   easing?: string;
 }
 
-export function RouteTransitionProvider({ 
-  children, 
+export function RouteTransitionProvider({
+  children,
   duration = 0.4,
-  easing = 'power2.inOut'
+  easing = 'power2.inOut',
 }: RouteTransitionProviderProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -37,7 +37,7 @@ export function RouteTransitionProvider({
 
   const triggerTransition = async (href: string): Promise<void> => {
     if (isTransitioning.current || !containerRef.current) return;
-    
+
     isTransitioning.current = true;
 
     // Exit animation
@@ -47,7 +47,7 @@ export function RouteTransitionProvider({
         y: -20,
         duration: duration / 2,
         ease: easing,
-        onComplete: resolve
+        onComplete: resolve,
       });
     });
 
@@ -55,18 +55,19 @@ export function RouteTransitionProvider({
     router.push(href);
 
     // Wait for navigation to complete
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     // Enter animation
     await new Promise<void>((resolve) => {
-      gsap.fromTo(containerRef.current, 
+      gsap.fromTo(
+        containerRef.current,
         { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
           duration: duration / 2,
           ease: easing,
-          onComplete: resolve
+          onComplete: resolve,
         }
       );
     });
@@ -79,21 +80,22 @@ export function RouteTransitionProvider({
     if (!containerRef.current) return;
 
     // Animate in on route change
-    gsap.fromTo(containerRef.current,
+    gsap.fromTo(
+      containerRef.current,
       { opacity: 0, y: 20 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: duration / 2, 
+      {
+        opacity: 1,
+        y: 0,
+        duration: duration / 2,
         ease: easing,
-        delay: 0.1
+        delay: 0.1,
       }
     );
   }, [pathname, duration, easing]);
 
   const contextValue: RouteTransitionContextType = {
     isTransitioning: isTransitioning.current,
-    triggerTransition
+    triggerTransition,
   };
 
   return (
@@ -148,12 +150,7 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, TransitionLinkProps>
     };
 
     return (
-      <Link 
-        ref={ref}
-        href={href} 
-        onClick={handleClick}
-        {...props}
-      >
+      <Link ref={ref} href={href} onClick={handleClick} {...props}>
         {children}
       </Link>
     );
@@ -181,6 +178,6 @@ export function useTransitionRouter() {
     back: router.back,
     forward: router.forward,
     refresh: router.refresh,
-    prefetch: router.prefetch
+    prefetch: router.prefetch,
   };
 }

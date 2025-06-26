@@ -5,11 +5,7 @@ import { Database } from '@/types/supabase';
 import { getServerStripe } from '@/lib/stripe/server';
 import { createOrderSchema } from '@/lib/validations/checkout';
 import { withAuth, withValidation, withPaymentSecurity } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // POST /api/checkout/create-order - Create an order after successful payment
 export async function POST(req: NextRequest) {
@@ -17,15 +13,10 @@ export async function POST(req: NextRequest) {
     withValidation(req, createOrderSchema, async (req, validData) => {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      
+
       try {
-        const { 
-          shippingAddress, 
-          billingAddress, 
-          paymentMethodId, 
-          shippingMethod,
-          notes 
-        } = validData;
+        const { shippingAddress, billingAddress, paymentMethodId, shippingMethod, notes } =
+          validData;
 
         // Start a database transaction
         const { data: orderData, error: orderError } = await supabase.rpc(
@@ -74,7 +65,6 @@ export async function POST(req: NextRequest) {
           total: order.total,
           estimatedDelivery: order.estimated_delivery,
         });
-
       } catch (error: any) {
         console.error('Order creation error:', error);
         return handleDatabaseError(error);

@@ -3,29 +3,35 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
   LineChart,
   Line,
   PieChart,
   Pie,
-  Cell
+  Cell,
 } from 'recharts';
-import { 
-  TrendingUp, 
-  Users, 
-  ShoppingCart, 
+import {
+  TrendingUp,
+  Users,
+  ShoppingCart,
   DollarSign,
   Eye,
   MousePointer,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatPercentage } from '@/lib/analytics/analytics-service';
 
@@ -64,17 +70,23 @@ export function AnalyticsDashboard() {
     setLoading(true);
     try {
       const endDate = new Date().toISOString();
-      const startDate = new Date(Date.now() - getDaysFromRange(dateRange) * 24 * 60 * 60 * 1000).toISOString();
+      const startDate = new Date(
+        Date.now() - getDaysFromRange(dateRange) * 24 * 60 * 60 * 1000
+      ).toISOString();
 
       // Fetch metrics
-      const metricsResponse = await fetch(`/api/analytics/metrics?start=${startDate}&end=${endDate}`);
+      const metricsResponse = await fetch(
+        `/api/analytics/metrics?start=${startDate}&end=${endDate}`
+      );
       if (metricsResponse.ok) {
         const metricsData = await metricsResponse.json();
         setMetrics(metricsData);
       }
 
       // Fetch sales data
-      const salesResponse = await fetch(`/api/analytics/sales?period=${period}&start=${startDate}&end=${endDate}`);
+      const salesResponse = await fetch(
+        `/api/analytics/sales?period=${period}&start=${startDate}&end=${endDate}`
+      );
       if (salesResponse.ok) {
         const salesData = await salesResponse.json();
         setSalesData(salesData);
@@ -88,11 +100,16 @@ export function AnalyticsDashboard() {
 
   const getDaysFromRange = (range: string): number => {
     switch (range) {
-      case '7d': return 7;
-      case '30d': return 30;
-      case '90d': return 90;
-      case '1y': return 365;
-      default: return 30;
+      case '7d':
+        return 7;
+      case '30d':
+        return 30;
+      case '90d':
+        return 90;
+      case '1y':
+        return 365;
+      default:
+        return 30;
     }
   };
 
@@ -103,7 +120,7 @@ export function AnalyticsDashboard() {
       <div className="space-y-6">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="animate-pulse">
-            <div className="h-32 bg-gray-200 rounded-lg"></div>
+            <div className="h-32 rounded-lg bg-gray-200"></div>
           </div>
         ))}
       </div>
@@ -127,9 +144,9 @@ export function AnalyticsDashboard() {
               <SelectItem value="1y">Last year</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Button onClick={fetchAnalyticsData} variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
         </div>
@@ -137,7 +154,7 @@ export function AnalyticsDashboard() {
 
       {/* Key Metrics */}
       {metrics && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -193,7 +210,7 @@ export function AnalyticsDashboard() {
       )}
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Revenue Chart */}
         <Card>
           <CardHeader>
@@ -206,12 +223,7 @@ export function AnalyticsDashboard() {
                 <XAxis dataKey="period" />
                 <YAxis />
                 <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Line 
-                  type="monotone" 
-                  dataKey="totalRevenue" 
-                  stroke="#8884d8" 
-                  strokeWidth={2}
-                />
+                <Line type="monotone" dataKey="totalRevenue" stroke="#8884d8" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -245,8 +257,14 @@ export function AnalyticsDashboard() {
               <PieChart>
                 <Pie
                   data={[
-                    { name: 'New Customers', value: salesData.reduce((sum, d) => sum + d.newCustomers, 0) },
-                    { name: 'Returning Customers', value: salesData.reduce((sum, d) => sum + d.returningCustomers, 0) },
+                    {
+                      name: 'New Customers',
+                      value: salesData.reduce((sum, d) => sum + d.newCustomers, 0),
+                    },
+                    {
+                      name: 'Returning Customers',
+                      value: salesData.reduce((sum, d) => sum + d.returningCustomers, 0),
+                    },
                   ]}
                   cx="50%"
                   cy="50%"
@@ -278,10 +296,10 @@ export function AnalyticsDashboard() {
                 <XAxis dataKey="period" />
                 <YAxis />
                 <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Line 
-                  type="monotone" 
-                  dataKey="averageOrderValue" 
-                  stroke="#ff7300" 
+                <Line
+                  type="monotone"
+                  dataKey="averageOrderValue"
+                  stroke="#ff7300"
                   strokeWidth={2}
                 />
               </LineChart>

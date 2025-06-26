@@ -7,7 +7,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { 
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -38,7 +38,7 @@ export function ResponsiveNav({
   className,
   orientation = 'horizontal',
   showDescriptions = false,
-  maxDepth = 2
+  maxDepth = 2,
 }: ResponsiveNavProps) {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const pathname = usePathname();
@@ -74,7 +74,7 @@ export function ResponsiveNav({
             <NavigationMenuItem key={item.title}>
               {item.children && item.children.length > 0 ? (
                 <>
-                  <NavigationMenuTrigger 
+                  <NavigationMenuTrigger
                     className={cn(
                       'text-sm font-medium transition-colors hover:text-primary',
                       isActive(item.href) && 'text-primary'
@@ -83,7 +83,7 @@ export function ResponsiveNav({
                     {item.title}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid gap-3 p-6 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <div className="grid w-[400px] gap-3 p-6 lg:w-[500px] lg:grid-cols-2">
                       {item.children.map((child) => (
                         <NavigationMenuLink key={child.title} asChild>
                           <Link
@@ -94,9 +94,7 @@ export function ResponsiveNav({
                               isActive(child.href) && 'bg-accent text-accent-foreground'
                             )}
                           >
-                            <div className="text-sm font-medium leading-none">
-                              {child.title}
-                            </div>
+                            <div className="text-sm font-medium leading-none">{child.title}</div>
                             {showDescriptions && child.description && (
                               <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
                                 {child.description}
@@ -113,8 +111,8 @@ export function ResponsiveNav({
                   <Link
                     href={item.href}
                     className={cn(
-                      'text-sm font-medium transition-colors hover:text-primary px-3 py-2 rounded-md',
-                      isActive(item.href) && 'text-primary bg-accent'
+                      'rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-primary',
+                      isActive(item.href) && 'bg-accent text-primary'
                     )}
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
@@ -144,7 +142,7 @@ export function ResponsiveNav({
               variant="ghost"
               onClick={() => toggleExpanded(item.title)}
               className={cn(
-                'flex-1 justify-between h-auto p-3 text-left font-normal',
+                'h-auto flex-1 justify-between p-3 text-left font-normal',
                 level > 0 && `ml-${level * 4}`,
                 itemIsActive && 'bg-accent text-accent-foreground'
               )}
@@ -164,7 +162,7 @@ export function ResponsiveNav({
               className={cn(
                 'flex flex-1 items-center space-x-2 rounded-md p-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
                 level > 0 && `ml-${level * 4}`,
-                itemIsActive && 'bg-accent text-accent-foreground font-medium'
+                itemIsActive && 'bg-accent font-medium text-accent-foreground'
               )}
               target={item.external ? '_blank' : undefined}
               rel={item.external ? 'noopener noreferrer' : undefined}
@@ -203,24 +201,24 @@ export const mainNavItems: NavItem[] = [
       {
         title: 'All Products',
         href: '/products',
-        description: 'Browse our complete collection'
+        description: 'Browse our complete collection',
       },
       {
         title: 'New Arrivals',
         href: '/products?filter=new',
-        description: 'Latest additions to our catalog'
+        description: 'Latest additions to our catalog',
       },
       {
         title: 'Sale Items',
         href: '/products?filter=sale',
-        description: 'Special offers and discounts'
+        description: 'Special offers and discounts',
       },
       {
         title: 'Featured',
         href: '/products?filter=featured',
-        description: 'Curated selection of premium items'
-      }
-    ]
+        description: 'Curated selection of premium items',
+      },
+    ],
   },
   {
     title: 'Categories',
@@ -229,24 +227,24 @@ export const mainNavItems: NavItem[] = [
       {
         title: 'Clothing',
         href: '/categories/clothing',
-        description: 'Vintage and modern apparel'
+        description: 'Vintage and modern apparel',
       },
       {
         title: 'Accessories',
         href: '/categories/accessories',
-        description: 'Bags, jewelry, and more'
+        description: 'Bags, jewelry, and more',
       },
       {
         title: 'Electronics',
         href: '/categories/electronics',
-        description: 'Vintage tech and gadgets'
+        description: 'Vintage tech and gadgets',
       },
       {
         title: 'Home & Decor',
         href: '/categories/home-decor',
-        description: 'Furniture and decorative items'
-      }
-    ]
+        description: 'Furniture and decorative items',
+      },
+    ],
   },
   {
     title: 'About',
@@ -255,7 +253,7 @@ export const mainNavItems: NavItem[] = [
   {
     title: 'Contact',
     href: '/contact',
-  }
+  },
 ];
 
 export const footerNavItems: NavItem[] = [
@@ -266,8 +264,8 @@ export const footerNavItems: NavItem[] = [
       { title: 'About Us', href: '/about' },
       { title: 'Careers', href: '/careers' },
       { title: 'Press', href: '/press' },
-      { title: 'Blog', href: '/blog' }
-    ]
+      { title: 'Blog', href: '/blog' },
+    ],
   },
   {
     title: 'Support',
@@ -276,8 +274,8 @@ export const footerNavItems: NavItem[] = [
       { title: 'Help Center', href: '/help' },
       { title: 'Contact Us', href: '/contact' },
       { title: 'Shipping Info', href: '/shipping' },
-      { title: 'Returns', href: '/returns' }
-    ]
+      { title: 'Returns', href: '/returns' },
+    ],
   },
   {
     title: 'Legal',
@@ -285,7 +283,7 @@ export const footerNavItems: NavItem[] = [
     children: [
       { title: 'Privacy Policy', href: '/privacy' },
       { title: 'Terms of Service', href: '/terms' },
-      { title: 'Cookie Policy', href: '/cookies' }
-    ]
-  }
+      { title: 'Cookie Policy', href: '/cookies' },
+    ],
+  },
 ];

@@ -170,15 +170,15 @@ export function LazyImage({
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted">
           <div className="text-center">
-            <div className="text-2xl mb-2">📷</div>
+            <div className="mb-2 text-2xl">📷</div>
             <span className="text-xs text-muted-foreground">Image not available</span>
           </div>
         </div>
       )}
 
       {/* Image */}
-      {shouldShowImage && (
-        fill ? (
+      {shouldShowImage &&
+        (fill ? (
           <Image
             src={imageSrc}
             alt={alt}
@@ -188,13 +188,11 @@ export function LazyImage({
             quality={quality}
             placeholder={placeholder === 'blur' ? 'blur' : undefined}
             blurDataURL={
-              placeholder === 'blur' 
-                ? blurDataURL || generateBlurDataURL(10, 10)
-                : undefined
+              placeholder === 'blur' ? blurDataURL || generateBlurDataURL(10, 10) : undefined
             }
             className={cn(
               'transition-all duration-500 ease-out',
-              isLoading ? 'opacity-0 scale-105' : 'opacity-100 scale-100',
+              isLoading ? 'scale-105 opacity-0' : 'scale-100 opacity-100',
               objectFitClasses[objectFit],
               className
             )}
@@ -212,27 +210,26 @@ export function LazyImage({
             quality={quality}
             placeholder={placeholder === 'blur' ? 'blur' : undefined}
             blurDataURL={
-              placeholder === 'blur' 
+              placeholder === 'blur'
                 ? blurDataURL || generateBlurDataURL(width || 500, height || 500)
                 : undefined
             }
             className={cn(
               'transition-all duration-500 ease-out',
-              isLoading ? 'opacity-0 scale-105' : 'opacity-100 scale-100',
+              isLoading ? 'scale-105 opacity-0' : 'scale-100 opacity-100',
               objectFitClasses[objectFit],
               className
             )}
             onLoad={handleLoad}
             onError={handleError}
           />
-        )
-      )}
+        ))}
 
       {/* No image state */}
       {!src && !hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted">
           <div className="text-center">
-            <div className="text-2xl mb-2">🖼️</div>
+            <div className="mb-2 text-2xl">🖼️</div>
             <span className="text-xs text-muted-foreground">No image</span>
           </div>
         </div>

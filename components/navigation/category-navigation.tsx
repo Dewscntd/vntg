@@ -30,7 +30,7 @@ export function CategoryNavigation({
   orientation = 'horizontal',
   showAllLink = true,
   maxItems,
-  currentCategoryId
+  currentCategoryId,
 }: CategoryNavigationProps) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
@@ -47,17 +47,17 @@ export function CategoryNavigation({
     const rootCategories: CategoryWithChildren[] = [];
 
     // First pass: create all category objects
-    categories.forEach(category => {
+    categories.forEach((category) => {
       categoryMap.set(category.id, {
         ...category,
-        children: []
+        children: [],
       });
     });
 
     // Second pass: build the tree structure
-    categories.forEach(category => {
+    categories.forEach((category) => {
       const categoryNode = categoryMap.get(category.id)!;
-      
+
       if (category.parent_id) {
         const parent = categoryMap.get(category.parent_id);
         if (parent) {
@@ -84,11 +84,11 @@ export function CategoryNavigation({
     setExpandedCategories(newExpanded);
   };
 
-  const CategoryItem = ({ 
-    category, 
-    level = 0 
-  }: { 
-    category: CategoryWithChildren; 
+  const CategoryItem = ({
+    category,
+    level = 0,
+  }: {
+    category: CategoryWithChildren;
     level?: number;
   }) => {
     const hasChildren = category.children && category.children.length > 0;
@@ -96,14 +96,14 @@ export function CategoryNavigation({
     const isCurrent = currentCategoryId === category.id;
 
     return (
-      <div className={cn("relative", level > 0 && "ml-4")}>
+      <div className={cn('relative', level > 0 && 'ml-4')}>
         <div className="flex items-center">
           {hasChildren && orientation === 'vertical' && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => toggleCategory(category.id)}
-              className="h-auto p-1 mr-1"
+              className="mr-1 h-auto p-1"
             >
               {isExpanded ? (
                 <ChevronDown className="h-3 w-3" />
@@ -112,39 +112,35 @@ export function CategoryNavigation({
               )}
             </Button>
           )}
-          
+
           <Link
             href={`/categories/${category.id}`}
             className={cn(
-              "flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-              isCurrent && "bg-accent text-accent-foreground font-medium",
-              orientation === 'horizontal' && "whitespace-nowrap"
+              'flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+              isCurrent && 'bg-accent font-medium text-accent-foreground',
+              orientation === 'horizontal' && 'whitespace-nowrap'
             )}
           >
-            {level === 0 && (
-              <Package className="h-4 w-4" />
-            )}
+            {level === 0 && <Package className="h-4 w-4" />}
             <span>{category.name}</span>
             {category.productCount && (
-              <span className="text-xs text-muted-foreground">
-                ({category.productCount})
-              </span>
+              <span className="text-xs text-muted-foreground">({category.productCount})</span>
             )}
           </Link>
         </div>
 
         {/* Subcategories */}
         {hasChildren && (orientation === 'vertical' ? isExpanded : true) && (
-          <div className={cn(
-            orientation === 'vertical' ? "mt-1 space-y-1" : "absolute top-full left-0 z-50 mt-1 min-w-[200px] rounded-md border bg-popover p-1 shadow-md",
-            orientation === 'horizontal' && "hidden group-hover:block"
-          )}>
+          <div
+            className={cn(
+              orientation === 'vertical'
+                ? 'mt-1 space-y-1'
+                : 'absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-md border bg-popover p-1 shadow-md',
+              orientation === 'horizontal' && 'hidden group-hover:block'
+            )}
+          >
             {category.children!.map((child) => (
-              <CategoryItem
-                key={child.id}
-                category={child}
-                level={level + 1}
-              />
+              <CategoryItem key={child.id} category={child} level={level + 1} />
             ))}
           </div>
         )}
@@ -154,7 +150,7 @@ export function CategoryNavigation({
 
   if (isLoading) {
     return (
-      <div className={cn("flex items-center space-x-2", className)}>
+      <div className={cn('flex items-center space-x-2', className)}>
         <div className="h-4 w-4 animate-spin rounded-full border-2 border-muted border-t-foreground" />
         <span className="text-sm text-muted-foreground">Loading categories...</span>
       </div>
@@ -163,25 +159,25 @@ export function CategoryNavigation({
 
   if (orientation === 'horizontal') {
     return (
-      <nav className={cn("flex items-center space-x-1", className)}>
+      <nav className={cn('flex items-center space-x-1', className)}>
         {showAllLink && (
           <Link
             href="/products"
             className={cn(
-              "rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-              !currentCategoryId && "bg-accent text-accent-foreground font-medium"
+              'rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+              !currentCategoryId && 'bg-accent font-medium text-accent-foreground'
             )}
           >
             All Products
           </Link>
         )}
-        
+
         {displayCategories.map((category) => (
           <div key={category.id} className="group relative">
             <CategoryItem category={category} />
           </div>
         ))}
-        
+
         {maxItems && categoryTree.length > maxItems && (
           <Link
             href="/categories"
@@ -195,24 +191,24 @@ export function CategoryNavigation({
   }
 
   return (
-    <nav className={cn("space-y-1", className)}>
+    <nav className={cn('space-y-1', className)}>
       {showAllLink && (
         <Link
           href="/products"
           className={cn(
-            "flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-            !currentCategoryId && "bg-accent text-accent-foreground font-medium"
+            'flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+            !currentCategoryId && 'bg-accent font-medium text-accent-foreground'
           )}
         >
           <Package className="h-4 w-4" />
           <span>All Products</span>
         </Link>
       )}
-      
+
       {displayCategories.map((category) => (
         <CategoryItem key={category.id} category={category} />
       ))}
-      
+
       {maxItems && categoryTree.length > maxItems && (
         <Link
           href="/categories"

@@ -71,9 +71,7 @@ export function UserNav() {
           <p className="text-sm font-medium leading-none">
             {user.user_metadata?.full_name || 'User'}
           </p>
-          <p className="text-xs leading-none text-muted-foreground">
-            {user.email}
-          </p>
+          <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -91,11 +89,7 @@ export function UserNav() {
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={handleSignOut}
-          disabled={isLoading}
-        >
+        <DropdownMenuItem className="cursor-pointer" onClick={handleSignOut} disabled={isLoading}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>{isLoading ? 'Signing out...' : 'Sign out'}</span>
         </DropdownMenuItem>

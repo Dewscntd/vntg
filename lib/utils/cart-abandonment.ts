@@ -39,7 +39,7 @@ export function trackCartAbandonment(
   const abandonmentEvent: AbandonmentEvent = {
     id: generateEventId(),
     timestamp: Date.now(),
-    items: items.map(item => ({
+    items: items.map((item) => ({
       ...item,
       // Only store essential product data to reduce storage size
       product: {
@@ -73,13 +73,13 @@ function storeAbandonmentEvent(event: AbandonmentEvent): void {
   try {
     const stored = localStorage.getItem(ABANDONMENT_STORAGE_KEY);
     const events: AbandonmentEvent[] = stored ? JSON.parse(stored) : [];
-    
+
     // Add new event
     events.unshift(event);
-    
+
     // Keep only recent events
     const recentEvents = events.slice(0, MAX_ABANDONMENT_EVENTS);
-    
+
     localStorage.setItem(ABANDONMENT_STORAGE_KEY, JSON.stringify(recentEvents));
   } catch (error) {
     console.warn('Failed to store abandonment event:', error);
@@ -117,7 +117,7 @@ export function hasRecentAbandonment(): boolean {
 
   const latestEvent = events[0];
   const timeSinceAbandonment = Date.now() - latestEvent.timestamp;
-  
+
   return timeSinceAbandonment < ABANDONMENT_THRESHOLD;
 }
 
@@ -130,11 +130,11 @@ export function getLatestAbandonmentEvent(): AbandonmentEvent | null {
 // Track abandonment analytics
 function trackAbandonmentAnalytics(event: AbandonmentEvent): void {
   // Google Analytics 4
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', 'begin_checkout', {
+  if (typeof (window as any).gtag !== 'undefined') {
+    (window as any).gtag('event', 'begin_checkout', {
       currency: 'USD',
       value: event.total,
-      items: event.items.map(item => ({
+      items: event.items.map((item) => ({
         item_id: item.product.id,
         item_name: item.product.name,
         price: item.product.price,
@@ -142,7 +142,7 @@ function trackAbandonmentAnalytics(event: AbandonmentEvent): void {
       })),
     });
 
-    window.gtag('event', 'cart_abandonment', {
+    (window as any).gtag('event', 'cart_abandonment', {
       event_category: 'ecommerce',
       event_label: 'cart_abandoned',
       value: event.total,
@@ -154,8 +154,8 @@ function trackAbandonmentAnalytics(event: AbandonmentEvent): void {
   }
 
   // Facebook Pixel
-  if (typeof window.fbq !== 'undefined') {
-    window.fbq('track', 'InitiateCheckout', {
+  if (typeof (window as any).fbq !== 'undefined') {
+    (window as any).fbq('track', 'InitiateCheckout', {
       value: event.total,
       currency: 'USD',
       num_items: event.itemCount,
@@ -174,13 +174,13 @@ function trackAbandonmentAnalytics(event: AbandonmentEvent): void {
       total: event.total,
       item_count: event.itemCount,
       user_id: event.userId,
-      items: event.items.map(item => ({
+      items: event.items.map((item) => ({
         product_id: item.product.id,
         quantity: item.quantity,
         price: item.product.price,
       })),
     }),
-  }).catch(error => {
+  }).catch((error) => {
     console.warn('Failed to send abandonment analytics:', error);
   });
 }
@@ -198,9 +198,12 @@ function scheduleRecoveryActions(event: AbandonmentEvent): void {
 
   // Schedule popup reminder
   if (options.popupEnabled) {
-    setTimeout(() => {
-      showAbandonmentPopup(event, options);
-    }, 30 * 60 * 1000); // 30 minutes
+    setTimeout(
+      () => {
+        showAbandonmentPopup(event, options);
+      },
+      30 * 60 * 1000
+    ); // 30 minutes
   }
 
   // Schedule email reminders (would be handled by backend)
@@ -216,7 +219,7 @@ function scheduleRecoveryActions(event: AbandonmentEvent): void {
         delays: options.reminderDelays,
         discount_percentage: options.discountOffered ? options.discountPercentage : null,
       }),
-    }).catch(error => {
+    }).catch((error) => {
       console.warn('Failed to schedule email reminders:', error);
     });
   }
@@ -256,14 +259,14 @@ function showAbandonmentPopup(event: AbandonmentEvent, options: AbandonmentRecov
     document.body.removeChild(popup);
     // Redirect to cart or checkout
     window.location.href = '/cart';
-    
+
     // Track recovery attempt
     trackRecoveryAttempt(event.id, 'popup_continue');
   });
 
   closeBtn?.addEventListener('click', () => {
     document.body.removeChild(popup);
-    
+
     // Track dismissal
     trackRecoveryAttempt(event.id, 'popup_dismiss');
   });
@@ -281,6 +284,11 @@ function showAbandonmentPopup(event: AbandonmentEvent, options: AbandonmentRecov
 
 // Track recovery attempt
 function trackRecoveryAttempt(eventId: string, action: string): void {
+  // Only track recovery in browser environment
+  if (typeof window === 'undefined') {
+    return;
+  }
+
   fetch('/api/analytics/cart-recovery', {
     method: 'POST',
     headers: {
@@ -291,13 +299,13 @@ function trackRecoveryAttempt(eventId: string, action: string): void {
       action,
       timestamp: Date.now(),
     }),
-  }).catch(error => {
+  }).catch((error) => {
     console.warn('Failed to track recovery attempt:', error);
   });
 
   // Google Analytics
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', 'cart_recovery_attempt', {
+  if (typeof (window as any).gtag !== 'undefined') {
+    (window as any).gtag('event', 'cart_recovery_attempt', {
       event_category: 'ecommerce',
       event_label: action,
       custom_parameters: {
@@ -327,14 +335,14 @@ export function setupAbandonmentTracking(): () => void {
     if (abandonmentTimeout) {
       clearTimeout(abandonmentTimeout);
     }
-    
+
     abandonmentTimeout = setTimeout(trackAbandonment, ABANDONMENT_THRESHOLD);
   };
 
   // Track user activity to reset abandonment timer
   const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
-  
-  activityEvents.forEach(event => {
+
+  activityEvents.forEach((event) => {
     document.addEventListener(event, resetAbandonmentTimer, { passive: true });
   });
 
@@ -353,11 +361,11 @@ export function setupAbandonmentTracking(): () => void {
     if (abandonmentTimeout) {
       clearTimeout(abandonmentTimeout);
     }
-    
-    activityEvents.forEach(event => {
+
+    activityEvents.forEach((event) => {
       document.removeEventListener(event, resetAbandonmentTimer);
     });
-    
+
     document.removeEventListener('visibilitychange', handleVisibilityChange);
   };
 }
@@ -366,18 +374,20 @@ export function setupAbandonmentTracking(): () => void {
 export function generateRecoveryEmailData(event: AbandonmentEvent, discountPercentage?: number) {
   return {
     subject: `Don't forget your ${event.itemCount} item${event.itemCount !== 1 ? 's' : ''}!`,
-    items: event.items.map(item => ({
+    items: event.items.map((item) => ({
       name: item.product.name,
       image: item.product.image_url,
       price: item.product.price,
       quantity: item.quantity,
     })),
     total: event.total,
-    discount: discountPercentage ? {
-      percentage: discountPercentage,
-      code: `SAVE${discountPercentage}`,
-      savings: event.total * (discountPercentage / 100),
-    } : null,
+    discount: discountPercentage
+      ? {
+          percentage: discountPercentage,
+          code: `SAVE${discountPercentage}`,
+          savings: event.total * (discountPercentage / 100),
+        }
+      : null,
     recoveryUrl: `${window.location.origin}/cart?recovery=${event.id}`,
   };
 }

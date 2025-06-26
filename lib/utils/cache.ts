@@ -32,7 +32,7 @@ class Cache {
    */
   get<T>(key: string): T | undefined {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return undefined;
     }
@@ -62,7 +62,7 @@ class Cache {
     }
 
     const expiresAt = Date.now() + (ttl || this.ttl);
-    
+
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
@@ -93,12 +93,12 @@ class Cache {
     let oldestKey: string | undefined;
     let oldestTimestamp = Infinity;
 
-    for (const [key, entry] of this.cache.entries()) {
+    this.cache.forEach((entry, key) => {
       if (entry.timestamp < oldestTimestamp) {
         oldestTimestamp = entry.timestamp;
         oldestKey = key;
       }
-    }
+    });
 
     return oldestKey;
   }
@@ -127,9 +127,9 @@ export async function withCache<T>(
 
   // If not in cache, fetch the data
   const data = await fetchFn();
-  
+
   // Cache the result
   apiCache.set(cacheKey, data, ttl);
-  
+
   return data;
 }

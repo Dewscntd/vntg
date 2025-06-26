@@ -10,7 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Truck, Clock, Zap } from 'lucide-react';
 
@@ -64,7 +70,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
   const onSubmit = async (data: ShippingAddress) => {
     try {
       setShippingAddress(data);
-      
+
       // Save address to user profile if requested
       if (saveAddress && session) {
         await fetch('/api/user/addresses', {
@@ -79,7 +85,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
           }),
         });
       }
-      
+
       onNext();
     } catch (error) {
       console.error('Error saving shipping address:', error);
@@ -89,10 +95,8 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
   return (
     <div className={cn('space-y-6', className)}>
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Shipping Information</h2>
-        <p className="text-sm text-gray-600">
-          Please provide your shipping details for delivery.
-        </p>
+        <h2 className="mb-2 text-xl font-semibold text-gray-900">Shipping Information</h2>
+        <p className="text-sm text-gray-600">Please provide your shipping details for delivery.</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -131,9 +135,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
             {...register('email')}
             className={cn(errors.email && 'border-red-500')}
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -144,15 +146,13 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
             {...register('phone')}
             className={cn(errors.phone && 'border-red-500')}
           />
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-          )}
+          {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
         </div>
 
         {/* Address Information */}
         <div className="border-t pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Address</h3>
-          
+          <h3 className="mb-4 text-lg font-medium text-gray-900">Address</h3>
+
           <div className="space-y-4">
             <div>
               <Label htmlFor="address">Street Address *</Label>
@@ -186,9 +186,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
                   {...register('city')}
                   className={cn(errors.city && 'border-red-500')}
                 />
-                {errors.city && (
-                  <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
-                )}
+                {errors.city && <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>}
               </div>
 
               <div>
@@ -250,9 +248,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
 
         {/* Shipping Method Selection */}
         <div>
-          <Label className="text-base font-medium text-gray-900 mb-4 block">
-            Shipping Method
-          </Label>
+          <Label className="mb-4 block text-base font-medium text-gray-900">Shipping Method</Label>
           <div className="space-y-3">
             <ShippingMethodSelector />
           </div>
@@ -274,11 +270,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
 
         {/* Submit Button */}
         <div className="flex justify-end pt-6">
-          <Button
-            type="submit"
-            disabled={!isValid || isLoading}
-            className="min-w-[120px]"
-          >
+          <Button type="submit" disabled={!isValid || isLoading} className="min-w-[120px]">
             {isLoading ? 'Saving...' : 'Continue to Payment'}
           </Button>
         </div>
@@ -305,13 +297,10 @@ function ShippingMethodSelector() {
         return (
           <div
             key={method.id}
-            className={cn(
-              'relative flex cursor-pointer rounded-lg border p-4 focus:outline-none',
-              {
-                'border-blue-600 ring-2 ring-blue-600': isSelected,
-                'border-gray-300': !isSelected,
-              }
-            )}
+            className={cn('relative flex cursor-pointer rounded-lg border p-4 focus:outline-none', {
+              'border-blue-600 ring-2 ring-blue-600': isSelected,
+              'border-gray-300': !isSelected,
+            })}
             onClick={() => setShippingMethod(method)}
           >
             <div className="flex h-5 items-center">
@@ -326,12 +315,13 @@ function ShippingMethodSelector() {
             </div>
             <div className="ml-3 flex flex-1 items-center justify-between">
               <div className="flex items-center">
-                <Icon className="h-5 w-5 text-gray-400 mr-3" />
+                <Icon className="mr-3 h-5 w-5 text-gray-400" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">{method.name}</p>
                   <p className="text-sm text-gray-500">{method.description}</p>
                   <p className="text-xs text-gray-500">
-                    Estimated delivery: {method.estimatedDays} business day{method.estimatedDays > 1 ? 's' : ''}
+                    Estimated delivery: {method.estimatedDays} business day
+                    {method.estimatedDays > 1 ? 's' : ''}
                   </p>
                 </div>
               </div>

@@ -3,14 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Package, 
-  Truck, 
-  CheckCircle, 
-  Clock, 
-  AlertCircle,
-  MapPin
-} from 'lucide-react';
+import { Package, Truck, CheckCircle, Clock, AlertCircle, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TrackingEvent {
@@ -58,8 +51,8 @@ const statusConfig = {
 };
 
 export function TrackingTimeline({ events, currentStatus, className }: TrackingTimelineProps) {
-  const sortedEvents = [...events].sort((a, b) => 
-    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  const sortedEvents = [...events].sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
   );
 
   const formatDate = (dateString: string) => {
@@ -94,7 +87,10 @@ export function TrackingTimeline({ events, currentStatus, className }: TrackingT
         <CardTitle className="flex items-center space-x-2">
           <Package className="h-5 w-5" />
           <span>Tracking Timeline</span>
-          <Badge variant="secondary" className={statusConfig[currentStatus as keyof typeof statusConfig]?.color}>
+          <Badge
+            variant="secondary"
+            className={statusConfig[currentStatus as keyof typeof statusConfig]?.color}
+          >
             {statusConfig[currentStatus as keyof typeof statusConfig]?.label || currentStatus}
           </Badge>
         </CardTitle>
@@ -102,8 +98,8 @@ export function TrackingTimeline({ events, currentStatus, className }: TrackingT
       <CardContent>
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-          
+          <div className="absolute bottom-0 left-6 top-0 w-0.5 bg-gray-200"></div>
+
           <div className="space-y-6">
             {sortedEvents.map((event, index) => {
               const { Icon, color } = getStatusIcon(event.status);
@@ -112,39 +108,39 @@ export function TrackingTimeline({ events, currentStatus, className }: TrackingT
               const isLatest = index === 0;
 
               return (
-                <div key={`${event.timestamp}-${event.status}`} className="relative flex items-start space-x-4">
+                <div
+                  key={`${event.timestamp}-${event.status}`}
+                  className="relative flex items-start space-x-4"
+                >
                   {/* Timeline dot */}
-                  <div className={cn(
-                    'relative z-10 flex items-center justify-center w-12 h-12 rounded-full border-2 border-white shadow-sm',
-                    color,
-                    isLatest && 'ring-2 ring-blue-500 ring-offset-2'
-                  )}>
+                  <div
+                    className={cn(
+                      'relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white shadow-sm',
+                      color,
+                      isLatest && 'ring-2 ring-blue-500 ring-offset-2'
+                    )}
+                  >
                     <Icon className="h-5 w-5" />
                   </div>
 
                   {/* Event content */}
-                  <div className="flex-1 min-w-0 pb-6">
+                  <div className="min-w-0 flex-1 pb-6">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-medium text-gray-900">
-                        {event.description}
-                      </h4>
+                      <h4 className="text-sm font-medium text-gray-900">{event.description}</h4>
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">{date}</p>
                         <p className="text-xs text-gray-500">{time}</p>
                       </div>
                     </div>
-                    
+
                     {location && (
-                      <div className="flex items-center space-x-1 mt-1">
+                      <div className="mt-1 flex items-center space-x-1">
                         <MapPin className="h-3 w-3 text-gray-400" />
                         <p className="text-xs text-gray-600">{location}</p>
                       </div>
                     )}
-                    
-                    <Badge 
-                      variant="outline" 
-                      className="mt-2 text-xs"
-                    >
+
+                    <Badge variant="outline" className="mt-2 text-xs">
                       {event.status.replace('_', ' ').toUpperCase()}
                     </Badge>
                   </div>
@@ -155,9 +151,9 @@ export function TrackingTimeline({ events, currentStatus, className }: TrackingT
         </div>
 
         {sortedEvents.length === 0 && (
-          <div className="text-center py-8">
-            <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No tracking events</h3>
+          <div className="py-8 text-center">
+            <Package className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">No tracking events</h3>
             <p className="text-gray-600">
               Tracking information will appear here once the package is shipped.
             </p>
@@ -175,11 +171,11 @@ interface TrackingProgressProps {
   className?: string;
 }
 
-export function TrackingProgress({ 
-  status, 
-  estimatedDelivery, 
-  actualDelivery, 
-  className 
+export function TrackingProgress({
+  status,
+  estimatedDelivery,
+  actualDelivery,
+  className,
 }: TrackingProgressProps) {
   const steps = [
     { key: 'pending', label: 'Order Placed', icon: Package },
@@ -211,7 +207,7 @@ export function TrackingProgress({
         <CardTitle>Delivery Progress</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
           {steps.map((step, index) => {
             const StepIcon = step.icon;
             const isCompleted = index < currentStep;
@@ -219,33 +215,30 @@ export function TrackingProgress({
             const isLast = index === steps.length - 1;
 
             return (
-              <div key={step.key} className="flex items-center flex-1">
+              <div key={step.key} className="flex flex-1 items-center">
                 <div className="flex flex-col items-center">
                   <div
                     className={cn(
-                      'flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors',
+                      'flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors',
                       {
-                        'bg-green-600 border-green-600 text-white': isCompleted,
-                        'bg-blue-600 border-blue-600 text-white': isCurrent && !isException,
-                        'bg-red-600 border-red-600 text-white': isCurrent && isException,
-                        'bg-gray-100 border-gray-300 text-gray-400': !isCompleted && !isCurrent,
+                        'border-green-600 bg-green-600 text-white': isCompleted,
+                        'border-blue-600 bg-blue-600 text-white': isCurrent && !isException,
+                        'border-red-600 bg-red-600 text-white': isCurrent && isException,
+                        'border-gray-300 bg-gray-100 text-gray-400': !isCompleted && !isCurrent,
                       }
                     )}
                   >
                     <StepIcon className="h-5 w-5" />
                   </div>
-                  
+
                   <div className="mt-2 text-center">
                     <p
-                      className={cn(
-                        'text-sm font-medium',
-                        {
-                          'text-green-600': isCompleted,
-                          'text-blue-600': isCurrent && !isException,
-                          'text-red-600': isCurrent && isException,
-                          'text-gray-500': !isCompleted && !isCurrent,
-                        }
-                      )}
+                      className={cn('text-sm font-medium', {
+                        'text-green-600': isCompleted,
+                        'text-blue-600': isCurrent && !isException,
+                        'text-red-600': isCurrent && isException,
+                        'text-gray-500': !isCompleted && !isCurrent,
+                      })}
                     >
                       {step.label}
                     </p>
@@ -254,13 +247,10 @@ export function TrackingProgress({
 
                 {!isLast && (
                   <div
-                    className={cn(
-                      'flex-1 h-0.5 mx-4 transition-colors',
-                      {
-                        'bg-green-600': index < currentStep,
-                        'bg-gray-300': index >= currentStep,
-                      }
-                    )}
+                    className={cn('mx-4 h-0.5 flex-1 transition-colors', {
+                      'bg-green-600': index < currentStep,
+                      'bg-gray-300': index >= currentStep,
+                    })}
                   />
                 )}
               </div>
@@ -282,7 +272,7 @@ export function TrackingProgress({
               </span>
             </div>
           )}
-          
+
           {actualDelivery && (
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Delivered:</span>
@@ -299,7 +289,7 @@ export function TrackingProgress({
           )}
 
           {isException && (
-            <div className="mt-4 p-3 bg-red-50 rounded-lg">
+            <div className="mt-4 rounded-lg bg-red-50 p-3">
               <div className="flex items-center space-x-2">
                 <AlertCircle className="h-4 w-4 text-red-600" />
                 <span className="text-sm text-red-800">

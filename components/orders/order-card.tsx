@@ -7,17 +7,17 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { 
-  Package, 
-  Calendar, 
-  DollarSign, 
-  Eye, 
+import {
+  Package,
+  Calendar,
+  DollarSign,
+  Eye,
   RotateCcw,
   X,
   Truck,
   CheckCircle,
   Clock,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -104,7 +104,10 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
     return (
       <div className="flex items-center space-x-2">
         {items.map((item, index) => (
-          <div key={item.id} className="relative h-12 w-12 flex-shrink-0 rounded-md overflow-hidden">
+          <div
+            key={item.id}
+            className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-md"
+          >
             {item.products.image_url ? (
               <Image
                 src={item.products.image_url}
@@ -113,19 +116,19 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
                 className="object-cover"
               />
             ) : (
-              <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+              <div className="flex h-full w-full items-center justify-center bg-gray-200">
                 <Package className="h-4 w-4 text-gray-400" />
               </div>
             )}
             {item.quantity > 1 && (
-              <div className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
                 {item.quantity}
               </div>
             )}
           </div>
         ))}
         {remainingCount > 0 && (
-          <div className="h-12 w-12 bg-gray-100 rounded-md flex items-center justify-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-md bg-gray-100">
             <span className="text-xs text-gray-600">+{remainingCount}</span>
           </div>
         )}
@@ -134,28 +137,24 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
   };
 
   return (
-    <Card className={cn('hover:shadow-md transition-shadow', className)}>
+    <Card className={cn('transition-shadow hover:shadow-md', className)}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <StatusIcon className="h-5 w-5 text-gray-600" />
             <div>
-              <h3 className="font-semibold text-lg">{order.order_number}</h3>
-              <p className="text-sm text-gray-600">
-                Ordered on {formatDate(order.created_at)}
-              </p>
+              <h3 className="text-lg font-semibold">{order.order_number}</h3>
+              <p className="text-sm text-gray-600">Ordered on {formatDate(order.created_at)}</p>
             </div>
           </div>
-          <Badge className={statusInfo.color}>
-            {statusInfo.label}
-          </Badge>
+          <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
         {/* Order Items Preview */}
         <div>
-          <p className="text-sm font-medium text-gray-900 mb-2">
+          <p className="mb-2 text-sm font-medium text-gray-900">
             Items ({order.order_items.length})
           </p>
           {getItemsPreview()}
@@ -173,9 +172,7 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
             {order.estimated_delivery && (
               <div className="flex items-center space-x-1">
                 <Calendar className="h-4 w-4 text-gray-500" />
-                <span className="text-gray-600">
-                  Est. {formatDate(order.estimated_delivery)}
-                </span>
+                <span className="text-gray-600">Est. {formatDate(order.estimated_delivery)}</span>
               </div>
             )}
           </div>
@@ -187,31 +184,27 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
         <div className="flex items-center justify-between">
           <Link href={`/account/orders/${order.id}`}>
             <Button variant="outline" size="sm">
-              <Eye className="h-4 w-4 mr-1" />
+              <Eye className="mr-1 h-4 w-4" />
               View Details
             </Button>
           </Link>
 
           <div className="flex items-center space-x-2">
             {canReorder && onReorder && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onReorder(order.id)}
-              >
-                <RotateCcw className="h-4 w-4 mr-1" />
+              <Button variant="outline" size="sm" onClick={() => onReorder(order.id)}>
+                <RotateCcw className="mr-1 h-4 w-4" />
                 Reorder
               </Button>
             )}
-            
+
             {canCancel && onCancel && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => onCancel(order.id)}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-red-600 hover:bg-red-50 hover:text-red-700"
               >
-                <X className="h-4 w-4 mr-1" />
+                <X className="mr-1 h-4 w-4" />
                 Cancel
               </Button>
             )}
@@ -220,7 +213,7 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
 
         {/* Status-specific information */}
         {order.status === 'shipped' && (
-          <div className="bg-blue-50 p-3 rounded-lg">
+          <div className="rounded-lg bg-blue-50 p-3">
             <div className="flex items-center space-x-2">
               <Truck className="h-4 w-4 text-blue-600" />
               <span className="text-sm text-blue-800">
@@ -231,7 +224,7 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
         )}
 
         {order.status === 'delivered' && (
-          <div className="bg-green-50 p-3 rounded-lg">
+          <div className="rounded-lg bg-green-50 p-3">
             <div className="flex items-center space-x-2">
               <CheckCircle className="h-4 w-4 text-green-600" />
               <span className="text-sm text-green-800">
@@ -242,7 +235,7 @@ export function OrderCard({ order, onReorder, onCancel, className }: OrderCardPr
         )}
 
         {order.status === 'cancelled' && (
-          <div className="bg-red-50 p-3 rounded-lg">
+          <div className="rounded-lg bg-red-50 p-3">
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-4 w-4 text-red-600" />
               <span className="text-sm text-red-800">

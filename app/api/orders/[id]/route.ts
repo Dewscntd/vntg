@@ -3,17 +3,10 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { withAuth } from '@/lib/api/middleware';
-import { 
-  successResponse, 
-  handleDatabaseError,
-  handleNotFound 
-} from '@/lib/api/index';
+import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
 
 // GET /api/orders/[id] - Get a specific order
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -22,7 +15,8 @@ export async function GET(
 
       const { data: order, error } = await supabase
         .from('orders')
-        .select(`
+        .select(
+          `
           id,
           order_number,
           status,
@@ -49,7 +43,8 @@ export async function GET(
               )
             )
           )
-        `)
+        `
+        )
         .eq('id', orderId)
         .eq('user_id', userId)
         .single();
@@ -62,9 +57,10 @@ export async function GET(
       }
 
       // Calculate order summary
-      const subtotal = order.order_items?.reduce((sum, item) => {
-        return sum + (item.price * item.quantity);
-      }, 0) || 0;
+      const subtotal =
+        order.order_items?.reduce((sum, item) => {
+          return sum + item.price * item.quantity;
+        }, 0) || 0;
 
       const shipping = 0; // Calculate based on shipping method
       const tax = subtotal * 0.08; // 8% tax
@@ -82,19 +78,15 @@ export async function GET(
       };
 
       return successResponse(orderWithSummary);
-
     } catch (error) {
       console.error('Error fetching order:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }
 
 // PUT /api/orders/[id] - Update order (limited fields for customers)
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -133,9 +125,12 @@ export async function PUT(
 
       // Only allow updates to orders that are not completed or cancelled
       if (existingOrder.status === 'completed' || existingOrder.status === 'cancelled') {
-        return successResponse({ 
-          message: 'Cannot update completed or cancelled orders' 
-        }, 400);
+        return successResponse(
+          {
+            message: 'Cannot update completed or cancelled orders',
+          },
+          400
+        );
       }
 
       const { data: updatedOrder, error: updateError } = await supabase
@@ -151,10 +146,9 @@ export async function PUT(
       }
 
       return successResponse(updatedOrder);
-
     } catch (error) {
       console.error('Error updating order:', error);
-      return handleDatabaseError(error);
+      return handleDatabaseError(error as Error);
     }
   });
 }

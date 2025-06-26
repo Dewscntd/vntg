@@ -2,18 +2,14 @@ import { NextRequest } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
-import { 
-  successResponse, 
-  errorResponse,
-  handleDatabaseError 
-} from '@/lib/api/index';
+import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // POST /api/analytics/events - Track analytics events
 export async function POST(req: NextRequest) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const body = await req.json();
-    
+
     const {
       eventType,
       userId,
@@ -31,35 +27,34 @@ export async function POST(req: NextRequest) {
     }
 
     // Get client IP if not provided
-    const clientIP = ipAddress || req.headers.get('x-forwarded-for') || 
-                     req.headers.get('x-real-ip') || 
-                     req.ip || 
-                     'unknown';
+    const clientIP =
+      ipAddress ||
+      req.headers.get('x-forwarded-for') ||
+      req.headers.get('x-real-ip') ||
+      req.ip ||
+      'unknown';
 
     // Insert analytics event
-    const { error } = await supabase
-      .from('analytics_events')
-      .insert({
-        event_type: eventType,
-        user_id: userId || null,
-        session_id: sessionId,
-        properties,
-        timestamp: timestamp || new Date().toISOString(),
-        ip_address: clientIP,
-        user_agent: userAgent || req.headers.get('user-agent') || '',
-        referrer: referrer || req.headers.get('referer') || '',
-        page_url: pageUrl || '',
-      });
+    const { error } = await supabase.from('analytics_events').insert({
+      event_type: eventType,
+      user_id: userId || null,
+      session_id: sessionId,
+      properties,
+      timestamp: timestamp || new Date().toISOString(),
+      ip_address: clientIP,
+      user_agent: userAgent || req.headers.get('user-agent') || '',
+      referrer: referrer || req.headers.get('referer') || '',
+      page_url: pageUrl || '',
+    });
 
     if (error) {
       throw error;
     }
 
     return successResponse({ message: 'Event tracked successfully' });
-
   } catch (error) {
     console.error('Analytics event tracking error:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }
 
@@ -68,9 +63,11 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const { searchParams } = new URL(req.url);
-    
+
     // Check if user is admin
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       return errorResponse('Authentication required', 401);
     }
@@ -125,9 +122,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Get total count for pagination
-    let countQuery = supabase
-      .from('analytics_events')
-      .select('id', { count: 'exact', head: true });
+    let countQuery = supabase.from('analytics_events').select('id', { count: 'exact', head: true });
 
     if (eventType) countQuery = countQuery.eq('event_type', eventType);
     if (userId) countQuery = countQuery.eq('user_id', userId);
@@ -150,9 +145,8 @@ export async function GET(req: NextRequest) {
         hasMore: (count || 0) > offset + limit,
       },
     });
-
   } catch (error) {
     console.error('Error fetching analytics events:', error);
-    return handleDatabaseError(error);
+    return handleDatabaseError(error as Error);
   }
 }

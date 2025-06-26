@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ShoppingBag, Gift, Clock } from 'lucide-react';
 
@@ -14,7 +14,7 @@ import { getLatestAbandonmentEvent, clearAbandonmentEvents } from '@/lib/utils/c
 import { cartAnalytics } from '@/lib/utils/cart-analytics';
 import type { AbandonmentEvent } from '@/lib/utils/cart-abandonment';
 
-export default function CartRecoveryPage() {
+function CartRecoveryContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { items, addItem, openCart } = useCart();
@@ -30,7 +30,7 @@ export default function CartRecoveryPage() {
     const event = getLatestAbandonmentEvent();
     if (event && event.id === recoveryId) {
       setAbandonmentEvent(event);
-      
+
       // Track recovery page view
       cartAnalytics.recoverCart('email', event.items, event.total, event.userId);
     }
@@ -45,7 +45,7 @@ export default function CartRecoveryPage() {
     if (!abandonmentEvent) return;
 
     setIsRecovering(true);
-    
+
     try {
       // Add all items back to cart
       for (const item of abandonmentEvent.items) {
@@ -56,7 +56,12 @@ export default function CartRecoveryPage() {
       clearAbandonmentEvents();
 
       // Track successful recovery
-      cartAnalytics.recoverCart('recovery_page', abandonmentEvent.items, abandonmentEvent.total, abandonmentEvent.userId);
+      cartAnalytics.recoverCart(
+        'recovery_page',
+        abandonmentEvent.items,
+        abandonmentEvent.total,
+        abandonmentEvent.userId
+      );
 
       // Open cart
       openCart();
@@ -77,15 +82,13 @@ export default function CartRecoveryPage() {
   if (!abandonmentEvent) {
     return (
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-md mx-auto text-center">
-          <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Recovery Link Invalid</h1>
-          <p className="text-muted-foreground mb-6">
+        <div className="mx-auto max-w-md text-center">
+          <ShoppingBag className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+          <h1 className="mb-2 text-2xl font-bold">Recovery Link Invalid</h1>
+          <p className="mb-6 text-muted-foreground">
             This recovery link is no longer valid or has already been used.
           </p>
-          <Button onClick={handleContinueShopping}>
-            Continue Shopping
-          </Button>
+          <Button onClick={handleContinueShopping}>Continue Shopping</Button>
         </div>
       </div>
     );
@@ -97,19 +100,18 @@ export default function CartRecoveryPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome Back!</h1>
-          <p className="text-muted-foreground">
-            Your items are still waiting for you
-          </p>
-          
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-3xl font-bold">Welcome Back!</h1>
+          <p className="text-muted-foreground">Your items are still waiting for you</p>
+
           {/* Time indicator */}
-          <div className="flex items-center justify-center gap-2 mt-4">
+          <div className="mt-4 flex items-center justify-center gap-2">
             <Clock className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">
-              Left {hoursAgo > 0 ? `${hoursAgo}h ` : ''}{minutesAgo}m ago
+              Left {hoursAgo > 0 ? `${hoursAgo}h ` : ''}
+              {minutesAgo}m ago
             </span>
           </div>
         </div>
@@ -134,7 +136,7 @@ export default function CartRecoveryPage() {
           </Card>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Cart Items */}
           <div className="lg:col-span-2">
             <Card>
@@ -165,22 +167,22 @@ export default function CartRecoveryPage() {
                     <span>Subtotal ({abandonmentEvent.itemCount} items)</span>
                     <span>${abandonmentEvent.total.toFixed(2)}</span>
                   </div>
-                  
+
                   {discountCode && (
                     <div className="flex justify-between text-green-600">
                       <span>Discount (10%)</span>
                       <span>-${(abandonmentEvent.total * 0.1).toFixed(2)}</span>
                     </div>
                   )}
-                  
+
                   <div className="border-t pt-3">
-                    <div className="flex justify-between font-semibold text-lg">
+                    <div className="flex justify-between text-lg font-semibold">
                       <span>Total</span>
                       <span>
-                        ${discountCode 
+                        $
+                        {discountCode
                           ? (abandonmentEvent.total * 0.9).toFixed(2)
-                          : abandonmentEvent.total.toFixed(2)
-                        }
+                          : abandonmentEvent.total.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -198,12 +200,8 @@ export default function CartRecoveryPage() {
               >
                 {isRecovering ? 'Recovering Cart...' : 'Recover My Cart'}
               </Button>
-              
-              <Button
-                variant="outline"
-                onClick={handleContinueShopping}
-                className="w-full"
-              >
+
+              <Button variant="outline" onClick={handleContinueShopping} className="w-full">
                 Continue Shopping
               </Button>
             </div>
@@ -224,3 +222,15 @@ export default function CartRecoveryPage() {
     </div>
   );
 }
+
+
+export default function CartRecoveryPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <CartRecoveryContent />
+    </Suspense>
+  );

@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
       // Get cart items with product details
       const { data: cartItems, error } = await supabase
         .from('cart_items')
-        .select(`
+        .select(
+          `
           id,
           quantity,
           product_id,
@@ -26,7 +27,8 @@ export async function GET(req: NextRequest) {
             image_url,
             inventory_count
           )
-        `)
+        `
+        )
         .eq('user_id', userId);
 
       if (error) {
@@ -34,10 +36,12 @@ export async function GET(req: NextRequest) {
       }
 
       // Calculate total
-      const total = cartItems?.reduce((sum, item) => {
-        const price = item.products?.price || 0;
-        return sum + (price * item.quantity);
-      }, 0) || 0;
+      const total =
+        cartItems?.reduce((sum, item) => {
+          const products = Array.isArray(item.products) ? item.products[0] : item.products;
+          const price = products?.price || 0;
+          return sum + price * item.quantity;
+        }, 0) || 0;
 
       return successResponse({
         items: cartItems || [],

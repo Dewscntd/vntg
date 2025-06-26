@@ -16,41 +16,41 @@ jobs:
   test:
     name: Test & Quality Checks
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Type checking
         run: npm run type-check
-        
+
       - name: Lint code
         run: npm run lint
-        
+
       - name: Run unit tests
         run: npm run test -- --coverage --passWithNoTests
-        
+
       - name: Run integration tests
         run: npm run test -- tests/integration --passWithNoTests
         env:
           NODE_ENV: test
-          
+
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
-          
+
       - name: Build application
         run: npm run build
         env:
@@ -64,26 +64,26 @@ jobs:
     name: Security Scan
     runs-on: ubuntu-latest
     needs: test
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Run npm audit
         run: npm audit --audit-level=high
-        
+
       - name: Run Snyk security scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-          
+
       - name: Run CodeQL analysis
         uses: github/codeql-action/init@v2
         with:
           languages: javascript
-          
+
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v2
 
@@ -93,28 +93,28 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-        
+
       - name: Run E2E tests
         run: npm run test:e2e
         env:
           NODE_ENV: test
-          
+
       - name: Upload E2E test results
         uses: actions/upload-artifact@v3
         if: failure()
@@ -129,37 +129,37 @@ jobs:
     needs: [test, security]
     if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
     environment: staging
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-        
+
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-        
+
       - name: Build project artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-        
+
       - name: Deploy to Vercel staging
         id: deploy
         run: |
           url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment-url=$url" >> $GITHUB_OUTPUT
-          
+
       - name: Run health check
         run: |
           sleep 30
           curl -f ${{ steps.deploy.outputs.deployment-url }}/api/health || exit 1
-          
+
       - name: Comment deployment URL
         uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -179,37 +179,37 @@ jobs:
     needs: [test, security, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-        
+
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        
+
       - name: Build project artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        
+
       - name: Deploy to Vercel production
         id: deploy
         run: |
           url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment-url=$url" >> $GITHUB_OUTPUT
-          
+
       - name: Run production health check
         run: |
           sleep 60
           curl -f ${{ steps.deploy.outputs.deployment-url }}/api/health || exit 1
-          
+
       - name: Create deployment tag
         run: |
           git config --local user.email "action@github.com"
@@ -217,7 +217,7 @@ jobs:
           timestamp=$(date +"%Y%m%d-%H%M%S")
           git tag -a "production-$timestamp" -m "Production deployment $timestamp"
           git push origin "production-$timestamp"
-          
+
       - name: Notify Sentry of deployment
         uses: getsentry/action-release@v1
         env:
@@ -226,7 +226,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          
+
       - name: Send Slack notification
         if: always()
         uses: 8398a7/action-slack@v3
@@ -243,20 +243,20 @@ jobs:
     needs: deploy-production
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install Supabase CLI
         run: npm install -g supabase
-        
+
       - name: Run database migrations
         run: |
           supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
@@ -270,11 +270,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-production
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v9
         with:

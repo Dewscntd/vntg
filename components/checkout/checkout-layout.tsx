@@ -55,7 +55,7 @@ export function CheckoutLayout({ children, className }: CheckoutLayoutProps) {
       </div>
 
       {/* Progress indicator */}
-      <div className="bg-white border-b">
+      <div className="border-b bg-white">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <nav aria-label="Progress">
             <ol className="flex items-center justify-between">
@@ -107,13 +107,10 @@ export function CheckoutLayout({ children, className }: CheckoutLayoutProps) {
                       {/* Connector line */}
                       {stepIdx < steps.length - 1 && (
                         <div
-                          className={cn(
-                            'ml-4 h-0.5 w-full',
-                            {
-                              'bg-green-600': currentStep > step.id,
-                              'bg-gray-300': currentStep <= step.id,
-                            }
-                          )}
+                          className={cn('ml-4 h-0.5 w-full', {
+                            'bg-green-600': currentStep > step.id,
+                            'bg-gray-300': currentStep <= step.id,
+                          })}
                         />
                       )}
                     </div>
@@ -130,9 +127,7 @@ export function CheckoutLayout({ children, className }: CheckoutLayoutProps) {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Checkout form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              {children}
-            </div>
+            <div className="rounded-lg bg-white p-6 shadow-sm">{children}</div>
           </div>
 
           {/* Order summary sidebar */}
@@ -151,44 +146,44 @@ function CheckoutSidebar() {
 
   if (!orderSummary) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h3>
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="mb-2 h-4 rounded bg-gray-200"></div>
+          <div className="mb-2 h-4 rounded bg-gray-200"></div>
+          <div className="mb-2 h-4 rounded bg-gray-200"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h3>
-      
+    <div className="sticky top-8 rounded-lg bg-white p-6 shadow-sm">
+      <h3 className="mb-4 text-lg font-medium text-gray-900">Order Summary</h3>
+
       <div className="space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Subtotal</span>
           <span className="text-gray-900">${orderSummary.subtotal.toFixed(2)}</span>
         </div>
-        
+
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Shipping</span>
           <span className="text-gray-900">${orderSummary.shipping.toFixed(2)}</span>
         </div>
-        
+
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Tax</span>
           <span className="text-gray-900">${orderSummary.tax.toFixed(2)}</span>
         </div>
-        
+
         {orderSummary.discount && orderSummary.discount > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Discount</span>
             <span className="text-green-600">-${orderSummary.discount.toFixed(2)}</span>
           </div>
         )}
-        
+
         <div className="border-t pt-3">
           <div className="flex justify-between text-base font-medium">
             <span className="text-gray-900">Total</span>
@@ -196,7 +191,7 @@ function CheckoutSidebar() {
           </div>
         </div>
       </div>
-      
+
       <div className="mt-6 text-xs text-gray-500">
         <p>Shipping and taxes calculated at checkout</p>
       </div>
