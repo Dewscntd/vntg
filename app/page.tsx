@@ -23,7 +23,7 @@ export default function Home() {
         className="bg-gradient-to-br from-primary/5 via-background to-secondary/5"
       >
         <div className="mx-auto max-w-5xl space-y-8 text-center">
-          <TextReveal as="h1">
+          <TextReveal>
             <ResponsiveDisplay
               size="lg"
               gradient

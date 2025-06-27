@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import {
   useScrollTriggeredSection,
@@ -95,15 +95,24 @@ export function ImageReveal({ src, alt, className, containerClassName }: ImageRe
 export interface TextRevealProps {
   children: ReactNode;
   className?: string;
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
 }
 
-export function TextReveal({ children, className, as: Component = 'p' }: TextRevealProps) {
-  const ref = useTextReveal<any>();
+export function TextReveal({ children, className, as: Component = 'div' }: TextRevealProps) {
+  const ref = useTextReveal();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
-    <Component ref={ref} className={cn('overflow-hidden', className)}>
-      {children}
+    <Component
+      ref={ref as any}
+      className={cn('overflow-hidden', className)}
+      suppressHydrationWarning={true}
+    >
+      {isMounted ? children : ''}
     </Component>
   );
 }

@@ -216,14 +216,16 @@ export function ProductFilters({
       <div className="space-y-3">
         <h3 className="text-sm font-medium">Category</h3>
         <Select
-          value={filters.category_id || ''}
-          onValueChange={(value) => handleFilterChange('category_id', value || undefined)}
+          value={filters.category_id || 'all'}
+          onValueChange={(value) =>
+            handleFilterChange('category_id', value === 'all' ? undefined : value)
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
             {categories.map((category: any) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}

@@ -456,11 +456,11 @@ export function useImageReveal<T extends HTMLElement = HTMLDivElement>() {
   return imageRef;
 }
 
-// Hook for text reveal animations
+// Hook for text reveal animation
 export function useTextReveal<T extends HTMLElement = HTMLElement>() {
   const textRef = useRef<T>(null);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (!textRef.current) return;
 
     const { scrollAnimations } = require('@/lib/animations/scroll-animations');

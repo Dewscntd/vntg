@@ -3,7 +3,6 @@ const nextConfig = {
   reactStrictMode: true,
 
   // Performance optimizations
-  swcMinify: true,
   compress: true,
 
   // Image optimization
@@ -19,7 +18,7 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Bundle optimization
@@ -130,14 +129,6 @@ const nextConfig = {
   // Disable x-powered-by header
   poweredByHeader: false,
 
-  // Enable gzip compression
-  compress: true,
-
-  // Optimize fonts
-  optimizeFonts: true,
-
-  // Enable SWC minification
-  swcMinify: true,
 };
 
 module.exports = nextConfig;

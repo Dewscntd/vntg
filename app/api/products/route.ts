@@ -11,7 +11,8 @@ import { successResponse, handleServerError, handleDatabaseError } from '@/lib/a
 export async function GET(req: NextRequest) {
   return withQueryValidation(req, productQuerySchema, async (req, query) => {
     try {
-      const supabase = createRouteHandlerClient<Database>({ cookies });
+      const cookieStore = cookies();
+      const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
       const {
         limit,
         offset,
@@ -80,7 +81,8 @@ export async function POST(req: NextRequest) {
   return withAdmin(req, (req, session) =>
     withValidation(req, createProductSchema, async (req, validData) => {
       try {
-        const supabase = createRouteHandlerClient<Database>({ cookies });
+        const cookieStore = cookies();
+        const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
 
         // Insert the new product
         const { data: product, error } = await supabase
