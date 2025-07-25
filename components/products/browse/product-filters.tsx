@@ -44,16 +44,8 @@ export function ProductFilters({
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Initialize filters from URL params
-  const [filters, setFilters] = useState<FilterState>({
-    category_id: searchParams.get('category') || undefined,
-    min_price: searchParams.get('min_price') ? Number(searchParams.get('min_price')) : undefined,
-    max_price: searchParams.get('max_price') ? Number(searchParams.get('max_price')) : undefined,
-    is_featured: searchParams.get('featured') === 'true' || undefined,
-    is_new: searchParams.get('new') === 'true' || undefined,
-    is_sale: searchParams.get('sale') === 'true' || undefined,
-    in_stock: searchParams.get('in_stock') === 'true' || undefined,
-  });
+  // Initialize filters from URL params - use empty state initially to avoid hydration mismatch
+  const [filters, setFilters] = useState<FilterState>({});
 
   // Price range state
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -216,7 +208,7 @@ export function ProductFilters({
       <div className="space-y-3">
         <h3 className="text-sm font-medium">Category</h3>
         <Select
-          value={filters.category_id || 'all'}
+          value={filters.category_id ?? 'all'}
           onValueChange={(value) =>
             handleFilterChange('category_id', value === 'all' ? undefined : value)
           }

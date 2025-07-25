@@ -25,8 +25,8 @@ export async function GET(req: NextRequest) {
         max_price,
       } = query;
 
-      // Start building the query
-      let dbQuery = supabase.from('products').select('*, categories(id, name)', { count: 'exact' });
+      // Start building the query - simplified to avoid join issues
+      let dbQuery = supabase.from('products').select('*', { count: 'exact' });
 
       // Apply filters
       if (category_id) {
@@ -59,6 +59,18 @@ export async function GET(req: NextRequest) {
       const { data: products, count, error } = await dbQuery;
 
       if (error) {
+        console.error('Supabase query error:', error);
+        console.error('Query details:', {
+          category_id,
+          is_featured,
+          min_price,
+          max_price,
+          search,
+          orderBy,
+          orderDirection,
+          limit,
+          offset,
+        });
         throw error;
       }
 
