@@ -11,13 +11,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "build": {
-    "env": {
-      "SENTRY_ORG": "@sentry-org",
-      "SENTRY_PROJECT": "@sentry-project",
-      "SENTRY_AUTH_TOKEN": "@sentry-auth-token"
-    }
-  },
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
