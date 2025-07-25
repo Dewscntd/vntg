@@ -6,10 +6,11 @@ import { useAuth } from '@/lib/auth/auth-context';
 import { useCart } from '@/lib/context/cart-context';
 import { useCheckout } from '@/lib/context/checkout-context';
 import { CheckoutLayout } from '@/components/checkout/checkout-layout';
+import { GuestCheckoutForm } from '@/components/checkout/guest-checkout-form';
 import { ShippingForm } from '@/components/checkout/shipping-form';
 import { PaymentForm } from '@/components/checkout/payment-form';
 import { OrderReview } from '@/components/checkout/order-review';
-import { OrderConfirmation } from '@/components/checkout/order-confirmation';
+import { OrderConfirmation } from '@/components/checkout/order-confirmation';    
 import { StripeProvider } from '@/components/providers/stripe-provider';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -19,7 +20,10 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
   const { items, itemCount, total } = useCart();
-  const { currentStep, nextStep, previousStep, clientSecret, error, isLoading } = useCheckout();
+  const { currentStep, nextStep, previousStep, clientSecret, error, isLoading, setGuestCheckout } = useCheckout();
+  
+  // If user is not authenticated, show guest checkout first
+  const showGuestCheckout = !authLoading && !session;
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -28,13 +32,17 @@ export default function CheckoutPage() {
     }
   }, [itemCount, authLoading, router]);
 
-  // Redirect to login if not authenticated (optional - can allow guest checkout)
-  useEffect(() => {
-    if (!authLoading && !session) {
-      // For now, redirect to login. Later we can implement guest checkout
-      router.push('/auth/login?redirect=/checkout');
-    }
-  }, [session, authLoading, router]);
+  // Guest checkout handlers
+  const handleGuestCheckout = (guestData: any) => {
+    setGuestCheckout(true);
+    // Store guest info in checkout context if needed
+    // Then proceed to shipping form
+    nextStep();
+  };
+
+  const handleLoginRedirect = () => {
+    router.push('/auth/login?redirect=/checkout');
+  };
 
   if (authLoading) {
     return (
@@ -59,15 +67,22 @@ export default function CheckoutPage() {
     );
   }
 
-  if (!session) {
+  // Handle guest checkout - show guest form for step 0, regular flow after
+  if (!session && currentStep === 0) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">Please sign in</h2>
-          <p className="mb-4 text-gray-600">You need to be signed in to proceed with checkout.</p>
-          <Button onClick={() => router.push('/auth/login?redirect=/checkout')}>Sign In</Button>
-        </div>
-      </div>
+      <CheckoutLayout>
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        
+        <GuestCheckoutForm
+          onGuestCheckout={handleGuestCheckout}
+          onLoginRedirect={handleLoginRedirect}
+        />
+      </CheckoutLayout>
     );
   }
 

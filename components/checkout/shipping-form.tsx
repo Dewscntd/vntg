@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { MemberBenefitsBanner } from './member-benefits-banner';
 import { Truck, Clock, Zap } from 'lucide-react';
 
 interface ShippingFormProps {
@@ -112,6 +113,13 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
         <h2 className="mb-2 text-xl font-semibold text-gray-900">Shipping Information</h2>
         <p className="text-sm text-gray-600">Please provide your shipping details for delivery.</p>
       </div>
+
+      {/* Show member benefits banner for guests */}
+      {!session && (
+        <MemberBenefitsBanner 
+          onCreateAccount={() => window.open('/auth/signup?redirect=/checkout', '_blank')}
+        />
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Contact Information */}
