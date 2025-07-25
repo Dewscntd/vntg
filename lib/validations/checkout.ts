@@ -13,7 +13,7 @@ export const shippingAddressSchema = z.object({
   address2: z.string().max(100, 'Address line 2 too long').optional(),
   city: z.string().min(1, 'City is required').max(50, 'City name too long'),
   state: z.string().min(1, 'State is required').max(50, 'State name too long'),
-  zipCode: z.string().min(5, 'ZIP code must be at least 5 characters').max(10, 'ZIP code too long'),
+  zipCode: z.string().min(4, 'Postal code must be at least 4 characters').max(10, 'Postal code too long'),
   country: z.string().min(1, 'Country is required').max(50, 'Country name too long'),
 });
 
@@ -40,7 +40,7 @@ export const createOrderSchema = z.object({
 // Payment intent creation schema
 export const createPaymentIntentSchema = z.object({
   amount: z.number().min(1, 'Amount must be greater than 0'),
-  currency: z.string().default('usd'),
+  currency: z.enum(['usd', 'ils', 'eur']).default('usd'),
   orderId: z.string().uuid('Invalid order ID').optional(),
   metadata: z.record(z.string()).optional(),
 });

@@ -39,6 +39,17 @@ const US_STATES = [
   // Add more states as needed
 ];
 
+// Israeli districts for address validation
+const ISRAELI_DISTRICTS = [
+  { value: 'jerusalem', label: 'Jerusalem District' },
+  { value: 'northern', label: 'Northern District' },
+  { value: 'haifa', label: 'Haifa District' },
+  { value: 'central', label: 'Central District' },
+  { value: 'tel-aviv', label: 'Tel Aviv District' },
+  { value: 'southern', label: 'Southern District' },
+  { value: 'judea-samaria', label: 'Judea and Samaria Area' },
+];
+
 export function ShippingForm({ onNext, className }: ShippingFormProps) {
   const { session } = useAuth();
   const { setShippingAddress, shippingAddress, isLoading } = useCheckout();
@@ -66,6 +77,9 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
     },
     mode: 'onChange',
   });
+
+  const selectedCountry = watch('country');
+  const isIsrael = selectedCountry === 'IL';
 
   const onSubmit = async (data: ShippingAddress) => {
     try {
@@ -190,18 +204,18 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="state">State *</Label>
+                <Label htmlFor="state">{isIsrael ? 'District *' : 'State *'}</Label>
                 <Select
                   onValueChange={(value) => setValue('state', value)}
                   defaultValue={watch('state')}
                 >
                   <SelectTrigger className={cn(errors.state && 'border-red-500')}>
-                    <SelectValue placeholder="Select state" />
+                    <SelectValue placeholder={isIsrael ? 'Select district' : 'Select state'} />
                   </SelectTrigger>
                   <SelectContent>
-                    {US_STATES.map((state) => (
-                      <SelectItem key={state.value} value={state.value}>
-                        {state.label}
+                    {(isIsrael ? ISRAELI_DISTRICTS : US_STATES).map((region) => (
+                      <SelectItem key={region.value} value={region.value}>
+                        {region.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -212,10 +226,11 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="zipCode">ZIP Code *</Label>
+                <Label htmlFor="zipCode">{isIsrael ? 'Postal Code *' : 'ZIP Code *'}</Label>
                 <Input
                   id="zipCode"
                   {...register('zipCode')}
+                  placeholder={isIsrael ? 'e.g. 1234567' : 'e.g. 12345'}
                   className={cn(errors.zipCode && 'border-red-500')}
                 />
                 {errors.zipCode && (
@@ -234,9 +249,13 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="US">United States</SelectItem>
-                  <SelectItem value="CA">Canada</SelectItem>
-                  <SelectItem value="MX">Mexico</SelectItem>
+                  <SelectItem value="IL">🇮🇱 Israel</SelectItem>
+                  <SelectItem value="US">🇺🇸 United States</SelectItem>
+                  <SelectItem value="CA">🇨🇦 Canada</SelectItem>
+                  <SelectItem value="MX">🇲🇽 Mexico</SelectItem>
+                  <SelectItem value="GB">🇬🇧 United Kingdom</SelectItem>
+                  <SelectItem value="DE">🇩🇪 Germany</SelectItem>
+                  <SelectItem value="FR">🇫🇷 France</SelectItem>
                 </SelectContent>
               </Select>
               {errors.country && (

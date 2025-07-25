@@ -11,6 +11,8 @@ import {
   ShippingMethod,
   OrderSummary,
 } from '@/lib/validations/checkout';
+import { detectUserCurrency, ISRAELI_CURRENCY } from '@/lib/utils/currency';
+import { israeliHelpers } from '@/lib/config/israeli-market';
 
 // Checkout state interface
 export interface CheckoutState extends CheckoutSession {
@@ -82,6 +84,32 @@ const defaultShippingMethods: ShippingMethod[] = [
   },
 ];
 
+// Israeli shipping methods
+const israeliShippingMethods: ShippingMethod[] = [
+  {
+    id: 'standard',
+    name: 'Standard Shipping',
+    description: 'Free shipping on orders over ₪200',
+    price: 25,
+    estimatedDays: 3,
+  },
+  {
+    id: 'express',
+    name: 'Express Shipping',
+    description: 'Next business day delivery',
+    price: 40,
+    estimatedDays: 1,
+  },
+];
+
+// Helper function to get shipping methods based on country
+const getShippingMethodsForCountry = (country?: string): ShippingMethod[] => {
+  if (country === 'IL') {
+    return israeliShippingMethods;
+  }
+  return defaultShippingMethods;
+};
+
 const initialState: CheckoutState = {
   step: 'shipping',
   currentStep: 0,
@@ -117,7 +145,13 @@ function checkoutReducer(state: CheckoutState, action: CheckoutAction): Checkout
       return { ...state, isGuestCheckout: action.payload, guestCheckout: action.payload };
 
     case 'SET_SHIPPING_ADDRESS':
-      return { ...state, shippingAddress: action.payload };
+      const newShippingMethods = getShippingMethodsForCountry(action.payload.country);
+      return { 
+        ...state, 
+        shippingAddress: action.payload,
+        availableShippingMethods: newShippingMethods,
+        selectedShippingMethod: newShippingMethods[0] // Reset to first method for new country
+      };
 
     case 'SET_BILLING_ADDRESS':
       return { ...state, billingAddress: action.payload };

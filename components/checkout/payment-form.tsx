@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
+import { formatCurrency, formatCurrencyIL, detectUserCurrency, ISRAELI_CURRENCY } from '@/lib/utils/currency';
 import { CreditCard, Lock, AlertCircle } from 'lucide-react';
 
 interface PaymentFormProps {
@@ -21,11 +22,15 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
   const stripe = useStripe();
   const elements = useElements();
   const { session } = useAuth();
-  const { clientSecret, createPaymentIntent, isLoading, error, orderSummary } = useCheckout();
+  const { clientSecret, createPaymentIntent, isLoading, error, orderSummary, shippingAddress } = useCheckout();
 
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [savePaymentMethod, setSavePaymentMethod] = useState(false);
+  
+  // Detect user's preferred currency based on shipping address or browser
+  const userCurrency = shippingAddress?.country === 'IL' ? ISRAELI_CURRENCY : detectUserCurrency();
+  const isIsraeliCustomer = shippingAddress?.country === 'IL' || userCurrency === ISRAELI_CURRENCY;
 
   // Create payment intent when component mounts
   useEffect(() => {
@@ -186,9 +191,17 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
             <div className="flex items-center justify-between">
               <span className="text-lg font-medium text-gray-900">Total to be charged:</span>
               <span className="text-lg font-bold text-gray-900">
-                ${orderSummary.total.toFixed(2)}
+                {isIsraeliCustomer 
+                  ? formatCurrencyIL(orderSummary.total, userCurrency)
+                  : formatCurrency(orderSummary.total, userCurrency)
+                }
               </span>
             </div>
+            {isIsraeliCustomer && (
+              <div className="mt-2 text-sm text-gray-600">
+                All Israeli credit and debit cards accepted • Secure payment via Stripe
+              </div>
+            )}
           </div>
         )}
 
@@ -209,7 +222,10 @@ export function PaymentForm({ onNext, onPrevious, className }: PaymentFormProps)
                 <span>Processing...</span>
               </div>
             ) : (
-              `Pay $${orderSummary?.total.toFixed(2) || '0.00'}`
+              `Pay ${orderSummary ? (isIsraeliCustomer 
+                ? formatCurrencyIL(orderSummary.total, userCurrency)
+                : formatCurrency(orderSummary.total, userCurrency)
+              ) : formatCurrency(0, userCurrency)}`
             )}
           </Button>
         </div>
