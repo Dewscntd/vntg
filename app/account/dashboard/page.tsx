@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth/auth-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { OrderCard } from '@/components/orders/order-card';
-import { User, Package, CreditCard, MapPin, Settings, ShoppingBag } from 'lucide-react';
+import { User, Package, CreditCard, MapPin, Settings, ShoppingBag, Clock, CheckCircle, ArrowRight, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DashboardStats {

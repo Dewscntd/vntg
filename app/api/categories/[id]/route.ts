@@ -12,9 +12,10 @@ import {
 } from '@/lib/api/index';
 
 // GET /api/categories/[id] - Get a single category by ID
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
+    const params = await context.params;
     const { id } = params;
 
     // Get the category with its parent
@@ -63,11 +64,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/categories/[id] - Update a category (admin only)
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   return withAdmin(req, (req, session) =>
     withValidation(req, updateCategorySchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
+        const params = await context.params;
         const { id } = params;
 
         // Check if category exists
@@ -113,10 +115,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE /api/categories/[id] - Delete a category (admin only)
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   return withAdmin(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
+      const params = await context.params;
       const { id } = params;
 
       // Check if category exists

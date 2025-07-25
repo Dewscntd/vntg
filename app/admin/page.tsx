@@ -20,6 +20,10 @@ import {
   DollarSign,
   TrendingUp,
   Settings,
+  Eye,
+  Plus,
+  Activity,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface DashboardMetrics {

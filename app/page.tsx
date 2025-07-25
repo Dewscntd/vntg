@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { ShopPageTemplate } from '@/components/layout/page-template';
 import { TransitionLink } from '@/components/providers/route-transition-provider';
 import { Button } from '@/components/ui/button';

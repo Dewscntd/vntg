@@ -65,7 +65,9 @@ export default function OrderDetailPage() {
         setLoading(false);
       }
     };
-  }, [session, orderId, fetchOrder]);
+
+    fetchOrder();
+  }, [session, orderId]);
 
   const handleReorder = async (orderIdToReorder: string) => {
     if (!order) return;

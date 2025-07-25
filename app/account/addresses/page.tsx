@@ -63,10 +63,6 @@ export default function AddressBookPage() {
     isDefault: false,
   });
 
-  useEffect(() => {
-    fetchAddresses();
-  }, [session, fetchAddresses]);
-
   const fetchAddresses = async () => {
     if (!session) return;
 
@@ -82,6 +78,10 @@ export default function AddressBookPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchAddresses();
+  }, [session]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -114,7 +114,7 @@ const requestCounts = new Map<string, { count: number; resetTime: number }>();
 export function withRateLimit(endpoint: string, limit?: number) {
   return function (handler: Function) {
     return async (req: NextRequest) => {
-      const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
+      const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
       const key = `${ip}:${endpoint}`;
       const now = Date.now();
       const windowMs = 60 * 1000; // 1 minute window

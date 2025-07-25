@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth/auth-context';
 import { OrderConfirmation } from '@/components/checkout/order-confirmation';
@@ -9,7 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 
-export default function CheckoutConfirmationPage() {
+function CheckoutConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { session, isLoading: authLoading } = useAuth();
@@ -181,5 +183,13 @@ export default function CheckoutConfirmationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutConfirmationPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <CheckoutConfirmationContent />
+    </Suspense>
   );
 }

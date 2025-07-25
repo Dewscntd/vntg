@@ -119,7 +119,7 @@ export async function withRateLimit(
   handler: (req: NextRequest) => Promise<NextResponse>,
   options: { maxRequests: number; windowMs: number } = { maxRequests: 10, windowMs: 60000 }
 ): Promise<NextResponse> {
-  const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
+  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
   const key = `rate_limit:${ip}`;
   const now = Date.now();
 

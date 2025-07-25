@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       ipAddress ||
       req.headers.get('x-forwarded-for') ||
       req.headers.get('x-real-ip') ||
-      req.ip ||
       'unknown';
 
     // Insert analytics event
