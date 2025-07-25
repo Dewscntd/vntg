@@ -98,10 +98,6 @@
       "schedule": "0 2 * * *"
     },
     {
-      "path": "/api/cron/update-inventory",
-      "schedule": "*/15 * * * *"
-    },
-    {
       "path": "/api/cron/process-analytics",
       "schedule": "0 1 * * *"
     }
