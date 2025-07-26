@@ -39,7 +39,7 @@ interface TrackingInfo {
 function TrackingContent() {
   const searchParams = useSearchParams();
   const [trackingNumber, setTrackingNumber] = useState(searchParams.get('tracking') || '');
-  const [carrier, setCarrier] = useState(searchParams.get('carrier') || '');
+  const [carrier, setCarrier] = useState(searchParams.get('carrier') || 'auto');
   const [trackingInfo, setTrackingInfo] = useState<TrackingInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +55,7 @@ function TrackingContent() {
 
     try {
       const params = new URLSearchParams({
-        ...(carrier && { carrier }),
+        ...(carrier && carrier !== 'auto' && { carrier }),
       });
 
       const response = await fetch(`/api/tracking/${encodeURIComponent(trackingNumber)}?${params}`);
