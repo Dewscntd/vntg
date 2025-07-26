@@ -13,8 +13,14 @@ export async function middleware(req: NextRequest) {
 
   // Auth protection for admin routes
   if (req.nextUrl.pathname.startsWith('/admin')) {
+    // Skip middleware for admin-direct as it has its own client-side auth
+    if (req.nextUrl.pathname === '/admin-direct') {
+      return res;
+    }
     if (!session) {
-      return NextResponse.redirect(new URL('/auth/login', req.url));
+      const loginUrl = new URL('/auth/login', req.url);
+      loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
     }
 
     // Try to find user by ID first, then by email as fallback
@@ -62,7 +68,9 @@ export async function middleware(req: NextRequest) {
   // Auth protection for account routes (but allow guest checkout)
   if (req.nextUrl.pathname.startsWith('/account')) {
     if (!session) {
-      return NextResponse.redirect(new URL('/auth/login', req.url));
+      const loginUrl = new URL('/auth/login', req.url);
+      loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
     }
   }
 

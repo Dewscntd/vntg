@@ -130,7 +130,7 @@ function TrackingContent() {
                       <SelectValue placeholder="Auto-detect" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Auto-detect</SelectItem>
+                      <SelectItem value="auto">Auto-detect</SelectItem>
                       {Object.entries(CARRIERS).map(([code, info]) => (
                         <SelectItem key={code} value={code}>
                           {info.name}

@@ -61,7 +61,7 @@ function AdminUsersContent() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [roleFilter, setRoleFilter] = useState(searchParams.get('role') || '');
+  const [roleFilter, setRoleFilter] = useState(searchParams.get('role') || 'all');
   const [sortBy, setSortBy] = useState('created_at');
   const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(1);
@@ -84,7 +84,7 @@ function AdminUsersContent() {
       if (searchQuery) {
         params.append('search', searchQuery);
       }
-      if (roleFilter) {
+      if (roleFilter && roleFilter !== 'all') {
         params.append('role', roleFilter);
       }
 
@@ -267,7 +267,7 @@ function AdminUsersContent() {
                   <SelectValue placeholder="All Roles" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Roles</SelectItem>
+                  <SelectItem value="all">All Roles</SelectItem>
                   <SelectItem value="customer">Customers</SelectItem>
                   <SelectItem value="admin">Admins</SelectItem>
                 </SelectContent>

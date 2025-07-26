@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { useAuth } from '@/lib/auth/auth-context';
@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 export function LoginForm() {
   const { signIn } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +46,17 @@ export function LoginForm() {
         return;
       }
 
-      router.push('/');
+      // Check for redirect URL parameter
+      const redirectTo = searchParams.get('redirectTo') || searchParams.get('redirect');
+      
+      // If redirecting to admin, use admin-direct for better compatibility
+      if (redirectTo?.includes('/admin')) {
+        router.push('/admin-direct');
+      } else if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        router.push('/');
+      }
       router.refresh();
     } catch (error) {
       setError('An unexpected error occurred. Please try again.');

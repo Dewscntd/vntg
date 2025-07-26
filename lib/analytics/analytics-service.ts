@@ -213,9 +213,14 @@ export class AnalyticsService {
 
     try {
       const response = await fetch('/api/analytics/ip');
+      if (!response.ok) {
+        console.warn('Analytics IP endpoint not available:', response.status);
+        return undefined;
+      }
       const data = await response.json();
       return data.ip;
-    } catch {
+    } catch (error) {
+      console.warn('Failed to get client IP for analytics:', error);
       return undefined;
     }
   }
