@@ -112,7 +112,7 @@ export function BrandSelector({
                     <CommandItem
                       key={`popular-${brand.name}`}
                       value={brand.name}
-                      onSelect={(currentValue) => handleSelect(brand.name)}
+                      onSelect={() => handleSelect(brand.name)}
                       className="flex items-center gap-2 cursor-pointer"
                     >
                       <Check
@@ -142,7 +142,7 @@ export function BrandSelector({
                   <CommandItem
                     key={brand.name}
                     value={brand.name}
-                    onSelect={(currentValue) => handleSelect(brand.name)}
+                    onSelect={() => handleSelect(brand.name)}
                     className="flex items-center gap-2 cursor-pointer"
                   >
                     <Check
