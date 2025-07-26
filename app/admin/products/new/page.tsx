@@ -124,7 +124,7 @@ export default function NewProductPage() {
         inventory_count: parseInt(formData.inventory_count),
         category_id: formData.category_id,
         is_featured: formData.is_featured,
-        image_url: imageUrl || null,
+        image_url: imageUrl || '',
         specifications: formData.specifications,
       };
 
