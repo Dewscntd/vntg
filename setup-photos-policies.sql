@@ -4,6 +4,12 @@
 -- Run this in your Supabase SQL Editor to set up policies for the 'photos' bucket
 -- ============================================================================
 
+-- Remove existing policies first (ignore errors if they don't exist)
+DROP POLICY IF EXISTS "Public Access to Photos" ON storage.objects;
+DROP POLICY IF EXISTS "Admin Upload Photos" ON storage.objects;
+DROP POLICY IF EXISTS "Admin Update Photos" ON storage.objects;
+DROP POLICY IF EXISTS "Admin Delete Photos" ON storage.objects;
+
 -- Policy 1: Allow public read access to photos
 -- This allows anyone to view product images on the website
 CREATE POLICY "Public Access to Photos" 
