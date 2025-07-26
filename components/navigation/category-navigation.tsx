@@ -39,7 +39,14 @@ export function CategoryNavigation({
     cacheKey: 'categories-navigation',
   });
 
-  const categories = categoriesData?.categories || [];
+  // Filter out unwanted categories
+  const allCategories = categoriesData?.categories || [];
+  const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening', 'Fashion', 'Books', 'Home & Garden'];
+  const categories = allCategories.filter((cat: any) => 
+    !unwantedNames.some(unwanted => 
+      cat.name.toLowerCase().includes(unwanted.toLowerCase())
+    )
+  );
 
   // Build category tree
   const buildCategoryTree = (categories: any[]): CategoryWithChildren[] => {
