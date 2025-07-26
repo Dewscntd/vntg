@@ -1,6 +1,14 @@
-# VNTG E-Commerce Platform
+# VNTG - Modern E-commerce Platform
 
-A modern, full-stack e-commerce platform built with Next.js 14, TypeScript, Supabase, and Stripe. Features a complete product catalog, shopping cart system, and checkout flow with advanced UX and performance optimizations.
+A production-ready, full-stack e-commerce platform built with Next.js 14, TypeScript, Supabase, and Stripe. Features comprehensive product management, Israeli market support with Hebrew localization, and advanced admin capabilities.
+
+## 🌟 Live Platform
+
+- **🛍️ Store**: https://vntg-store.vercel.app
+- **👑 Admin Panel**: https://vntg-store.vercel.app/admin-direct
+- **📧 Admin Login**: `michaelvx@gmail.com` / `1q1q1q1q`
+
+## 🚀 Current Status: **FULLY DEPLOYED & OPERATIONAL**
 
 ## 🚀 Features
 
