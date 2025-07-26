@@ -1,11 +1,24 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Us | VNTG - Premium E-commerce Experience',
+  description:
+    "Learn about VNTG's mission to provide exceptional shopping experiences with curated products, secure payments, and outstanding customer service.",
+  keywords: 'VNTG, about us, e-commerce, premium products, customer service',
+  openGraph: {
+    title: 'About VNTG - Your Premium Shopping Destination',
+    description: "Discover VNTG's commitment to quality products and exceptional customer service.",
+    type: 'website',
+  },
+};
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="container mx-auto px-4 py-8">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-8">
           <Link href="/">
             <Button variant="ghost" className="mb-4">
@@ -13,57 +26,57 @@ export default function AboutPage() {
               Back to Home
             </Button>
           </Link>
-          <h1 className="text-4xl font-bold mb-4">About VNTG</h1>
+          <h1 className="mb-4 text-4xl font-bold">About VNTG</h1>
           <p className="text-xl text-muted-foreground">
             Your premium e-commerce destination for quality products
           </p>
         </div>
 
-        <div className="prose max-w-none">
+        <article className="prose max-w-none">
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
+            <h2 className="mb-4 text-2xl font-semibold">Our Story</h2>
             <p className="mb-4">
-              VNTG is a modern e-commerce platform built to deliver exceptional shopping experiences. 
-              We specialize in curating high-quality products across multiple categories, ensuring 
-              our customers find exactly what they're looking for.
+              VNTG is a modern e-commerce platform built to deliver exceptional shopping
+              experiences. We specialize in curating high-quality products across multiple
+              categories, ensuring our customers find exactly what they&apos;re looking for.
             </p>
             <p className="mb-4">
-              Our platform combines cutting-edge technology with user-friendly design to create 
-              a seamless shopping experience from browse to checkout.
+              Our platform combines cutting-edge technology with user-friendly design to create a
+              seamless shopping experience from browse to checkout.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
+            <h2 className="mb-4 text-2xl font-semibold">Our Mission</h2>
             <p className="mb-4">
-              To provide customers with access to premium products while maintaining the highest 
+              To provide customers with access to premium products while maintaining the highest
               standards of service, security, and satisfaction.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Why Choose VNTG?</h2>
-            <ul className="list-disc list-inside space-y-2 mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">Why Choose VNTG?</h2>
+            <ul className="mb-4 list-inside list-disc space-y-2" role="list">
               <li>Carefully curated product selection</li>
               <li>Secure payment processing with Stripe</li>
               <li>Fast and reliable shipping</li>
               <li>Excellent customer support</li>
               <li>Easy returns and exchanges</li>
               <li>Mobile-optimized shopping experience</li>
+              <li>Sustainable and ethical sourcing</li>
+              <li>24/7 customer support availability</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-            <p className="mb-4">
-              Have questions? We'd love to hear from you.
-            </p>
+            <h2 className="mb-4 text-2xl font-semibold">Get in Touch</h2>
+            <p className="mb-4">Have questions? We&apos;d love to hear from you.</p>
             <Link href="/contact">
               <Button>Contact Us</Button>
             </Link>
           </section>
-        </div>
+        </article>
       </div>
-    </div>
+    </main>
   );
 }
