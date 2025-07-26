@@ -14,16 +14,24 @@ export async function middleware(req: NextRequest) {
   // Auth protection for admin routes
   if (req.nextUrl.pathname.startsWith('/admin')) {
     if (!session) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL('/auth/login', req.url));
     }
 
-    const { data: user } = await supabase
+    const { data: user, error } = await supabase
       .from('users')
       .select('role')
       .eq('id', session.user.id)
       .single();
 
-    if (user?.role !== 'admin') {
+    // Debug logging
+    console.log('Admin check:', {
+      userId: session.user.id,
+      userEmail: session.user.email,
+      userRole: user?.role,
+      error: error
+    });
+
+    if (error || user?.role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
@@ -31,7 +39,7 @@ export async function middleware(req: NextRequest) {
   // Auth protection for account routes (but allow guest checkout)
   if (req.nextUrl.pathname.startsWith('/account')) {
     if (!session) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL('/auth/login', req.url));
     }
   }
 
