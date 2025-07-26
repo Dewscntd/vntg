@@ -162,7 +162,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64">
+      <div className="flex-1 lg:pl-64">
         {/* Top bar */}
         <div className="sticky top-0 z-10 border-b bg-white shadow-sm lg:hidden">
           <div className="flex h-16 items-center justify-between px-4">
@@ -175,7 +175,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="flex-1">{children}</main>
+        <main className="min-h-screen bg-gray-50">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );
