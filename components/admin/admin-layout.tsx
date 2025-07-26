@@ -9,12 +9,10 @@ import {
   LayoutDashboard,
   Package,
   ShoppingCart,
-  Users,
   BarChart3,
   Settings,
   Menu,
   X,
-  FileText,
   Eye,
   LogOut,
 } from 'lucide-react';
@@ -48,19 +46,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       icon: Package,
     },
     {
-      title: 'Categories',
-      href: '/admin/categories',
-      icon: FileText,
-    },
-    {
       title: 'Orders',
       href: '/admin/orders',
       icon: ShoppingCart,
-    },
-    {
-      title: 'Users',
-      href: '/admin/users',
-      icon: Users,
     },
     {
       title: 'Analytics',
@@ -111,7 +99,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           {/* Logo */}
           <div className="flex h-16 items-center justify-between border-b px-6">
             <Link href="/admin" className="flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">VNTG Admin</h1>
+              <h1 className="text-xl font-bold text-gray-900">Peakees Admin</h1>
             </Link>
             <Button
               variant="ghost"
