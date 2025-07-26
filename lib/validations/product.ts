@@ -6,7 +6,10 @@ export const productSchema = z.object({
   description: z.string().nullable().optional(),
   price: z.number().min(0, { message: 'Price must be a positive number' }),
   discount_percent: z.number().min(0).max(100).default(0),
-  image_url: z.string().url({ message: 'Invalid image URL' }).or(z.literal('')).nullable().optional(),
+  image_url: z.string().optional().nullable().refine(
+    (val) => !val || val === '' || z.string().url().safeParse(val).success,
+    { message: 'Invalid image URL' }
+  ),
   category_id: z.string().uuid({ message: 'Invalid category ID' }).nullable().optional(),
   inventory_count: z
     .number()
