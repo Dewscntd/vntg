@@ -96,10 +96,20 @@ export default function AdminProductsPage() {
       const response = await fetch(`/api/products?${params}`);
       if (response.ok) {
         const result = await response.json();
-        console.log('API Response:', result); // Debug log
-        const data = result.data || result; // Handle both response formats
-        setProducts(data.products || []);
-        setTotal(data.pagination?.total || data.total || 0);
+        console.log('Full API Response:', result); // Debug log
+        
+        // Handle the response structure: { status: 'success', data: { products: [...], pagination: {...} } }
+        if (result.status === 'success' && result.data) {
+          const { products: apiProducts, pagination } = result.data;
+          console.log('Products from API:', apiProducts);
+          console.log('Pagination from API:', pagination);
+          setProducts(apiProducts || []);
+          setTotal(pagination?.total || 0);
+        } else {
+          // Fallback for old format
+          setProducts(result.products || []);
+          setTotal(result.total || 0);
+        }
       }
     } catch (error) {
       console.error('Error fetching products:', error);
