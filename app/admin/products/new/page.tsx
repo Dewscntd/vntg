@@ -19,11 +19,17 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BrandSelector } from '@/components/ui/brand-selector';
+import { SizeSelector } from '@/components/ui/size-selector';
+import { MaterialSelector } from '@/components/ui/material-selector';
+import { peakeesCategories } from '@/lib/data/peakees-categories';
+import { CONDITIONS } from '@/lib/data/product-options';
+import { useTranslations } from '@/lib/hooks/use-translations';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 
 interface Category {
   id: string;
   name: string;
+  hebrew?: string;
 }
 
 interface ProductFormData {
@@ -34,7 +40,12 @@ interface ProductFormData {
   inventory_count: string;
   category_id: string;
   is_featured: boolean;
-  specifications: Record<string, string>;
+  specifications: {
+    size: string;
+    condition: string;
+    brand: string;
+    materials: string[];
+  };
 }
 
 export default function NewProductPage() {
@@ -55,7 +66,7 @@ export default function NewProductPage() {
       size: '',
       condition: '',
       brand: '',
-      material: '',
+      materials: [],
     },
   });
 
@@ -64,15 +75,13 @@ export default function NewProductPage() {
   }, []);
 
   const fetchCategories = async () => {
-    try {
-      const response = await fetch('/api/categories');
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data.data?.categories || []);
-      }
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
+    // Use Peakees categories instead of API
+    const peakeesCategs = peakeesCategories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      hebrew: cat.hebrew
+    }));
+    setCategories(peakeesCategs);
   };
 
   const handleInputChange = (field: keyof ProductFormData, value: string | boolean) => {
@@ -82,7 +91,7 @@ export default function NewProductPage() {
     }));
   };
 
-  const handleSpecificationChange = (field: string, value: string) => {
+  const handleSpecificationChange = (field: string, value: string | string[]) => {
     setFormData((prev) => ({
       ...prev,
       specifications: {
@@ -141,7 +150,10 @@ export default function NewProductPage() {
         category_id: formData.category_id,
         is_featured: formData.is_featured,
         image_url: imageUrl || '',
-        specifications: formData.specifications,
+        specifications: {
+          ...formData.specifications,
+          materials: formData.specifications.materials.join(', '), // Convert array to string
+        },
       };
 
       const response = await fetch('/api/products', {
@@ -266,7 +278,7 @@ export default function NewProductPage() {
                     <SelectContent>
                       {categories.map((category) => (
                         <SelectItem key={category.id} value={category.id}>
-                          {category.name}
+                          {category.name} / {category.hebrew}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -292,39 +304,36 @@ export default function NewProductPage() {
             <CardHeader>
               <CardTitle>Product Specifications</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <Label htmlFor="size">Size</Label>
-                  <Input
-                    id="size"
-                    value={formData.specifications.size || ''}
-                    onChange={(e) => handleSpecificationChange('size', e.target.value)}
-                    placeholder="e.g., S, M, L, XL, 32, 42"
-                  />
-                </div>
+            <CardContent className="space-y-6">
+              {/* Size Selection */}
+              <SizeSelector
+                value={formData.specifications.size || ''}
+                onValueChange={(value) => handleSpecificationChange('size', value)}
+                category={categories.find(c => c.id === formData.category_id)?.name || ''}
+              />
 
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {/* Condition */}
                 <div>
-                  <Label htmlFor="condition">Condition</Label>
+                  <Label htmlFor="condition">Condition / מצב *</Label>
                   <Select
                     value={formData.specifications.condition || ''}
                     onValueChange={(value) => handleSpecificationChange('condition', value)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select condition" />
+                      <SelectValue placeholder="Select condition / בחר מצב" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="excellent">Excellent</SelectItem>
-                      <SelectItem value="very-good">Very Good</SelectItem>
-                      <SelectItem value="good">Good</SelectItem>
-                      <SelectItem value="fair">Fair</SelectItem>
-                      <SelectItem value="vintage">Vintage</SelectItem>
+                      {CONDITIONS.map((condition) => (
+                        <SelectItem key={condition.value} value={condition.value}>
+                          {condition.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {/* Brand */}
                 <div>
                   <Label htmlFor="brand">Brand / מותג</Label>
                   <BrandSelector
@@ -333,17 +342,14 @@ export default function NewProductPage() {
                     placeholder="Select brand / בחר מותג"
                   />
                 </div>
-
-                <div>
-                  <Label htmlFor="material">Material</Label>
-                  <Input
-                    id="material"
-                    value={formData.specifications.material || ''}
-                    onChange={(e) => handleSpecificationChange('material', e.target.value)}
-                    placeholder="e.g., Cotton, Denim, Leather"
-                  />
-                </div>
               </div>
+
+              {/* Materials */}
+              <MaterialSelector
+                value={formData.specifications.materials || []}
+                onValueChange={(value) => handleSpecificationChange('materials', value)}
+                maxSelections={3}
+              />
             </CardContent>
           </Card>
 
