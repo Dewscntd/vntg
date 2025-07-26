@@ -5,7 +5,7 @@ export const productSchema = z.object({
   name: z.string().min(1, { message: 'Product name is required' }),
   description: z.string().nullable().optional(),
   price: z.number().min(0, { message: 'Price must be a positive number' }),
-  image_url: z.string().url({ message: 'Invalid image URL' }).nullable().optional(),
+  image_url: z.string().url({ message: 'Invalid image URL' }).or(z.literal('')).nullable().optional(),
   category_id: z.string().uuid({ message: 'Invalid category ID' }).nullable().optional(),
   inventory_count: z
     .number()

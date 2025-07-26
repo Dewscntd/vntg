@@ -175,7 +175,7 @@ export default function EditProductPage() {
         inventory_count: parseInt(formData.inventory_count),
         category_id: formData.category_id,
         is_featured: formData.is_featured,
-        image_url: imageUrl,
+        image_url: imageUrl || null,
         specifications: formData.specifications,
       };
 
