@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-export type VariantType = 'color' | 'size' | 'material' | 'style';
+export type VariantType = 'color' | 'size' | 'material' | 'style' | 'condition' | 'brand';
 
 export interface Variant {
   id: string;

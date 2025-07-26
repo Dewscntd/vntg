@@ -25,6 +25,8 @@ export default function ProductDetailPage() {
     color: '',
     material: '',
     style: '',
+    condition: '',
+    brand: '',
   });
 
   const { data: product, isLoading, error, refetch } = useProduct(productId);

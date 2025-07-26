@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getHebrewTranslation, shouldUseHebrew, hebrewTranslations } from '@/lib/translations/hebrew';
 
 export type Language = 'en' | 'he';
@@ -147,7 +147,7 @@ export function useTranslations() {
 export function withTranslations<T extends object>(Component: React.ComponentType<T>) {
   return function TranslatedComponent(props: T) {
     const translations = useTranslations();
-    return <Component {...props} translations={translations} />;
+    return React.createElement(Component, { ...props, translations } as any);
   };
 }
 
