@@ -9,8 +9,8 @@ import { RouteTransitionProvider } from '@/components/providers/route-transition
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'VNTG | E-Commerce Platform',
-  description: 'A modern e-commerce platform built with Next.js, TypeScript, and Tailwind CSS',
+  title: 'Peakees | Second-Hand Fashion Store',
+  description: 'Unique second-hand clothing, shoes, toys and books in Israel. Quality pre-owned fashion for everyone.',
 };
 
 export default function RootLayout({

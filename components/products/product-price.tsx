@@ -24,13 +24,13 @@ export function ProductPrice({
   // Use the original price if provided, otherwise calculate it from the discount
   const displayOriginalPrice = original_price || (hasDiscount ? price : undefined);
 
-  // Format prices as currency
+  // Format prices as Israeli Shekels
   const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('he-IL', {
       style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      currency: 'ILS',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -51,7 +51,7 @@ export function ProductPrice({
       )}
 
       {hasDiscount && (
-        <span className="text-xs font-medium text-red-500">{discount_percent}% off</span>
+        <span className="text-xs font-medium text-red-500">{discount_percent}% הנחה</span>
       )}
     </div>
   );

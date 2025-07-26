@@ -39,9 +39,9 @@ export function Header({ className }: HeaderProps) {
             <MobileNav />
             <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">V</span>
+                <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
-              <span className="hidden text-xl font-bold sm:block">VNTG</span>
+              <span className="hidden text-xl font-bold sm:block">Peakees</span>
             </Link>
           </div>
 

@@ -32,12 +32,12 @@ export default function Home() {
               gradientFrom="from-primary"
               gradientTo="to-primary/60"
             >
-              Welcome to VNTG
+              Welcome to Peakees
             </ResponsiveDisplay>
           </TextReveal>
           <ScrollReveal animation="fadeIn" delay={300}>
             <ResponsiveLead size="lg" className="mx-auto max-w-3xl">
-              Discover unique vintage and modern pieces. Curated collections that tell a story.
+              Unique second-hand fashion treasures. Quality clothing, shoes, toys & books for everyone.
             </ResponsiveLead>
           </ScrollReveal>
           <ScrollReveal animation="fadeIn" delay={600}>

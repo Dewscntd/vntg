@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { BrandSelector } from '@/components/ui/brand-selector';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 
 interface Category {
@@ -281,15 +282,15 @@ export default function EditProductPage() {
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <Label htmlFor="price">Price *</Label>
+                  <Label htmlFor="price">Price / מחיר (₪) *</Label>
                   <Input
                     id="price"
                     type="number"
-                    step="0.01"
+                    step="1"
                     min="0"
                     value={formData.price}
                     onChange={(e) => handleInputChange('price', e.target.value)}
-                    placeholder="0.00"
+                    placeholder="0"
                     required
                   />
                 </div>
@@ -394,12 +395,11 @@ export default function EditProductPage() {
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <Label htmlFor="brand">Brand</Label>
-                  <Input
-                    id="brand"
+                  <Label htmlFor="brand">Brand / מותג</Label>
+                  <BrandSelector
                     value={formData.specifications.brand || ''}
-                    onChange={(e) => handleSpecificationChange('brand', e.target.value)}
-                    placeholder="e.g., Nike, Adidas, Vintage"
+                    onValueChange={(value) => handleSpecificationChange('brand', value)}
+                    placeholder="Select brand / בחר מותג"
                   />
                 </div>
 
