@@ -95,9 +95,11 @@ export default function AdminProductsPage() {
 
       const response = await fetch(`/api/products?${params}`);
       if (response.ok) {
-        const data: ProductsResponse = await response.json();
+        const result = await response.json();
+        console.log('API Response:', result); // Debug log
+        const data = result.data || result; // Handle both response formats
         setProducts(data.products || []);
-        setTotal(data.total || 0);
+        setTotal(data.pagination?.total || data.total || 0);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -108,13 +110,15 @@ export default function AdminProductsPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories');
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data.data?.categories || []);
-      }
+      // Use Peakees categories for consistency
+      const { peakeesCategories } = await import('@/lib/data/peakees-categories');
+      const categoriesData = peakeesCategories.map(cat => ({
+        id: cat.id,
+        name: `${cat.name} / ${cat.hebrew}`
+      }));
+      setCategories(categoriesData);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error('Error loading categories:', error);
     }
   };
 
@@ -140,9 +144,10 @@ export default function AdminProductsPage() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('he-IL', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'ILS',
+      minimumFractionDigits: 0,
     }).format(amount);
   };
 
