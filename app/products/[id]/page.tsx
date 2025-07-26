@@ -89,73 +89,59 @@ export default function ProductDetailPage() {
       ]
     : [];
 
-  // Mock variants data (this would come from a variants table in a real app)
-  const mockVariantGroups = [
-    {
+  // Create variant groups from product specifications
+  const variantGroups = [];
+  
+  // Size from specifications
+  if (product.specifications?.size) {
+    variantGroups.push({
       type: 'size' as const,
       name: 'Size',
       variants: [
         {
-          id: 'sm',
-          name: 'Small',
+          id: 'size',
+          name: product.specifications.size,
           type: 'size' as const,
-          value: 'Small',
+          value: product.specifications.size,
           available: true,
-        },
-        {
-          id: 'md',
-          name: 'Medium',
-          type: 'size' as const,
-          value: 'Medium',
-          available: true,
-        },
-        {
-          id: 'lg',
-          name: 'Large',
-          type: 'size' as const,
-          value: 'Large',
-          available: true,
-        },
-        {
-          id: 'xl',
-          name: 'X-Large',
-          type: 'size' as const,
-          value: 'X-Large',
-          available: false,
         },
       ],
-    },
-    {
-      type: 'color' as const,
-      name: 'Color',
+    });
+  }
+  
+  // Condition from specifications
+  if (product.specifications?.condition) {
+    variantGroups.push({
+      type: 'condition' as const,
+      name: 'Condition',
       variants: [
         {
-          id: 'black',
-          name: 'Black',
-          type: 'color' as const,
-          value: 'Black',
+          id: 'condition',
+          name: product.specifications.condition,
+          type: 'condition' as const,
+          value: product.specifications.condition,
           available: true,
-          meta: { color: '#000000' },
-        },
-        {
-          id: 'white',
-          name: 'White',
-          type: 'color' as const,
-          value: 'White',
-          available: true,
-          meta: { color: '#FFFFFF' },
-        },
-        {
-          id: 'blue',
-          name: 'Blue',
-          type: 'color' as const,
-          value: 'Blue',
-          available: true,
-          meta: { color: '#3B82F6' },
         },
       ],
-    },
-  ];
+    });
+  }
+  
+  // Brand from specifications
+  if (product.specifications?.brand) {
+    variantGroups.push({
+      type: 'brand' as const,
+      name: 'Brand',
+      variants: [
+        {
+          id: 'brand',
+          name: product.specifications.brand,
+          type: 'brand' as const,
+          value: product.specifications.brand,
+          available: true,
+        },
+      ],
+    });
+  }
 
   const breadcrumbItems = generateProductBreadcrumbs(
     product.name,
@@ -187,31 +173,23 @@ export default function ProductDetailPage() {
         <div className="space-y-6">
           <ProductInformation product={product} />
 
-          {/* Product Variants */}
-          <ProductVariants
-            variantGroups={mockVariantGroups}
-            selectedVariants={selectedVariants}
-            onChange={(type, variantId) => {
-              setSelectedVariants((prev) => ({
-                ...prev,
-                [type]: variantId,
-              }));
-              console.log('Variant selected:', type, variantId);
-            }}
-          />
+          {/* Product Specifications */}
+          {variantGroups.length > 0 && (
+            <ProductVariants
+              variantGroups={variantGroups}
+              selectedVariants={selectedVariants}
+              onChange={(type, variantId) => {
+                setSelectedVariants((prev) => ({
+                  ...prev,
+                  [type]: variantId,
+                }));
+              }}
+            />
+          )}
         </div>
       </div>
 
-      {/* Product Reviews */}
-      <div className="mb-16">
-        <ProductReviews
-          productId={productId}
-          reviews={[]}
-          averageRating={0}
-          totalReviews={0}
-          ratingCounts={{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }}
-        />
-      </div>
+      {/* Reviews removed for second-hand unique items store */}
 
       {/* Related Products */}
       <div>

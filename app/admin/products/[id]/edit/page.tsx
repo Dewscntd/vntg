@@ -91,7 +91,13 @@ export default function EditProductPage() {
           inventory_count: product.inventory_count.toString(),
           category_id: product.category_id,
           is_featured: product.is_featured,
-          specifications: product.specifications || {},
+          specifications: {
+            size: product.specifications?.size || '',
+            condition: product.specifications?.condition || '',
+            brand: product.specifications?.brand || '',
+            material: product.specifications?.material || '',
+            ...product.specifications,
+          },
         });
 
         setCurrentImageUrl(product.image_url);
@@ -124,6 +130,16 @@ export default function EditProductPage() {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
+    }));
+  };
+
+  const handleSpecificationChange = (field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      specifications: {
+        ...prev.specifications,
+        [field]: value,
+      },
     }));
   };
 
@@ -335,6 +351,67 @@ export default function EditProductPage() {
                   }
                 />
                 <Label htmlFor="is_featured">Featured Product</Label>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Product Specifications */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Product Specifications</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="size">Size</Label>
+                  <Input
+                    id="size"
+                    value={formData.specifications.size || ''}
+                    onChange={(e) => handleSpecificationChange('size', e.target.value)}
+                    placeholder="e.g., S, M, L, XL, 32, 42"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="condition">Condition</Label>
+                  <Select
+                    value={formData.specifications.condition || ''}
+                    onValueChange={(value) => handleSpecificationChange('condition', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select condition" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="excellent">Excellent</SelectItem>
+                      <SelectItem value="very-good">Very Good</SelectItem>
+                      <SelectItem value="good">Good</SelectItem>
+                      <SelectItem value="fair">Fair</SelectItem>
+                      <SelectItem value="vintage">Vintage</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="brand">Brand</Label>
+                  <Input
+                    id="brand"
+                    value={formData.specifications.brand || ''}
+                    onChange={(e) => handleSpecificationChange('brand', e.target.value)}
+                    placeholder="e.g., Nike, Adidas, Vintage"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="material">Material</Label>
+                  <Input
+                    id="material"
+                    value={formData.specifications.material || ''}
+                    onChange={(e) => handleSpecificationChange('material', e.target.value)}
+                    placeholder="e.g., Cotton, Denim, Leather"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
