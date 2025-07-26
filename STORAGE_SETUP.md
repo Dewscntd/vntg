@@ -33,9 +33,27 @@ This guide will help you set up the required storage buckets for the Peakees e-c
    - Go to "Policies" tab
    - Add the following policies:
 
-### Method 2: Using SQL (Copy and paste in SQL Editor)
+### Method 2: Enable Storage via Dashboard (REQUIRED FIRST)
+
+⚠️ **CRITICAL**: Storage must be enabled via Supabase Dashboard first:
+
+1. **Enable Storage in Dashboard**
+   - Go to your Supabase Dashboard
+   - Click **Storage** in the left sidebar
+   - If you see "Storage is not enabled", click **Enable Storage**
+   - Wait for it to initialize (this creates all storage tables and policies)
+
+2. **Verify Storage is Working**
+   - You should see the Storage interface with "Buckets" tab
+   - If you see an error about extensions, Storage isn't properly enabled
+
+3. **Then Run Setup Script**
+   - After Storage is enabled via dashboard, use `setup-storage.sql`
 
 ```sql
+-- Step 1: Enable storage extension if not already enabled
+CREATE EXTENSION IF NOT EXISTS "storage";
+
 -- Create the product-images bucket
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
@@ -44,7 +62,7 @@ VALUES (
   true,
   5242880, -- 5MB limit
   ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif']::text[]
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Allow public read access to product images
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'product-images');

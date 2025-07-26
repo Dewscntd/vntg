@@ -5,6 +5,7 @@ export const productSchema = z.object({
   name: z.string().min(1, { message: 'Product name is required' }),
   description: z.string().nullable().optional(),
   price: z.number().min(0, { message: 'Price must be a positive number' }),
+  discount_percent: z.number().min(0).max(100).default(0),
   image_url: z.string().url({ message: 'Invalid image URL' }).or(z.literal('')).nullable().optional(),
   category_id: z.string().uuid({ message: 'Invalid category ID' }).nullable().optional(),
   inventory_count: z
@@ -13,6 +14,7 @@ export const productSchema = z.object({
     .min(0, { message: 'Inventory count must be a non-negative integer' })
     .default(0),
   is_featured: z.boolean().default(false),
+  specifications: z.record(z.string()).optional().default({}),
   stripe_product_id: z.string().nullable().optional(),
 });
 

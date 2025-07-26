@@ -7,6 +7,11 @@
 -- IMPORTANT: Run this AFTER your database migrations are complete
 -- ============================================================================
 
+-- ============================================================================
+-- IMPORTANT: Before running this script, you MUST enable Storage via 
+-- the Supabase Dashboard first! Go to Storage > Enable Storage
+-- ============================================================================
+
 -- Create the product-images storage bucket
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
