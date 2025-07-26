@@ -7,7 +7,9 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ProductPrice } from '@/components/products/product-price';
 import { ProductBadge } from '@/components/products/product-badge';
+import { ProductSpecifications } from '@/components/products/detail/product-specifications';
 import { useAddToCart } from '@/lib/hooks';
+import { useTranslations } from '@/lib/hooks/use-translations';
 
 export interface ProductInformationProps {
   product: {
@@ -24,12 +26,19 @@ export interface ProductInformationProps {
       id: string;
       name: string;
     };
+    specifications?: {
+      size?: string;
+      condition?: string;
+      brand?: string;
+      materials?: string;
+    };
   };
   className?: string;
 }
 
 export function ProductInformation({ product, className }: ProductInformationProps) {
   const [quantity, setQuantity] = useState(1);
+  const { isHebrew } = useTranslations();
   const [addToCart, { isLoading }] = useAddToCart({
     onSuccess: () => {
       // Could add a toast notification here
@@ -67,7 +76,7 @@ export function ProductInformation({ product, className }: ProductInformationPro
         <h1 className="text-3xl font-bold tracking-tight">{product.name}</h1>
         {product.category && (
           <div className="mt-1 text-sm text-muted-foreground">
-            Category: {product.category.name}
+            {isHebrew ? 'קטגוריה' : 'Category'}: {product.category.name}
           </div>
         )}
       </div>
@@ -79,10 +88,19 @@ export function ProductInformation({ product, className }: ProductInformationPro
         {/* Inventory status */}
         <div className="mt-2 text-sm">
           {isOutOfStock ? (
-            <span className="text-destructive">Out of stock</span>
+            <span className="text-destructive">
+              {isHebrew ? 'אזל מהמלאי' : 'Out of stock'}
+            </span>
+          ) : product.inventory_count === 1 ? (
+            <span className="text-green-600 dark:text-green-500">
+              {isHebrew ? 'פריט אחד אחרון במלאי' : 'Last item in stock'}
+            </span>
           ) : (
             <span className="text-green-600 dark:text-green-500">
-              In stock ({product.inventory_count} available)
+              {isHebrew 
+                ? `במלאי (${product.inventory_count} זמינות)` 
+                : `In stock (${product.inventory_count} available)`
+              }
             </span>
           )}
         </div>
@@ -93,6 +111,14 @@ export function ProductInformation({ product, className }: ProductInformationPro
         <div className="prose prose-sm dark:prose-invert max-w-none">
           <p>{product.description}</p>
         </div>
+      )}
+
+      {/* Product Specifications */}
+      {product.specifications && (
+        <ProductSpecifications 
+          specifications={product.specifications}
+          compact={false}
+        />
       )}
 
       {/* Quantity selector */}
@@ -123,7 +149,10 @@ export function ProductInformation({ product, className }: ProductInformationPro
           </Button>
         </div>
         <div className="text-sm text-muted-foreground">
-          {maxQuantity > 0 ? `Max: ${maxQuantity}` : 'Out of stock'}
+          {maxQuantity > 0 
+            ? (isHebrew ? `מקסימום: ${maxQuantity}` : `Max: ${maxQuantity}`)
+            : (isHebrew ? 'אזל מהמלאי' : 'Out of stock')
+          }
         </div>
       </div>
 
@@ -135,7 +164,12 @@ export function ProductInformation({ product, className }: ProductInformationPro
           onClick={handleAddToCart}
           disabled={isLoading || isOutOfStock}
         >
-          {isLoading ? 'Adding...' : isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+          {isLoading 
+            ? (isHebrew ? 'מוסיף...' : 'Adding...') 
+            : isOutOfStock 
+              ? (isHebrew ? 'אזל מהמלאי' : 'Out of Stock') 
+              : (isHebrew ? 'הוסף לעגלה' : 'Add to Cart')
+          }
         </Button>
         <div className="flex space-x-3">
           <Button variant="outline" size="icon" className="h-11 w-11">
