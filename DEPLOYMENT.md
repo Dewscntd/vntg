@@ -29,7 +29,7 @@ STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 **Next.js Configuration:**
 ```bash
 NODE_ENV=production
-NEXTAUTH_URL=https://your-domain.vercel.app
+NEXTAUTH_URL=https://peakees.vercel.app
 NEXTAUTH_SECRET=your_random_secret_string
 ```
 
@@ -90,7 +90,7 @@ supabase db push
 
 #### Set Up Webhook Endpoint
 1. In Stripe Dashboard > Webhooks
-2. Add endpoint: `https://your-domain.vercel.app/api/webhooks/stripe`
+2. Add endpoint: `https://peakees.vercel.app/api/webhooks/stripe`
 3. Select events:
    - `payment_intent.succeeded`
    - `payment_intent.payment_failed`
@@ -155,7 +155,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 # Next.js
 NODE_ENV=production
-NEXTAUTH_URL=https://your-domain.vercel.app
+NEXTAUTH_URL=https://peakees.vercel.app
 NEXTAUTH_SECRET=your-super-secret-random-string-here
 
 # Optional: Analytics

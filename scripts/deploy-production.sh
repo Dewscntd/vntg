@@ -250,7 +250,7 @@ main() {
     
     echo "========================================"
     log_success "Production deployment completed successfully! 🎉"
-    log_info "Your application is now live at: https://vntg.vercel.app"
+    log_info "Your application is now live at: https://peakees.vercel.app"
 }
 
 # Handle script interruption

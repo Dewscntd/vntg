@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "vntg",
-  "alias": ["vntg-store.vercel.app"],
+  "alias": ["peakees.vercel.app"],
   "public": true,
   "regions": ["iad1"],
   "framework": "nextjs",
@@ -51,7 +51,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://yourdomain.com"
+          "value": "https://peakees.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",

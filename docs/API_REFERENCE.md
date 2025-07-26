@@ -5,7 +5,7 @@ Quick reference guide for the VNTG e-commerce platform API endpoints.
 ## 🌐 Base URL
 
 ```
-Production: https://vntg-store.vercel.app/api
+Production: https://peakees.vercel.app/api
 Development: http://localhost:3000/api
 ```
 
@@ -94,21 +94,21 @@ Most endpoints require session-based authentication. Admin endpoints require adm
 
 ### Add Product to Cart
 ```bash
-curl -X POST https://vntg-store.vercel.app/api/cart/add \
+curl -X POST https://peakees.vercel.app/api/cart/add \
   -H "Content-Type: application/json" \
   -d '{"product_id": "uuid", "quantity": 1}'
 ```
 
 ### Create Payment Intent
 ```bash
-curl -X POST https://vntg-store.vercel.app/api/checkout/payment-intent \
+curl -X POST https://peakees.vercel.app/api/checkout/payment-intent \
   -H "Content-Type: application/json" \
   -d '{"amount": 2999, "currency": "usd"}'
 ```
 
 ### Get Products
 ```bash
-curl "https://vntg-store.vercel.app/api/products?page=1&limit=12&featured=true"
+curl "https://peakees.vercel.app/api/products?page=1&limit=12&featured=true"
 ```
 
 ## ❌ Error Responses

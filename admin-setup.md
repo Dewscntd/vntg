@@ -2,7 +2,7 @@
 
 ## 🎉 Your VNTG E-Commerce Platform is LIVE!
 
-**Production URL**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app
+**Production URL**: https://peakees.vercel.app
 
 ## ✅ Completed Setup
 
@@ -14,7 +14,7 @@
 
 ## 🔧 Create Admin User
 
-1. **Visit your store**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app
+1. **Visit your store**: https://peakees.vercel.app
 2. **Register an account** using the Register button
 3. **Go to Supabase Dashboard**: https://supabase.com/dashboard/project/ogrpjursibfrejjkfkxa
 4. **Navigate to**: Authentication → Users
@@ -28,7 +28,7 @@ SET role = 'admin'
 WHERE email = 'your-email@example.com';
 ```
 
-8. **Access admin panel**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app/admin
+8. **Access admin panel**: https://peakees.vercel.app/admin
 
 ## 🛍️ Test Your Store
 
@@ -47,9 +47,9 @@ WHERE email = 'your-email@example.com';
 
 ## 🔗 Important URLs
 
-- **Store**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app
-- **Admin**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app/admin
-- **API Health**: https://vntg-98s4kiznz-michaelvx-3932s-projects.vercel.app/api/health
+- **Store**: https://peakees.vercel.app
+- **Admin**: https://peakees.vercel.app/admin
+- **API Health**: https://peakees.vercel.app/api/health
 - **Supabase**: https://supabase.com/dashboard/project/ogrpjursibfrejjkfkxa
 - **Stripe**: https://dashboard.stripe.com/test/dashboard
 - **Vercel**: https://vercel.com/michaelvx-3932s-projects/vntg

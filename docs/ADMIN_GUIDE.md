@@ -5,13 +5,13 @@ Complete guide for managing your VNTG e-commerce platform through the admin pane
 ## 🚀 Getting Started
 
 ### Admin Access
-- **Admin Panel**: https://vntg-store.vercel.app/admin-direct
+- **Admin Panel**: https://peakees.vercel.app/admin-direct
 - **Login Credentials**: `michaelvx@gmail.com` / `1q1q1q1q`
 
 ### First Login
-1. Navigate to the [login page](https://vntg-store.vercel.app/auth/login)
+1. Navigate to the [login page](https://peakees.vercel.app/auth/login)
 2. Enter your admin credentials
-3. Access the [admin panel](https://vntg-store.vercel.app/admin-direct)
+3. Access the [admin panel](https://peakees.vercel.app/admin-direct)
 
 ## 📦 Product Management
 
@@ -362,9 +362,9 @@ Complete guide for managing your VNTG e-commerce platform through the admin pane
 
 ### Essential URLs
 ```
-Admin Panel: https://vntg-store.vercel.app/admin-direct
-Store Front: https://vntg-store.vercel.app
-Login Page: https://vntg-store.vercel.app/auth/login
+Admin Panel: https://peakees.vercel.app/admin-direct
+Store Front: https://peakees.vercel.app
+Login Page: https://peakees.vercel.app/auth/login
 ```
 
 ### Admin Credentials

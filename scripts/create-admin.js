@@ -12,8 +12,8 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function main() {
-  const email = 'admin@user.io';
-  const password = '123456';
+  const email = 'michaelvx@gmail.com';
+  const password = '1q1q1q1q';
 
   const { data, error } = await supabase.auth.admin.createUser({
     email,

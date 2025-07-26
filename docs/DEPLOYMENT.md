@@ -5,8 +5,8 @@ Complete guide for deploying the VNTG e-commerce platform to production.
 ## 🚀 Current Deployment
 
 ### Live Platform
-- **Store**: https://vntg-store.vercel.app
-- **Admin Panel**: https://vntg-store.vercel.app/admin-direct
+- **Store**: https://peakees.vercel.app
+- **Admin Panel**: https://peakees.vercel.app/admin-direct
 - **Status**: ✅ **FULLY OPERATIONAL**
 
 ### Current Infrastructure
@@ -436,7 +436,7 @@ console.log('DB Connection:', error ? 'Failed' : 'Success');
 npm run analyze
 
 # Check Core Web Vitals
-lighthouse https://your-domain.com --view
+lighthouse https://peakees.vercel.app --view
 ```
 
 ## 📞 Support & Maintenance

@@ -61,7 +61,7 @@ echo "- NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
 echo "- STRIPE_SECRET_KEY"
 echo "- STRIPE_WEBHOOK_SECRET"
 echo "- NODE_ENV=production"
-echo "- NEXTAUTH_URL=https://your-domain.vercel.app"
+echo "- NEXTAUTH_URL=https://peakees.vercel.app"
 echo "- NEXTAUTH_SECRET=your-random-secret"
 echo
 
@@ -109,7 +109,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo -e "${YELLOW}Please set up Stripe first:${NC}"
     echo "1. Go to https://stripe.com"
     echo "2. Get production API keys"
-    echo "3. Set up webhook: https://your-domain.vercel.app/api/webhooks/stripe"
+    echo "3. Set up webhook: https://peakees.vercel.app/api/webhooks/stripe"
     echo "4. Enable required events in webhook"
     echo "5. Run this script again"
     exit 1

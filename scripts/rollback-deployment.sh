@@ -185,7 +185,7 @@ perform_rollback() {
     # Verify rollback
     log_info "Verifying rollback..."
     
-    if curl -f -s "https://vntg.vercel.app/api/health" >/dev/null; then
+    if curl -f -s "https://peakees.vercel.app/api/health" >/dev/null; then
         log_success "Rollback verification passed"
     else
         log_error "Rollback verification failed"
@@ -268,7 +268,7 @@ main() {
     log_success "Rollback completed successfully! 🔄"
     log_info "Previous deployment: $current_deployment"
     log_info "Current deployment: $target_deployment"
-    log_info "Application is now live at: https://vntg.vercel.app"
+    log_info "Application is now live at: https://peakees.vercel.app"
     
     if [ -n "$reason" ]; then
         log_info "Rollback reason: $reason"

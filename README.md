@@ -4,8 +4,8 @@ A production-ready, full-stack e-commerce platform built with Next.js 14, TypeSc
 
 ## 🌟 Live Platform
 
-- **🛍️ Store**: https://vntg-store.vercel.app
-- **👑 Admin Panel**: https://vntg-store.vercel.app/admin-direct
+- **🛍️ Store**: https://peakees.vercel.app
+- **👑 Admin Panel**: https://peakees.vercel.app/admin-direct
 - **📧 Admin Login**: `michaelvx@gmail.com` / `1q1q1q1q`
 
 ## 🚀 Current Status: **FULLY DEPLOYED & OPERATIONAL**
