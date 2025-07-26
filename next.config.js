@@ -17,6 +17,7 @@ const nextConfig = {
       'plus.unsplash.com',
       'lh3.googleusercontent.com',
       'avatars.githubusercontent.com',
+      'ogrpjursibfrejjkfkxa.supabase.co',
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
