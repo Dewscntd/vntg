@@ -17,7 +17,17 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname === '/admin-direct') {
       return res;
     }
+    
+    // Debug logging for session
+    console.log('Admin route accessed:', {
+      path: req.nextUrl.pathname,
+      hasSession: !!session,
+      userEmail: session?.user?.email,
+      userId: session?.user?.id
+    });
+    
     if (!session) {
+      console.log('No session found, redirecting to login');
       const loginUrl = new URL('/auth/login', req.url);
       loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
       return NextResponse.redirect(loginUrl);
