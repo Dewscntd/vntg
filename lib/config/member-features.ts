@@ -47,7 +47,7 @@ export const FEATURES = {
     memberPricing: { guests: false, members: true },
     earlyAccess: { guests: false, members: true },
     memberOnlyProducts: { guests: false, members: true },
-    loyaltyProgram: { guests: false, members: true }, 
+    loyaltyProgram: { guests: false, members: true },
     personalizedRecommendations: { guests: false, members: true },
     memberSupport: { guests: false, members: true },
   },
@@ -100,19 +100,22 @@ export function canAccessFeature(
 
 export function getUserType(session: any): 'guest' | 'member' | 'admin' {
   if (!session) return 'guest';
-  
+
   // Check if user has admin role
-  if (session.user?.app_metadata?.role === 'admin' || session.user?.user_metadata?.role === 'admin') {
+  if (
+    session.user?.app_metadata?.role === 'admin' ||
+    session.user?.user_metadata?.role === 'admin'
+  ) {
     return 'admin';
   }
-  
+
   return 'member';
 }
 
 // Get list of features available to user type
 export function getAvailableFeatures(userType: 'guest' | 'member' | 'admin') {
   const available: string[] = [];
-  
+
   Object.entries(FEATURES).forEach(([category, features]) => {
     Object.entries(features).forEach(([feature, access]) => {
       if (canAccessFeature(category, feature, userType)) {
@@ -120,7 +123,7 @@ export function getAvailableFeatures(userType: 'guest' | 'member' | 'admin') {
       }
     });
   });
-  
+
   return available;
 }
 

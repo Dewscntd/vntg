@@ -10,7 +10,7 @@ import { GuestCheckoutForm } from '@/components/checkout/guest-checkout-form';
 import { ShippingForm } from '@/components/checkout/shipping-form';
 import { PaymentForm } from '@/components/checkout/payment-form';
 import { OrderReview } from '@/components/checkout/order-review';
-import { OrderConfirmation } from '@/components/checkout/order-confirmation';    
+import { OrderConfirmation } from '@/components/checkout/order-confirmation';
 import { StripeProvider } from '@/components/providers/stripe-provider';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -20,8 +20,9 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
   const { items, itemCount, total } = useCart();
-  const { currentStep, nextStep, previousStep, clientSecret, error, isLoading, setGuestCheckout } = useCheckout();
-  
+  const { currentStep, nextStep, previousStep, clientSecret, error, isLoading, setGuestCheckout } =
+    useCheckout();
+
   // If user is not authenticated, show guest checkout first
   const showGuestCheckout = !authLoading && !session;
 
@@ -77,7 +78,7 @@ export default function CheckoutPage() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-        
+
         <GuestCheckoutForm
           onGuestCheckout={handleGuestCheckout}
           onLoginRedirect={handleLoginRedirect}

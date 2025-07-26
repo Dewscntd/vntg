@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
@@ -12,7 +12,7 @@ import { Breadcrumb, Pagination, calculatePagination } from '@/components/naviga
 import { useProducts } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const [queryParams, setQueryParams] = useState({
     limit: 12,
@@ -168,5 +168,19 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        </div>
+      }
+    >
+      <ProductsContent />
+    </Suspense>
   );
 }

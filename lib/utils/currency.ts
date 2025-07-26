@@ -24,7 +24,7 @@ export function formatCurrency(
   currency: SupportedCurrency = DEFAULT_CURRENCY
 ): string {
   const currencyInfo = SUPPORTED_CURRENCIES[currency];
-  
+
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency,
@@ -34,9 +34,12 @@ export function formatCurrency(
 }
 
 // Format currency for Israeli users (Hebrew locale)
-export function formatCurrencyIL(amount: number, currency: SupportedCurrency = ISRAELI_CURRENCY): string {
+export function formatCurrencyIL(
+  amount: number,
+  currency: SupportedCurrency = ISRAELI_CURRENCY
+): string {
   const currencyInfo = SUPPORTED_CURRENCIES[currency];
-  
+
   return new Intl.NumberFormat('he-IL', {
     style: 'currency',
     currency: currency,
@@ -72,11 +75,11 @@ export function detectUserCurrency(): SupportedCurrency {
   // Check if user is in Israel based on timezone or navigator language
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const language = navigator.language.toLowerCase();
-  
+
   if (timeZone === 'Asia/Jerusalem' || language.includes('he') || language.includes('il')) {
     return 'ILS';
   }
-  
+
   return 'USD';
 }
 

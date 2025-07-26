@@ -28,10 +28,7 @@ export async function POST(req: NextRequest) {
 
     // Get client IP if not provided
     const clientIP =
-      ipAddress ||
-      req.headers.get('x-forwarded-for') ||
-      req.headers.get('x-real-ip') ||
-      'unknown';
+      ipAddress || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
 
     // Insert analytics event
     const { error } = await supabase.from('analytics_events').insert({

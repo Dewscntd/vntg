@@ -116,7 +116,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
 
       {/* Show member benefits banner for guests */}
       {!session && (
-        <MemberBenefitsBanner 
+        <MemberBenefitsBanner
           onCreateAccount={() => window.open('/auth/signup?redirect=/checkout', '_blank')}
         />
       )}

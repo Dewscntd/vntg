@@ -57,9 +57,7 @@ export function GuestCheckoutForm({
     <div className={cn('space-y-6', className)}>
       <div className="text-center">
         <ShoppingCart className="mx-auto h-12 w-12 text-blue-600" />
-        <h2 className="mt-4 text-2xl font-bold text-gray-900">
-          Complete Your Purchase
-        </h2>
+        <h2 className="mt-4 text-2xl font-bold text-gray-900">Complete Your Purchase</h2>
         <p className="mt-2 text-gray-600">
           Continue as a guest or create an account for faster future checkouts
         </p>
@@ -72,9 +70,7 @@ export function GuestCheckoutForm({
             <ShoppingCart className="mr-2 h-5 w-5" />
             Guest Checkout
           </h3>
-          <p className="mt-1 text-sm text-gray-600">
-            Quick checkout without creating an account
-          </p>
+          <p className="mt-1 text-sm text-gray-600">Quick checkout without creating an account</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
             <div>
@@ -86,12 +82,8 @@ export function GuestCheckoutForm({
                 placeholder="your.email@example.com"
                 className={cn(errors.email && 'border-red-500')}
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-              )}
-              <p className="mt-1 text-xs text-gray-500">
-                We'll send your order confirmation here
-              </p>
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
+              <p className="mt-1 text-xs text-gray-500">We'll send your order confirmation here</p>
             </div>
 
             <div className="flex items-center space-x-2">
@@ -137,11 +129,7 @@ export function GuestCheckoutForm({
               </div>
             )}
 
-            <Button
-              type="submit"
-              disabled={!isValid || isSubmitting}
-              className="w-full"
-            >
+            <Button type="submit" disabled={!isValid || isSubmitting} className="w-full">
               {isSubmitting ? (
                 <div className="flex items-center space-x-2">
                   <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
@@ -187,12 +175,7 @@ export function GuestCheckoutForm({
               </li>
             </ul>
 
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onLoginRedirect}
-              className="w-full"
-            >
+            <Button type="button" variant="outline" onClick={onLoginRedirect} className="w-full">
               Sign In to Your Account
             </Button>
           </div>

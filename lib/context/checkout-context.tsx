@@ -146,11 +146,11 @@ function checkoutReducer(state: CheckoutState, action: CheckoutAction): Checkout
 
     case 'SET_SHIPPING_ADDRESS':
       const newShippingMethods = getShippingMethodsForCountry(action.payload.country);
-      return { 
-        ...state, 
+      return {
+        ...state,
         shippingAddress: action.payload,
         availableShippingMethods: newShippingMethods,
-        selectedShippingMethod: newShippingMethods[0] // Reset to first method for new country
+        selectedShippingMethod: newShippingMethods[0], // Reset to first method for new country
       };
 
     case 'SET_BILLING_ADDRESS':

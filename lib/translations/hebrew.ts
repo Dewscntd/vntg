@@ -9,7 +9,7 @@ export const hebrewTranslations = {
     review: 'סקירת הזמנה',
     confirmation: 'אישור הזמנה',
   },
-  
+
   // Shipping form
   shipping: {
     title: 'פרטי משלוח',
@@ -19,7 +19,7 @@ export const hebrewTranslations = {
     email: 'כתובת אימייל',
     phone: 'מספר טלפון',
     address: 'כתובת',
-    address2: 'דירה, קומה וכו\' (אופציונלי)',
+    address2: "דירה, קומה וכו' (אופציונלי)",
     city: 'עיר',
     district: 'מחוז',
     postalCode: 'מיקוד',
@@ -27,7 +27,7 @@ export const hebrewTranslations = {
     saveAddress: 'שמור כתובת זו לעתיד',
     continueToPayment: 'המשך לתשלום',
   },
-  
+
   // Payment form
   payment: {
     title: 'פרטי תשלום',
@@ -42,7 +42,7 @@ export const hebrewTranslations = {
     pay: 'שלם',
     backToShipping: 'חזור למשלוח',
   },
-  
+
   // Order summary
   order: {
     summary: 'סיכום הזמנה',
@@ -52,7 +52,7 @@ export const hebrewTranslations = {
     total: 'סה"כ',
     freeShipping: 'משלוח חינם',
   },
-  
+
   // Shipping methods
   shippingMethods: {
     standard: {
@@ -66,7 +66,7 @@ export const hebrewTranslations = {
       days: 'יום עסקים',
     },
   },
-  
+
   // Common terms
   common: {
     required: 'שדה חובה',
@@ -87,7 +87,7 @@ export const hebrewTranslations = {
     no: 'לא',
     free: 'חינם',
   },
-  
+
   // Error messages
   errors: {
     required: 'שדה זה נדרש',
@@ -98,14 +98,14 @@ export const hebrewTranslations = {
     networkError: 'שגיאת רשת. אנא בדוק את החיבור שלך',
     unknownError: 'אירעה שגיאה לא צפויה',
   },
-  
+
   // Success messages
   success: {
     orderPlaced: 'ההזמנה נשלחה בהצלחה!',
     paymentCompleted: 'התשלום הושלם בהצלחה',
     addressSaved: 'הכתובת נשמרה בהצלחה',
   },
-  
+
   // Security messages
   security: {
     ssl: 'התשלום שלך מאובטח בהצפנת SSL',
@@ -119,24 +119,24 @@ export const hebrewTranslations = {
 export function getHebrewTranslation(key: string): string {
   const keys = key.split('.');
   let value: any = hebrewTranslations;
-  
+
   for (const k of keys) {
     value = value?.[k];
     if (value === undefined) {
       return key; // Return the key if translation not found
     }
   }
-  
+
   return value;
 }
 
 // Helper function to check if user prefers Hebrew
 export function shouldUseHebrew(): boolean {
   if (typeof window === 'undefined') return false;
-  
+
   const language = navigator.language.toLowerCase();
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
   return language.includes('he') || timeZone === 'Asia/Jerusalem';
 }
 

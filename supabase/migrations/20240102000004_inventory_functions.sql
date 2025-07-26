@@ -82,16 +82,33 @@ CREATE TABLE IF NOT EXISTS public.disputes (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
+-- Add order_id column if it doesn't exist
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                 WHERE table_name = 'disputes' AND column_name = 'order_id') THEN
+    ALTER TABLE public.disputes ADD COLUMN order_id UUID REFERENCES public.orders(id);
+  END IF;
+END $$;
+
 -- Create indexes for disputes table
 CREATE INDEX IF NOT EXISTS idx_disputes_stripe_id ON public.disputes(stripe_dispute_id);
 CREATE INDEX IF NOT EXISTS idx_disputes_charge_id ON public.disputes(charge_id);
-CREATE INDEX IF NOT EXISTS idx_disputes_order_id ON public.disputes(order_id);
+-- Only create order_id index if column exists
+DO $$ 
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns 
+             WHERE table_name = 'disputes' AND column_name = 'order_id') THEN
+    CREATE INDEX IF NOT EXISTS idx_disputes_order_id ON public.disputes(order_id);
+  END IF;
+END $$;
 CREATE INDEX IF NOT EXISTS idx_disputes_status ON public.disputes(status);
 
 -- Enable RLS for disputes
 ALTER TABLE public.disputes ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for disputes (admin only)
+DROP POLICY IF EXISTS "Admins can view all disputes" ON public.disputes;
 CREATE POLICY "Admins can view all disputes" ON public.disputes
   FOR SELECT USING (
     EXISTS (
@@ -100,6 +117,7 @@ CREATE POLICY "Admins can view all disputes" ON public.disputes
     )
   );
 
+DROP POLICY IF EXISTS "Admins can manage disputes" ON public.disputes;
 CREATE POLICY "Admins can manage disputes" ON public.disputes
   FOR ALL USING (
     EXISTS (
@@ -109,6 +127,7 @@ CREATE POLICY "Admins can manage disputes" ON public.disputes
   );
 
 -- Apply updated_at trigger to disputes table
+DROP TRIGGER IF EXISTS handle_disputes_updated_at ON public.disputes;
 CREATE TRIGGER handle_disputes_updated_at
   BEFORE UPDATE ON public.disputes
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();

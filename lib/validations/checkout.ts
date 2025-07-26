@@ -13,7 +13,10 @@ export const shippingAddressSchema = z.object({
   address2: z.string().max(100, 'Address line 2 too long').optional(),
   city: z.string().min(1, 'City is required').max(50, 'City name too long'),
   state: z.string().min(1, 'State is required').max(50, 'State name too long'),
-  zipCode: z.string().min(4, 'Postal code must be at least 4 characters').max(10, 'Postal code too long'),
+  zipCode: z
+    .string()
+    .min(4, 'Postal code must be at least 4 characters')
+    .max(10, 'Postal code too long'),
   country: z.string().min(1, 'Country is required').max(50, 'Country name too long'),
 });
 

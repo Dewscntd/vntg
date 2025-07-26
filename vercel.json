@@ -2,6 +2,7 @@
   "version": 2,
   "name": "vntg",
   "alias": ["vntg.vercel.app"],
+  "public": true,
   "regions": ["iad1"],
   "framework": "nextjs",
   "buildCommand": "npm run build",
@@ -72,6 +73,16 @@
     {
       "source": "/account",
       "destination": "/account/dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/login",
+      "destination": "/auth/login",
+      "permanent": false
+    },
+    {
+      "source": "/register",
+      "destination": "/auth/register",
       "permanent": false
     }
   ],
