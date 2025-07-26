@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "vntg",
-  "alias": ["vntg.vercel.app"],
+  "alias": ["vntg-store.vercel.app"],
   "public": true,
   "regions": ["iad1"],
   "framework": "nextjs",
