@@ -5,17 +5,17 @@
 -- First, let's see what categories exist currently
 SELECT id, name, created_at FROM categories ORDER BY name;
 
--- Create the new Peakees categories
+-- Create the new Peakees categories with proper UUIDs
 INSERT INTO categories (id, name, description, created_at, updated_at)
 VALUES 
   -- Main Categories
-  ('men', 'Men / גברים', 'Second-hand men''s fashion and accessories', NOW(), NOW()),
-  ('women', 'Women / נשים', 'Second-hand women''s fashion and accessories', NOW(), NOW()),
-  ('teens', 'Teens / נוער', 'Second-hand teen fashion and accessories', NOW(), NOW()),
-  ('kids', 'Kids / ילדים', 'Second-hand children''s clothing (ages 2-12)', NOW(), NOW()),
-  ('babies', 'Babies / תינוקות', 'Second-hand baby clothing (ages 0-2)', NOW(), NOW()),
-  ('toys', 'Toys / צעצועים', 'Second-hand toys and games', NOW(), NOW()),
-  ('books', 'Books / ספרים', 'Second-hand books in various languages', NOW(), NOW()),
+  (gen_random_uuid(), 'Men / גברים', 'Second-hand men''s fashion and accessories', NOW(), NOW()),
+  (gen_random_uuid(), 'Women / נשים', 'Second-hand women''s fashion and accessories', NOW(), NOW()),
+  (gen_random_uuid(), 'Teens / נוער', 'Second-hand teen fashion and accessories', NOW(), NOW()),
+  (gen_random_uuid(), 'Kids / ילדים', 'Second-hand children''s clothing (ages 2-12)', NOW(), NOW()),
+  (gen_random_uuid(), 'Babies / תינוקות', 'Second-hand baby clothing (ages 0-2)', NOW(), NOW()),
+  (gen_random_uuid(), 'Toys / צעצועים', 'Second-hand toys and games', NOW(), NOW()),
+  (gen_random_uuid(), 'Books / ספרים', 'Second-hand books in various languages', NOW(), NOW()),
   
   -- Men Subcategories
   ('men-shirts', 'Men - Shirts / גברים - חולצות', 'Men''s shirts', NOW(), NOW()),

@@ -29,7 +29,6 @@ import { ArrowLeft, Upload, X } from 'lucide-react';
 interface Category {
   id: string;
   name: string;
-  hebrew?: string;
 }
 
 interface ProductFormData {
@@ -75,13 +74,27 @@ export default function NewProductPage() {
   }, []);
 
   const fetchCategories = async () => {
-    // Use Peakees categories instead of API
-    const peakeesCategs = peakeesCategories.map(cat => ({
-      id: cat.id,
-      name: cat.name,
-      hebrew: cat.hebrew
-    }));
-    setCategories(peakeesCategs);
+    try {
+      // Fetch from API but filter out unwanted categories
+      const response = await fetch('/api/categories');
+      if (response.ok) {
+        const data = await response.json();
+        const allCategories = data.data?.categories || [];
+        
+        // Filter out unwanted categories
+        const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening'];
+        const filteredCategories = allCategories.filter((cat: any) => 
+          !unwantedNames.some(unwanted => 
+            cat.name.toLowerCase().includes(unwanted.toLowerCase())
+          )
+        );
+        
+        setCategories(filteredCategories);
+        console.log('Available categories for product creation:', filteredCategories);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   };
 
   const handleInputChange = (field: keyof ProductFormData, value: string | boolean) => {
@@ -278,7 +291,7 @@ export default function NewProductPage() {
                     <SelectContent>
                       {categories.map((category) => (
                         <SelectItem key={category.id} value={category.id}>
-                          {category.name} / {category.hebrew}
+                          {category.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

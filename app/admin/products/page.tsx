@@ -110,13 +110,23 @@ export default function AdminProductsPage() {
 
   const fetchCategories = async () => {
     try {
-      // Use Peakees categories for consistency
-      const { peakeesCategories } = await import('@/lib/data/peakees-categories');
-      const categoriesData = peakeesCategories.map(cat => ({
-        id: cat.id,
-        name: `${cat.name} / ${cat.hebrew}`
-      }));
-      setCategories(categoriesData);
+      // Fetch from API but filter out unwanted categories
+      const response = await fetch('/api/categories');
+      if (response.ok) {
+        const data = await response.json();
+        const allCategories = data.data?.categories || [];
+        
+        // Filter out unwanted categories
+        const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening'];
+        const filteredCategories = allCategories.filter((cat: any) => 
+          !unwantedNames.some(unwanted => 
+            cat.name.toLowerCase().includes(unwanted.toLowerCase())
+          )
+        );
+        
+        setCategories(filteredCategories);
+        console.log('Filtered categories:', filteredCategories);
+      }
     } catch (error) {
       console.error('Error loading categories:', error);
     }
