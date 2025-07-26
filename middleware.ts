@@ -63,11 +63,14 @@ export async function middleware(req: NextRequest) {
       path: req.nextUrl.pathname
     });
 
-    // Temporary bypass for debugging - allow specific admin email
+    // Direct admin access for specific email - bypass database check entirely
     if (session.user.email === 'michaelvx@gmail.com') {
-      console.log('Temporary admin bypass for:', session.user.email);
-      // Continue to admin panel
-    } else if (error || user?.role !== 'admin') {
+      console.log('Direct admin access granted for:', session.user.email);
+      return res; // Allow access immediately
+    }
+    
+    // For other users, check database role
+    if (error || user?.role !== 'admin') {
       console.log('Access denied - redirecting to home');
       return NextResponse.redirect(new URL('/', req.url));
     }

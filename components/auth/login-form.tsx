@@ -49,10 +49,7 @@ function LoginFormContent() {
       // Check for redirect URL parameter
       const redirectTo = searchParams.get('redirectTo') || searchParams.get('redirect');
       
-      // If redirecting to admin, use admin-direct for better compatibility
-      if (redirectTo?.includes('/admin')) {
-        router.push('/admin-direct');
-      } else if (redirectTo) {
+      if (redirectTo) {
         router.push(redirectTo);
       } else {
         router.push('/');
