@@ -20,7 +20,11 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
+    "test:e2e:stubs": "playwright test tests/e2e/api-stub-sync.spec.ts",
     "test:all": "npm run type-check && npm run lint && npm run test:ci && npm run test:e2e",
+    "sync:api-stubs": "node scripts/sync-api-stubs.js",
+    "validate:stubs": "npx tsx lib/stubs/validate-stubs.ts",
+    "validate:api-schema": "npx tsx -e \"import('./lib/validation/api-schema-validator').then(m => m.validateAPIStubSync())\"",
     "db:migrate": "supabase db push",
     "db:migrate:prod": "node scripts/migrate-database.js",
     "db:migrate:status": "node scripts/migrate-database.js --status",
@@ -94,6 +98,7 @@
     "prettier": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.20.3",
     "typescript": "^5.3.3"
   }
 }
