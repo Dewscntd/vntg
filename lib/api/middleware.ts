@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { ZodSchema } from 'zod';
-import { Database } from '@/types/supabase';
+import { createServerClient } from '@/lib/supabase/server';
 import { handleUnauthorized, handleZodError, errorResponse } from './index';
 
 // Rate limiting store (in production, use Redis or similar)
@@ -13,7 +11,7 @@ export async function withAuth(
   req: NextRequest,
   handler: (req: NextRequest, session: any) => Promise<NextResponse>
 ): Promise<NextResponse> {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const supabase = createServerClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -30,7 +28,7 @@ export async function withAdmin(
   req: NextRequest,
   handler: (req: NextRequest, session: any) => Promise<NextResponse>
 ): Promise<NextResponse> {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const supabase = createServerClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

@@ -5,6 +5,13 @@ import type { Database } from '@/types/supabase';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
+  
+  // Skip all auth checks when using stubs for local development
+  const useStubs = process.env.NEXT_PUBLIC_USE_STUBS === 'true';
+  if (useStubs) {
+    return res;
+  }
+  
   const supabase = createMiddlewareClient<Database>({ req, res });
 
   const {
@@ -18,16 +25,7 @@ export async function middleware(req: NextRequest) {
       return res;
     }
     
-    // Debug logging for session
-    console.log('Admin route accessed:', {
-      path: req.nextUrl.pathname,
-      hasSession: !!session,
-      userEmail: session?.user?.email,
-      userId: session?.user?.id
-    });
-    
     if (!session) {
-      console.log('No session found, redirecting to login');
       const loginUrl = new URL('/auth/login', req.url);
       loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
       return NextResponse.redirect(loginUrl);
@@ -54,28 +52,15 @@ export async function middleware(req: NextRequest) {
       }
     }
 
-    // Debug logging
-    console.log('Admin check:', {
-      userId: session.user.id,
-      userEmail: session.user.email,
-      userRole: user?.role,
-      error: error,
-      path: req.nextUrl.pathname
-    });
-
     // Direct admin access for specific email - bypass database check entirely
     if (session.user.email === 'michaelvx@gmail.com') {
-      console.log('Direct admin access granted for:', session.user.email);
       return res; // Allow access immediately
     }
     
     // For other users, check database role
     if (error || user?.role !== 'admin') {
-      console.log('Access denied - redirecting to home');
       return NextResponse.redirect(new URL('/', req.url));
     }
-    
-    console.log('Admin access granted for:', session.user.email);
   }
 
   // Auth protection for account routes (but allow guest checkout)

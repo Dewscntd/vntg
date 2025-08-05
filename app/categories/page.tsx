@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { Loader2, Package } from 'lucide-react';
 
@@ -12,27 +11,7 @@ import { Database } from '@/types/supabase';
 type Category = Database['public']['Tables']['categories']['Row'];
 
 export default function CategoriesPage() {
-  const [queryParams] = useState({
-    limit: 50,
-    offset: 0,
-    orderBy: 'name' as const,
-    orderDirection: 'asc' as const,
-  });
-
-  const { data, isLoading, error, refetch } = useCategories({
-    url: `/api/categories?${new URLSearchParams(
-      Object.entries(queryParams).reduce(
-        (acc, [key, value]) => {
-          if (value !== undefined) {
-            acc[key] = String(value);
-          }
-          return acc;
-        },
-        {} as Record<string, string>
-      )
-    ).toString()}`,
-    cacheKey: `categories-${JSON.stringify(queryParams)}`,
-  });
+  const { data, isLoading, error, refetch } = useCategories();
 
   const categories = data?.categories || [];
 

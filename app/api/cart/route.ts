@@ -1,7 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { Database } from '@/types/supabase';
+import { createServerClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/api/middleware';
 import { successResponse, handleDatabaseError } from '@/lib/api/index';
 
@@ -9,7 +7,7 @@ import { successResponse, handleDatabaseError } from '@/lib/api/index';
 export async function GET(req: NextRequest) {
   return withAuth(req, async (req, session) => {
     try {
-      const supabase = createRouteHandlerClient<Database>({ cookies });
+      const supabase = createServerClient();
       const userId = session.user.id;
 
       // Get cart items with product details

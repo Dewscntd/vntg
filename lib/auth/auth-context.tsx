@@ -38,35 +38,46 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
-  const supabase = createClient();
 
   useEffect(() => {
+    const supabase = createClient();
+    let mounted = true;
+
     const getSession = async () => {
+      if (!mounted) return;
+      
       setIsLoading(true);
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      
+      if (!mounted) return;
+      
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
-
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        router.refresh();
-      });
-
-      return () => {
-        subscription.unsubscribe();
-      };
     };
 
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
+      if (!mounted) return;
+      
+      setSession(session);
+      setUser(session?.user ?? null);
+      router.refresh();
+    });
+
     getSession();
-  }, [router, supabase.auth]);
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const signUp = async (email: string, password: string) => {
+    const supabase = createClient();
     const response = await supabase.auth.signUp({
       email,
       password,
@@ -78,14 +89,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+    console.log('🎯 AUTH CONTEXT: signIn called with:', { email, password });
+    const supabase = createClient();
+    console.log('🎯 AUTH CONTEXT: supabase client created');
+    console.log('🎯 AUTH CONTEXT: supabase.auth:', supabase.auth);
+    console.log('🎯 AUTH CONTEXT: supabase.auth.signInWithPassword:', typeof supabase.auth.signInWithPassword);
+    console.log('🎯 AUTH CONTEXT: signInWithPassword function:', supabase.auth.signInWithPassword.toString().substring(0, 200));
+    console.log('🎯 AUTH CONTEXT: calling supabase.auth.signInWithPassword');
     const response = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    console.log('🎯 AUTH CONTEXT: signInWithPassword response:', response);
+    console.log('🎯 AUTH CONTEXT: error details:', response.error);
+    console.log('🎯 AUTH CONTEXT: data details:', response.data);
+    
+    // Update auth state immediately on successful login
+    if (!response.error && response.data?.user && response.data?.session) {
+      console.log('🎯 AUTH CONTEXT: Updating user and session state');
+      setUser(response.data.user);
+      setSession(response.data.session);
+    }
+    
     return response;
   };
 
   const signInWithGoogle = async () => {
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -95,6 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithGithub = async () => {
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -104,6 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithFacebook = async () => {
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'facebook',
       options: {
@@ -113,12 +145,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    const supabase = createClient();
     await supabase.auth.signOut();
     router.push('/');
     router.refresh();
   };
 
   const resetPassword = async (email: string) => {
+    const supabase = createClient();
     const response = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`,
     });
@@ -126,6 +160,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updatePassword = async (password: string) => {
+    const supabase = createClient();
     const response = await supabase.auth.updateUser({
       password,
     });

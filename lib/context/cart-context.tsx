@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useState } from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
 import {
   saveCartToStorage,
@@ -197,6 +197,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { user, session } = useAuth();
+  const [lastUserId, setLastUserId] = useState<string | null>(null);
 
   // Fetch cart from API
   const fetchCart = useCallback(async () => {
@@ -230,40 +231,96 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
     }
-  }, [session]);
+  }, [session?.access_token]);
 
   // Load cart on mount and when user changes
   useEffect(() => {
-    if (session) {
-      // User is logged in - sync with server
-      const localCart = loadCartFromStorage();
-      if (localCart) {
-        syncCartWithServer(localCart, session.access_token).then((syncedCart) => {
-          if (syncedCart) {
-            dispatch({
-              type: 'SET_CART',
-              payload: syncedCart,
-            });
+    let mounted = true;
+    
+    const loadCart = async () => {
+      if (!mounted) return;
+      
+      if (session?.access_token) {
+        // User is logged in - sync with server
+        const localCart = loadCartFromStorage();
+        if (localCart) {
+          try {
+            const syncedCart = await syncCartWithServer(localCart, session.access_token);
+            if (syncedCart && mounted) {
+              dispatch({
+                type: 'SET_CART',
+                payload: syncedCart,
+              });
+            }
+          } catch (error) {
+            if (mounted) {
+              dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
+            }
           }
-        });
+        } else {
+          // Fetch cart directly to avoid stale closure
+          if (!mounted) return;
+          
+          dispatch({ type: 'SET_LOADING', payload: true });
+
+          try {
+            const response = await fetch('/api/cart', {
+              headers: {
+                Authorization: `Bearer ${session.access_token}`,
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to fetch cart');
+            }
+
+            const data = await response.json();
+            
+            if (mounted) {
+              dispatch({
+                type: 'SET_CART',
+                payload: {
+                  items: data.items || [],
+                  total: data.total || 0,
+                  itemCount: data.itemCount || 0,
+                },
+              });
+            }
+          } catch (error) {
+            if (mounted) {
+              dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
+            }
+          }
+        }
       } else {
-        fetchCart();
+        // User not logged in - load from local storage
+        const localCart = loadCartFromStorage();
+        if (localCart && mounted) {
+          dispatch({
+            type: 'SET_CART',
+            payload: {
+              items: localCart.items,
+              total: localCart.total,
+              itemCount: localCart.itemCount,
+            },
+          });
+        } else if (mounted) {
+          dispatch({ type: 'CLEAR_CART' });
+        }
       }
-    } else {
-      // User not logged in - load from local storage
-      const localCart = loadCartFromStorage();
-      if (localCart) {
-        dispatch({
-          type: 'SET_CART',
-          payload: {
-            items: localCart.items,
-            total: localCart.total,
-            itemCount: localCart.itemCount,
-          },
-        });
-      }
+    };
+
+    // Only load cart if user has actually changed (login/logout)
+    const currentUserId = user?.id || null;
+    if (currentUserId !== lastUserId) {
+      setLastUserId(currentUserId);
+      loadCart();
     }
-  }, [session, fetchCart]);
+    
+    return () => {
+      mounted = false;
+    };
+  }, [user?.id, lastUserId]);
 
   // Set up cart abandonment tracking
   useEffect(() => {

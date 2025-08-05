@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { apiCache, withCache } from '@/lib/utils/cache';
 import { FetchState, UseFetchOptions } from './use-fetch';
 
@@ -35,7 +35,16 @@ export function useCachedFetch<T = any>(
     error: null,
   });
 
-  // Try to get initial data from cache
+  const isMountedRef = useRef(true);
+  const fetchingRef = useRef(false);
+  
+  // Memoize headers to prevent infinite loops
+  const memoizedHeaders = useMemo(() => ({
+    'Content-Type': 'application/json',
+    ...headers,
+  }), [JSON.stringify(headers)]);
+
+  // Initialize with cached data
   useEffect(() => {
     if (!skipCache && enabled) {
       const cachedData = apiCache.get<T>(cacheKey);
@@ -45,83 +54,125 @@ export function useCachedFetch<T = any>(
           isLoading: false,
           error: null,
         });
+        return;
       }
     }
-  }, [cacheKey, skipCache, enabled]);
 
-  async function fetchData() {
-    if (!enabled) return;
+    // Only fetch if we're enabled and not already fetching
+    if (enabled && !fetchingRef.current) {
+      fetchingRef.current = true;
+      
+      const doFetch = async () => {
+        if (!isMountedRef.current) return;
+        
+        setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+        try {
+          const response = await fetch(url, {
+            headers: memoizedHeaders,
+          });
 
-    try {
-      const fetchFunction = async () => {
-        const response = await fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            ...headers,
-          },
-        });
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(
+              errorData.error?.message || `Error ${response.status}: ${response.statusText}`
+            );
+          }
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(
-            errorData.error?.message || `Error ${response.status}: ${response.statusText}`
-          );
+          const data = await response.json();
+          const result = data.status === 'success' ? data.data : data;
+
+          if (!skipCache) {
+            apiCache.set(cacheKey, result, cacheTtl);
+          }
+
+          if (isMountedRef.current) {
+            setState({
+              data: result,
+              isLoading: false,
+              error: null,
+            });
+          }
+        } catch (error) {
+          if (isMountedRef.current) {
+            setState({
+              data: null,
+              isLoading: false,
+              error: error instanceof Error ? error : new Error(String(error)),
+            });
+          }
+        } finally {
+          fetchingRef.current = false;
         }
-
-        const data = await response.json();
-        return data.status === 'success' ? data.data : data;
       };
 
-      let result: T;
+      doFetch();
+    }
 
-      if (skipCache) {
-        result = await fetchFunction();
-        // Still cache the result for future use
-        apiCache.set(cacheKey, result, cacheTtl);
-      } else {
-        result = await withCache<T>(fetchFunction, cacheKey, cacheTtl);
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []); // Only run once on mount
+
+  // Function to manually refetch data
+  const refetch = useCallback(async () => {
+    if (fetchingRef.current) return;
+    
+    fetchingRef.current = true;
+    setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const response = await fetch(url, {
+        headers: memoizedHeaders,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error?.message || `Error ${response.status}: ${response.statusText}`
+        );
       }
 
-      setState({
-        data: result,
-        isLoading: false,
-        error: null,
-      });
-    } catch (error) {
-      setState({
-        data: null,
-        isLoading: false,
-        error: error instanceof Error ? error : new Error(String(error)),
-      });
-    }
-  }
+      const data = await response.json();
+      const result = data.status === 'success' ? data.data : data;
 
-  useEffect(() => {
-    if (enabled) {
-      fetchData();
+      if (!skipCache) {
+        apiCache.set(cacheKey, result, cacheTtl);
+      }
+
+      if (isMountedRef.current) {
+        setState({
+          data: result,
+          isLoading: false,
+          error: null,
+        });
+      }
+    } catch (error) {
+      if (isMountedRef.current) {
+        setState({
+          data: null,
+          isLoading: false,
+          error: error instanceof Error ? error : new Error(String(error)),
+        });
+      }
+    } finally {
+      fetchingRef.current = false;
     }
-  }, [url, enabled]);
+  }, [url, cacheKey, cacheTtl, skipCache, memoizedHeaders]);
 
   // Revalidate on focus
   useEffect(() => {
     if (!revalidateOnFocus) return;
 
     const onFocus = () => {
-      fetchData();
+      refetch();
     };
 
     window.addEventListener('focus', onFocus);
     return () => {
       window.removeEventListener('focus', onFocus);
     };
-  }, [revalidateOnFocus, url]);
-
-  // Function to manually refetch data
-  async function refetch() {
-    await fetchData();
-  }
+  }, [revalidateOnFocus, refetch]);
 
   return { ...state, refetch };
 }

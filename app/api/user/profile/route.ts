@@ -1,27 +1,34 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import type { Database } from '@/types/supabase';
+import { createServerClient } from '@/lib/supabase/server';
 
 export async function GET() {
   try {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    console.log('🎯 PROFILE API: GET called');
+    const supabase = createServerClient();
     
     const {
       data: { session },
       error: sessionError,
     } = await supabase.auth.getSession();
 
+    console.log('🎯 PROFILE API: Session:', session);
+    console.log('🎯 PROFILE API: Session error:', sessionError);
+
     if (sessionError || !session) {
+      console.log('🎯 PROFILE API: No session, returning 401');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get user profile from users table
+    console.log('🎯 PROFILE API: Querying users table for ID:', session.user.id);
     const { data: userProfile, error: profileError } = await supabase
       .from('users')
       .select('*')
       .eq('id', session.user.id)
       .single();
+
+    console.log('🎯 PROFILE API: User profile result:', userProfile);
+    console.log('🎯 PROFILE API: Profile error:', profileError);
 
     if (profileError) {
       // If user profile doesn't exist, create one
@@ -52,13 +59,16 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({
+    const response = {
       user: {
         id: session.user.id,
         email: session.user.email,
         ...userProfile,
       },
-    });
+    };
+    
+    console.log('🎯 PROFILE API: Final response being sent:', response);
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Error fetching user profile:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -67,7 +77,7 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
-    const supabase = createServerComponentClient<Database>({ cookies });
+    const supabase = createServerClient();
     
     const {
       data: { session },

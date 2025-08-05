@@ -5,9 +5,44 @@ import { Database } from '@/types/supabase';
 import { categoryQuerySchema, createCategorySchema } from '@/lib/validations/category';
 import { withQueryValidation, withValidation, withAdmin } from '@/lib/api/middleware';
 import { successResponse, handleServerError, handleDatabaseError } from '@/lib/api/index';
+import { USE_STUBS, mockCategories } from '@/lib/stubs';
 
 // GET /api/categories - Get all categories with filtering and pagination
 export async function GET(req: NextRequest) {
+  // Handle stub mode
+  if (USE_STUBS) {
+    try {
+      const url = new URL(req.url);
+      const limit = parseInt(url.searchParams.get('limit') || '10');
+      const offset = parseInt(url.searchParams.get('offset') || '0');
+      const search = url.searchParams.get('search');
+      
+      let categories = [...mockCategories];
+      
+      // Apply search filter
+      if (search) {
+        categories = categories.filter(cat => 
+          cat.name.toLowerCase().includes(search.toLowerCase()) ||
+          cat.description?.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      
+      // Apply pagination
+      const paginatedCategories = categories.slice(offset, offset + limit);
+      
+      return successResponse({
+        categories: paginatedCategories,
+        pagination: {
+          total: categories.length,
+          limit,
+          offset,
+        },
+      });
+    } catch (error) {
+      return handleServerError(error as Error);
+    }
+  }
+
   return withQueryValidation(req, categoryQuerySchema, async (req, query) => {
     try {
       const cookieStore = cookies();

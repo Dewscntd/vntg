@@ -18,6 +18,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'avatars.githubusercontent.com',
       'ogrpjursibfrejjkfkxa.supabase.co',
+      'via.placeholder.com',
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,

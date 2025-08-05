@@ -10,13 +10,51 @@ import {
   handleDatabaseError,
   handleNotFound,
 } from '@/lib/api/index';
+import { USE_STUBS, mockCategories, mockProducts } from '@/lib/stubs';
 
 // GET /api/categories/[id] - Get a single category by ID
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
+  const { id } = params;
+
+  // Handle stub mode
+  if (USE_STUBS) {
+    try {
+      // Find the category in mock data
+      const category = mockCategories.find(cat => cat.id === id);
+      
+      if (!category) {
+        return handleNotFound(`Category with ID ${id} not found`);
+      }
+
+      // Get subcategories (categories with this category as parent)
+      const subcategories = mockCategories
+        .filter(cat => cat.parent_id === id)
+        .map(cat => ({ id: cat.id, name: cat.name }));
+
+      // Get products in this category
+      const products = mockProducts
+        .filter(product => product.category_id === id)
+        .slice(0, 10)
+        .map(product => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image_url: product.image_url,
+        }));
+
+      return successResponse({
+        ...category,
+        subcategories,
+        products,
+      });
+    } catch (error) {
+      return handleServerError(error as Error);
+    }
+  }
+
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    const params = await context.params;
-    const { id } = params;
 
     // Get the category with its parent
     const { data: category, error } = await supabase

@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/admin-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,11 +69,7 @@ function AdminUsersContent() {
 
   const limit = 20;
 
-  useEffect(() => {
-    fetchUsers();
-  }, [searchQuery, roleFilter, sortBy, sortOrder, page]);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -99,7 +95,11 @@ function AdminUsersContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchQuery, roleFilter, sortBy, sortOrder, page, limit]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   const handleRoleUpdate = async (userId: string, newRole: 'customer' | 'admin') => {
     if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {

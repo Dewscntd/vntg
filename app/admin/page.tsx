@@ -107,6 +107,13 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const checkAdminAccess = async () => {
+      // For local development with stubs, grant admin access directly regardless of session
+      if (process.env.NEXT_PUBLIC_USE_STUBS === 'true') {
+        setIsAdmin(true);
+        setLoading(false);
+        return;
+      }
+      
       if (!session) {
         setLoading(false);
         return;
@@ -114,9 +121,12 @@ export default function AdminDashboard() {
 
       try {
         const response = await fetch('/api/user/profile');
+        
         if (response.ok) {
           const userData = await response.json();
-          setIsAdmin(userData.role === 'admin');
+          // Check both userData.role and userData.user.role
+          const userRole = userData.role || userData.user?.role;
+          setIsAdmin(userRole === 'admin');
         }
       } catch (error) {
         console.error('Error checking admin access:', error);

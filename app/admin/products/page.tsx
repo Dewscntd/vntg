@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth/auth-context';
 import { AdminLayout } from '@/components/admin/admin-layout';
@@ -71,12 +71,7 @@ export default function AdminProductsPage() {
 
   const limit = 20;
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, [searchQuery, categoryFilter, sortBy, sortOrder, page]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -116,9 +111,9 @@ export default function AdminProductsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchQuery, categoryFilter, sortBy, sortOrder, page, limit]);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       // Fetch from API but filter out unwanted categories
       const response = await fetch('/api/categories');
@@ -140,7 +135,12 @@ export default function AdminProductsPage() {
     } catch (error) {
       console.error('Error loading categories:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories();
+  }, [fetchProducts, fetchCategories]);
 
   const handleDeleteProduct = async (productId: string) => {
     if (!confirm('Are you sure you want to delete this product?')) {

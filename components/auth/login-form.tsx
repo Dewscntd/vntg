@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-
 import { useAuth } from '@/lib/auth/auth-context';
 import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
 import { Button } from '@/components/ui/button';
@@ -35,23 +34,33 @@ function LoginFormContent() {
   });
 
   async function onSubmit(data: LoginFormValues) {
+    console.log('🔥 LOGIN FORM: onSubmit called with:', data);
     setIsLoading(true);
     setError(null);
 
     try {
+      console.log('🔥 LOGIN FORM: calling signIn method');
       const { error } = await signIn(data.email, data.password);
+      console.log('🔥 LOGIN FORM: signIn response:', { error });
 
       if (error) {
+        console.log('🔥 LOGIN FORM: Login failed with error:', error.message);
         setError(error.message);
         return;
       }
 
+      console.log('🔥 LOGIN FORM: Login successful! Attempting redirect...');
+      
       // Check for redirect URL parameter
       const redirectTo = searchParams.get('redirectTo') || searchParams.get('redirect');
       
+      console.log('🔥 LOGIN FORM: Redirect URL:', redirectTo);
+      
       if (redirectTo) {
+        console.log('🔥 LOGIN FORM: Redirecting to:', redirectTo);
         router.push(redirectTo);
       } else {
+        console.log('🔥 LOGIN FORM: Redirecting to home page');
         router.push('/');
       }
       router.refresh();

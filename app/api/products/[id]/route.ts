@@ -10,12 +10,36 @@ import {
   handleDatabaseError,
   handleNotFound,
 } from '@/lib/api/index';
+import { USE_STUBS, mockProducts, mockCategories } from '@/lib/stubs';
 
 // GET /api/products/[id] - Get a single product by ID
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+
+  // Handle stub mode
+  if (USE_STUBS) {
+    try {
+      // Find the product in mock data
+      const product = mockProducts.find(prod => prod.id === id);
+      
+      if (!product) {
+        return handleNotFound(`Product with ID ${id} not found`);
+      }
+
+      // Find the category for this product
+      const category = mockCategories.find(cat => cat.id === product.category_id);
+      
+      return successResponse({
+        ...product,
+        categories: category ? { id: category.id, name: category.name } : null,
+      });
+    } catch (error) {
+      return handleServerError(error as Error);
+    }
+  }
+
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    const { id } = params;
 
     // Get the product with its category
     const { data: product, error } = await supabase

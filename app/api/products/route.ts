@@ -6,9 +6,67 @@ import { productQuerySchema } from '@/lib/validations/product';
 import { createProductSchema } from '@/lib/validations/product';
 import { withQueryValidation, withValidation, withAdmin } from '@/lib/api/middleware';
 import { successResponse, handleServerError, handleDatabaseError } from '@/lib/api/index';
+import { USE_STUBS, mockProducts } from '@/lib/stubs';
 
 // GET /api/products - Get all products with filtering and pagination
 export async function GET(req: NextRequest) {
+  // Handle stub mode
+  if (USE_STUBS) {
+    try {
+      const url = new URL(req.url);
+      const limit = parseInt(url.searchParams.get('limit') || '10');
+      const offset = parseInt(url.searchParams.get('offset') || '0');
+      const search = url.searchParams.get('search');
+      const category_id = url.searchParams.get('category_id');
+      const is_featured = url.searchParams.get('is_featured');
+      const min_price = url.searchParams.get('min_price');
+      const max_price = url.searchParams.get('max_price');
+      
+      let products = [...mockProducts];
+      
+      // Apply filters
+      if (category_id) {
+        products = products.filter(p => p.category_id === category_id);
+      }
+      
+      if (is_featured !== null) {
+        const featuredValue = is_featured === 'true';
+        products = products.filter(p => p.is_featured === featuredValue);
+      }
+      
+      if (min_price) {
+        const minPrice = parseFloat(min_price);
+        products = products.filter(p => p.price >= minPrice);
+      }
+      
+      if (max_price) {
+        const maxPrice = parseFloat(max_price);
+        products = products.filter(p => p.price <= maxPrice);
+      }
+      
+      if (search) {
+        products = products.filter(p => 
+          p.name.toLowerCase().includes(search.toLowerCase()) ||
+          p.description?.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      
+      // Apply pagination
+      const paginatedProducts = products.slice(offset, offset + limit);
+      
+      return successResponse({
+        products: paginatedProducts,
+        pagination: {
+          total: products.length,
+          limit,
+          offset,
+        },
+      });
+    } catch (error) {
+      return handleServerError(error as Error);
+    }
+  }
+
   return withQueryValidation(req, productQuerySchema, async (req, query) => {
     try {
       const cookieStore = cookies();
