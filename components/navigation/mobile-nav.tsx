@@ -79,9 +79,14 @@ export function MobileNav({ className }: MobileNavProps) {
       icon: Home,
     },
     {
+      title: 'Shop',
+      href: '/shop',
+      icon: ShoppingBag,
+    },
+    {
       title: 'Products',
       href: '/products',
-      icon: ShoppingBag,
+      icon: Package,
     },
     {
       title: 'Categories',

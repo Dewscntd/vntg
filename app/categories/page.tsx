@@ -33,13 +33,16 @@ const getCategoryIcon = (categoryName: string) => {
 export default function CategoriesPage() {
   const { data, isLoading, error, refetch } = useCategories();
 
-  const categories = data?.categories || [];
-  
-  // Sort categories in the desired order
+  // Ensure consistent category order and filtering
   const categoryOrder = ['Man', 'Woman', 'Teens', 'Kids', 'Books & Media', 'Toys & Games'];
+  
+  const categories = data?.categories || [];
   const sortedCategories = categoryOrder
     .map(name => categories.find((cat: Category) => cat.name === name))
     .filter(Boolean) as Category[];
+
+  // Ensure we have consistent content for SSR
+  const hasCategories = sortedCategories.length > 0;
 
   return (
     <div className="container mx-auto px-4 py-8">

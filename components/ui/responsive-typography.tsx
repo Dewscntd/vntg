@@ -278,3 +278,54 @@ export const ResponsiveLead = forwardRef<HTMLParagraphElement, ResponsiveLeadPro
 );
 
 ResponsiveLead.displayName = 'ResponsiveLead';
+
+// Convenience component for H2 headings
+export interface ResponsiveH2Props {
+  children: ReactNode;
+  className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  gradient?: boolean;
+  gradientFrom?: string;
+  gradientTo?: string;
+}
+
+export const ResponsiveH2 = forwardRef<HTMLHeadingElement, ResponsiveH2Props>(
+  (
+    {
+      children,
+      className,
+      size = 'lg',
+      gradient = false,
+      gradientFrom = 'from-primary',
+      gradientTo = 'to-primary/60',
+    },
+    ref
+  ) => {
+    const sizeClasses = {
+      sm: 'text-2xl sm:text-3xl md:text-4xl',
+      md: 'text-3xl sm:text-4xl md:text-5xl',
+      lg: 'text-4xl sm:text-5xl md:text-6xl',
+      xl: 'text-5xl sm:text-6xl md:text-7xl',
+    };
+
+    const gradientClasses = gradient
+      ? `bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent`
+      : '';
+
+    return (
+      <h2
+        ref={ref}
+        className={cn(
+          sizeClasses[size],
+          'font-bold leading-tight tracking-tight',
+          gradientClasses,
+          className
+        )}
+      >
+        {children}
+      </h2>
+    );
+  }
+);
+
+ResponsiveH2.displayName = 'ResponsiveH2';
