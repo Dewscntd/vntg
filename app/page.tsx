@@ -32,12 +32,12 @@ export default function Home() {
               gradientFrom="from-primary"
               gradientTo="to-primary/60"
             >
-              Welcome to Peakees
+              Welcome to VNTG
             </ResponsiveDisplay>
           </TextReveal>
           <ScrollReveal animation="fadeIn" delay={300}>
             <ResponsiveLead size="lg" className="mx-auto max-w-3xl">
-              Unique second-hand fashion treasures. Quality clothing, shoes, toys & books for everyone.
+              Curated vintage fashion for every style. Discover unique pieces for men, women, teens, and kids.
             </ResponsiveLead>
           </ScrollReveal>
           <ScrollReveal animation="fadeIn" delay={600}>
@@ -58,6 +58,114 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </DesktopHero>
+
+      {/* Featured Categories Section */}
+      <DesktopSection spacing="xl" background="default">
+        <RevealSection
+          title="Shop by Category"
+          subtitle="Discover vintage fashion for every member of your family"
+          titleAnimation="textReveal"
+          contentAnimation="stagger"
+        >
+          <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+              <TransitionLink href="/categories/cat-1" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/10 transition-colors group-hover:bg-blue-500/20">
+                    <User className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <CardTitle className="text-lg">Men</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Classic and contemporary styles for the modern man
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+              <TransitionLink href="/categories/cat-2" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-pink-500/10 transition-colors group-hover:bg-pink-500/20">
+                    <User className="h-8 w-8 text-pink-600" />
+                  </div>
+                  <CardTitle className="text-lg">Women</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Elegant and trendy pieces for every occasion
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+              <TransitionLink href="/categories/cat-3" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10 transition-colors group-hover:bg-purple-500/20">
+                    <User className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <CardTitle className="text-lg">Teens</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Fresh streetwear and trendy styles for young adults
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+              <TransitionLink href="/categories/cat-4" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 transition-colors group-hover:bg-green-500/20">
+                    <User className="h-8 w-8 text-green-600" />
+                  </div>
+                  <CardTitle className="text-lg">Kids</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Comfortable and fun clothing for children
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-1 lg:col-span-2" data-reveal>
+              <TransitionLink href="/categories/cat-5" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/10 transition-colors group-hover:bg-orange-500/20">
+                    <Package className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <CardTitle className="text-lg">Books & Media</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Fashion magazines, style guides, and inspiring reads
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+
+            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-2 lg:col-span-2" data-reveal>
+              <TransitionLink href="/categories/cat-6" className="block">
+                <CardHeader className="text-center pb-2">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 transition-colors group-hover:bg-red-500/20">
+                    <Package className="h-8 w-8 text-red-600" />
+                  </div>
+                  <CardTitle className="text-lg">Toys & Games</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription>
+                    Fashion-themed games and creative toys for all ages
+                  </CardDescription>
+                </CardContent>
+              </TransitionLink>
+            </Card>
+          </div>
+        </RevealSection>
+      </DesktopSection>
 
       {/* Features Section */}
       <DesktopSection spacing="xl" background="muted">

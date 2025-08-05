@@ -39,14 +39,14 @@ export function CategoryNavigation({
     cacheKey: 'categories-navigation',
   });
 
-  // Filter out unwanted categories
+  // Get categories in specific order for fashion store
   const allCategories = categoriesData?.categories || [];
-  const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening', 'Fashion', 'Books', 'Home & Garden'];
-  const categories = allCategories.filter((cat: any) => 
-    !unwantedNames.some(unwanted => 
-      cat.name.toLowerCase().includes(unwanted.toLowerCase())
-    )
-  );
+  const categoryOrder = ['Man', 'Woman', 'Teens', 'Kids', 'Books & Media', 'Toys & Games'];
+  
+  // Sort categories by the desired order
+  const categories = categoryOrder
+    .map(name => allCategories.find((cat: any) => cat.name === name))
+    .filter(Boolean);
 
   // Build category tree
   const buildCategoryTree = (categories: any[]): CategoryWithChildren[] => {
