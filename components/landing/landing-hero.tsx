@@ -40,7 +40,7 @@ export function LandingHero() {
 
           {/* Subheading */}
           <ScrollReveal animation="fadeIn" delay={400}>
-            <ResponsiveLead size="xl" className="mx-auto max-w-2xl text-muted-foreground">
+            <ResponsiveLead size="lg" className="mx-auto max-w-2xl text-muted-foreground">
               Every piece in our collection has a history. Find unique, sustainable fashion that speaks to your individual style—from timeless classics to bold statement pieces.
             </ResponsiveLead>
           </ScrollReveal>

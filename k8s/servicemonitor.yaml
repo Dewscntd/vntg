@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vntg-app-metrics
+  namespace: vntg-production
+  labels:
+    app: vntg
+    component: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: vntg
+      component: app
+  endpoints:
+  - port: http
+    path: /api/metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    honorLabels: true
+  namespaceSelector:
+    matchNames:
+    - vntg-production

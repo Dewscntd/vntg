@@ -1,0 +1,37 @@
+name: "CodeQL Config"
+
+disable-default-queries: false
+
+queries:
+  - uses: security-and-quality
+  - uses: security-extended
+
+paths:
+  - app
+  - components  
+  - lib
+  - middleware.ts
+
+paths-ignore:
+  - node_modules
+  - .next
+  - coverage
+  - test-results
+  - playwright-report
+  - docs
+  - scripts
+  - supabase
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/*.spec.tsx"
+  - "**/mock*.ts"
+  - "**/stub*.ts"
+
+packs:
+  - codeql/javascript-queries:AlertSuppression.ql
+  - codeql/javascript-queries:Security/CWE-079
+  - codeql/javascript-queries:Security/CWE-089
+  - codeql/javascript-queries:Security/CWE-094
+  - codeql/javascript-queries:Security/CWE-312
+  - codeql/javascript-queries:Security/CWE-502

@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
       // Calculate total
       const total =
-        cartItems?.reduce((sum, item) => {
+        cartItems?.reduce((sum: number, item: any) => {
           const products = Array.isArray(item.products) ? item.products[0] : item.products;
           const price = products?.price || 0;
           return sum + price * item.quantity;

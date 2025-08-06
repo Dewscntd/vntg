@@ -1,0 +1,91 @@
+# Alerting rules for VNTG application
+groups:
+  - name: vntg-alerts
+    rules:
+      # Application availability
+      - alert: VNTGAppDown
+        expr: up{job="vntg-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "VNTG application is down"
+          description: "VNTG application has been down for more than 1 minute."
+          
+      - alert: VNTGHighResponseTime
+        expr: vntg_api_response_time_ms > 5000
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "VNTG high response time"
+          description: "VNTG API response time is {{ $value }}ms, above the 5s threshold."
+          
+      - alert: VNTGDatabaseDown
+        expr: vntg_database_connection_status == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "VNTG database connection is down"
+          description: "VNTG cannot connect to the database."
+          
+      - alert: VNTGDatabaseSlowResponse
+        expr: vntg_database_response_time_ms > 2000
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "VNTG database slow response"
+          description: "Database response time is {{ $value }}ms, above the 2s threshold."
+
+  - name: system-alerts
+    rules:
+      # Memory usage
+      - alert: HighMemoryUsage
+        expr: (nodejs_memory_heap_used_bytes / nodejs_memory_heap_total_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is above 90% for more than 5 minutes."
+          
+      - alert: CriticalMemoryUsage
+        expr: (nodejs_memory_heap_used_bytes / nodejs_memory_heap_total_bytes) * 100 > 95
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical memory usage detected"
+          description: "Memory usage is above 95% for more than 2 minutes."
+
+  - name: business-alerts
+    rules:
+      # Website availability
+      - alert: WebsiteDown
+        expr: probe_success{instance="https://peakees.vercel.app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Website is down"
+          description: "The main website is not accessible."
+          
+      - alert: HealthCheckFailing
+        expr: probe_success{instance="https://peakees.vercel.app/api/health"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Health check is failing"
+          description: "The health check endpoint is not responding."
+          
+      - alert: WebsiteSlowResponse
+        expr: probe_duration_seconds{instance="https://peakees.vercel.app"} > 3
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Website slow response"
+          description: "Website response time is {{ $value }}s, above the 3s threshold."

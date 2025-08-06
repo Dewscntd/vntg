@@ -84,16 +84,16 @@ export class MockAdminProductManager {
     
     if ((filters as any).status) {
       filteredProducts = filteredProducts.filter(p => 
-        (filters as any).status === 'active' ? p.is_active : !p.is_active
+        (filters as any).status === 'active' ? p.is_featured : !p.is_featured
       );
     }
     
     if ((filters as any).stock_status) {
       filteredProducts = filteredProducts.filter(p => {
         switch ((filters as any).stock_status) {
-          case 'in_stock': return p.stock_quantity > 0;
-          case 'low_stock': return p.stock_quantity > 0 && p.stock_quantity <= 10;
-          case 'out_of_stock': return p.stock_quantity === 0;
+          case 'in_stock': return p.inventory_count > 0;
+          case 'low_stock': return p.inventory_count > 0 && p.inventory_count <= 10;
+          case 'out_of_stock': return p.inventory_count === 0;
           default: return true;
         }
       });
@@ -170,9 +170,7 @@ export class MockAdminProductManager {
       const productIndex = this.products.findIndex(p => p.id === update.id);
       if (productIndex !== -1) {
         this.products[productIndex].price = update.price;
-        if (update.compare_price) {
-          this.products[productIndex].compare_price = update.compare_price;
-        }
+        // Note: compare_price field not available in current schema
         this.products[productIndex].updated_at = new Date().toISOString();
         updated.push(this.products[productIndex]);
       }
@@ -181,14 +179,14 @@ export class MockAdminProductManager {
     return { updated_count: updated.length, products: updated };
   }
   
-  async bulkUpdateInventory(updates: { id: string; stock_quantity: number }[]) {
+  async bulkUpdateInventory(updates: { id: string; inventory_count: number }[]) {
     await simulateDelay(500);
     
     const updated = [];
     for (const update of updates) {
       const productIndex = this.products.findIndex(p => p.id === update.id);
       if (productIndex !== -1) {
-        this.products[productIndex].stock_quantity = update.stock_quantity;
+        this.products[productIndex].inventory_count = update.inventory_count;
         this.products[productIndex].updated_at = new Date().toISOString();
         updated.push(this.products[productIndex]);
       }
@@ -212,9 +210,7 @@ export class MockAdminOrderManager {
       filteredOrders = filteredOrders.filter(o => o.status === (filters as any).status);
     }
     
-    if ((filters as any).payment_status) {
-      filteredOrders = filteredOrders.filter(o => o.payment_status === (filters as any).payment_status);
-    }
+    // Payment status filtering removed - not available in current schema
     
     if ((filters as any).date_range) {
       const { start, end } = (filters as any).date_range;
@@ -244,7 +240,7 @@ export class MockAdminOrderManager {
     };
   }
   
-  async updateOrderStatus(orderId: string, status: string, notes?: string) {
+  async updateOrderStatus(orderId: string, status: 'pending' | 'processing' | 'completed' | 'cancelled', notes?: string) {
     await simulateDelay(250);
     
     const orderIndex = this.orders.findIndex(o => o.id === orderId);
@@ -255,14 +251,8 @@ export class MockAdminOrderManager {
     this.orders[orderIndex].status = status;
     this.orders[orderIndex].updated_at = new Date().toISOString();
     
-    if (notes) {
-      this.orders[orderIndex].admin_notes = this.orders[orderIndex].admin_notes || [];
-      this.orders[orderIndex].admin_notes.push({
-        note: notes,
-        created_by: 'admin',
-        created_at: new Date().toISOString(),
-      });
-    }
+    // Note: admin_notes not available in current schema
+    console.log('Order notes:', notes);
     
     return this.orders[orderIndex];
   }
@@ -275,10 +265,8 @@ export class MockAdminOrderManager {
       throw new Error('Order not found');
     }
     
-    this.orders[orderIndex].tracking_number = trackingNumber;
-    this.orders[orderIndex].shipping_carrier = carrier;
-    this.orders[orderIndex].fulfillment_status = 'shipped';
-    this.orders[orderIndex].shipped_at = new Date().toISOString();
+    // Note: tracking fields not available in current schema
+    console.log('Tracking info:', { orderId, trackingNumber, carrier });
     this.orders[orderIndex].updated_at = new Date().toISOString();
     
     return this.orders[orderIndex];
@@ -301,9 +289,8 @@ export class MockAdminOrderManager {
       created_at: new Date().toISOString(),
     };
     
-    this.orders[orderIndex].refunds = this.orders[orderIndex].refunds || [];
-    this.orders[orderIndex].refunds.push(refund);
-    this.orders[orderIndex].payment_status = 'refunded';
+    // Note: refunds and payment_status fields not available in current schema
+    console.log('Refund processed:', refund);
     this.orders[orderIndex].updated_at = new Date().toISOString();
     
     return { order: this.orders[orderIndex], refund };
@@ -324,16 +311,13 @@ export class MockAdminCustomerManager {
       filteredCustomers = filteredCustomers.filter(c => c.role === (filters as any).role);
     }
     
-    if ((filters as any).verified) {
-      filteredCustomers = filteredCustomers.filter(c => c.is_verified === (filters as any).verified);
-    }
+    // Verification filtering removed - not available in current schema
     
     if ((filters as any).search) {
       const search = (filters as any).search.toLowerCase();
       filteredCustomers = filteredCustomers.filter(c => 
         c.email.toLowerCase().includes(search) ||
-        c.first_name.toLowerCase().includes(search) ||
-        c.last_name.toLowerCase().includes(search)
+        (c.full_name && c.full_name.toLowerCase().includes(search))
       );
     }
     
@@ -371,7 +355,7 @@ export class MockAdminCustomerManager {
     return this.customers[customerIndex];
   }
   
-  async getCustomerActivity(customerId: string) {
+  async getCustomerActivity(_customerId: string) {
     await simulateDelay(300);
     
     // Generate mock activity data
@@ -396,11 +380,11 @@ export class MockInventoryManager {
     products.forEach(product => {
       this.inventory.set(product.id, {
         product_id: product.id,
-        current_stock: product.stock_quantity,
+        current_stock: product.inventory_count,
         reserved_stock: Math.floor(Math.random() * 5),
         reorder_point: 10,
         reorder_quantity: 50,
-        cost_per_unit: product.cost_price || product.price * 0.6,
+        cost_per_unit: product.price * 0.6,
         last_updated: new Date().toISOString(),
         movements: [],
       });

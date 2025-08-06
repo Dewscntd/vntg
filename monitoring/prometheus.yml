@@ -1,0 +1,58 @@
+# Prometheus configuration for VNTG monitoring
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # VNTG Application metrics
+  - job_name: 'vntg-app'
+    static_configs:
+      - targets: ['vntg-app:3000']
+    metrics_path: '/api/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    
+  # Node exporter for system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 15s
+    
+  # Redis metrics (if using Redis)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 30s
+    
+  # Nginx metrics (if using Nginx)
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+    scrape_interval: 30s
+    
+  # Blackbox exporter for uptime monitoring
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://peakees.vercel.app
+        - https://peakees.vercel.app/api/health
+        - https://peakees.vercel.app/shop
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

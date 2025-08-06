@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vntg-config
+  namespace: vntg-production
+  labels:
+    app: vntg
+data:
+  NODE_ENV: "production"
+  NEXT_TELEMETRY_DISABLED: "1"
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"
+  # Add other non-sensitive configuration here
