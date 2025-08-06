@@ -20,15 +20,15 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (USE_STUBS) {
     try {
       // Find the product in mock data
-      const product = mockProducts.find(prod => prod.id === id);
-      
+      const product = mockProducts.find((prod) => prod.id === id);
+
       if (!product) {
         return handleNotFound(`Product with ID ${id} not found`);
       }
 
       // Find the category for this product
-      const category = mockCategories.find(cat => cat.id === product.category_id);
-      
+      const category = mockCategories.find((cat) => cat.id === product.category_id);
+
       return successResponse({
         ...product,
         categories: category ? { id: category.id, name: category.name } : null,

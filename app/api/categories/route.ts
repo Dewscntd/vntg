@@ -16,20 +16,21 @@ export async function GET(req: NextRequest) {
       const limit = parseInt(url.searchParams.get('limit') || '10');
       const offset = parseInt(url.searchParams.get('offset') || '0');
       const search = url.searchParams.get('search');
-      
+
       let categories = [...mockCategories];
-      
+
       // Apply search filter
       if (search) {
-        categories = categories.filter(cat => 
-          cat.name.toLowerCase().includes(search.toLowerCase()) ||
-          cat.description?.toLowerCase().includes(search.toLowerCase())
+        categories = categories.filter(
+          (cat) =>
+            cat.name.toLowerCase().includes(search.toLowerCase()) ||
+            cat.description?.toLowerCase().includes(search.toLowerCase())
         );
       }
-      
+
       // Apply pagination
       const paginatedCategories = categories.slice(offset, offset + limit);
-      
+
       return successResponse({
         categories: paginatedCategories,
         pagination: {

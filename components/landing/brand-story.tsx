@@ -9,7 +9,7 @@ import { ResponsiveH2, ResponsiveLead } from '@/components/ui/responsive-typogra
 
 export function BrandStory() {
   return (
-    <section id="story" className="py-24 bg-muted/30">
+    <section id="story" className="bg-muted/30 py-24">
       <div className="container mx-auto px-4">
         <RevealSection
           title="The VNTG Story"
@@ -17,24 +17,27 @@ export function BrandStory() {
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
             {/* Story Content */}
             <div className="space-y-6" data-reveal>
               <div className="space-y-4">
                 <ResponsiveLead className="text-foreground">
-                  We started VNTG because we believe fashion should be personal, sustainable, and timeless.
+                  We started VNTG because we believe fashion should be personal, sustainable, and
+                  timeless.
                 </ResponsiveLead>
-                <p className="text-muted-foreground leading-relaxed">
-                  In a world of fast fashion, we curate vintage and second-hand pieces that have character, 
-                  history, and quality craftsmanship. Each item in our collection is carefully selected not 
-                  just for its style, but for its story and potential to become part of your unique narrative.
+                <p className="leading-relaxed text-muted-foreground">
+                  In a world of fast fashion, we curate vintage and second-hand pieces that have
+                  character, history, and quality craftsmanship. Each item in our collection is
+                  carefully selected not just for its style, but for its story and potential to
+                  become part of your unique narrative.
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  From timeless denim jackets to elegant vintage dresses, from rare books to classic games—we 
-                  believe in offering pieces that transcend trends and speak to individual style and values.
+                <p className="leading-relaxed text-muted-foreground">
+                  From timeless denim jackets to elegant vintage dresses, from rare books to classic
+                  games—we believe in offering pieces that transcend trends and speak to individual
+                  style and values.
                 </p>
               </div>
-              
+
               <Button className="group" asChild>
                 <TransitionLink href="/about">
                   <span>Read Our Full Story</span>
@@ -45,8 +48,8 @@ export function BrandStory() {
 
             {/* Values Grid */}
             <div className="grid gap-6 sm:grid-cols-2" data-reveal>
-              <Card className="p-6 border-0 shadow-lg">
-                <CardContent className="p-0 text-center space-y-3">
+              <Card className="border-0 p-6 shadow-lg">
+                <CardContent className="space-y-3 p-0 text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
                     <Leaf className="h-6 w-6 text-green-600" />
                   </div>
@@ -57,8 +60,8 @@ export function BrandStory() {
                 </CardContent>
               </Card>
 
-              <Card className="p-6 border-0 shadow-lg">
-                <CardContent className="p-0 text-center space-y-3">
+              <Card className="border-0 p-6 shadow-lg">
+                <CardContent className="space-y-3 p-0 text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
                     <Heart className="h-6 w-6 text-red-600" />
                   </div>
@@ -69,8 +72,8 @@ export function BrandStory() {
                 </CardContent>
               </Card>
 
-              <Card className="p-6 border-0 shadow-lg">
-                <CardContent className="p-0 text-center space-y-3">
+              <Card className="border-0 p-6 shadow-lg">
+                <CardContent className="space-y-3 p-0 text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
@@ -81,8 +84,8 @@ export function BrandStory() {
                 </CardContent>
               </Card>
 
-              <Card className="p-6 border-0 shadow-lg">
-                <CardContent className="p-0 text-center space-y-3">
+              <Card className="border-0 p-6 shadow-lg">
+                <CardContent className="space-y-3 p-0 text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/10">
                     <Heart className="h-6 w-6 text-purple-600" />
                   </div>

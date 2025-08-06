@@ -5,7 +5,7 @@ export async function GET() {
   try {
     console.log('🎯 PROFILE API: GET called');
     const supabase = createServerClient();
-    
+
     const {
       data: { session },
       error: sessionError,
@@ -34,7 +34,7 @@ export async function GET() {
       // If user profile doesn't exist, create one
       // Check if this is the admin email and preserve admin role
       const userRole = session.user.email === 'michaelvx@gmail.com' ? 'admin' : 'customer';
-      
+
       const { data: newProfile, error: createError } = await supabase
         .from('users')
         .insert({
@@ -66,7 +66,7 @@ export async function GET() {
         ...userProfile,
       },
     };
-    
+
     console.log('🎯 PROFILE API: Final response being sent:', response);
     return NextResponse.json(response);
   } catch (error) {
@@ -78,7 +78,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const supabase = createServerClient();
-    
+
     const {
       data: { session },
       error: sessionError,

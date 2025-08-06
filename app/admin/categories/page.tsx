@@ -21,10 +21,10 @@ export default function CategoriesPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    description: ''
+    description: '',
   });
   const [user, setUser] = useState<any>(null);
-  
+
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
 
@@ -34,26 +34,25 @@ export default function CategoriesPage() {
   }, []);
 
   const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       router.push('/auth/login');
       return;
     }
-    
+
     if (session.user.email !== 'michaelvx@gmail.com') {
       router.push('/');
       return;
     }
-    
+
     setUser(session.user);
   };
 
   const fetchCategories = async () => {
     try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*')
-        .order('name');
+      const { data, error } = await supabase.from('categories').select('*').order('name');
 
       if (error) throw error;
       setCategories(data || []);
@@ -66,25 +65,23 @@ export default function CategoriesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (editingId) {
         const { error } = await supabase
           .from('categories')
           .update({
             name: formData.name,
-            description: formData.description
+            description: formData.description,
           })
           .eq('id', editingId);
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from('categories')
-          .insert({
-            name: formData.name,
-            description: formData.description
-          });
+        const { error } = await supabase.from('categories').insert({
+          name: formData.name,
+          description: formData.description,
+        });
 
         if (error) throw error;
       }
@@ -102,7 +99,7 @@ export default function CategoriesPage() {
   const handleEdit = (category: Category) => {
     setFormData({
       name: category.name,
-      description: category.description || ''
+      description: category.description || '',
     });
     setEditingId(category.id);
     setShowAddForm(true);
@@ -112,10 +109,7 @@ export default function CategoriesPage() {
     if (!confirm('Are you sure you want to delete this category?')) return;
 
     try {
-      const { error } = await supabase
-        .from('categories')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('categories').delete().eq('id', id);
 
       if (error) throw error;
       fetchCategories();
@@ -135,9 +129,9 @@ export default function CategoriesPage() {
     return (
       <div className="container mx-auto p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-8 w-1/4 rounded bg-gray-200"></div>
+          <div className="h-32 rounded bg-gray-200"></div>
+          <div className="h-32 rounded bg-gray-200"></div>
         </div>
       </div>
     );
@@ -148,17 +142,14 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto space-y-8 p-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Category Management</h1>
           <p className="text-muted-foreground">Manage your product categories</p>
         </div>
-        <Button
-          onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2"
-        >
+        <Button onClick={() => setShowAddForm(true)} className="flex items-center gap-2">
           <Plus className="h-4 w-4" />
           Add Category
         </Button>
@@ -175,13 +166,13 @@ export default function CategoriesPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">Category Name *</Label>
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                     placeholder="Enter category name"
                     required
                   />
@@ -192,7 +183,9 @@ export default function CategoriesPage() {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, description: e.target.value }))
+                  }
                   placeholder="Category description"
                   rows={3}
                 />
@@ -202,7 +195,12 @@ export default function CategoriesPage() {
                   <Save className="h-4 w-4" />
                   {editingId ? 'Update' : 'Create'} Category
                 </Button>
-                <Button type="button" variant="outline" onClick={resetForm} className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={resetForm}
+                  className="flex items-center gap-2"
+                >
                   <X className="h-4 w-4" />
                   Cancel
                 </Button>
@@ -215,11 +213,13 @@ export default function CategoriesPage() {
       {/* Categories List */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Categories ({categories.length})</h2>
-        
+
         {categories.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-muted-foreground">No categories found. Create your first category to get started.</p>
+              <p className="text-muted-foreground">
+                No categories found. Create your first category to get started.
+              </p>
             </CardContent>
           </Card>
         ) : (
@@ -227,19 +227,19 @@ export default function CategoriesPage() {
             {categories.map((category) => (
               <Card key={category.id}>
                 <CardContent className="p-6">
-                  <div className="flex justify-between items-start">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="mb-2 flex items-center gap-3">
                         <h3 className="text-lg font-semibold">{category.name}</h3>
                       </div>
                       {category.description && (
-                        <p className="text-muted-foreground mb-3">{category.description}</p>
+                        <p className="mb-3 text-muted-foreground">{category.description}</p>
                       )}
                       <div className="text-sm text-muted-foreground">
                         Created: {new Date(category.created_at).toLocaleDateString()}
                       </div>
                     </div>
-                    <div className="flex gap-2 ml-4">
+                    <div className="ml-4 flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"

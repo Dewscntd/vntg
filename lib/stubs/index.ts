@@ -22,7 +22,7 @@ export * from './admin-mocks';
 export * from './file-upload-simulation';
 
 // Conditional exports based on stub usage
-export const createSupabaseStub = USE_STUBS 
+export const createSupabaseStub = USE_STUBS
   ? require('./enhanced-supabase-stub').createEnhancedSupabaseStub
   : require('./supabase-stub').createSupabaseStub;
 
@@ -30,9 +30,13 @@ export const createSupabaseStub = USE_STUBS
 if (typeof window !== 'undefined' && USE_STUBS) {
   const { errorTestUtils } = require('./error-scenarios');
   const { mockCheckoutFlow } = require('./cart-order-flows');
-  const { mockAdminAnalytics, mockAdminProductManager, mockAdminOrderManager } = require('./admin-mocks');
+  const {
+    mockAdminAnalytics,
+    mockAdminProductManager,
+    mockAdminOrderManager,
+  } = require('./admin-mocks');
   const { mockFileUploadManager } = require('./file-upload-simulation');
-  
+
   (window as any).mockingUtils = {
     errorTestUtils,
     checkoutFlow: mockCheckoutFlow,
@@ -43,7 +47,7 @@ if (typeof window !== 'undefined' && USE_STUBS) {
     },
     fileUpload: mockFileUploadManager,
   };
-  
+
   console.log('🔧 Enhanced mocking utilities available at window.mockingUtils');
   console.log('📊 Available utilities:', Object.keys((window as any).mockingUtils));
 }

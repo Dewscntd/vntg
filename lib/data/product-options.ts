@@ -85,7 +85,7 @@ export const SHOE_SIZES = [
 export const MATERIALS = [
   { value: 'cotton', label: 'Cotton / כותנה' },
   { value: 'polyester', label: 'Polyester / פוליאסטר' },
-  { value: 'denim', label: 'Denim / ג\'ינס' },
+  { value: 'denim', label: "Denim / ג'ינס" },
   { value: 'leather', label: 'Leather / עור' },
   { value: 'wool', label: 'Wool / צמר' },
   { value: 'silk', label: 'Silk / משי' },
@@ -110,7 +110,7 @@ export const CONDITIONS = [
   { value: 'very-good', label: 'Very Good / טוב מאוד', description: 'Minimal signs of wear' },
   { value: 'good', label: 'Good / טוב', description: 'Some signs of wear but good condition' },
   { value: 'fair', label: 'Fair / סביר', description: 'Noticeable wear but still functional' },
-  { value: 'vintage', label: 'Vintage / וינטאג\'', description: 'Older item with character' },
+  { value: 'vintage', label: "Vintage / וינטאג'", description: 'Older item with character' },
 ];
 
 // Helper functions
@@ -119,18 +119,24 @@ export function getSizesForCategory(category: string) {
     return SHOE_SIZES;
   }
   if (category.includes('kids') || category.includes('ילד') || category.includes('תינוק')) {
-    return [...CLOTHING_SIZES.filter(s => s.category === 'kids'), ...CLOTHING_SIZES.filter(s => s.category === 'clothing')];
+    return [
+      ...CLOTHING_SIZES.filter((s) => s.category === 'kids'),
+      ...CLOTHING_SIZES.filter((s) => s.category === 'clothing'),
+    ];
   }
   if (category.includes('pants') || category.includes('jeans') || category.includes('מכנס')) {
-    return [...CLOTHING_SIZES.filter(s => s.category === 'pants'), ...CLOTHING_SIZES.filter(s => s.category === 'clothing')];
+    return [
+      ...CLOTHING_SIZES.filter((s) => s.category === 'pants'),
+      ...CLOTHING_SIZES.filter((s) => s.category === 'clothing'),
+    ];
   }
-  return CLOTHING_SIZES.filter(s => s.category === 'clothing');
+  return CLOTHING_SIZES.filter((s) => s.category === 'clothing');
 }
 
 export function getMaterialDisplayName(material: string, isHebrew: boolean = false) {
-  const materialObj = MATERIALS.find(m => m.value === material);
+  const materialObj = MATERIALS.find((m) => m.value === material);
   if (!materialObj) return material;
-  
+
   if (isHebrew) {
     return materialObj.label.split(' / ')[1] || materialObj.label;
   }
@@ -138,9 +144,9 @@ export function getMaterialDisplayName(material: string, isHebrew: boolean = fal
 }
 
 export function getConditionDisplayName(condition: string, isHebrew: boolean = false) {
-  const conditionObj = CONDITIONS.find(c => c.value === condition);
+  const conditionObj = CONDITIONS.find((c) => c.value === condition);
   if (!conditionObj) return condition;
-  
+
   if (isHebrew) {
     return conditionObj.label.split(' / ')[1] || conditionObj.label;
   }

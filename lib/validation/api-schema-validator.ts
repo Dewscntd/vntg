@@ -1,6 +1,6 @@
 /**
  * API Schema Validator
- * 
+ *
  * This module provides runtime validation to ensure that stub responses
  * match the expected API response schemas. It can be used in:
  * - Development to catch schema mismatches early
@@ -22,7 +22,7 @@ export const ProductSchema = z.object({
   updated_at: z.string(),
   inventory_count: z.number(),
   is_featured: z.boolean(),
-  stripe_product_id: z.string().nullable()
+  stripe_product_id: z.string().nullable(),
 });
 
 export const CategorySchema = z.object({
@@ -31,7 +31,7 @@ export const CategorySchema = z.object({
   description: z.string().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
-  parent_id: z.string().nullable()
+  parent_id: z.string().nullable(),
 });
 
 export const UserSchema = z.object({
@@ -46,7 +46,7 @@ export const UserSchema = z.object({
   is_verified: z.boolean().optional(),
   avatar_url: z.string().nullable().optional(),
   date_of_birth: z.string().nullable().optional(),
-  preferences: z.record(z.any()).optional()
+  preferences: z.record(z.any()).optional(),
 });
 
 export const CartItemSchema = z.object({
@@ -55,13 +55,13 @@ export const CartItemSchema = z.object({
   product_id: z.string(),
   quantity: z.number().min(1),
   created_at: z.string(),
-  updated_at: z.string()
+  updated_at: z.string(),
 });
 
 // API Response wrapper schemas
 export const APIResponseSchema = z.object({
   status: z.literal('success'),
-  data: z.any()
+  data: z.any(),
 });
 
 export const ProductListResponseSchema = APIResponseSchema.extend({
@@ -70,9 +70,9 @@ export const ProductListResponseSchema = APIResponseSchema.extend({
     pagination: z.object({
       total: z.number(),
       limit: z.number(),
-      offset: z.number()
-    })
-  })
+      offset: z.number(),
+    }),
+  }),
 });
 
 export const CategoryListResponseSchema = APIResponseSchema.extend({
@@ -81,33 +81,40 @@ export const CategoryListResponseSchema = APIResponseSchema.extend({
     pagination: z.object({
       total: z.number(),
       limit: z.number(),
-      offset: z.number()
-    })
-  })
+      offset: z.number(),
+    }),
+  }),
 });
 
 export const ProductDetailResponseSchema = APIResponseSchema.extend({
   data: ProductSchema.extend({
-    categories: z.object({
-      id: z.string(),
-      name: z.string()
-    }).nullable().optional()
-  })
+    categories: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+      })
+      .nullable()
+      .optional(),
+  }),
 });
 
 export const CategoryDetailResponseSchema = APIResponseSchema.extend({
   data: CategorySchema.extend({
-    subcategories: z.array(z.object({
-      id: z.string(),
-      name: z.string()
-    })),
-    products: z.array(z.object({
-      id: z.string(),
-      name: z.string(),
-      price: z.number(),
-      image_url: z.string().nullable()
-    }))
-  })
+    subcategories: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+      })
+    ),
+    products: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        price: z.number(),
+        image_url: z.string().nullable(),
+      })
+    ),
+  }),
 });
 
 export class APISchemaValidator {
@@ -122,56 +129,56 @@ export class APISchemaValidator {
   async validateEndpoint(url: string, expectedSchema: z.ZodSchema, schemaName: string) {
     try {
       console.log(`🔍 Validating ${url} against ${schemaName} schema...`);
-      
+
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
       const validation = expectedSchema.safeParse(data);
-      
+
       if (validation.success) {
         console.log(`✅ ${url} - Schema validation passed`);
         this.validationResults.push({
           endpoint: url,
           schema: schemaName,
           valid: true,
-          data: validation.data
+          data: validation.data,
         });
         return { valid: true, data: validation.data };
       } else {
         console.log(`❌ ${url} - Schema validation failed`);
         console.log('Errors:', validation.error.issues);
-        
+
         this.validationResults.push({
           endpoint: url,
           schema: schemaName,
           valid: false,
           errors: validation.error.issues,
-          data
+          data,
         });
-        
-        return { 
-          valid: false, 
+
+        return {
+          valid: false,
           errors: validation.error.issues,
-          data 
+          data,
         };
       }
     } catch (error) {
-      console.log(`💥 ${url} - Request failed: ${error.message}`);
-      
+      console.log(`💥 ${url} - Request failed: ${error instanceof Error ? error.message : error}`);
+
       this.validationResults.push({
         endpoint: url,
         schema: schemaName,
         valid: false,
-        errors: [{ message: error.message }]
+        errors: [{ message: error instanceof Error ? error.message : String(error) }],
       });
-      
-      return { 
-        valid: false, 
-        errors: [{ message: error.message }] 
+
+      return {
+        valid: false,
+        errors: [{ message: error instanceof Error ? error.message : String(error) }],
       };
     }
   }
@@ -184,43 +191,43 @@ export class APISchemaValidator {
       {
         url: `${baseUrl}/products?limit=5`,
         schema: ProductListResponseSchema,
-        name: 'ProductListResponse'
+        name: 'ProductListResponse',
       },
       {
         url: `${baseUrl}/products/prod-1`,
         schema: ProductDetailResponseSchema,
-        name: 'ProductDetailResponse'
+        name: 'ProductDetailResponse',
       },
-      
+
       // Categories endpoints
       {
         url: `${baseUrl}/categories?limit=5`,
         schema: CategoryListResponseSchema,
-        name: 'CategoryListResponse'
+        name: 'CategoryListResponse',
       },
       {
         url: `${baseUrl}/categories/cat-1`,
         schema: CategoryDetailResponseSchema,
-        name: 'CategoryDetailResponse'
-      }
+        name: 'CategoryDetailResponse',
+      },
     ];
 
     const results = [];
-    
+
     for (const validation of validations) {
       const result = await this.validateEndpoint(
         validation.url,
         validation.schema,
         validation.name
       );
-      
+
       results.push({
         ...validation,
-        result
+        result,
       });
-      
+
       // Small delay between requests
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     return results;
@@ -228,7 +235,7 @@ export class APISchemaValidator {
 
   generateStubValidationFile() {
     const timestamp = new Date().toISOString();
-    
+
     return `// Generated API Schema Validation for Stubs
 // Generated: ${timestamp}
 // This file contains runtime validation for stub data
@@ -294,7 +301,7 @@ if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_STUBS 
 
   getValidationSummary() {
     const total = this.validationResults.length;
-    const passed = this.validationResults.filter(r => r.valid).length;
+    const passed = this.validationResults.filter((r) => r.valid).length;
     const failed = total - passed;
     const successRate = total > 0 ? Math.round((passed / total) * 100) : 0;
 
@@ -303,13 +310,13 @@ if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_STUBS 
       passed,
       failed,
       successRate,
-      results: this.validationResults
+      results: this.validationResults,
     };
   }
 
   generateReport() {
     const summary = this.getValidationSummary();
-    
+
     return `# API Schema Validation Report
 
 Generated: ${new Date().toISOString()}
@@ -322,21 +329,29 @@ Generated: ${new Date().toISOString()}
 
 ## Results
 
-${summary.results.map(result => `
+${summary.results
+  .map(
+    (result) => `
 ### ${result.endpoint}
 - **Schema**: ${result.schema}
 - **Status**: ${result.valid ? '✅ PASSED' : '❌ FAILED'}
-${result.errors ? `- **Errors**: ${result.errors.map(e => e.message || JSON.stringify(e)).join(', ')}` : ''}
-`).join('')}
+${result.errors ? `- **Errors**: ${result.errors.map((e) => e.message || JSON.stringify(e)).join(', ')}` : ''}
+`
+  )
+  .join('')}
 
 ## Recommendations
 
-${summary.failed > 0 ? `
+${
+  summary.failed > 0
+    ? `
 - Update stub data to match schema requirements
 - Review API response structures
 - Update TypeScript types if schema has changed
 - Run \`npm run sync:api-stubs\` to auto-generate fixes
-` : 'All schemas are valid! 🎉'}
+`
+    : 'All schemas are valid! 🎉'
+}
 `;
   }
 }
@@ -345,29 +360,29 @@ ${summary.failed > 0 ? `
 export async function validateAPIStubSync(baseUrl?: string) {
   const validator = new APISchemaValidator();
   const results = await validator.validateAllEndpoints(baseUrl);
-  
+
   console.log('\n📊 VALIDATION SUMMARY');
   console.log('='.repeat(50));
-  
+
   const summary = validator.getValidationSummary();
   console.log(`✅ Passed: ${summary.passed}/${summary.total}`);
   console.log(`❌ Failed: ${summary.failed}/${summary.total}`);
   console.log(`📈 Success Rate: ${summary.successRate}%`);
-  
+
   if (summary.failed > 0) {
     console.log('\n❌ FAILED VALIDATIONS:');
     summary.results
-      .filter(r => !r.valid)
-      .forEach(r => {
+      .filter((r) => !r.valid)
+      .forEach((r) => {
         console.log(`\n${r.endpoint} (${r.schema})`);
         if (r.errors) {
-          r.errors.forEach(error => {
+          r.errors.forEach((error) => {
             console.log(`  → ${error.message || JSON.stringify(error)}`);
           });
         }
       });
   }
-  
+
   return validator;
 }
 

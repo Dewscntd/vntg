@@ -45,14 +45,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const getSession = async () => {
       if (!mounted) return;
-      
+
       setIsLoading(true);
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      
+
       if (!mounted) return;
-      
+
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       if (!mounted) return;
-      
+
       setSession(session);
       setUser(session?.user ?? null);
       router.refresh();
@@ -93,8 +93,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const supabase = createClient();
     console.log('🎯 AUTH CONTEXT: supabase client created');
     console.log('🎯 AUTH CONTEXT: supabase.auth:', supabase.auth);
-    console.log('🎯 AUTH CONTEXT: supabase.auth.signInWithPassword:', typeof supabase.auth.signInWithPassword);
-    console.log('🎯 AUTH CONTEXT: signInWithPassword function:', supabase.auth.signInWithPassword.toString().substring(0, 200));
+    console.log(
+      '🎯 AUTH CONTEXT: supabase.auth.signInWithPassword:',
+      typeof supabase.auth.signInWithPassword
+    );
+    console.log(
+      '🎯 AUTH CONTEXT: signInWithPassword function:',
+      supabase.auth.signInWithPassword.toString().substring(0, 200)
+    );
     console.log('🎯 AUTH CONTEXT: calling supabase.auth.signInWithPassword');
     const response = await supabase.auth.signInWithPassword({
       email,
@@ -103,14 +109,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log('🎯 AUTH CONTEXT: signInWithPassword response:', response);
     console.log('🎯 AUTH CONTEXT: error details:', response.error);
     console.log('🎯 AUTH CONTEXT: data details:', response.data);
-    
+
     // Update auth state immediately on successful login
     if (!response.error && response.data?.user && response.data?.session) {
       console.log('🎯 AUTH CONTEXT: Updating user and session state');
       setUser(response.data.user);
       setSession(response.data.session);
     }
-    
+
     return response;
   };
 

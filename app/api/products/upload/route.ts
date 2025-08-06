@@ -52,22 +52,18 @@ export async function POST(req: NextRequest) {
       const buffer = new Uint8Array(arrayBuffer);
 
       // Upload to Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('photos')
-        .upload(filePath, buffer, {
-          contentType: file.type,
-          cacheControl: '3600',
-          upsert: false,
-        });
+      const { data, error } = await supabase.storage.from('photos').upload(filePath, buffer, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false,
+      });
 
       if (error) {
         throw error;
       }
 
       // Get the public URL
-      const { data: publicUrlData } = supabase.storage
-        .from('photos')
-        .getPublicUrl(filePath);
+      const { data: publicUrlData } = supabase.storage.from('photos').getPublicUrl(filePath);
 
       return successResponse({
         url: publicUrlData.publicUrl,

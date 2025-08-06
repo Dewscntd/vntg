@@ -14,7 +14,7 @@ export const israeliBrands: Brand[] = [
   { name: 'Golf', category: ['clothing'], hebrew: 'גולף', popular: true },
   { name: 'Hoodies', category: ['clothing'], hebrew: 'הודיס', popular: true },
   { name: 'Castro', category: ['clothing'], hebrew: 'קסטרו', popular: true },
-  { name: 'Gio Benitez', category: ['clothing'], hebrew: 'ג\'יו בניטז' },
+  { name: 'Gio Benitez', category: ['clothing'], hebrew: "ג'יו בניטז" },
   { name: 'Terminal X', category: ['clothing'], hebrew: 'טרמינל X', popular: true },
   { name: 'Renuar', category: ['clothing'], hebrew: 'רנואר', popular: true },
   { name: 'Golbary', category: ['clothing'], hebrew: 'גולברי' },
@@ -42,7 +42,7 @@ export const israeliBrands: Brand[] = [
   { name: 'Lacoste', category: ['clothing'] },
   { name: 'Ralph Lauren', category: ['clothing'] },
   { name: 'Polo Ralph Lauren', category: ['clothing'] },
-  { name: 'Levi\'s', category: ['clothing'], popular: true },
+  { name: "Levi's", category: ['clothing'], popular: true },
   { name: 'Wrangler', category: ['clothing'] },
   { name: 'Lee', category: ['clothing'] },
   { name: 'Diesel', category: ['clothing'] },
@@ -103,10 +103,10 @@ export const israeliBrands: Brand[] = [
   { name: 'Umbro', category: ['clothing'] },
 
   // Children's Clothing
-  { name: 'Carter\'s', category: ['clothing'], popular: true },
+  { name: "Carter's", category: ['clothing'], popular: true },
   { name: 'OshKosh', category: ['clothing'] },
   { name: 'Gymboree', category: ['clothing'] },
-  { name: 'Children\'s Place', category: ['clothing'] },
+  { name: "Children's Place", category: ['clothing'] },
   { name: 'Next Kids', category: ['clothing'] },
   { name: 'Mothercare', category: ['clothing'] },
 
@@ -142,34 +142,43 @@ export const israeliBrands: Brand[] = [
   { name: 'Macmillan', category: ['books'] },
   { name: 'Oxford University Press', category: ['books'] },
   { name: 'Cambridge University Press', category: ['books'] },
-  
+
   // Generic/Other
-  { name: 'Vintage', category: ['clothing', 'shoes', 'toys', 'books'], hebrew: 'וינטג\'', popular: true },
-  { name: 'No Brand', category: ['clothing', 'shoes', 'toys', 'books'], hebrew: 'ללא מותג', popular: true },
+  {
+    name: 'Vintage',
+    category: ['clothing', 'shoes', 'toys', 'books'],
+    hebrew: "וינטג'",
+    popular: true,
+  },
+  {
+    name: 'No Brand',
+    category: ['clothing', 'shoes', 'toys', 'books'],
+    hebrew: 'ללא מותג',
+    popular: true,
+  },
   { name: 'Handmade', category: ['clothing', 'toys'], hebrew: 'עבודת יד' },
   { name: 'Unknown', category: ['clothing', 'shoes', 'toys', 'books'], hebrew: 'לא ידוע' },
 ];
 
 // Helper functions
 export function getBrandsByCategory(category: string): Brand[] {
-  return israeliBrands.filter(brand => brand.category.includes(category));
+  return israeliBrands.filter((brand) => brand.category.includes(category));
 }
 
 export function getPopularBrands(): Brand[] {
-  return israeliBrands.filter(brand => brand.popular);
+  return israeliBrands.filter((brand) => brand.popular);
 }
 
 export function searchBrands(query: string, category?: string): Brand[] {
-  const filteredBrands = category 
-    ? getBrandsByCategory(category) 
-    : israeliBrands;
-    
+  const filteredBrands = category ? getBrandsByCategory(category) : israeliBrands;
+
   if (!query) return filteredBrands;
-  
+
   const searchTerm = query.toLowerCase();
-  return filteredBrands.filter(brand => 
-    brand.name.toLowerCase().includes(searchTerm) ||
-    (brand.hebrew && brand.hebrew.includes(searchTerm))
+  return filteredBrands.filter(
+    (brand) =>
+      brand.name.toLowerCase().includes(searchTerm) ||
+      (brand.hebrew && brand.hebrew.includes(searchTerm))
   );
 }
 

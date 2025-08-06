@@ -13,10 +13,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Network Timeout',
     description: 'Simulates network timeout errors',
     trigger: () => Math.random() < 0.02,
-    error: { 
-      message: 'Request timeout', 
+    error: {
+      message: 'Request timeout',
       code: 'TIMEOUT',
-      statusCode: 408 
+      statusCode: 408,
     },
   },
   {
@@ -24,10 +24,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Internal Server Error',
     description: 'Simulates 500 server errors',
     trigger: () => Math.random() < 0.01,
-    error: { 
-      message: 'Internal server error', 
+    error: {
+      message: 'Internal server error',
       code: 'INTERNAL_ERROR',
-      statusCode: 500 
+      statusCode: 500,
     },
   },
   {
@@ -35,10 +35,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Rate Limit Exceeded',
     description: 'Simulates rate limiting',
     trigger: () => Math.random() < 0.005,
-    error: { 
-      message: 'Too many requests', 
+    error: {
+      message: 'Too many requests',
       code: 'RATE_LIMIT',
-      statusCode: 429 
+      statusCode: 429,
     },
   },
   {
@@ -46,10 +46,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Authentication Expired',
     description: 'Simulates expired authentication tokens',
     trigger: () => Math.random() < 0.008,
-    error: { 
-      message: 'Authentication token expired', 
+    error: {
+      message: 'Authentication token expired',
       code: 'AUTH_EXPIRED',
-      statusCode: 401 
+      statusCode: 401,
     },
   },
   {
@@ -57,10 +57,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Insufficient Permissions',
     description: 'Simulates permission denied errors',
     trigger: () => Math.random() < 0.01,
-    error: { 
-      message: 'Insufficient permissions', 
+    error: {
+      message: 'Insufficient permissions',
       code: 'PERMISSION_DENIED',
-      statusCode: 403 
+      statusCode: 403,
     },
   },
   {
@@ -68,10 +68,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Payment Declined',
     description: 'Simulates payment failures',
     trigger: () => Math.random() < 0.15, // Higher rate for payment testing
-    error: { 
-      message: 'Your card was declined', 
+    error: {
+      message: 'Your card was declined',
       code: 'CARD_DECLINED',
-      statusCode: 402 
+      statusCode: 402,
     },
   },
   {
@@ -79,10 +79,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Insufficient Inventory',
     description: 'Simulates out of stock scenarios',
     trigger: () => Math.random() < 0.05,
-    error: { 
-      message: 'Insufficient inventory', 
+    error: {
+      message: 'Insufficient inventory',
       code: 'OUT_OF_STOCK',
-      statusCode: 400 
+      statusCode: 400,
     },
   },
   {
@@ -90,10 +90,10 @@ export const errorScenarios: ErrorScenario[] = [
     name: 'Validation Error',
     description: 'Simulates data validation failures',
     trigger: () => Math.random() < 0.03,
-    error: { 
-      message: 'Invalid data provided', 
+    error: {
+      message: 'Invalid data provided',
       code: 'VALIDATION_ERROR',
-      statusCode: 422 
+      statusCode: 422,
     },
   },
 ];
@@ -105,7 +105,10 @@ export const edgeCaseData = {
     {
       id: 'edge-prod-1',
       name: 'Product with Very Long Name That Exceeds Normal Display Limits and Contains Special Characters!@#$%^&*()',
-      description: 'This is an extremely long description that tests how the UI handles overflow text. '.repeat(10),
+      description:
+        'This is an extremely long description that tests how the UI handles overflow text. '.repeat(
+          10
+        ),
       price: 0.01, // Minimum price
       stock_quantity: 0, // Out of stock
       rating: null, // No rating
@@ -125,12 +128,13 @@ export const edgeCaseData = {
       tags: Array(100).fill('tag'), // Many tags
     },
   ],
-  
+
   // Users with edge cases
   extremeUsers: [
     {
       id: 'edge-user-1',
-      email: 'user.with.very.long.email.address.that.tests.display.limits@extremely.long.domain.name.example.com',
+      email:
+        'user.with.very.long.email.address.that.tests.display.limits@extremely.long.domain.name.example.com',
       first_name: 'VeryLongFirstNameThatExceedsNormalLimits',
       last_name: 'EvenLongerLastNameThatDefinitelyExceedsDisplayLimits',
       phone: '+1234567890123456789', // Very long phone
@@ -143,7 +147,7 @@ export const edgeCaseData = {
       phone: null, // No phone
     },
   ],
-  
+
   // Orders with edge cases
   extremeOrders: [
     {
@@ -176,7 +180,7 @@ export const userStateScenarios = {
     cart_items: [],
     is_verified: false,
   },
-  
+
   // Power user with lots of activity
   powerUser: {
     id: 'scenario-power-user',
@@ -188,7 +192,7 @@ export const userStateScenarios = {
     cart_items: Array(20).fill({}),
     is_verified: true,
   },
-  
+
   // Suspended user
   suspendedUser: {
     id: 'scenario-suspended-user',
@@ -265,17 +269,17 @@ export const browserStateScenarios = {
 export const errorTestUtils = {
   // Force a specific error scenario
   forceError: (scenarioId: string) => {
-    const scenario = errorScenarios.find(s => s.id === scenarioId);
+    const scenario = errorScenarios.find((s) => s.id === scenarioId);
     if (scenario) {
       // Override the trigger to always return true
       scenario.trigger = () => true;
       console.log(`Forcing error scenario: ${scenario.name}`);
     }
   },
-  
+
   // Reset all error scenarios to normal probability
   resetErrors: () => {
-    errorScenarios.forEach(scenario => {
+    errorScenarios.forEach((scenario) => {
       // Reset triggers to original probabilities
       switch (scenario.id) {
         case 'network_timeout':
@@ -289,22 +293,24 @@ export const errorTestUtils = {
     });
     console.log('Error scenarios reset to normal probabilities');
   },
-  
+
   // Set custom error rate for all scenarios
   setGlobalErrorRate: (rate: number) => {
-    errorScenarios.forEach(scenario => {
+    errorScenarios.forEach((scenario) => {
       scenario.trigger = () => Math.random() < rate;
     });
     console.log(`Global error rate set to ${rate * 100}%`);
   },
-  
+
   // Log error statistics
   logErrorStats: () => {
-    console.table(errorScenarios.map(s => ({
-      id: s.id,
-      name: s.name,
-      description: s.description,
-    })));
+    console.table(
+      errorScenarios.map((s) => ({
+        id: s.id,
+        name: s.name,
+        description: s.description,
+      }))
+    );
   },
 };
 

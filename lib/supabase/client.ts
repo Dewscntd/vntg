@@ -4,15 +4,15 @@ import { USE_STUBS, createSupabaseStub } from '@/lib/stubs';
 
 export const createClient = () => {
   console.log('🔍 createClient called - creating simple admin stub');
-  
+
   return {
     auth: {
       signInWithPassword: async ({ email, password }: { email: string; password: string }) => {
         console.log('🎯 SIMPLE STUB: signInWithPassword called with:', { email, password });
-        
+
         if (email === 'michaelvx@gmail.com' && password === 'admin123') {
           console.log('✅ SIMPLE STUB: Admin login successful!');
-          
+
           const adminUser = {
             id: 'admin-michael',
             email: 'michaelvx@gmail.com',
@@ -20,12 +20,12 @@ export const createClient = () => {
             first_name: 'Michael',
             last_name: 'Admin',
           };
-          
+
           // Set admin session flag in localStorage
           if (typeof window !== 'undefined') {
             localStorage.setItem('mock-admin-session', 'true');
           }
-          
+
           return {
             data: {
               user: adminUser,
@@ -38,14 +38,14 @@ export const createClient = () => {
             error: null,
           };
         }
-        
+
         console.log('❌ SIMPLE STUB: Invalid credentials');
         return {
           data: { user: null, session: null },
           error: { message: 'Invalid login credentials' },
         };
       },
-      
+
       getUser: async () => {
         console.log('🎯 SIMPLE STUB: getUser called');
         if (typeof window !== 'undefined') {
@@ -64,7 +64,7 @@ export const createClient = () => {
         }
         return { data: { user: null }, error: null };
       },
-      
+
       getSession: async () => {
         console.log('🎯 SIMPLE STUB: getSession called');
         if (typeof window !== 'undefined') {

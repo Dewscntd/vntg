@@ -11,18 +11,16 @@ export interface LandingTemplateProps {
   showFooter?: boolean;
 }
 
-export function LandingTemplate({ 
-  children, 
-  className, 
+export function LandingTemplate({
+  children,
+  className,
   showHeader = true,
-  showFooter = true 
+  showFooter = true,
 }: LandingTemplateProps) {
   return (
-    <div className={cn('min-h-screen flex flex-col', className)}>
+    <div className={cn('flex min-h-screen flex-col', className)}>
       {showHeader && <LandingHeader />}
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
       {showFooter && <Footer />}
     </div>
   );

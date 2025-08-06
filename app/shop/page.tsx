@@ -37,7 +37,8 @@ export default function Home() {
           </TextReveal>
           <ScrollReveal animation="fadeIn" delay={300}>
             <ResponsiveLead size="lg" className="mx-auto max-w-3xl">
-              Curated vintage fashion for every style. Discover unique pieces for men, women, teens, and kids.
+              Curated vintage fashion for every style. Discover unique pieces for men, women, teens,
+              and kids.
             </ResponsiveLead>
           </ScrollReveal>
           <ScrollReveal animation="fadeIn" delay={600}>
@@ -68,9 +69,12 @@ export default function Home() {
           contentAnimation="stagger"
         >
           <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-1" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/10 transition-colors group-hover:bg-blue-500/20">
                     <User className="h-8 w-8 text-blue-600" />
                   </div>
@@ -84,25 +88,29 @@ export default function Home() {
               </TransitionLink>
             </Card>
 
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-2" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-pink-500/10 transition-colors group-hover:bg-pink-500/20">
                     <User className="h-8 w-8 text-pink-600" />
                   </div>
                   <CardTitle className="text-lg">Women</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <CardDescription>
-                    Elegant and trendy pieces for every occasion
-                  </CardDescription>
+                  <CardDescription>Elegant and trendy pieces for every occasion</CardDescription>
                 </CardContent>
               </TransitionLink>
             </Card>
 
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-3" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10 transition-colors group-hover:bg-purple-500/20">
                     <User className="h-8 w-8 text-purple-600" />
                   </div>
@@ -116,25 +124,29 @@ export default function Home() {
               </TransitionLink>
             </Card>
 
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-4" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 transition-colors group-hover:bg-green-500/20">
                     <User className="h-8 w-8 text-green-600" />
                   </div>
                   <CardTitle className="text-lg">Kids</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <CardDescription>
-                    Comfortable and fun clothing for children
-                  </CardDescription>
+                  <CardDescription>Comfortable and fun clothing for children</CardDescription>
                 </CardContent>
               </TransitionLink>
             </Card>
 
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-1 lg:col-span-2" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-1 lg:col-span-2"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-5" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/10 transition-colors group-hover:bg-orange-500/20">
                     <Package className="h-8 w-8 text-orange-600" />
                   </div>
@@ -148,9 +160,12 @@ export default function Home() {
               </TransitionLink>
             </Card>
 
-            <Card className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-2 lg:col-span-2" data-reveal>
+            <Card
+              className="group cursor-pointer transition-all hover:scale-105 hover:shadow-lg md:col-span-2 lg:col-span-2"
+              data-reveal
+            >
               <TransitionLink href="/categories/cat-6" className="block">
-                <CardHeader className="text-center pb-2">
+                <CardHeader className="pb-2 text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 transition-colors group-hover:bg-red-500/20">
                     <Package className="h-8 w-8 text-red-600" />
                   </div>

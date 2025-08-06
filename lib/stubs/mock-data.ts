@@ -168,28 +168,21 @@ export const mockProducts: Product[] = [
 export const mockUser: User = {
   id: 'user-1',
   email: 'test@example.com',
-  first_name: 'John',
-  last_name: 'Doe',
-  phone: '+1234567890',
+  full_name: 'John Doe',
+  avatar_url: 'https://via.placeholder.com/150x150?text=JD',
+  role: 'customer',
   created_at: '2024-01-01T00:00:00.000Z',
   updated_at: '2024-01-01T00:00:00.000Z',
-  role: 'customer',
-  is_verified: true,
-  avatar_url: 'https://via.placeholder.com/150x150?text=JD',
-  date_of_birth: '1990-01-01',
-  preferences: {
-    newsletter: true,
-    marketing: false,
-  },
 };
 
 export const mockAdminUser: User = {
-  ...mockUser,
   id: 'admin-1',
   email: 'admin@example.com',
+  full_name: 'Admin User',
+  avatar_url: 'https://via.placeholder.com/150x150?text=AU',
   role: 'admin',
-  first_name: 'Admin',
-  last_name: 'User',
+  created_at: '2024-01-01T00:00:00.000Z',
+  updated_at: '2024-01-01T00:00:00.000Z',
 };
 
 export const mockCartItems: CartItem[] = [
@@ -217,7 +210,6 @@ export const mockOrders: Order[] = [
     user_id: 'user-1',
     status: 'pending',
     total: 429.97,
-    currency: 'USD',
     payment_intent_id: 'pi_test_123',
     shipping_address: {
       street: '123 Main St',
@@ -226,24 +218,8 @@ export const mockOrders: Order[] = [
       zip: '10001',
       country: 'US',
     },
-    billing_address: {
-      street: '123 Main St',
-      city: 'New York',
-      state: 'NY',
-      zip: '10001',
-      country: 'US',
-    },
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
-    order_number: 'ORD-001',
-    payment_status: 'pending',
-    fulfillment_status: 'unfulfilled',
-    notes: 'Test order',
-    discount_amount: 0,
-    tax_amount: 30.00,
-    shipping_amount: 9.99,
-    tracking_number: null,
-    estimated_delivery: null,
   },
 ];
 

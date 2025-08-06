@@ -80,15 +80,25 @@ export default function NewProductPage() {
       if (response.ok) {
         const data = await response.json();
         const allCategories = data.data?.categories || [];
-        
+
         // Filter out unwanted categories
-        const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening'];
-        const filteredCategories = allCategories.filter((cat: any) => 
-          !unwantedNames.some(unwanted => 
-            cat.name.toLowerCase().includes(unwanted.toLowerCase())
-          )
+        const unwantedNames = [
+          'Sports',
+          'Electronics',
+          'Home',
+          'Gardening',
+          'sports',
+          'electronics',
+          'home',
+          'gardening',
+        ];
+        const filteredCategories = allCategories.filter(
+          (cat: any) =>
+            !unwantedNames.some((unwanted) =>
+              cat.name.toLowerCase().includes(unwanted.toLowerCase())
+            )
         );
-        
+
         setCategories(filteredCategories);
         console.log('Available categories for product creation:', filteredCategories);
       }
@@ -322,7 +332,7 @@ export default function NewProductPage() {
               <SizeSelector
                 value={formData.specifications.size || ''}
                 onValueChange={(value) => handleSpecificationChange('size', value)}
-                category={categories.find(c => c.id === formData.category_id)?.name || ''}
+                category={categories.find((c) => c.id === formData.category_id)?.name || ''}
               />
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

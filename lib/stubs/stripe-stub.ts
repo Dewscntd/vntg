@@ -1,7 +1,7 @@
 // Stripe stub implementation for local development
 
 // Simulate Stripe API delays
-const simulateDelay = (ms: number = 200) => new Promise(resolve => setTimeout(resolve, ms));
+const simulateDelay = (ms: number = 200) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Mock Stripe client for server-side operations
 export const createStripeStub = () => ({
@@ -19,7 +19,7 @@ export const createStripeStub = () => ({
         metadata: params.metadata || {},
       };
     },
-    
+
     retrieve: async (id: string) => {
       await simulateDelay(300);
       return {
@@ -33,7 +33,7 @@ export const createStripeStub = () => ({
         metadata: {},
       };
     },
-    
+
     update: async (id: string, params: any) => {
       await simulateDelay(300);
       return {
@@ -47,7 +47,7 @@ export const createStripeStub = () => ({
         metadata: params.metadata || {},
       };
     },
-    
+
     confirm: async (id: string, params: any) => {
       await simulateDelay(800);
       return {
@@ -60,18 +60,20 @@ export const createStripeStub = () => ({
         created: Math.floor(Date.now() / 1000),
         metadata: {},
         charges: {
-          data: [{
-            id: `ch_mock_${Date.now()}`,
-            amount: 2000,
-            currency: 'usd',
-            status: 'succeeded',
-            receipt_url: 'https://pay.stripe.com/receipts/mock',
-          }],
+          data: [
+            {
+              id: `ch_mock_${Date.now()}`,
+              amount: 2000,
+              currency: 'usd',
+              status: 'succeeded',
+              receipt_url: 'https://pay.stripe.com/receipts/mock',
+            },
+          ],
         },
       };
     },
   },
-  
+
   customers: {
     create: async (params: any) => {
       await simulateDelay(300);
@@ -83,7 +85,7 @@ export const createStripeStub = () => ({
         metadata: params.metadata || {},
       };
     },
-    
+
     retrieve: async (id: string) => {
       await simulateDelay(200);
       return {
@@ -94,7 +96,7 @@ export const createStripeStub = () => ({
         metadata: {},
       };
     },
-    
+
     update: async (id: string, params: any) => {
       await simulateDelay(250);
       return {
@@ -106,7 +108,7 @@ export const createStripeStub = () => ({
       };
     },
   },
-  
+
   products: {
     create: async (params: any) => {
       await simulateDelay(300);
@@ -119,7 +121,7 @@ export const createStripeStub = () => ({
         metadata: params.metadata || {},
       };
     },
-    
+
     retrieve: async (id: string) => {
       await simulateDelay(200);
       return {
@@ -132,7 +134,7 @@ export const createStripeStub = () => ({
       };
     },
   },
-  
+
   prices: {
     create: async (params: any) => {
       await simulateDelay(300);
@@ -146,7 +148,7 @@ export const createStripeStub = () => ({
         metadata: params.metadata || {},
       };
     },
-    
+
     retrieve: async (id: string) => {
       await simulateDelay(200);
       return {
@@ -160,7 +162,7 @@ export const createStripeStub = () => ({
       };
     },
   },
-  
+
   webhooks: {
     constructEvent: (payload: any, signature: string, secret: string) => {
       // Mock webhook event
@@ -202,16 +204,16 @@ export const createStripeJsStub = () => ({
         }
       },
     }),
-    
+
     submit: async () => {
       await simulateDelay(300);
       return { error: null };
     },
   }),
-  
+
   confirmPayment: async (options: any) => {
     await simulateDelay(1000);
-    
+
     // Simulate successful payment
     return {
       paymentIntent: {
@@ -223,7 +225,7 @@ export const createStripeJsStub = () => ({
       error: null,
     };
   },
-  
+
   confirmSetup: async (options: any) => {
     await simulateDelay(800);
     return {
@@ -234,7 +236,7 @@ export const createStripeJsStub = () => ({
       error: null,
     };
   },
-  
+
   retrievePaymentIntent: async (clientSecret: string) => {
     await simulateDelay(300);
     return {

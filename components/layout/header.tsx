@@ -47,10 +47,7 @@ export function Header({ className }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center space-x-6 md:flex">
-            <Link
-              href="/shop"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <Link href="/shop" className="text-sm font-medium transition-colors hover:text-primary">
               Shop
             </Link>
             <Link

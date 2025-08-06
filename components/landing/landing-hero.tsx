@@ -8,12 +8,12 @@ import { ResponsiveDisplay, ResponsiveLead } from '@/components/ui/responsive-ty
 
 export function LandingHero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] [background-size:20px_20px]"></div>
       </div>
-      
+
       {/* Main Content */}
       <div className="relative z-10 mx-auto max-w-6xl px-4 py-20 text-center">
         <div className="space-y-8">
@@ -27,12 +27,12 @@ export function LandingHero() {
 
           {/* Main Headline */}
           <TextReveal>
-            <ResponsiveDisplay 
-              size="lg" 
-              gradient 
-              gradientFrom="from-foreground" 
+            <ResponsiveDisplay
+              size="lg"
+              gradient
+              gradientFrom="from-foreground"
               gradientTo="to-foreground/80"
-              className="max-w-4xl mx-auto leading-tight"
+              className="mx-auto max-w-4xl leading-tight"
             >
               Discover Vintage Fashion That Tells Your Story
             </ResponsiveDisplay>
@@ -41,7 +41,8 @@ export function LandingHero() {
           {/* Subheading */}
           <ScrollReveal animation="fadeIn" delay={400}>
             <ResponsiveLead size="lg" className="mx-auto max-w-2xl text-muted-foreground">
-              Every piece in our collection has a history. Find unique, sustainable fashion that speaks to your individual style—from timeless classics to bold statement pieces.
+              Every piece in our collection has a history. Find unique, sustainable fashion that
+              speaks to your individual style—from timeless classics to bold statement pieces.
             </ResponsiveLead>
           </ScrollReveal>
 
@@ -73,9 +74,7 @@ export function LandingHero() {
                 </TransitionLink>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <TransitionLink href="#story">
-                  Learn Our Story
-                </TransitionLink>
+                <TransitionLink href="#story">Learn Our Story</TransitionLink>
               </Button>
             </div>
           </ScrollReveal>
@@ -87,7 +86,7 @@ export function LandingHero() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
           <div className="flex flex-col items-center gap-2 text-muted-foreground">
             <span className="text-xs uppercase tracking-wider">Scroll to discover</span>
-            <div className="h-6 w-0.5 bg-current animate-pulse"></div>
+            <div className="h-6 w-0.5 animate-pulse bg-current"></div>
           </div>
         </div>
       </ScrollReveal>

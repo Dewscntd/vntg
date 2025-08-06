@@ -88,19 +88,16 @@ export function ProductInformation({ product, className }: ProductInformationPro
         {/* Inventory status */}
         <div className="mt-2 text-sm">
           {isOutOfStock ? (
-            <span className="text-destructive">
-              {isHebrew ? 'אזל מהמלאי' : 'Out of stock'}
-            </span>
+            <span className="text-destructive">{isHebrew ? 'אזל מהמלאי' : 'Out of stock'}</span>
           ) : product.inventory_count === 1 ? (
             <span className="text-green-600 dark:text-green-500">
               {isHebrew ? 'פריט אחד אחרון במלאי' : 'Last item in stock'}
             </span>
           ) : (
             <span className="text-green-600 dark:text-green-500">
-              {isHebrew 
-                ? `במלאי (${product.inventory_count} זמינות)` 
-                : `In stock (${product.inventory_count} available)`
-              }
+              {isHebrew
+                ? `במלאי (${product.inventory_count} זמינות)`
+                : `In stock (${product.inventory_count} available)`}
             </span>
           )}
         </div>
@@ -115,10 +112,7 @@ export function ProductInformation({ product, className }: ProductInformationPro
 
       {/* Product Specifications */}
       {product.specifications && (
-        <ProductSpecifications 
-          specifications={product.specifications}
-          compact={false}
-        />
+        <ProductSpecifications specifications={product.specifications} compact={false} />
       )}
 
       {/* Quantity selector */}
@@ -149,10 +143,13 @@ export function ProductInformation({ product, className }: ProductInformationPro
           </Button>
         </div>
         <div className="text-sm text-muted-foreground">
-          {maxQuantity > 0 
-            ? (isHebrew ? `מקסימום: ${maxQuantity}` : `Max: ${maxQuantity}`)
-            : (isHebrew ? 'אזל מהמלאי' : 'Out of stock')
-          }
+          {maxQuantity > 0
+            ? isHebrew
+              ? `מקסימום: ${maxQuantity}`
+              : `Max: ${maxQuantity}`
+            : isHebrew
+              ? 'אזל מהמלאי'
+              : 'Out of stock'}
         </div>
       </div>
 
@@ -164,12 +161,17 @@ export function ProductInformation({ product, className }: ProductInformationPro
           onClick={handleAddToCart}
           disabled={isLoading || isOutOfStock}
         >
-          {isLoading 
-            ? (isHebrew ? 'מוסיף...' : 'Adding...') 
-            : isOutOfStock 
-              ? (isHebrew ? 'אזל מהמלאי' : 'Out of Stock') 
-              : (isHebrew ? 'הוסף לעגלה' : 'Add to Cart')
-          }
+          {isLoading
+            ? isHebrew
+              ? 'מוסיף...'
+              : 'Adding...'
+            : isOutOfStock
+              ? isHebrew
+                ? 'אזל מהמלאי'
+                : 'Out of Stock'
+              : isHebrew
+                ? 'הוסף לעגלה'
+                : 'Add to Cart'}
         </Button>
         <div className="flex space-x-3">
           <Button variant="outline" size="icon" className="h-11 w-11">

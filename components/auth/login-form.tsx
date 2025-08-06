@@ -50,12 +50,12 @@ function LoginFormContent() {
       }
 
       console.log('🔥 LOGIN FORM: Login successful! Attempting redirect...');
-      
+
       // Check for redirect URL parameter
       const redirectTo = searchParams.get('redirectTo') || searchParams.get('redirect');
-      
+
       console.log('🔥 LOGIN FORM: Redirect URL:', redirectTo);
-      
+
       if (redirectTo) {
         console.log('🔥 LOGIN FORM: Redirecting to:', redirectTo);
         router.push(redirectTo);

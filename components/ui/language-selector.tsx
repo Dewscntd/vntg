@@ -17,10 +17,10 @@ interface LanguageSelectorProps {
   showLabel?: boolean;
 }
 
-export function LanguageSelector({ 
-  variant = 'ghost', 
+export function LanguageSelector({
+  variant = 'ghost',
   size = 'sm',
-  showLabel = false 
+  showLabel = false,
 }: LanguageSelectorProps) {
   const { language, switchLanguage, isHebrew } = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ export function LanguageSelector({
     { code: 'he', name: 'Hebrew', nativeName: 'עברית', flag: '🇮🇱' },
   ];
 
-  const currentLanguage = languages.find(lang => lang.code === language);
+  const currentLanguage = languages.find((lang) => lang.code === language);
 
   const handleLanguageChange = (newLanguage: Language) => {
     switchLanguage(newLanguage);
@@ -47,9 +47,7 @@ export function LanguageSelector({
               {currentLanguage?.flag} {currentLanguage?.nativeName}
             </span>
           )}
-          {!showLabel && (
-            <span className="text-xs">{currentLanguage?.flag}</span>
-          )}
+          {!showLabel && <span className="text-xs">{currentLanguage?.flag}</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align={isHebrew ? 'start' : 'end'} className="min-w-[150px]">
@@ -57,9 +55,7 @@ export function LanguageSelector({
           <DropdownMenuItem
             key={lang.code}
             onClick={() => handleLanguageChange(lang.code)}
-            className={`cursor-pointer gap-2 ${
-              language === lang.code ? 'bg-accent' : ''
-            }`}
+            className={`cursor-pointer gap-2 ${language === lang.code ? 'bg-accent' : ''}`}
           >
             <span className="text-base">{lang.flag}</span>
             <div className="flex flex-col">

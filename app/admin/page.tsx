@@ -113,7 +113,7 @@ export default function AdminDashboard() {
         setLoading(false);
         return;
       }
-      
+
       if (!session) {
         setLoading(false);
         return;
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
 
       try {
         const response = await fetch('/api/user/profile');
-        
+
         if (response.ok) {
           const userData = await response.json();
           // Check both userData.role and userData.user.role

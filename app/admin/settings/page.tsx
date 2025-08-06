@@ -26,29 +26,29 @@ export default function SettingsPage() {
       address: 'Tel Aviv, Israel',
       currency: 'ILS',
       language: 'he',
-      timezone: 'Asia/Jerusalem'
+      timezone: 'Asia/Jerusalem',
     },
     payments: {
       stripeEnabled: true,
       testMode: false,
       acceptedCards: ['visa', 'mastercard', 'isracard'],
       taxRate: 17,
-      freeShippingThreshold: 200
+      freeShippingThreshold: 200,
     },
     notifications: {
       orderNotifications: true,
       lowStockAlerts: true,
       customerEmails: true,
-      adminEmails: true
+      adminEmails: true,
     },
     security: {
       requireAccountForCheckout: false,
       enableRateLimiting: true,
       sessionTimeout: 30,
-      twoFactorAuth: false
-    }
+      twoFactorAuth: false,
+    },
   });
-  
+
   const router = useRouter();
   const supabase = createClientComponentClient();
 
@@ -57,17 +57,19 @@ export default function SettingsPage() {
   }, []);
 
   const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       router.push('/auth/login');
       return;
     }
-    
+
     if (session.user.email !== 'michaelvx@gmail.com') {
       router.push('/');
       return;
     }
-    
+
     setUser(session.user);
     setLoading(false);
   };
@@ -77,7 +79,7 @@ export default function SettingsPage() {
     try {
       // In a real implementation, you would save to your settings table
       // For now, we'll just simulate a save
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       alert(`${category} settings saved successfully!`);
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -91,8 +93,8 @@ export default function SettingsPage() {
     return (
       <div className="container mx-auto p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-96 bg-gray-200 rounded"></div>
+          <div className="h-8 w-1/4 rounded bg-gray-200"></div>
+          <div className="h-96 rounded bg-gray-200"></div>
         </div>
       </div>
     );
@@ -103,7 +105,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto space-y-8 p-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Settings className="h-8 w-8" />
@@ -147,16 +149,18 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="storeName">Store Name</Label>
                   <Input
                     id="storeName"
                     value={settings.store.name}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      store: { ...prev.store, name: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        store: { ...prev.store, name: e.target.value },
+                      }))
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -165,10 +169,12 @@ export default function SettingsPage() {
                     id="storeEmail"
                     type="email"
                     value={settings.store.email}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      store: { ...prev.store, email: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        store: { ...prev.store, email: e.target.value },
+                      }))
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -176,10 +182,12 @@ export default function SettingsPage() {
                   <Input
                     id="storePhone"
                     value={settings.store.phone}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      store: { ...prev.store, phone: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        store: { ...prev.store, phone: e.target.value },
+                      }))
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -187,23 +195,27 @@ export default function SettingsPage() {
                   <Input
                     id="currency"
                     value={settings.store.currency}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      store: { ...prev.store, currency: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        store: { ...prev.store, currency: e.target.value },
+                      }))
+                    }
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="storeDescription">Store Description</Label>
                 <Textarea
                   id="storeDescription"
                   value={settings.store.description}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    store: { ...prev.store, description: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      store: { ...prev.store, description: e.target.value },
+                    }))
+                  }
                   rows={3}
                 />
               </div>
@@ -213,15 +225,17 @@ export default function SettingsPage() {
                 <Textarea
                   id="storeAddress"
                   value={settings.store.address}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    store: { ...prev.store, address: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      store: { ...prev.store, address: e.target.value },
+                    }))
+                  }
                   rows={2}
                 />
               </div>
 
-              <Button 
+              <Button
                 onClick={() => handleSave('Store')}
                 disabled={saving}
                 className="flex items-center gap-2"
@@ -241,27 +255,29 @@ export default function SettingsPage() {
                 <CreditCard className="h-5 w-5" />
                 Payment Configuration
               </CardTitle>
-              <CardDescription>
-                Manage payment methods and tax settings
-              </CardDescription>
+              <CardDescription>Manage payment methods and tax settings</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <Label>Stripe Payments</Label>
-                      <p className="text-sm text-muted-foreground">Enable Stripe payment processing</p>
+                      <p className="text-sm text-muted-foreground">
+                        Enable Stripe payment processing
+                      </p>
                     </div>
                     <Switch
                       checked={settings.payments.stripeEnabled}
-                      onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                        ...prev,
-                        payments: { ...prev.payments, stripeEnabled: checked }
-                      }))}
+                      onCheckedChange={(checked: boolean) =>
+                        setSettings((prev) => ({
+                          ...prev,
+                          payments: { ...prev.payments, stripeEnabled: checked },
+                        }))
+                      }
                     />
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div>
                       <Label>Test Mode</Label>
@@ -269,10 +285,12 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={settings.payments.testMode}
-                      onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                        ...prev,
-                        payments: { ...prev.payments, testMode: checked }
-                      }))}
+                      onCheckedChange={(checked: boolean) =>
+                        setSettings((prev) => ({
+                          ...prev,
+                          payments: { ...prev.payments, testMode: checked },
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -284,10 +302,12 @@ export default function SettingsPage() {
                       id="taxRate"
                       type="number"
                       value={settings.payments.taxRate}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        payments: { ...prev.payments, taxRate: parseInt(e.target.value) }
-                      }))}
+                      onChange={(e) =>
+                        setSettings((prev) => ({
+                          ...prev,
+                          payments: { ...prev.payments, taxRate: parseInt(e.target.value) },
+                        }))
+                      }
                     />
                   </div>
 
@@ -297,10 +317,15 @@ export default function SettingsPage() {
                       id="freeShipping"
                       type="number"
                       value={settings.payments.freeShippingThreshold}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        payments: { ...prev.payments, freeShippingThreshold: parseInt(e.target.value) }
-                      }))}
+                      onChange={(e) =>
+                        setSettings((prev) => ({
+                          ...prev,
+                          payments: {
+                            ...prev.payments,
+                            freeShippingThreshold: parseInt(e.target.value),
+                          },
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -310,12 +335,14 @@ export default function SettingsPage() {
                 <Label>Accepted Card Types</Label>
                 <div className="flex gap-2">
                   {settings.payments.acceptedCards.map((card) => (
-                    <Badge key={card} variant="secondary">{card}</Badge>
+                    <Badge key={card} variant="secondary">
+                      {card}
+                    </Badge>
                   ))}
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => handleSave('Payment')}
                 disabled={saving}
                 className="flex items-center gap-2"
@@ -335,9 +362,7 @@ export default function SettingsPage() {
                 <Bell className="h-5 w-5" />
                 Notification Preferences
               </CardTitle>
-              <CardDescription>
-                Configure email notifications and alerts
-              </CardDescription>
+              <CardDescription>Configure email notifications and alerts</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
@@ -348,57 +373,71 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={settings.notifications.orderNotifications}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      notifications: { ...prev.notifications, orderNotifications: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        notifications: { ...prev.notifications, orderNotifications: checked },
+                      }))
+                    }
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Low Stock Alerts</Label>
-                    <p className="text-sm text-muted-foreground">Alert when products are low in stock</p>
+                    <p className="text-sm text-muted-foreground">
+                      Alert when products are low in stock
+                    </p>
                   </div>
                   <Switch
                     checked={settings.notifications.lowStockAlerts}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      notifications: { ...prev.notifications, lowStockAlerts: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        notifications: { ...prev.notifications, lowStockAlerts: checked },
+                      }))
+                    }
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Customer Emails</Label>
-                    <p className="text-sm text-muted-foreground">Send order confirmations to customers</p>
+                    <p className="text-sm text-muted-foreground">
+                      Send order confirmations to customers
+                    </p>
                   </div>
                   <Switch
                     checked={settings.notifications.customerEmails}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      notifications: { ...prev.notifications, customerEmails: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        notifications: { ...prev.notifications, customerEmails: checked },
+                      }))
+                    }
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Admin Email Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Receive admin notifications via email</p>
+                    <p className="text-sm text-muted-foreground">
+                      Receive admin notifications via email
+                    </p>
                   </div>
                   <Switch
                     checked={settings.notifications.adminEmails}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      notifications: { ...prev.notifications, adminEmails: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        notifications: { ...prev.notifications, adminEmails: checked },
+                      }))
+                    }
                   />
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => handleSave('Notification')}
                 disabled={saving}
                 className="flex items-center gap-2"
@@ -418,37 +457,43 @@ export default function SettingsPage() {
                 <Shield className="h-5 w-5" />
                 Security Configuration
               </CardTitle>
-              <CardDescription>
-                Manage security settings and authentication options
-              </CardDescription>
+              <CardDescription>Manage security settings and authentication options</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Require Account for Checkout</Label>
-                    <p className="text-sm text-muted-foreground">Force users to create account before checkout</p>
+                    <p className="text-sm text-muted-foreground">
+                      Force users to create account before checkout
+                    </p>
                   </div>
                   <Switch
                     checked={settings.security.requireAccountForCheckout}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      security: { ...prev.security, requireAccountForCheckout: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        security: { ...prev.security, requireAccountForCheckout: checked },
+                      }))
+                    }
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Rate Limiting</Label>
-                    <p className="text-sm text-muted-foreground">Enable API rate limiting protection</p>
+                    <p className="text-sm text-muted-foreground">
+                      Enable API rate limiting protection
+                    </p>
                   </div>
                   <Switch
                     checked={settings.security.enableRateLimiting}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      security: { ...prev.security, enableRateLimiting: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        security: { ...prev.security, enableRateLimiting: checked },
+                      }))
+                    }
                   />
                 </div>
 
@@ -459,10 +504,12 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={settings.security.twoFactorAuth}
-                    onCheckedChange={(checked: boolean) => setSettings(prev => ({
-                      ...prev,
-                      security: { ...prev.security, twoFactorAuth: checked }
-                    }))}
+                    onCheckedChange={(checked: boolean) =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        security: { ...prev.security, twoFactorAuth: checked },
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -473,15 +520,17 @@ export default function SettingsPage() {
                   id="sessionTimeout"
                   type="number"
                   value={settings.security.sessionTimeout}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    security: { ...prev.security, sessionTimeout: parseInt(e.target.value) }
-                  }))}
+                  onChange={(e) =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      security: { ...prev.security, sessionTimeout: parseInt(e.target.value) },
+                    }))
+                  }
                   className="w-32"
                 />
               </div>
 
-              <Button 
+              <Button
                 onClick={() => handleSave('Security')}
                 disabled={saving}
                 className="flex items-center gap-2"

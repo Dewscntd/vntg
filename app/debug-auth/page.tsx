@@ -11,7 +11,7 @@ export default function DebugAuthPage() {
   const [user, setUser] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -21,13 +21,16 @@ export default function DebugAuthPage() {
   const checkAuth = async () => {
     try {
       // Get current session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
       console.log('Session data:', session);
       console.log('Session error:', sessionError);
-      
+
       setSession(session);
-      
+
       if (sessionError) {
         setError('Session error: ' + sessionError.message);
       } else if (!session) {
@@ -39,10 +42,10 @@ export default function DebugAuthPage() {
           .select('*')
           .eq('email', session.user.email)
           .single();
-          
+
         console.log('User data:', userData);
         console.log('User error:', userError);
-        
+
         setUser(userData);
         if (userError && userError.code !== 'PGRST116') {
           setError('User lookup error: ' + userError.message);
@@ -74,9 +77,9 @@ export default function DebugAuthPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto space-y-6 p-6">
       <h1 className="text-3xl font-bold">Authentication Debug</h1>
-      
+
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -85,16 +88,30 @@ export default function DebugAuthPage() {
           <CardContent className="space-y-4">
             {session ? (
               <div className="space-y-2">
-                <div><strong>Status:</strong> <span className="text-green-600">Logged In</span></div>
-                <div><strong>Email:</strong> {session.user?.email}</div>
-                <div><strong>User ID:</strong> <code className="text-xs">{session.user?.id}</code></div>
-                <div><strong>Provider:</strong> {session.user?.app_metadata?.provider}</div>
-                <div><strong>Created:</strong> {new Date(session.user?.created_at).toLocaleString()}</div>
-                <Button onClick={handleLogout} variant="outline">Sign Out</Button>
+                <div>
+                  <strong>Status:</strong> <span className="text-green-600">Logged In</span>
+                </div>
+                <div>
+                  <strong>Email:</strong> {session.user?.email}
+                </div>
+                <div>
+                  <strong>User ID:</strong> <code className="text-xs">{session.user?.id}</code>
+                </div>
+                <div>
+                  <strong>Provider:</strong> {session.user?.app_metadata?.provider}
+                </div>
+                <div>
+                  <strong>Created:</strong> {new Date(session.user?.created_at).toLocaleString()}
+                </div>
+                <Button onClick={handleLogout} variant="outline">
+                  Sign Out
+                </Button>
               </div>
             ) : (
               <div className="space-y-2">
-                <div><strong>Status:</strong> <span className="text-red-600">Not Logged In</span></div>
+                <div>
+                  <strong>Status:</strong> <span className="text-red-600">Not Logged In</span>
+                </div>
                 <Button onClick={handleLogin}>Go to Login</Button>
               </div>
             )}
@@ -108,14 +125,24 @@ export default function DebugAuthPage() {
           <CardContent className="space-y-4">
             {user ? (
               <div className="space-y-2">
-                <div><strong>Database Status:</strong> <span className="text-green-600">Found</span></div>
-                <div><strong>Role:</strong> {user.role || 'No role set'}</div>
-                <div><strong>Full Name:</strong> {user.full_name || 'Not set'}</div>
-                <div><strong>Created:</strong> {new Date(user.created_at).toLocaleString()}</div>
+                <div>
+                  <strong>Database Status:</strong> <span className="text-green-600">Found</span>
+                </div>
+                <div>
+                  <strong>Role:</strong> {user.role || 'No role set'}
+                </div>
+                <div>
+                  <strong>Full Name:</strong> {user.full_name || 'Not set'}
+                </div>
+                <div>
+                  <strong>Created:</strong> {new Date(user.created_at).toLocaleString()}
+                </div>
               </div>
             ) : (
               <div className="space-y-2">
-                <div><strong>Database Status:</strong> <span className="text-red-600">Not Found</span></div>
+                <div>
+                  <strong>Database Status:</strong> <span className="text-red-600">Not Found</span>
+                </div>
                 <div>User record may need to be created in the database.</div>
               </div>
             )}
@@ -129,7 +156,7 @@ export default function DebugAuthPage() {
             <CardTitle className="text-red-600">Error Details</CardTitle>
           </CardHeader>
           <CardContent>
-            <pre className="text-sm text-red-600 whitespace-pre-wrap">{error}</pre>
+            <pre className="whitespace-pre-wrap text-sm text-red-600">{error}</pre>
           </CardContent>
         </Card>
       )}
@@ -141,7 +168,7 @@ export default function DebugAuthPage() {
         <CardContent className="space-y-4">
           {session?.user?.email === 'michaelvx@gmail.com' ? (
             <div className="space-y-2">
-              <div className="text-green-600 font-semibold">✅ Admin email verified</div>
+              <div className="font-semibold text-green-600">✅ Admin email verified</div>
               <div className="space-x-2">
                 <Button asChild>
                   <Link href="/admin-direct">Access Admin Panel</Link>

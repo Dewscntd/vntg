@@ -10,7 +10,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Peakees | Second-Hand Fashion Store',
-  description: 'Unique second-hand clothing, shoes, toys and books in Israel. Quality pre-owned fashion for everyone.',
+  description:
+    'Unique second-hand clothing, shoes, toys and books in Israel. Quality pre-owned fashion for everyone.',
 };
 
 export default function RootLayout({

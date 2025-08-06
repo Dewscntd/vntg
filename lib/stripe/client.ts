@@ -7,7 +7,7 @@ export const getStripe = (locale?: string) => {
   if (USE_STUBS) {
     return Promise.resolve(mockStripe as any);
   }
-  
+
   if (!stripePromise) {
     stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!, {
       locale: (locale as any) || 'auto', // Stripe will auto-detect or use provided locale
@@ -21,7 +21,7 @@ export const getStripeForIsrael = () => {
   if (USE_STUBS) {
     return Promise.resolve(mockStripe as any);
   }
-  
+
   return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!, {
     locale: 'en', // Hebrew not fully supported, use English for Israeli customers
   });

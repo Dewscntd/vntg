@@ -37,12 +37,15 @@ export function useCachedFetch<T = any>(
 
   const isMountedRef = useRef(true);
   const fetchingRef = useRef(false);
-  
+
   // Memoize headers to prevent infinite loops
-  const memoizedHeaders = useMemo(() => ({
-    'Content-Type': 'application/json',
-    ...headers,
-  }), [JSON.stringify(headers)]);
+  const memoizedHeaders = useMemo(
+    () => ({
+      'Content-Type': 'application/json',
+      ...headers,
+    }),
+    [JSON.stringify(headers)]
+  );
 
   // Initialize with cached data
   useEffect(() => {
@@ -61,11 +64,11 @@ export function useCachedFetch<T = any>(
     // Only fetch if we're enabled and not already fetching
     if (enabled && !fetchingRef.current) {
       fetchingRef.current = true;
-      
+
       const doFetch = async () => {
         if (!isMountedRef.current) return;
-        
-        setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+        setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
         try {
           const response = await fetch(url, {
@@ -117,9 +120,9 @@ export function useCachedFetch<T = any>(
   // Function to manually refetch data
   const refetch = useCallback(async () => {
     if (fetchingRef.current) return;
-    
+
     fetchingRef.current = true;
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
       const response = await fetch(url, {

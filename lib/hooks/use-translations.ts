@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getHebrewTranslation, shouldUseHebrew, hebrewTranslations } from '@/lib/translations/hebrew';
+import {
+  getHebrewTranslation,
+  shouldUseHebrew,
+  hebrewTranslations,
+} from '@/lib/translations/hebrew';
 
 export type Language = 'en' | 'he';
 
@@ -75,7 +79,7 @@ export function useTranslations() {
   const switchLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsRTL(newLanguage === 'he');
-    
+
     // Update document direction
     if (typeof document !== 'undefined') {
       document.documentElement.dir = newLanguage === 'he' ? 'rtl' : 'ltr';
@@ -95,7 +99,7 @@ export function useTranslations() {
         maximumFractionDigits: 0,
       }).format(price);
     }
-    
+
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -108,7 +112,7 @@ export function useTranslations() {
    */
   const formatDate = (date: Date | string): string => {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
-    
+
     if (language === 'he') {
       return new Intl.DateTimeFormat('he-IL', {
         year: 'numeric',
@@ -116,7 +120,7 @@ export function useTranslations() {
         day: 'numeric',
       }).format(dateObj);
     }
-    
+
     return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',

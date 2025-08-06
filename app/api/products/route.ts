@@ -21,39 +21,40 @@ export async function GET(req: NextRequest) {
       const is_featured = url.searchParams.get('is_featured');
       const min_price = url.searchParams.get('min_price');
       const max_price = url.searchParams.get('max_price');
-      
+
       let products = [...mockProducts];
-      
+
       // Apply filters
       if (category_id) {
-        products = products.filter(p => p.category_id === category_id);
+        products = products.filter((p) => p.category_id === category_id);
       }
-      
+
       if (is_featured !== null) {
         const featuredValue = is_featured === 'true';
-        products = products.filter(p => p.is_featured === featuredValue);
+        products = products.filter((p) => p.is_featured === featuredValue);
       }
-      
+
       if (min_price) {
         const minPrice = parseFloat(min_price);
-        products = products.filter(p => p.price >= minPrice);
+        products = products.filter((p) => p.price >= minPrice);
       }
-      
+
       if (max_price) {
         const maxPrice = parseFloat(max_price);
-        products = products.filter(p => p.price <= maxPrice);
+        products = products.filter((p) => p.price <= maxPrice);
       }
-      
+
       if (search) {
-        products = products.filter(p => 
-          p.name.toLowerCase().includes(search.toLowerCase()) ||
-          p.description?.toLowerCase().includes(search.toLowerCase())
+        products = products.filter(
+          (p) =>
+            p.name.toLowerCase().includes(search.toLowerCase()) ||
+            p.description?.toLowerCase().includes(search.toLowerCase())
         );
       }
-      
+
       // Apply pagination
       const paginatedProducts = products.slice(offset, offset + limit);
-      
+
       return successResponse({
         products: paginatedProducts,
         pagination: {

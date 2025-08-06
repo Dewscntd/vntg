@@ -6,19 +6,13 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  BarChart3,
-  Package,
-  ShoppingCart,
-  Users,
-  Plus,
-} from 'lucide-react';
+import { BarChart3, Package, ShoppingCart, Users, Plus } from 'lucide-react';
 
 export default function DirectAdminPage() {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -27,8 +21,11 @@ export default function DirectAdminPage() {
 
   const checkUser = async () => {
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
       if (sessionError) {
         setError('Session error: ' + sessionError.message);
         setIsLoading(false);
@@ -48,7 +45,7 @@ export default function DirectAdminPage() {
       } else {
         setError('Access denied. Admin only.');
       }
-      
+
       setIsLoading(false);
     } catch (err) {
       console.error('Error checking user:', err);
@@ -59,9 +56,9 @@ export default function DirectAdminPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
+          <div className="mx-auto h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900"></div>
           <p className="mt-4">Loading admin panel...</p>
         </div>
       </div>
@@ -70,10 +67,10 @@ export default function DirectAdminPage() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Access Error</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <h1 className="mb-4 text-2xl font-bold text-red-600">Access Error</h1>
+          <p className="mb-4 text-gray-600">{error}</p>
           <Button asChild>
             <Link href="/auth/login">Go to Login</Link>
           </Button>
@@ -84,10 +81,10 @@ export default function DirectAdminPage() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Admin Access Required</h1>
-          <p className="text-gray-600 mb-4">Please log in with admin credentials.</p>
+          <h1 className="mb-4 text-2xl font-bold">Admin Access Required</h1>
+          <p className="mb-4 text-gray-600">Please log in with admin credentials.</p>
           <Button asChild>
             <Link href="/auth/login">Login</Link>
           </Button>
@@ -99,18 +96,17 @@ export default function DirectAdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-6">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
-              <Badge variant="secondary" className="ml-2">Direct Access</Badge>
+              <Badge variant="secondary" className="ml-2">
+                Direct Access
+              </Badge>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user.email}</span>
-              <Button
-                variant="outline"
-                onClick={() => supabase.auth.signOut()}
-              >
+              <Button variant="outline" onClick={() => supabase.auth.signOut()}>
                 Sign Out
               </Button>
             </div>
@@ -118,8 +114,8 @@ export default function DirectAdminPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
@@ -189,7 +185,7 @@ export default function DirectAdminPage() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Admin Access Status</CardTitle>
@@ -219,19 +215,19 @@ export default function DirectAdminPage() {
             <CardContent>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
                   <span>Product Management</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
                   <span>Order Processing</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
                   <span>User Management</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
                   <span>Analytics Dashboard</span>
                 </div>
               </div>

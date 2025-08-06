@@ -1,6 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useCallback,
+  useState,
+} from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
 import {
   saveCartToStorage,
@@ -236,10 +243,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Load cart on mount and when user changes
   useEffect(() => {
     let mounted = true;
-    
+
     const loadCart = async () => {
       if (!mounted) return;
-      
+
       if (session?.access_token) {
         // User is logged in - sync with server
         const localCart = loadCartFromStorage();
@@ -260,7 +267,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           // Fetch cart directly to avoid stale closure
           if (!mounted) return;
-          
+
           dispatch({ type: 'SET_LOADING', payload: true });
 
           try {
@@ -275,7 +282,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
 
             const data = await response.json();
-            
+
             if (mounted) {
               dispatch({
                 type: 'SET_CART',
@@ -316,7 +323,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setLastUserId(currentUserId);
       loadCart();
     }
-    
+
     return () => {
       mounted = false;
     };

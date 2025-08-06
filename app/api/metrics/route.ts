@@ -7,13 +7,13 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = createRouteHandlerClient({ cookies });
     const startTime = Date.now();
-    
+
     // Memory metrics
     const memoryUsage = process.memoryUsage();
-    
+
     // Uptime metrics
     const uptime = process.uptime();
-    
+
     // Database connection metrics
     let dbResponseTime = 0;
     let dbStatus = 0;
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     } catch (error) {
       dbStatus = 0;
     }
-    
+
     // Generate Prometheus-style metrics
     const metrics = `
 # HELP nodejs_memory_heap_used_bytes Node.js heap memory used in bytes
@@ -85,11 +85,11 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = createRouteHandlerClient({ cookies });
     const startTime = Date.now();
-    
+
     // Collect various metrics
     const memoryUsage = process.memoryUsage();
     const uptime = process.uptime();
-    
+
     // Database metrics
     let dbMetrics = {};
     try {
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
         error: error.message,
       };
     }
-    
+
     // System metrics
     const systemMetrics = {
       memory: {
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
       platform: process.platform,
       arch: process.arch,
     };
-    
+
     // Application metrics (you can extend this with business metrics)
     const appMetrics = {
       version: process.env.npm_package_version || '1.0.0',
@@ -132,13 +132,13 @@ export async function POST(req: NextRequest) {
       timestamp: new Date().toISOString(),
       responseTime: Date.now() - startTime,
     };
-    
+
     const metrics = {
       system: systemMetrics,
       database: dbMetrics,
       application: appMetrics,
     };
-    
+
     return NextResponse.json(metrics, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(
@@ -153,7 +153,7 @@ function formatUptime(seconds: number): string {
   const hours = Math.floor((seconds % 86400) / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
-  
+
   if (days > 0) return `${days}d ${hours}h ${minutes}m ${secs}s`;
   if (hours > 0) return `${hours}h ${minutes}m ${secs}s`;
   if (minutes > 0) return `${minutes}m ${secs}s`;

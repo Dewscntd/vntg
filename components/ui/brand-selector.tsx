@@ -6,11 +6,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -19,7 +15,13 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { israeliBrands, searchBrands, getBrandDisplayName, Brand, getPopularBrands } from '@/lib/data/israeli-brands';
+import {
+  israeliBrands,
+  searchBrands,
+  getBrandDisplayName,
+  Brand,
+  getPopularBrands,
+} from '@/lib/data/israeli-brands';
 import { useTranslations } from '@/lib/hooks/use-translations';
 
 interface BrandSelectorProps {
@@ -53,13 +55,13 @@ export function BrandSelector({
   // Get popular brands for the category
   const popularBrands = useMemo(() => {
     const popular = getPopularBrands();
-    return category 
-      ? popular.filter(brand => brand.category.includes(category))
+    return category
+      ? popular.filter((brand) => brand.category.includes(category))
       : popular.slice(0, 10);
   }, [category]);
 
   // Find selected brand
-  const selectedBrand = israeliBrands.find(brand => brand.name === value);
+  const selectedBrand = israeliBrands.find((brand) => brand.name === value);
 
   const handleSelect = (brandName: string) => {
     onValueChange?.(brandName);
@@ -67,9 +69,9 @@ export function BrandSelector({
     setSearchQuery('');
   };
 
-  const displayValue = selectedBrand 
+  const displayValue = selectedBrand
     ? getBrandDisplayName(selectedBrand, isHebrew)
-    : (placeholder || (isHebrew ? 'בחר מותג' : 'Select brand'));
+    : placeholder || (isHebrew ? 'בחר מותג' : 'Select brand');
 
   return (
     <div className={className}>
@@ -79,63 +81,60 @@ export function BrandSelector({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={cn(
-              "w-full justify-between",
-              !value && "text-muted-foreground"
-            )}
+            className={cn('w-full justify-between', !value && 'text-muted-foreground')}
             disabled={disabled}
           >
             <span className="truncate">{displayValue}</span>
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[400px] p-0" align={isHebrew ? "end" : "start"}>
+        <PopoverContent className="w-[400px] p-0" align={isHebrew ? 'end' : 'start'}>
           <Command>
             <div className="flex items-center border-b px-3">
               <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
               <CommandInput
-                placeholder={isHebrew ? "חפש מותג..." : "Search brands..."}
+                placeholder={isHebrew ? 'חפש מותג...' : 'Search brands...'}
                 value={searchQuery}
                 onValueChange={setSearchQuery}
                 className="border-0 focus:ring-0"
               />
             </div>
             <CommandList className="max-h-[300px]">
-              <CommandEmpty>
-                {isHebrew ? "לא נמצאו מותגים" : "No brands found"}
-              </CommandEmpty>
-              
+              <CommandEmpty>{isHebrew ? 'לא נמצאו מותגים' : 'No brands found'}</CommandEmpty>
+
               {/* Popular Brands */}
               {!searchQuery && popularBrands.length > 0 && (
-                <CommandGroup heading={isHebrew ? "מותגים פופולריים" : "Popular Brands"}>
+                <CommandGroup heading={isHebrew ? 'מותגים פופולריים' : 'Popular Brands'}>
                   {popularBrands.map((brand) => (
                     <CommandItem
                       key={`popular-${brand.name}`}
                       value={brand.name}
                       onSelect={() => handleSelect(brand.name)}
-                      className="flex items-center gap-2 cursor-pointer"
+                      className="flex cursor-pointer items-center gap-2"
                     >
                       <Check
                         className={cn(
-                          "h-4 w-4",
-                          value === brand.name ? "opacity-100" : "opacity-0"
+                          'h-4 w-4',
+                          value === brand.name ? 'opacity-100' : 'opacity-0'
                         )}
                       />
                       <Star className="h-3 w-3 text-yellow-500" />
-                      <span className="truncate">
-                        {getBrandDisplayName(brand, isHebrew)}
-                      </span>
+                      <span className="truncate">{getBrandDisplayName(brand, isHebrew)}</span>
                     </CommandItem>
                   ))}
                 </CommandGroup>
               )}
 
               {/* All Brands */}
-              <CommandGroup 
+              <CommandGroup
                 heading={
-                  searchQuery 
-                    ? (isHebrew ? "תוצאות חיפוש" : "Search Results")
-                    : (isHebrew ? "כל המותגים" : "All Brands")
+                  searchQuery
+                    ? isHebrew
+                      ? 'תוצאות חיפוש'
+                      : 'Search Results'
+                    : isHebrew
+                      ? 'כל המותגים'
+                      : 'All Brands'
                 }
               >
                 {filteredBrands.map((brand) => (
@@ -143,17 +142,12 @@ export function BrandSelector({
                     key={brand.name}
                     value={brand.name}
                     onSelect={() => handleSelect(brand.name)}
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="flex cursor-pointer items-center gap-2"
                   >
                     <Check
-                      className={cn(
-                        "h-4 w-4",
-                        value === brand.name ? "opacity-100" : "opacity-0"
-                      )}
+                      className={cn('h-4 w-4', value === brand.name ? 'opacity-100' : 'opacity-0')}
                     />
-                    <span className="truncate">
-                      {getBrandDisplayName(brand, isHebrew)}
-                    </span>
+                    <span className="truncate">{getBrandDisplayName(brand, isHebrew)}</span>
                     <span className="text-xs text-muted-foreground">
                       {brand.category.join(', ')}
                     </span>
@@ -162,7 +156,7 @@ export function BrandSelector({
               </CommandGroup>
 
               {/* Manual Entry Option */}
-              <CommandGroup heading={isHebrew ? "אחר" : "Other"}>
+              <CommandGroup heading={isHebrew ? 'אחר' : 'Other'}>
                 <CommandItem
                   onSelect={() => {
                     const customBrand = searchQuery.trim();
@@ -174,10 +168,13 @@ export function BrandSelector({
                 >
                   <Check className="h-4 w-4 opacity-0" />
                   <span className="text-muted-foreground">
-                    {searchQuery 
-                      ? (isHebrew ? `הוסף "${searchQuery}"` : `Add "${searchQuery}"`)
-                      : (isHebrew ? "הכנס מותג אחר..." : "Enter custom brand...")
-                    }
+                    {searchQuery
+                      ? isHebrew
+                        ? `הוסף "${searchQuery}"`
+                        : `Add "${searchQuery}"`
+                      : isHebrew
+                        ? 'הכנס מותג אחר...'
+                        : 'Enter custom brand...'}
                   </span>
                 </CommandItem>
               </CommandGroup>
@@ -217,7 +214,7 @@ export function BrandInput({
 
   const handleInputChange = (inputValue: string) => {
     onChange?.(inputValue);
-    
+
     if (inputValue.length > 0) {
       const results = searchBrands(inputValue, category).slice(0, 8);
       setSuggestions(results);
@@ -233,23 +230,25 @@ export function BrandInput({
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn('relative', className)}>
       <Input
         value={value}
         onChange={(e) => handleInputChange(e.target.value)}
-        placeholder={placeholder || (isHebrew ? "הכנס מותג..." : "Enter brand...")}
+        placeholder={placeholder || (isHebrew ? 'הכנס מותג...' : 'Enter brand...')}
         required={required}
         disabled={disabled}
         onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-        onFocus={() => value.length > 0 && setSuggestions(searchBrands(value, category).slice(0, 8))}
+        onFocus={() =>
+          value.length > 0 && setSuggestions(searchBrands(value, category).slice(0, 8))
+        }
       />
-      
+
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto">
+        <div className="absolute z-50 mt-1 max-h-48 w-full overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg">
           {suggestions.map((brand) => (
             <button
               key={brand.name}
-              className="w-full text-left px-3 py-2 hover:bg-gray-100 flex items-center justify-between"
+              className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-100"
               onClick={() => handleSuggestionClick(brand)}
               type="button"
             >

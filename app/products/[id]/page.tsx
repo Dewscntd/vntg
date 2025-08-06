@@ -93,7 +93,7 @@ export default function ProductDetailPage() {
 
   // Create variant groups from product specifications
   const variantGroups = [];
-  
+
   // Size from specifications
   if (product.specifications?.size) {
     variantGroups.push({
@@ -110,7 +110,7 @@ export default function ProductDetailPage() {
       ],
     });
   }
-  
+
   // Condition from specifications
   if (product.specifications?.condition) {
     variantGroups.push({
@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
       ],
     });
   }
-  
+
   // Brand from specifications
   if (product.specifications?.brand) {
     variantGroups.push({

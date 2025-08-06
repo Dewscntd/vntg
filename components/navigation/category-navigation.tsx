@@ -42,10 +42,10 @@ export function CategoryNavigation({
   // Get categories in specific order for fashion store
   const allCategories = categoriesData?.categories || [];
   const categoryOrder = ['Man', 'Woman', 'Teens', 'Kids', 'Books & Media', 'Toys & Games'];
-  
+
   // Sort categories by the desired order
   const categories = categoryOrder
-    .map(name => allCategories.find((cat: any) => cat.name === name))
+    .map((name) => allCategories.find((cat: any) => cat.name === name))
     .filter(Boolean);
 
   // Build category tree

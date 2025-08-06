@@ -35,10 +35,10 @@ export default function CategoriesPage() {
 
   // Ensure consistent category order and filtering
   const categoryOrder = ['Man', 'Woman', 'Teens', 'Kids', 'Books & Media', 'Toys & Games'];
-  
+
   const categories = data?.categories || [];
   const sortedCategories = categoryOrder
-    .map(name => categories.find((cat: Category) => cat.name === name))
+    .map((name) => categories.find((cat: Category) => cat.name === name))
     .filter(Boolean) as Category[];
 
   // Ensure we have consistent content for SSR
@@ -48,11 +48,12 @@ export default function CategoriesPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+        <h1 className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-4xl font-bold tracking-tight text-transparent">
           Shop by Category
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Discover curated vintage fashion for every member of your family, plus books and games to complete your lifestyle
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          Discover curated vintage fashion for every member of your family, plus books and games to
+          complete your lifestyle
         </p>
       </div>
 
@@ -79,21 +80,23 @@ export default function CategoriesPage() {
       {!isLoading && !error && (
         <>
           {sortedCategories.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {sortedCategories.map((category: Category) => {
                 const { icon: Icon, color, bg } = getCategoryIcon(category.name);
                 return (
                   <Link key={category.id} href={`/categories/${category.id}`}>
-                    <Card className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl group border-0 shadow-lg">
-                      <CardHeader className="text-center pb-4">
-                        <div className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${bg} transition-all duration-300 group-hover:scale-110`}>
+                    <Card className="group h-full border-0 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                      <CardHeader className="pb-4 text-center">
+                        <div
+                          className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${bg} transition-all duration-300 group-hover:scale-110`}
+                        >
                           <Icon className={`h-10 w-10 ${color}`} />
                         </div>
                         <CardTitle className="text-xl font-semibold">{category.name}</CardTitle>
                       </CardHeader>
                       {category.description && (
                         <CardContent className="pt-0">
-                          <p className="text-center text-muted-foreground leading-relaxed">
+                          <p className="text-center leading-relaxed text-muted-foreground">
                             {category.description}
                           </p>
                         </CardContent>

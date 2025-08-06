@@ -92,7 +92,7 @@ export default function AdminProductsPage() {
       if (response.ok) {
         const result = await response.json();
         console.log('Full API Response:', result); // Debug log
-        
+
         // Handle the response structure: { status: 'success', data: { products: [...], pagination: {...} } }
         if (result.status === 'success' && result.data) {
           const { products: apiProducts, pagination } = result.data;
@@ -120,15 +120,25 @@ export default function AdminProductsPage() {
       if (response.ok) {
         const data = await response.json();
         const allCategories = data.data?.categories || [];
-        
+
         // Filter out unwanted categories
-        const unwantedNames = ['Sports', 'Electronics', 'Home', 'Gardening', 'sports', 'electronics', 'home', 'gardening'];
-        const filteredCategories = allCategories.filter((cat: any) => 
-          !unwantedNames.some(unwanted => 
-            cat.name.toLowerCase().includes(unwanted.toLowerCase())
-          )
+        const unwantedNames = [
+          'Sports',
+          'Electronics',
+          'Home',
+          'Gardening',
+          'sports',
+          'electronics',
+          'home',
+          'gardening',
+        ];
+        const filteredCategories = allCategories.filter(
+          (cat: any) =>
+            !unwantedNames.some((unwanted) =>
+              cat.name.toLowerCase().includes(unwanted.toLowerCase())
+            )
         );
-        
+
         setCategories(filteredCategories);
         console.log('Filtered categories:', filteredCategories);
       }
@@ -189,272 +199,272 @@ export default function AdminProductsPage() {
 
   return (
     <AdminLayout>
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-              <p className="mt-1 text-gray-600">Manage your product catalog</p>
-            </div>
-            <Link href="/admin/products/new">
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Product
-              </Button>
-            </Link>
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Products</h1>
+            <p className="mt-1 text-gray-600">Manage your product catalog</p>
           </div>
+          <Link href="/admin/products/new">
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Product
+            </Button>
+          </Link>
         </div>
+      </div>
 
-        {/* Filters */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                <Input
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="created_at">Date Created</SelectItem>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="price">Price</SelectItem>
-                  <SelectItem value="inventory_count">Stock</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={sortOrder} onValueChange={setSortOrder}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Order" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="desc">Descending</SelectItem>
-                  <SelectItem value="asc">Ascending</SelectItem>
-                </SelectContent>
-              </Select>
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+              <Input
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Products Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>Products ({total})</span>
-              {loading && (
-                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="h-16 rounded bg-gray-200"></div>
-                  </div>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
                 ))}
-              </div>
-            ) : products.length === 0 ? (
-              <div className="py-12 text-center">
-                <Package className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No products</h3>
-                <p className="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
-                <div className="mt-6">
-                  <Link href="/admin/products/new">
-                    <Button>
-                      <Plus className="mr-2 h-4 w-4" />
-                      Add Product
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Product
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Category
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Price
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Stock
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Status
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                        Created
-                      </th>
-                      <th className="relative px-6 py-3">
-                        <span className="sr-only">Actions</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {products.map((product) => {
-                      const stockStatus = getStockStatus(product.inventory_count);
-                      return (
-                        <tr key={product.id} className="hover:bg-gray-50">
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="flex items-center">
-                              <div className="h-12 w-12 flex-shrink-0">
-                                {product.image_url ? (
-                                  <img
-                                    className="h-12 w-12 rounded-lg object-cover"
-                                    src={product.image_url}
-                                    alt={product.name}
-                                  />
-                                ) : (
-                                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-200">
-                                    <Package className="h-6 w-6 text-gray-400" />
-                                  </div>
-                                )}
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {product.name}
-                                </div>
-                                <div className="max-w-xs truncate text-sm text-gray-500">
-                                  {product.description}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                            {product.category?.name || 'Uncategorized'}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                            <div>
-                              {formatCurrency(product.price)}
-                              {product.discount_percent > 0 && (
-                                <div className="text-xs text-green-600">
-                                  {product.discount_percent}% off
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="flex items-center">
-                              <span className="mr-2 text-sm text-gray-900">
-                                {product.inventory_count}
-                              </span>
-                              {product.inventory_count < 10 && (
-                                <AlertTriangle className="h-4 w-4 text-orange-500" />
-                              )}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="flex flex-col gap-1">
-                              <Badge variant={stockStatus.variant}>{stockStatus.label}</Badge>
-                              {product.is_featured && (
-                                <Badge variant="outline" className="text-xs">
-                                  Featured
-                                </Badge>
-                              )}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                            {formatDate(product.created_at)}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/products/${product.id}`}>
-                                    <Eye className="mr-2 h-4 w-4" />
-                                    View
-                                  </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/admin/products/${product.id}/edit`}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit
-                                  </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                  onClick={() => handleDeleteProduct(product.id)}
-                                  className="text-red-600"
-                                >
-                                  <Trash2 className="mr-2 h-4 w-4" />
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
+              </SelectContent>
+            </Select>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-6 flex items-center justify-between">
-                <div className="text-sm text-gray-700">
-                  Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total}{' '}
-                  results
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 1}
-                  >
-                    Previous
-                  </Button>
-                  <span className="text-sm text-gray-700">
-                    Page {page} of {totalPages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage(page + 1)}
-                    disabled={page === totalPages}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger>
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="created_at">Date Created</SelectItem>
+                <SelectItem value="name">Name</SelectItem>
+                <SelectItem value="price">Price</SelectItem>
+                <SelectItem value="inventory_count">Stock</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={sortOrder} onValueChange={setSortOrder}>
+              <SelectTrigger>
+                <SelectValue placeholder="Order" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="desc">Descending</SelectItem>
+                <SelectItem value="asc">Ascending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Products Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>Products ({total})</span>
+            {loading && (
+              <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
             )}
-          </CardContent>
-        </Card>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="space-y-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="h-16 rounded bg-gray-200"></div>
+                </div>
+              ))}
+            </div>
+          ) : products.length === 0 ? (
+            <div className="py-12 text-center">
+              <Package className="mx-auto h-12 w-12 text-gray-400" />
+              <h3 className="mt-2 text-sm font-medium text-gray-900">No products</h3>
+              <p className="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
+              <div className="mt-6">
+                <Link href="/admin/products/new">
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Product
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Product
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Price
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Stock
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      Created
+                    </th>
+                    <th className="relative px-6 py-3">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {products.map((product) => {
+                    const stockStatus = getStockStatus(product.inventory_count);
+                    return (
+                      <tr key={product.id} className="hover:bg-gray-50">
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="flex items-center">
+                            <div className="h-12 w-12 flex-shrink-0">
+                              {product.image_url ? (
+                                <img
+                                  className="h-12 w-12 rounded-lg object-cover"
+                                  src={product.image_url}
+                                  alt={product.name}
+                                />
+                              ) : (
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-200">
+                                  <Package className="h-6 w-6 text-gray-400" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                {product.name}
+                              </div>
+                              <div className="max-w-xs truncate text-sm text-gray-500">
+                                {product.description}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                          {product.category?.name || 'Uncategorized'}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                          <div>
+                            {formatCurrency(product.price)}
+                            {product.discount_percent > 0 && (
+                              <div className="text-xs text-green-600">
+                                {product.discount_percent}% off
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="flex items-center">
+                            <span className="mr-2 text-sm text-gray-900">
+                              {product.inventory_count}
+                            </span>
+                            {product.inventory_count < 10 && (
+                              <AlertTriangle className="h-4 w-4 text-orange-500" />
+                            )}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="flex flex-col gap-1">
+                            <Badge variant={stockStatus.variant}>{stockStatus.label}</Badge>
+                            {product.is_featured && (
+                              <Badge variant="outline" className="text-xs">
+                                Featured
+                              </Badge>
+                            )}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                          {formatDate(product.created_at)}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem asChild>
+                                <Link href={`/products/${product.id}`}>
+                                  <Eye className="mr-2 h-4 w-4" />
+                                  View
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link href={`/admin/products/${product.id}/edit`}>
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleDeleteProduct(product.id)}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-6 flex items-center justify-between">
+              <div className="text-sm text-gray-700">
+                Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total}{' '}
+                results
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage(page - 1)}
+                  disabled={page === 1}
+                >
+                  Previous
+                </Button>
+                <span className="text-sm text-gray-700">
+                  Page {page} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage(page + 1)}
+                  disabled={page === totalPages}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </AdminLayout>
   );
 }

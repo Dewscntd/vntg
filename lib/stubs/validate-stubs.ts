@@ -2,18 +2,14 @@
 // This file contains runtime validation for stub data
 
 import { mockProducts, mockCategories, mockUser, mockAdminUser } from './mock-data';
-import { 
-  ProductSchema, 
-  CategorySchema,
-  UserSchema
-} from '../validation/api-schema-validator';
+import { ProductSchema, CategorySchema, UserSchema } from '../validation/api-schema-validator';
 
 export function validateStubData() {
   const results = {
     products: [] as any[],
     categories: [] as any[],
     users: [] as any[],
-    valid: true
+    valid: true,
   };
 
   console.log('🔍 Validating stub data schemas...\n');
@@ -24,13 +20,13 @@ export function validateStubData() {
     const validation = ProductSchema.safeParse(product);
     if (!validation.success) {
       console.error(`❌ Invalid product stub: ${product.id}`);
-      validation.error.issues.forEach(issue => {
+      validation.error.issues.forEach((issue) => {
         console.error(`   → ${issue.path.join('.')}: ${issue.message}`);
       });
       results.valid = false;
       results.products.push({
         id: product.id,
-        errors: validation.error.issues
+        errors: validation.error.issues,
       });
     } else {
       console.log(`✅ Product ${product.id}: Valid`);
@@ -43,13 +39,13 @@ export function validateStubData() {
     const validation = CategorySchema.safeParse(category);
     if (!validation.success) {
       console.error(`❌ Invalid category stub: ${category.id}`);
-      validation.error.issues.forEach(issue => {
+      validation.error.issues.forEach((issue) => {
         console.error(`   → ${issue.path.join('.')}: ${issue.message}`);
       });
       results.valid = false;
       results.categories.push({
         id: category.id,
-        errors: validation.error.issues
+        errors: validation.error.issues,
       });
     } else {
       console.log(`✅ Category ${category.id}: Valid`);
@@ -63,13 +59,13 @@ export function validateStubData() {
     const validation = UserSchema.safeParse(user);
     if (!validation.success) {
       console.error(`❌ Invalid user stub: ${user.id}`);
-      validation.error.issues.forEach(issue => {
+      validation.error.issues.forEach((issue) => {
         console.error(`   → ${issue.path.join('.')}: ${issue.message}`);
       });
       results.valid = false;
       results.users.push({
         id: user.id,
-        errors: validation.error.issues
+        errors: validation.error.issues,
       });
     } else {
       console.log(`✅ User ${user.id}: Valid`);
@@ -103,7 +99,7 @@ if (typeof window === 'undefined' && process.env.NODE_ENV === 'development') {
       try {
         validateStubData();
       } catch (error) {
-        console.warn('⚠️ Stub validation skipped:', error.message);
+        console.warn('⚠️ Stub validation skipped:', error instanceof Error ? error.message : error);
       }
     }, 1000);
   }

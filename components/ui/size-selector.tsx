@@ -25,16 +25,16 @@ export function SizeSelector({
   disabled,
 }: SizeSelectorProps) {
   const { isHebrew } = useTranslations();
-  
+
   // Get appropriate sizes based on category
   const availableSizes = getSizesForCategory(category);
-  
+
   // Group sizes for better display
   const groupedSizes = {
-    kids: availableSizes.filter(s => s.category === 'kids'),
-    clothing: availableSizes.filter(s => s.category === 'clothing'),
-    pants: availableSizes.filter(s => s.category === 'pants'),
-    shoes: availableSizes.filter(s => s.category === 'shoes'),
+    kids: availableSizes.filter((s) => s.category === 'kids'),
+    clothing: availableSizes.filter((s) => s.category === 'clothing'),
+    pants: availableSizes.filter((s) => s.category === 'pants'),
+    shoes: availableSizes.filter((s) => s.category === 'shoes'),
   };
 
   const handleSizeSelect = (sizeValue: string) => {
@@ -64,7 +64,7 @@ export function SizeSelector({
               onClick={() => handleSizeSelect(size.value)}
               disabled={disabled}
               className={cn(
-                'min-w-[2.5rem] h-8 text-xs',
+                'h-8 min-w-[2.5rem] text-xs',
                 value === size.value && 'ring-2 ring-primary ring-offset-1'
               )}
             >
@@ -80,15 +80,15 @@ export function SizeSelector({
     <div className={cn('space-y-3', className)}>
       <Label>
         {isHebrew ? 'מידה' : 'Size'}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </Label>
-      
+
       <div className="space-y-4">
-        {Object.entries(groupedSizes).map(([groupName, sizes]) => 
+        {Object.entries(groupedSizes).map(([groupName, sizes]) =>
           renderSizeGroup(sizes, groupName)
         )}
       </div>
-      
+
       {value && (
         <div className="text-sm text-muted-foreground">
           {isHebrew ? 'נבחר: ' : 'Selected: '}
