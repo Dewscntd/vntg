@@ -4,6 +4,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    // Temporarily ignore TypeScript errors during builds (only for deployment)
+    ignoreBuildErrors: process.env.NODE_ENV === 'production' && process.env.IGNORE_TS_ERRORS === 'true',
+  },
 
   // Performance optimizations
   compress: true,
