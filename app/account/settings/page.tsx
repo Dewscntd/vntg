@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { ProfileForm } from '@/components/auth/profile-form';
+import { ProfileFormWrapper } from '@/components/auth/profile-form-wrapper';
 import { createServerClient } from '@/lib/supabase/server';
+
+// Force dynamic rendering for authentication-required pages
+export const dynamic = 'force-dynamic';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -65,7 +68,7 @@ export default async function AccountSettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ProfileForm
+              <ProfileFormWrapper
                 user={session.user}
                 initialData={{
                   fullName: profile?.full_name || '',

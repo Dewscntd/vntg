@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User } from '@supabase/supabase-js';
 
-import { useAuth } from '@/lib/auth/auth-context';
+// Remove useAuth dependency to make component SSG-compatible
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -34,7 +34,6 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ user, initialData }: ProfileFormProps) {
-  const { session } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -50,7 +49,7 @@ export function ProfileForm({ user, initialData }: ProfileFormProps) {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    if (!session) return;
+    if (!user) return;
 
     setIsLoading(true);
     setError(null);
