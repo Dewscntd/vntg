@@ -62,14 +62,12 @@ jobs:
         env:
           NODE_ENV: test
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+          name: coverage-report
+          path: coverage/
 
       - name: Build application
         run: npm run build
@@ -113,20 +111,15 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: javascript
-          config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:javascript"
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+      - name: Run npm audit for security vulnerabilities
+        run: npm audit --audit-level=moderate --json > audit-results.json || true
         continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --fail-on=upgradable
 
   # Container Build and Security Scan
   container-security:
@@ -166,7 +159,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -42,17 +42,42 @@ jobs:
           
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            Please review this pull request for the VNTG e-commerce platform and provide feedback on:
             
-            Be constructive and helpful in your feedback.
+            **Architecture & Design:**
+            - Component structure following atomic design principles
+            - Proper use of React Context (cart, auth, checkout)
+            - TypeScript type safety and proper interfaces
+            - API route structure and RESTful patterns
+            
+            **Next.js Best Practices:**
+            - Server/client component usage
+            - App Router patterns
+            - Image optimization and performance
+            - Proper loading and error boundaries
+            
+            **E-commerce Specific:**
+            - Cart functionality and persistence
+            - Payment integration security (Stripe)
+            - Authentication flow (Supabase Auth)
+            - Order management and data consistency
+            
+            **Security & Performance:**
+            - Input validation and sanitization
+            - Database query security (RLS policies)
+            - Bundle size and optimization
+            - Mobile responsiveness and accessibility
+            
+            **Testing & Quality:**
+            - Unit test coverage for critical functions
+            - E2E tests for user flows
+            - Stub API integration testing
+            - Type safety validation
+            
+            Focus on maintainability, scalability, and production readiness. Be constructive and provide actionable suggestions.
 
-          # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
-          # use_sticky_comment: true
+          # Use sticky comments to update reviews on subsequent pushes
+          use_sticky_comment: true
           
           # Optional: Customize review based on file types
           # direct_prompt: |
@@ -68,8 +93,8 @@ jobs:
           #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
           #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
           
-          # Optional: Add specific tools for running tests or linting
-          # allowed_tools: "Bash(npm run test),Bash(npm run lint),Bash(npm run typecheck)"
+          # Allow Claude to run quality checks during review
+          allowed_tools: "Bash(npm run test),Bash(npm run lint),Bash(npm run type-check),Bash(npm run validate:stubs),Bash(npm run build)"
           
           # Optional: Skip review for certain conditions
           # if: |

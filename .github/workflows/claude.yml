@@ -49,16 +49,28 @@ jobs:
           # Optional: Trigger when specific user is assigned to an issue
           # assignee_trigger: "claude-bot"
           
-          # Optional: Allow Claude to run specific commands
-          # allowed_tools: "Bash(npm install),Bash(npm run build),Bash(npm run test:*),Bash(npm run lint:*)"
+          # Allow Claude to run development and testing commands
+          allowed_tools: "Bash(npm install),Bash(npm run build),Bash(npm run dev),Bash(npm run test:*),Bash(npm run lint:*),Bash(npm run type-check),Bash(npm run validate:*)"
           
-          # Optional: Add custom instructions for Claude to customize its behavior for your project
-          # custom_instructions: |
-          #   Follow our coding standards
-          #   Ensure all new code has tests
-          #   Use TypeScript for new files
+          # Custom instructions for Claude to customize its behavior for this project
+          custom_instructions: |
+            You are working on a Next.js 14 e-commerce platform using TypeScript, Supabase, and Stripe.
+            
+            Key guidelines:
+            - Follow the patterns in CLAUDE.md project instructions
+            - Use the existing component architecture (atomic design)
+            - Maintain TypeScript strict typing
+            - Test changes with stub APIs when database access isn't available
+            - Follow the established cart context and authentication patterns
+            - Use shadcn/ui components consistently
+            - Ensure mobile-first responsive design
+            - Apply proper error handling and loading states
+            - Use the existing API route structure (/app/api/)
+            - Follow security best practices for auth and payments
           
-          # Optional: Custom environment variables for Claude
-          # claude_env: |
-          #   NODE_ENV: test
+          # Environment variables for Claude development context
+          claude_env: |
+            NODE_ENV: development
+            NEXT_PUBLIC_USE_STUBS: true
+            IGNORE_TS_ERRORS: false
 
