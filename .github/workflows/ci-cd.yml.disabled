@@ -289,10 +289,10 @@ jobs:
         uses: treosh/lighthouse-ci-action@v9
         with:
           urls: |
-            https://vntg.vercel.app
-            https://vntg.vercel.app/shop
-            https://vntg.vercel.app/products
-            https://vntg.vercel.app/categories
-            https://vntg.vercel.app/cart
+            https://peakees.vercel.app
+            https://peakees.vercel.app/shop
+            https://peakees.vercel.app/products
+            https://peakees.vercel.app/categories
+            https://peakees.vercel.app/cart
           uploadArtifacts: true
           temporaryPublicStorage: true

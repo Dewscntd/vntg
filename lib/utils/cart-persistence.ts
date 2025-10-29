@@ -2,8 +2,8 @@
 
 import type { CartItem } from '@/lib/context/cart-context';
 
-const CART_STORAGE_KEY = 'vntg-cart';
-const CART_TIMESTAMP_KEY = 'vntg-cart-timestamp';
+const CART_STORAGE_KEY = 'peakees-cart';
+const CART_TIMESTAMP_KEY = 'peakees-cart-timestamp';
 const CART_EXPIRY_DAYS = 7; // Cart expires after 7 days
 
 export interface StoredCart {

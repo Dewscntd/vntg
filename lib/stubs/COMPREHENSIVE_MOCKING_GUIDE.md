@@ -1,6 +1,6 @@
 # Comprehensive Mocking Guide for Local Development
 
-This guide covers the extensive mocking system for VNTG e-commerce platform local development.
+This guide covers the extensive mocking system for Peakees e-commerce platform local development.
 
 ## 🚀 Quick Start
 
@@ -35,7 +35,7 @@ This guide covers the extensive mocking system for VNTG e-commerce platform loca
 
 ### Users (4 different personas)
 - **Regular User**: john.doe@example.com / password123
-- **Admin User**: admin@vntg.com / admin123
+- **Admin User**: admin@peakees.com / admin123
 - **Power User**: High activity, many orders
 - **New User**: Recently registered, minimal activity
 

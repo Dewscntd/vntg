@@ -1,6 +1,6 @@
-# VNTG Documentation
+# Peakees Documentation
 
-Welcome to the comprehensive documentation for the VNTG e-commerce platform. This documentation covers everything from getting started to advanced development topics.
+Welcome to the comprehensive documentation for the Peakees e-commerce platform. This documentation covers everything from getting started to advanced development topics.
 
 ## 📚 Documentation Overview
 
@@ -129,8 +129,8 @@ Welcome to the comprehensive documentation for the VNTG e-commerce platform. Thi
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/vntg.git
-cd vntg
+git clone https://github.com/your-username/peakees.git
+cd peakees
 
 # Install dependencies
 npm install
@@ -285,9 +285,9 @@ docs/
 
 ---
 
-## 🎉 Welcome to VNTG!
+## 🎉 Welcome to Peakees!
 
-This documentation is designed to help you understand, use, and contribute to the VNTG e-commerce platform. Whether you're a new developer getting started or an experienced contributor, you'll find the information you need here.
+This documentation is designed to help you understand, use, and contribute to the Peakees e-commerce platform. Whether you're a new developer getting started or an experienced contributor, you'll find the information you need here.
 
 **Happy coding!** 🚀
 

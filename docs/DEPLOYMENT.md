@@ -1,6 +1,6 @@
-# VNTG Deployment Guide
+# Peakees Deployment Guide
 
-Complete guide for deploying the VNTG e-commerce platform to production.
+Complete guide for deploying the Peakees e-commerce platform to production.
 
 ## 🚀 Current Deployment
 
@@ -102,12 +102,12 @@ NEXT_PUBLIC_FACEBOOK_PIXEL_ID=123456789
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click "Import Project"
 3. Connect your GitHub repository
-4. Select the VNTG repository
+4. Select the Peakees repository
 
 #### 2. Configure Project
 ```json
 {
-  "name": "vntg",
+  "name": "peakees",
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
@@ -292,7 +292,7 @@ Sentry.init({
 ```typescript
 // Google Analytics 4 tracking
 gtag('config', 'GA_MEASUREMENT_ID', {
-  page_title: 'VNTG Store',
+  page_title: 'Peakees Store',
   page_location: window.location.href,
 });
 ```
@@ -358,8 +358,8 @@ Cache-Control: public, max-age=31536000, immutable
 ```json
 // public/manifest.json
 {
-  "name": "VNTG Store",
-  "short_name": "VNTG",
+  "name": "Peakees Store",
+  "short_name": "Peakees",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "display": "standalone",
@@ -509,4 +509,4 @@ vercel env rm [name]
 - [ ] Check payment processing
 - [ ] Monitor performance metrics
 
-**Your VNTG e-commerce platform is ready for production! 🎉**
+**Your Peakees e-commerce platform is ready for production! 🎉**

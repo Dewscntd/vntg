@@ -1,6 +1,6 @@
-# VNTG Admin Guide
+# Peakees Admin Guide
 
-Complete guide for managing your VNTG e-commerce platform through the admin panel.
+Complete guide for managing your Peakees e-commerce platform through the admin panel.
 
 ## 🚀 Getting Started
 
@@ -239,7 +239,7 @@ Complete guide for managing your VNTG e-commerce platform through the admin pane
 ### General Settings
 
 #### Store Information
-- **Store Name**: VNTG
+- **Store Name**: Peakees
 - **Description**: Store description and meta tags
 - **Contact Information**: Address, phone, email
 - **Business Hours**: Operating hours and timezone
@@ -350,13 +350,13 @@ Complete guide for managing your VNTG e-commerce platform through the admin pane
 - **Documentation**: Complete admin documentation
 - **Video Tutorials**: Step-by-step guides
 - **FAQ**: Frequently asked questions
-- **Support Email**: admin-support@vntg.com
+- **Support Email**: admin-support@peakees.com
 
 #### Emergency Contacts
-- **Technical Issues**: tech-support@vntg.com
-- **Payment Problems**: payments@vntg.com
-- **Security Concerns**: security@vntg.com
-- **General Support**: support@vntg.com
+- **Technical Issues**: tech-support@peakees.com
+- **Payment Problems**: payments@peakees.com
+- **Security Concerns**: security@peakees.com
+- **General Support**: support@peakees.com
 
 ## 📚 Quick Reference
 
@@ -390,4 +390,4 @@ Declined Card: 4000 0000 0000 0002
 
 ---
 
-**Need additional help?** Contact support at admin-support@vntg.com
+**Need additional help?** Contact support at admin-support@peakees.com

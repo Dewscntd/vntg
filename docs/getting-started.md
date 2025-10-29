@@ -1,6 +1,6 @@
-# Getting Started with VNTG
+# Getting Started with Peakees
 
-This guide will help you set up the VNTG e-commerce platform locally and understand the project structure.
+This guide will help you set up the Peakees e-commerce platform locally and understand the project structure.
 
 ## Prerequisites
 
@@ -22,8 +22,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/vntg.git
-cd vntg
+git clone https://github.com/your-username/peakees.git
+cd peakees
 ```
 
 ### 2. Install Dependencies
@@ -125,7 +125,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Project Structure
 
 ```
-vntg/
+peakees/
 ├── app/                          # Next.js 14 App Router
 │   ├── (auth)/                   # Authentication pages
 │   │   ├── login/
@@ -185,7 +185,7 @@ vntg/
 
 ### App Router
 
-VNTG uses Next.js 14's App Router for:
+Peakees uses Next.js 14's App Router for:
 
 - File-based routing
 - Server and client components
@@ -382,4 +382,4 @@ npm install
 
 ---
 
-Welcome to VNTG! Happy coding! 🚀
+Welcome to Peakees! Happy coding! 🚀

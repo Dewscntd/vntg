@@ -1,5 +1,5 @@
 # =============================================================================
-# Multi-stage Dockerfile for VNTG E-commerce Platform
+# Multi-stage Dockerfile for Peakees E-commerce Platform
 # Optimized for production deployment with security and performance in mind
 # =============================================================================
 
@@ -101,9 +101,9 @@ ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "server.js"]
 
 # Security labels
-LABEL maintainer="VNTG Team" \
-      org.opencontainers.image.title="VNTG E-commerce Platform" \
+LABEL maintainer="Peakees Team" \
+      org.opencontainers.image.title="Peakees E-commerce Platform" \
       org.opencontainers.image.description="Production-ready Next.js e-commerce application" \
-      org.opencontainers.image.vendor="VNTG" \
+      org.opencontainers.image.vendor="Peakees" \
       org.opencontainers.image.licenses="Private" \
       security.scan="enabled"

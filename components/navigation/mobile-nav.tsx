@@ -234,9 +234,9 @@ export function MobileNav({ className }: MobileNavProps) {
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center space-x-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">V</span>
+                <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
-              <span className="text-xl font-bold">VNTG</span>
+              <span className="text-xl font-bold">Peakees</span>
             </SheetTitle>
             <TouchIconButton
               variant="ghost"
@@ -294,7 +294,7 @@ export function MobileNav({ className }: MobileNavProps) {
         {/* Footer */}
         <div className="border-t p-6 pt-4">
           <div className="text-center">
-            <p className="text-xs text-muted-foreground">© 2024 VNTG. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">© 2024 Peakees. All rights reserved.</p>
           </div>
         </div>
       </SheetContent>

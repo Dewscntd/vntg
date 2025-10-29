@@ -34,7 +34,7 @@ export const mockAdminAnalytics = {
       recent_activity: [
         {
           type: 'order',
-          message: 'New order #VNTG-2024-1001 for $299.99',
+          message: 'New order #Peakees-2024-1001 for $299.99',
           timestamp: new Date(now.getTime() - 5 * 60 * 1000),
         },
         {
@@ -49,7 +49,7 @@ export const mockAdminAnalytics = {
         },
         {
           type: 'refund',
-          message: 'Refund processed for order #VNTG-2024-0987',
+          message: 'Refund processed for order #Peakees-2024-0987',
           timestamp: new Date(now.getTime() - 45 * 60 * 1000),
         },
       ],
@@ -400,7 +400,7 @@ export class MockAdminCustomerManager {
       },
       {
         type: 'order',
-        description: 'Placed order #VNTG-2024-1001',
+        description: 'Placed order #Peakees-2024-1001',
         timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
       },
       {

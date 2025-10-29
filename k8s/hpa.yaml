@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: vntg-hpa
-  namespace: vntg-production
+  name: peakees-hpa
+  namespace: peakees-production
   labels:
-    app: vntg
+    app: peakees
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: vntg-app
+    name: peakees-app
   minReplicas: 3
   maxReplicas: 10
   metrics:

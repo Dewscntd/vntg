@@ -2,7 +2,7 @@
 
 ## Overview
 
-The VNTG API provides RESTful endpoints for managing products, cart operations, user authentication, and order processing. All endpoints follow consistent patterns and return JSON responses.
+The Peakees API provides RESTful endpoints for managing products, cart operations, user authentication, and order processing. All endpoints follow consistent patterns and return JSON responses.
 
 ## 🔐 Authentication
 
@@ -683,4 +683,4 @@ const user = mockUser();
 
 ---
 
-This API reference provides comprehensive documentation for all available endpoints in the VNTG e-commerce platform. For implementation examples, see the respective feature documentation.
+This API reference provides comprehensive documentation for all available endpoints in the Peakees e-commerce platform. For implementation examples, see the respective feature documentation.

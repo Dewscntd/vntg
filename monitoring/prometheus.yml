@@ -1,4 +1,4 @@
-# Prometheus configuration for VNTG monitoring
+# Prometheus configuration for Peakees monitoring
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -13,10 +13,10 @@ alerting:
           - alertmanager:9093
 
 scrape_configs:
-  # VNTG Application metrics
-  - job_name: 'vntg-app'
+  # Peakees Application metrics
+  - job_name: 'peakees-app'
     static_configs:
-      - targets: ['vntg-app:3000']
+      - targets: ['peakees-app:3000']
     metrics_path: '/api/metrics'
     scrape_interval: 30s
     scrape_timeout: 10s

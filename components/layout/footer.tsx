@@ -15,9 +15,9 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">V</span>
+                <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
-              <span className="text-xl font-bold">VNTG</span>
+              <span className="text-xl font-bold">Peakees</span>
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Curated vintage fashion for every style. Discover unique, sustainable pieces that tell
@@ -118,7 +118,7 @@ export function Footer() {
         <div className="mt-12 border-t pt-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:gap-6">
-              <span>&copy; 2024 VNTG. All rights reserved.</span>
+              <span>&copy; 2024 Peakees. All rights reserved.</span>
               <div className="flex gap-4">
                 <Link href="/privacy" className="transition-colors hover:text-foreground">
                   Privacy Policy
@@ -135,7 +135,7 @@ export function Footer() {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Mail className="h-4 w-4" />
-                <span>hello@vntg.com</span>
+                <span>hello@peakees.com</span>
               </div>
               <div className="flex items-center gap-1">
                 <Phone className="h-4 w-4" />

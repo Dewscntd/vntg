@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 VNTG Deployment Setup Script"
+echo "🚀 Peakees Deployment Setup Script"
 echo "================================="
 
 # Colors for output
@@ -116,7 +116,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo -e "${YELLOW}🚀 STEP 4: Deploy to Vercel${NC}"
-echo "Deploying your VNTG store..."
+echo "Deploying your Peakees store..."
 
 # Push to main branch (triggers automatic deployment)
 echo "Pushing to main branch..."
@@ -125,7 +125,7 @@ git push origin master
 echo
 echo -e "${GREEN}✅ Deployment initiated!${NC}"
 echo
-echo "🎉 Your VNTG store is being deployed!"
+echo "🎉 Your Peakees store is being deployed!"
 echo
 echo "📋 Next steps:"
 echo "1. Check deployment status in Vercel dashboard"

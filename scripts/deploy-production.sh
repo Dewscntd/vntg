@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =============================================================================
-# Production Deployment Script for VNTG E-commerce Platform
+# Production Deployment Script for Peakees E-commerce Platform
 # =============================================================================
 # This script handles the complete deployment process to production
 # Run with: ./scripts/deploy-production.sh
@@ -16,7 +16,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-PROJECT_NAME="vntg"
+PROJECT_NAME="peakees"
 PRODUCTION_BRANCH="main"
 STAGING_BRANCH="staging"
 
@@ -209,7 +209,7 @@ send_deployment_notification() {
     # Example for Slack webhook:
     # if [ -n "$SLACK_WEBHOOK_URL" ]; then
     #     curl -X POST -H 'Content-type: application/json' \
-    #         --data '{"text":"🚀 VNTG production deployment completed successfully!"}' \
+    #         --data '{"text":"🚀 Peakees production deployment completed successfully!"}' \
     #         "$SLACK_WEBHOOK_URL"
     # fi
     

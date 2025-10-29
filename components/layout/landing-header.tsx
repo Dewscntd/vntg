@@ -21,10 +21,10 @@ export function LandingHeader({ className }: LandingHeaderProps) {
           {/* Logo */}
           <Link href="/" className="group flex items-center space-x-2" ref={logoRef}>
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/90 backdrop-blur-sm transition-all group-hover:bg-primary">
-              <span className="text-xl font-bold text-primary-foreground">V</span>
+              <span className="text-xl font-bold text-primary-foreground">P</span>
             </div>
             <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-2xl font-bold tracking-tight text-transparent">
-              VNTG
+              Peakees
             </span>
           </Link>
 

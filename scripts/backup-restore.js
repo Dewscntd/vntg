@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Backup and Restore Script for VNTG E-commerce Platform
+ * Backup and Restore Script for Peakees E-commerce Platform
  *
  * This script handles database backups and restoration for disaster recovery
  * Usage:

@@ -1,6 +1,6 @@
 # Production Setup Guide
 
-This guide covers the complete setup process for deploying the VNTG e-commerce platform to production.
+This guide covers the complete setup process for deploying the Peakees e-commerce platform to production.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ This guide covers the complete setup process for deploying the VNTG e-commerce p
 
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
 2. Click "New Project"
-3. Choose organization and set project name: `vntg-production`
+3. Choose organization and set project name: `peakees-production`
 4. Select region closest to your users
 5. Generate a strong database password
 6. Wait for project creation (2-3 minutes)

@@ -1,6 +1,6 @@
 # API Documentation
 
-This document provides comprehensive documentation for all API endpoints in the VNTG e-commerce platform.
+This document provides comprehensive documentation for all API endpoints in the Peakees e-commerce platform.
 
 ## Base URL
 

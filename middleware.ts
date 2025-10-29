@@ -2,10 +2,16 @@ import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@/types/supabase';
+import createIntlMiddleware from 'next-intl/middleware';
+
+const intlMiddleware = createIntlMiddleware({
+  locales: ['en', 'he'],
+  defaultLocale: 'en'
+});
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  
+  const res = intlMiddleware(req);
+
   // Skip all auth checks when using stubs for local development
   const useStubs = process.env.NEXT_PUBLIC_USE_STUBS === 'true';
   if (useStubs) {
@@ -19,9 +25,9 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   // Auth protection for admin routes
-  if (req.nextUrl.pathname.startsWith('/admin')) {
+  if (req.nextUrl.pathname.includes('/admin')) {
     // Skip middleware for admin-direct as it has its own client-side auth
-    if (req.nextUrl.pathname === '/admin-direct') {
+    if (req.nextUrl.pathname.includes('/admin-direct')) {
       return res;
     }
     
@@ -64,7 +70,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Auth protection for account routes (but allow guest checkout)
-  if (req.nextUrl.pathname.startsWith('/account')) {
+  if (req.nextUrl.pathname.includes('/account')) {
     if (!session) {
       const loginUrl = new URL('/auth/login', req.url);
       loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
@@ -79,5 +85,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/account/:path*'],
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 };

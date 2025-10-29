@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vntg-app
-  namespace: vntg-production
+  name: peakees-app
+  namespace: peakees-production
   labels:
-    app: vntg
+    app: peakees
     component: app
     environment: production
 spec:
@@ -16,12 +16,12 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: vntg
+      app: peakees
       component: app
   template:
     metadata:
       labels:
-        app: vntg
+        app: peakees
         component: app
         environment: production
     spec:
@@ -30,8 +30,8 @@ spec:
         runAsUser: 1001
         fsGroup: 1001
       containers:
-      - name: vntg-app
-        image: ghcr.io/your-username/vntg:latest
+      - name: peakees-app
+        image: ghcr.io/your-username/peakees:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -48,9 +48,9 @@ spec:
           value: "0.0.0.0"
         envFrom:
         - secretRef:
-            name: vntg-secrets
+            name: peakees-secrets
         - configMapRef:
-            name: vntg-config
+            name: peakees-config
         resources:
           requests:
             memory: "256Mi"
@@ -100,5 +100,5 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - vntg
+                  - peakees
               topologyKey: kubernetes.io/hostname

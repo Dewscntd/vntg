@@ -42,7 +42,7 @@ jobs:
           
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
-            Please review this pull request for the VNTG e-commerce platform and provide feedback on:
+            Please review this pull request for the Peakees e-commerce platform and provide feedback on:
             
             **Architecture & Design:**
             - Component structure following atomic design principles
