@@ -71,7 +71,7 @@ export const createEnhancedSupabaseStub = () => ({
       // Simulate various auth scenarios
       const validCredentials = [
         { email: 'john.doe@example.com', password: 'password123' },
-        { email: 'admin@vntg.com', password: 'admin123' },
+        { email: 'admin@peakees.com', password: 'admin123' },
         { email: 'michaelvx@gmail.com', password: 'admin123' }, // Admin user
         { email: 'jane.smith@example.com', password: 'password123' },
       ];

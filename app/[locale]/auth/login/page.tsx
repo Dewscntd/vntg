@@ -1,0 +1,41 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { LoginForm } from '@/components/auth/login-form';
+import { SocialButtons } from '@/components/auth/social-buttons';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+
+export const metadata: Metadata = {
+  title: 'Login | Peakees',
+  description: 'Login to your Peakees account',
+};
+
+export default function LoginPage() {
+  return (
+    <div className="container flex h-screen w-screen flex-col items-center justify-center">
+      <Link href="/" className="absolute left-4 top-4 md:left-8 md:top-8">
+        <span className="text-lg font-bold">← Back</span>
+      </Link>
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">Login</CardTitle>
+          <CardDescription className="text-center">
+            Enter your credentials to access your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <LoginForm />
+        </CardContent>
+        <CardFooter className="flex flex-col">
+          <SocialButtons />
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}

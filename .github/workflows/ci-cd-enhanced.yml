@@ -419,7 +419,7 @@ jobs:
             {
               attachments: [{
                 color: '${{ job.status }}' === 'success' ? 'good' : 'danger',
-                text: `VNTG Production Deployment ${{ job.status === 'success' && '✅ Successful' || '❌ Failed' }}`,
+                text: `Peakees Production Deployment ${{ job.status === 'success' && '✅ Successful' || '❌ Failed' }}`,
                 fields: [{
                   title: 'Environment',
                   value: 'Production',

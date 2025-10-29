@@ -31,13 +31,13 @@ DECLARE
   order_num TEXT;
   counter INTEGER;
 BEGIN
-  -- Generate order number with format: VNTG-YYYYMMDD-XXXX
-  SELECT COALESCE(MAX(CAST(SUBSTRING(order_number FROM 'VNTG-[0-9]{8}-([0-9]{4})') AS INTEGER)), 0) + 1
+  -- Generate order number with format: Peakees-YYYYMMDD-XXXX
+  SELECT COALESCE(MAX(CAST(SUBSTRING(order_number FROM 'Peakees-[0-9]{8}-([0-9]{4})') AS INTEGER)), 0) + 1
   INTO counter
   FROM public.orders
-  WHERE order_number LIKE 'VNTG-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-%';
+  WHERE order_number LIKE 'Peakees-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-%';
   
-  order_num := 'VNTG-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-' || LPAD(counter::TEXT, 4, '0');
+  order_num := 'Peakees-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-' || LPAD(counter::TEXT, 4, '0');
   
   RETURN order_num;
 END;

@@ -1,10 +1,10 @@
-# VNTG Vercel Deployment Guide
+# Peakees Vercel Deployment Guide
 
 ## 🚀 Quick Deploy Steps
 
 ### 1. Create Vercel Account & Connect GitHub
 1. Go to [vercel.com](https://vercel.com) and sign up with GitHub
-2. Click "Import Project" and select your `vntg` repository
+2. Click "Import Project" and select your `peakees` repository
 3. Vercel will auto-detect Next.js framework
 
 ### 2. Configure Environment Variables
@@ -211,7 +211,7 @@ SENTRY_DSN=https://your-sentry-dsn@sentry.io/project
 - [ ] Order management functional
 - [ ] Customer support ready
 
-## 🌟 Your VNTG Store Will Have:
+## 🌟 Your Peakees Store Will Have:
 
 ✅ **Guest Shopping**: Anyone can shop without signup
 ✅ **Member Benefits**: Enhanced features for registered users

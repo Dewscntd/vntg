@@ -21,10 +21,10 @@ export interface ProductSEOProps {
 }
 
 export function ProductSEO({ product, canonical }: ProductSEOProps) {
-  const title = `${product.name} | VNTG`;
+  const title = `${product.name} | Peakees`;
   const description =
     product.description ||
-    `Shop ${product.name} at VNTG. Premium quality products at great prices.`;
+    `Shop ${product.name} at Peakees. Premium quality products at great prices.`;
   const price = product.discount_percent
     ? (product.price * (1 - product.discount_percent / 100)).toFixed(2)
     : product.price.toFixed(2);
@@ -37,7 +37,7 @@ export function ProductSEO({ product, canonical }: ProductSEOProps) {
     image: product.image_url ? [product.image_url] : [],
     brand: {
       '@type': 'Brand',
-      name: 'VNTG',
+      name: 'Peakees',
     },
     category: product.category?.name,
     offers: {
@@ -47,7 +47,7 @@ export function ProductSEO({ product, canonical }: ProductSEOProps) {
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
-        name: 'VNTG',
+        name: 'Peakees',
       },
     },
     aggregateRating: {
@@ -64,7 +64,7 @@ export function ProductSEO({ product, canonical }: ProductSEOProps) {
       <meta name="description" content={description} />
       <meta
         name="keywords"
-        content={`${product.name}, ${product.category?.name || 'products'}, VNTG, shop, buy`}
+        content={`${product.name}, ${product.category?.name || 'products'}, Peakees, shop, buy`}
       />
 
       {/* Canonical URL */}
@@ -75,7 +75,7 @@ export function ProductSEO({ product, canonical }: ProductSEOProps) {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       {product.image_url && <meta property="og:image" content={product.image_url} />}
-      <meta property="og:site_name" content="VNTG" />
+      <meta property="og:site_name" content="Peakees" />
       <meta property="product:price:amount" content={price} />
       <meta property="product:price:currency" content="USD" />
       {product.category && <meta property="product:category" content={product.category.name} />}
@@ -112,10 +112,10 @@ export interface CategorySEOProps {
 }
 
 export function CategorySEO({ category, productCount, canonical }: CategorySEOProps) {
-  const title = `${category.name} | VNTG`;
+  const title = `${category.name} | Peakees`;
   const description =
     category.description ||
-    `Shop ${category.name} at VNTG. ${productCount ? `${productCount} products` : 'Premium products'} available.`;
+    `Shop ${category.name} at Peakees. ${productCount ? `${productCount} products` : 'Premium products'} available.`;
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -134,7 +134,7 @@ export function CategorySEO({ category, productCount, canonical }: CategorySEOPr
       {/* Basic Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={`${category.name}, products, VNTG, shop, category`} />
+      <meta name="keywords" content={`${category.name}, products, Peakees, shop, category`} />
 
       {/* Canonical URL */}
       {canonical && <link rel="canonical" href={canonical} />}
@@ -143,7 +143,7 @@ export function CategorySEO({ category, productCount, canonical }: CategorySEOPr
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content="VNTG" />
+      <meta property="og:site_name" content="Peakees" />
 
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary" />
@@ -166,15 +166,15 @@ export interface SearchSEOProps {
 }
 
 export function SearchSEO({ query, resultCount, canonical }: SearchSEOProps) {
-  const title = `Search results for "${query}" | VNTG`;
-  const description = `Found ${resultCount || 0} products matching "${query}" at VNTG. Shop premium products at great prices.`;
+  const title = `Search results for "${query}" | Peakees`;
+  const description = `Found ${resultCount || 0} products matching "${query}" at Peakees. Shop premium products at great prices.`;
 
   return (
     <Head>
       {/* Basic Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={`${query}, search, products, VNTG, shop`} />
+      <meta name="keywords" content={`${query}, search, products, Peakees, shop`} />
 
       {/* Canonical URL */}
       {canonical && <link rel="canonical" href={canonical} />}
@@ -183,7 +183,7 @@ export function SearchSEO({ query, resultCount, canonical }: SearchSEOProps) {
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content="VNTG" />
+      <meta property="og:site_name" content="Peakees" />
 
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary" />

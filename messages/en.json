@@ -1,0 +1,145 @@
+{
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "landing": {
+    "hero": {
+      "badge": "Curated Vintage Fashion",
+      "headline": "Discover Vintage Fashion That Tells Your Story",
+      "subheading": "Every piece in our collection has a history. Find unique, sustainable fashion that speaks to your individual style—from timeless classics to bold statement pieces.",
+      "valuePoints": {
+        "sustainable": "Sustainable Fashion",
+        "quality": "Curated Quality",
+        "unique": "Unique Pieces"
+      },
+      "cta": {
+        "explore": "Explore Our Collection",
+        "learn": "Learn Our Story"
+      },
+      "scroll": "Scroll to discover"
+    },
+    "brandStory": {
+      "title": "The Peakees Story",
+      "subtitle": "Born from a passion for sustainable fashion and the belief that every piece of clothing has a story worth telling",
+      "lead": "We started Peakees because we believe fashion should be personal, sustainable, and timeless.",
+      "paragraph1": "In a world of fast fashion, we curate vintage and second-hand pieces that have character, history, and quality craftsmanship. Each item in our collection is carefully selected not just for its style, but for its story and potential to become part of your unique narrative.",
+      "paragraph2": "From timeless denim jackets to elegant vintage dresses, from rare books to classic games—we believe in offering pieces that transcend trends and speak to individual style and values.",
+      "cta": "Read Our Full Story",
+      "values": {
+        "sustainable": {
+          "title": "Sustainable",
+          "description": "Giving pre-loved fashion a second life reduces waste and environmental impact."
+        },
+        "curated": {
+          "title": "Curated",
+          "description": "Every piece is hand-selected for quality, style, and authenticity."
+        },
+        "inclusive": {
+          "title": "Inclusive",
+          "description": "Fashion for everyone—men, women, teens, kids, and beyond."
+        },
+        "unique": {
+          "title": "Unique",
+          "description": "Find one-of-a-kind pieces that express your individual style."
+        }
+      }
+    },
+    "valuePropositions": {
+      "title": "Why Choose Peakees?",
+      "subtitle": "We're committed to providing an exceptional shopping experience with sustainable, high-quality vintage fashion",
+      "benefits": {
+        "ecoFriendly": {
+          "title": "Eco-Friendly Fashion",
+          "description": "Reduce your environmental footprint with sustainable, pre-loved clothing that's both stylish and responsible.",
+          "badge": "Sustainable"
+        },
+        "quality": {
+          "title": "Quality Guaranteed",
+          "description": "Every item is carefully inspected and curated to meet our high standards for condition and authenticity.",
+          "badge": "Premium"
+        },
+        "uniqueFinds": {
+          "title": "Unique Finds",
+          "description": "Discover one-of-a-kind vintage pieces and rare items you won't find anywhere else.",
+          "badge": "Exclusive"
+        },
+        "shipping": {
+          "title": "Fast & Secure Shipping",
+          "description": "Quick, reliable delivery with secure packaging to ensure your items arrive in perfect condition.",
+          "badge": "Reliable"
+        },
+        "payments": {
+          "title": "Secure Payments",
+          "description": "Shop with confidence using our secure payment system with multiple payment options.",
+          "badge": "Secure"
+        },
+        "returns": {
+          "title": "Easy Returns",
+          "description": "Not completely satisfied? Our hassle-free return policy ensures you shop with confidence.",
+          "badge": "Flexible"
+        }
+      },
+      "stats": {
+        "items": "Curated Items",
+        "customers": "Happy Customers",
+        "satisfaction": "Satisfaction Rate"
+      }
+    },
+    "socialProof": {
+      "title": "What Our Customers Say",
+      "subtitle": "Join thousands of satisfied customers who've found their perfect vintage pieces",
+      "testimonials": {
+        "sarah": {
+          "name": "Sarah Johnson",
+          "role": "Fashion Enthusiast",
+          "content": "I found the most incredible vintage denim jacket on Peakees. The quality was amazing and it's become my signature piece. Love knowing I'm shopping sustainably!"
+        },
+        "michael": {
+          "name": "Michael Chen",
+          "role": "Sustainable Living Advocate",
+          "content": "As someone who cares about the environment, Peakees is perfect. Every purchase feels good knowing I'm giving pre-loved items a new life while getting unique pieces."
+        },
+        "emma": {
+          "name": "Emma Rodriguez",
+          "role": "Vintage Collector",
+          "content": "The curation at Peakees is exceptional. I've found rare vintage pieces I couldn't find anywhere else. Their attention to quality and authenticity is unmatched."
+        },
+        "david": {
+          "name": "David Park",
+          "role": "Style Blogger",
+          "content": "Peakees has become my go-to for unique fashion finds. The variety is incredible - from classic pieces to bold statement items. Plus, the shopping experience is seamless."
+        },
+        "lisa": {
+          "name": "Lisa Wang",
+          "role": "Working Professional",
+          "content": "I love that I can find professional vintage pieces that stand out in the best way. Peakees helps me express my personality while maintaining a polished look."
+        },
+        "alex": {
+          "name": "Alex Thompson",
+          "role": "Parent & Eco-Conscious Shopper",
+          "content": "Shopping at Peakees for my family feels great. Quality clothes for my kids that have history and character, plus I'm teaching them about sustainable choices."
+        }
+      },
+      "stats": {
+        "rating": "Customer Rating",
+        "delivery": "Average Delivery",
+        "returns": "Return Policy",
+        "support": "Customer Support"
+      }
+    },
+    "cta": {
+      "badge": "Ready to Start Your Vintage Journey?",
+      "headline": "Your Perfect Vintage Piece is Waiting",
+      "subheading": "Join thousands of fashion-forward individuals who've discovered the joy of sustainable, unique style. Start exploring our curated collection today.",
+      "buttons": {
+        "shop": "Enter the Shop",
+        "categories": "Browse Categories"
+      },
+      "info": {
+        "shipping": "Free shipping over $75",
+        "returns": "30-day returns",
+        "checkout": "Secure checkout"
+      }
+    }
+  }
+}

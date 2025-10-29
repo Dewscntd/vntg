@@ -2,7 +2,7 @@
 
 ## Overview
 
-The VNTG product catalog system provides a comprehensive solution for browsing, searching, and discovering products. It includes advanced filtering, sorting, pagination, and performance optimizations.
+The Peakees product catalog system provides a comprehensive solution for browsing, searching, and discovering products. It includes advanced filtering, sorting, pagination, and performance optimizations.
 
 ## 🏗️ Architecture
 
@@ -506,7 +506,7 @@ Automatic meta tag generation for product pages.
 
 ```tsx
 // Product detail page SEO
-<ProductSEO product={product} canonical={`https://vntg.com/products/${product.id}`} />
+<ProductSEO product={product} canonical={`https://peakees.com/products/${product.id}`} />
 ```
 
 ### Structured Data
@@ -522,7 +522,7 @@ JSON-LD structured data for search engines.
   "image": ["https://example.com/image.jpg"],
   "brand": {
     "@type": "Brand",
-    "name": "VNTG"
+    "name": "Peakees"
   },
   "offers": {
     "@type": "Offer",

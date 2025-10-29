@@ -6,14 +6,17 @@ import { TransitionLink } from '@/components/providers/route-transition-provider
 import { Heart, Leaf, Users, ArrowRight } from 'lucide-react';
 import { ScrollReveal, RevealSection } from '@/components/layout/scroll-reveal';
 import { ResponsiveH2, ResponsiveLead } from '@/components/ui/responsive-typography';
+import { useTranslations } from 'next-intl';
 
 export function BrandStory() {
+  const t = useTranslations('landing.brandStory');
+
   return (
     <section id="story" className="bg-muted/30 py-24">
       <div className="container mx-auto px-4">
         <RevealSection
-          title="The VNTG Story"
-          subtitle="Born from a passion for sustainable fashion and the belief that every piece of clothing has a story worth telling"
+          title={t('title')}
+          subtitle={t('subtitle')}
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -22,25 +25,19 @@ export function BrandStory() {
             <div className="space-y-6" data-reveal>
               <div className="space-y-4">
                 <ResponsiveLead className="text-foreground">
-                  We started VNTG because we believe fashion should be personal, sustainable, and
-                  timeless.
+                  {t('lead')}
                 </ResponsiveLead>
                 <p className="leading-relaxed text-muted-foreground">
-                  In a world of fast fashion, we curate vintage and second-hand pieces that have
-                  character, history, and quality craftsmanship. Each item in our collection is
-                  carefully selected not just for its style, but for its story and potential to
-                  become part of your unique narrative.
+                  {t('paragraph1')}
                 </p>
                 <p className="leading-relaxed text-muted-foreground">
-                  From timeless denim jackets to elegant vintage dresses, from rare books to classic
-                  games—we believe in offering pieces that transcend trends and speak to individual
-                  style and values.
+                  {t('paragraph2')}
                 </p>
               </div>
 
               <Button className="group" asChild>
                 <TransitionLink href="/about">
-                  <span>Read Our Full Story</span>
+                  <span>{t('cta')}</span>
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </TransitionLink>
               </Button>
@@ -53,9 +50,9 @@ export function BrandStory() {
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
                     <Leaf className="h-6 w-6 text-green-600" />
                   </div>
-                  <h3 className="font-semibold">Sustainable</h3>
+                  <h3 className="font-semibold">{t('values.sustainable.title')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Giving pre-loved fashion a second life reduces waste and environmental impact.
+                    {t('values.sustainable.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -65,9 +62,9 @@ export function BrandStory() {
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
                     <Heart className="h-6 w-6 text-red-600" />
                   </div>
-                  <h3 className="font-semibold">Curated</h3>
+                  <h3 className="font-semibold">{t('values.curated.title')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Every piece is hand-selected for quality, style, and authenticity.
+                    {t('values.curated.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -77,9 +74,9 @@ export function BrandStory() {
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
-                  <h3 className="font-semibold">Inclusive</h3>
+                  <h3 className="font-semibold">{t('values.inclusive.title')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Fashion for everyone—men, women, teens, kids, and beyond.
+                    {t('values.inclusive.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -89,9 +86,9 @@ export function BrandStory() {
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/10">
                     <Heart className="h-6 w-6 text-purple-600" />
                   </div>
-                  <h3 className="font-semibold">Unique</h3>
+                  <h3 className="font-semibold">{t('values.unique.title')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Find one-of-a-kind pieces that express your individual style.
+                    {t('values.unique.description')}
                   </p>
                 </CardContent>
               </Card>

@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-This guide covers common issues and their solutions for the VNTG e-commerce platform.
+This guide covers common issues and their solutions for the Peakees e-commerce platform.
 
 ## Table of Contents
 

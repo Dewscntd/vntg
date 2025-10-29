@@ -364,7 +364,7 @@ export const generateExtensiveUsers = (): User[] => [
   },
   {
     id: 'admin-001',
-    email: 'admin@vntg.com',
+    email: 'admin@peakees.com',
     full_name: 'Admin User',
     avatar_url: 'https://i.pravatar.cc/150?u=admin',
     role: 'admin',

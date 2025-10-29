@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "vntg",
+  "name": "peakees",
   "alias": ["peakees.vercel.app"],
   "public": true,
   "regions": ["iad1"],

@@ -1,6 +1,6 @@
-# VNTG API Reference
+# Peakees API Reference
 
-Quick reference guide for the VNTG e-commerce platform API endpoints.
+Quick reference guide for the Peakees e-commerce platform API endpoints.
 
 ## 🌐 Base URL
 

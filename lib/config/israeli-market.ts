@@ -24,8 +24,8 @@ export const ISRAELI_CONFIG = {
   minTransactionAmount: 1, // Minimum transaction in ILS
 
   // Business settings
-  businessName: 'VNTG Israel',
-  supportEmail: 'support@vntg.co.il',
+  businessName: 'Peakees Israel',
+  supportEmail: 'support@peakees.co.il',
   supportPhone: '+972-3-123-4567',
 
   // Localization

@@ -23,7 +23,7 @@ export interface AbandonmentRecoveryOptions {
   reminderDelays: number[]; // in minutes
 }
 
-const ABANDONMENT_STORAGE_KEY = 'vntg-cart-abandonment';
+const ABANDONMENT_STORAGE_KEY = 'peakees-cart-abandonment';
 const ABANDONMENT_THRESHOLD = 5 * 60 * 1000; // 5 minutes in milliseconds
 const MAX_ABANDONMENT_EVENTS = 10;
 

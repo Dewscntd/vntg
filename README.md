@@ -1,4 +1,4 @@
-# VNTG - Modern E-commerce Platform
+# Peakees - Modern E-commerce Platform
 
 A production-ready, full-stack e-commerce platform built with Next.js 14, TypeScript, Supabase, and Stripe. Features comprehensive product management, Israeli market support with Hebrew localization, and advanced admin capabilities.
 
@@ -95,7 +95,7 @@ A production-ready, full-stack e-commerce platform built with Next.js 14, TypeSc
 ## 📁 Project Structure
 
 ```
-vntg/
+peakees/
 ├── app/                          # Next.js 14 App Router
 │   ├── (auth)/                   # Authentication pages
 │   ├── products/                 # Product catalog pages
@@ -135,8 +135,8 @@ vntg/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/vntg.git
-   cd vntg
+   git clone https://github.com/your-username/peakees.git
+   cd peakees
    ```
 
 2. **Install dependencies**
@@ -283,10 +283,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/your-username/vntg/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/vntg/discussions)
-- **Email**: support@vntg.com
+- **Issues**: [GitHub Issues](https://github.com/your-username/peakees/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/peakees/discussions)
+- **Email**: support@peakees.com
 
 ---
 
-**Built with ❤️ by the VNTG Team**
+**Built with ❤️ by the Peakees Team**

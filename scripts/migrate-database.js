@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Database Migration Script for VNTG E-commerce Platform
+ * Database Migration Script for Peakees E-commerce Platform
  *
  * This script handles database migrations for production deployments
  * Usage: node scripts/migrate-database.js [--dry-run] [--rollback] [--target=version]

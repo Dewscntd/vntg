@@ -1,42 +1,42 @@
-# Alerting rules for VNTG application
+# Alerting rules for Peakees application
 groups:
-  - name: vntg-alerts
+  - name: peakees-alerts
     rules:
       # Application availability
-      - alert: VNTGAppDown
-        expr: up{job="vntg-app"} == 0
+      - alert: PeakeesAppDown
+        expr: up{job="peakees-app"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "VNTG application is down"
-          description: "VNTG application has been down for more than 1 minute."
+          summary: "Peakees application is down"
+          description: "Peakees application has been down for more than 1 minute."
           
-      - alert: VNTGHighResponseTime
-        expr: vntg_api_response_time_ms > 5000
+      - alert: PeakeesHighResponseTime
+        expr: peakees_api_response_time_ms > 5000
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "VNTG high response time"
-          description: "VNTG API response time is {{ $value }}ms, above the 5s threshold."
+          summary: "Peakees high response time"
+          description: "Peakees API response time is {{ $value }}ms, above the 5s threshold."
           
-      - alert: VNTGDatabaseDown
-        expr: vntg_database_connection_status == 0
+      - alert: PeakeesDatabaseDown
+        expr: peakees_database_connection_status == 0
         for: 30s
         labels:
           severity: critical
         annotations:
-          summary: "VNTG database connection is down"
-          description: "VNTG cannot connect to the database."
+          summary: "Peakees database connection is down"
+          description: "Peakees cannot connect to the database."
           
-      - alert: VNTGDatabaseSlowResponse
-        expr: vntg_database_response_time_ms > 2000
+      - alert: PeakeesDatabaseSlowResponse
+        expr: peakees_database_response_time_ms > 2000
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "VNTG database slow response"
+          summary: "Peakees database slow response"
           description: "Database response time is {{ $value }}ms, above the 2s threshold."
 
   - name: system-alerts

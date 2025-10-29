@@ -23,10 +23,10 @@ export interface ProductAnalytics {
 function getSessionId(): string {
   if (typeof window === 'undefined') return '';
 
-  let sessionId = sessionStorage.getItem('vntg-session-id');
+  let sessionId = sessionStorage.getItem('peakees-session-id');
   if (!sessionId) {
     sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    sessionStorage.setItem('vntg-session-id', sessionId);
+    sessionStorage.setItem('peakees-session-id', sessionId);
   }
   return sessionId;
 }

@@ -237,7 +237,7 @@ class MockOrderManager {
     }
 
     const orderId = `order-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    const orderNumber = `VNTG-2024-${this.orderSequence++}`;
+    const orderNumber = `Peakees-2024-${this.orderSequence++}`;
 
     const order = {
       id: orderId,

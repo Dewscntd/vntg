@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =============================================================================
-# Deployment Rollback Script for VNTG E-commerce Platform
+# Deployment Rollback Script for Peakees E-commerce Platform
 # =============================================================================
 # This script handles rolling back to a previous deployment
 # Usage: ./scripts/rollback-deployment.sh [deployment-id|tag]
@@ -16,7 +16,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-PROJECT_NAME="vntg"
+PROJECT_NAME="peakees"
 
 # Functions
 log_info() {
@@ -209,7 +209,7 @@ send_rollback_notification() {
     # Example for Slack webhook:
     # if [ -n "$SLACK_WEBHOOK_URL" ]; then
     #     curl -X POST -H 'Content-type: application/json' \
-    #         --data "{\"text\":\"🔄 VNTG rollback completed: $rollback_message\"}" \
+    #         --data "{\"text\":\"🔄 Peakees rollback completed: $rollback_message\"}" \
     #         "$SLACK_WEBHOOK_URL"
     # fi
     

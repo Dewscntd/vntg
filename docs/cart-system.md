@@ -2,7 +2,7 @@
 
 ## Overview
 
-The VNTG shopping cart system is a comprehensive, production-ready cart implementation featuring persistent state, cross-device synchronization, abandonment recovery, and advanced UX with GSAP animations.
+The Peakees shopping cart system is a comprehensive, production-ready cart implementation featuring persistent state, cross-device synchronization, abandonment recovery, and advanced UX with GSAP animations.
 
 ## 🏗️ Architecture
 
@@ -588,7 +588,7 @@ Enable debug logging for troubleshooting.
 
 ```typescript
 // Enable Debug Mode
-localStorage.setItem('vntg-cart-debug', 'true');
+localStorage.setItem('peakees-cart-debug', 'true');
 
 // Debug Features
 - Console logging

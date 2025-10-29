@@ -1,6 +1,6 @@
-# VNTG Development Guide
+# Peakees Development Guide
 
-Complete guide for setting up and developing the VNTG e-commerce platform locally.
+Complete guide for setting up and developing the Peakees e-commerce platform locally.
 
 ## 🚀 Quick Start
 
@@ -13,8 +13,8 @@ Complete guide for setting up and developing the VNTG e-commerce platform locall
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/your-username/vntg.git
-cd vntg
+git clone https://github.com/your-username/peakees.git
+cd peakees
 ```
 
 ### 2. Install Dependencies
@@ -72,7 +72,7 @@ Visit http://localhost:3000 to see your application.
 
 ### Directory Structure
 ```
-vntg/
+peakees/
 ├── app/                    # Next.js 14 App Router
 │   ├── (auth)/            # Authentication routes
 │   ├── admin/             # Admin panel

@@ -2,7 +2,7 @@
 
 ## Overview
 
-VNTG uses a comprehensive component library built on top of shadcn/ui with custom business logic components. This document provides a complete reference for all available components.
+Peakees uses a comprehensive component library built on top of shadcn/ui with custom business logic components. This document provides a complete reference for all available components.
 
 ## 🏗️ Component Architecture
 
@@ -784,4 +784,4 @@ export const Destructive: Story = {
 
 ---
 
-This component library provides a solid foundation for building consistent, accessible, and performant user interfaces in the VNTG e-commerce platform.
+This component library provides a solid foundation for building consistent, accessible, and performant user interfaces in the Peakees e-commerce platform.

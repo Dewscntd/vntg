@@ -1,6 +1,6 @@
-# VNTG Architecture Overview
+# Peakees Architecture Overview
 
-This document provides a comprehensive overview of the VNTG e-commerce platform architecture, design patterns, and technical decisions.
+This document provides a comprehensive overview of the Peakees e-commerce platform architecture, design patterns, and technical decisions.
 
 ## System Architecture
 

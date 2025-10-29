@@ -1,15 +1,15 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: vntg-app-metrics
-  namespace: vntg-production
+  name: peakees-app-metrics
+  namespace: peakees-production
   labels:
-    app: vntg
+    app: peakees
     component: monitoring
 spec:
   selector:
     matchLabels:
-      app: vntg
+      app: peakees
       component: app
   endpoints:
   - port: http
@@ -19,4 +19,4 @@ spec:
     honorLabels: true
   namespaceSelector:
     matchNames:
-    - vntg-production
+    - peakees-production

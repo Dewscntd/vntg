@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to integrate the VNTG cart system into your application.
+This guide explains how to integrate the Peakees cart system into your application.
 
 ## Setup
 
@@ -323,7 +323,7 @@ Enable debug logging:
 
 ```tsx
 // Set in development
-localStorage.setItem('vntg-cart-debug', 'true');
+localStorage.setItem('peakees-cart-debug', 'true');
 ```
 
 ## API Integration

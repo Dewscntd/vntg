@@ -1,6 +1,6 @@
-# VNTG Admin Setup Guide
+# Peakees Admin Setup Guide
 
-## 🎉 Your VNTG E-Commerce Platform is LIVE!
+## 🎉 Your Peakees E-Commerce Platform is LIVE!
 
 **Production URL**: https://peakees.vercel.app
 
@@ -52,7 +52,7 @@ WHERE email = 'your-email@example.com';
 - **API Health**: https://peakees.vercel.app/api/health
 - **Supabase**: https://supabase.com/dashboard/project/ogrpjursibfrejjkfkxa
 - **Stripe**: https://dashboard.stripe.com/test/dashboard
-- **Vercel**: https://vercel.com/michaelvx-3932s-projects/vntg
+- **Vercel**: https://vercel.com/michaelvx-3932s-projects/peakees
 
 ## 🎯 Next Actions
 

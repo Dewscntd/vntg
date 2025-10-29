@@ -1,5 +1,5 @@
 # =============================================================================
-# Docker Compose Configuration for VNTG E-commerce Platform
+# Docker Compose Configuration for Peakees E-commerce Platform
 # For local development and testing
 # =============================================================================
 
@@ -65,4 +65,4 @@ volumes:
 
 networks:
   default:
-    name: vntg-network
+    name: peakees-network
