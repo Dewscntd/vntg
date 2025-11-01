@@ -10,12 +10,13 @@ export * from './use-optimistic';
 import { useCachedFetch } from './use-cached-fetch';
 import { useFetch } from './use-fetch';
 import { useCreate, useUpdate, useDelete } from './use-mutation';
+import { apiUrl } from '@/lib/utils/api';
 
 // Export convenience hooks for specific API endpoints
 
 // Products
 export function useProducts(options: any = {}) {
-  const url = options.url || '/api/products';
+  const url = options.url || apiUrl('/api/products');
   const cacheKey = options.cacheKey || 'products-list';
 
   return useCachedFetch(url, {
@@ -25,27 +26,27 @@ export function useProducts(options: any = {}) {
 }
 
 export function useProduct(id: string, options = {}) {
-  return useCachedFetch(`/api/products/${id}`, {
+  return useCachedFetch(apiUrl(`/api/products/${id}`), {
     cacheKey: `product-${id}`,
     ...options,
   });
 }
 
 export function useCreateProduct(options = {}) {
-  return useCreate('/api/products', options);
+  return useCreate(apiUrl('/api/products'), options);
 }
 
 export function useUpdateProduct(id: string, options = {}) {
-  return useUpdate(`/api/products/${id}`, options);
+  return useUpdate(apiUrl(`/api/products/${id}`), options);
 }
 
 export function useDeleteProduct(id: string, options = {}) {
-  return useDelete(`/api/products/${id}`, options);
+  return useDelete(apiUrl(`/api/products/${id}`), options);
 }
 
 // Categories
 export function useCategories(options: any = {}) {
-  const url = options.url || '/api/categories';
+  const url = options.url || apiUrl('/api/categories');
   const cacheKey = options.cacheKey || 'categories-list';
 
   return useCachedFetch(url, {
@@ -55,37 +56,37 @@ export function useCategories(options: any = {}) {
 }
 
 export function useCategory(id: string, options = {}) {
-  return useCachedFetch(`/api/categories/${id}`, {
+  return useCachedFetch(apiUrl(`/api/categories/${id}`), {
     cacheKey: `category-${id}`,
     ...options,
   });
 }
 
 export function useCreateCategory(options = {}) {
-  return useCreate('/api/categories', options);
+  return useCreate(apiUrl('/api/categories'), options);
 }
 
 export function useUpdateCategory(id: string, options = {}) {
-  return useUpdate(`/api/categories/${id}`, options);
+  return useUpdate(apiUrl(`/api/categories/${id}`), options);
 }
 
 export function useDeleteCategory(id: string, options = {}) {
-  return useDelete(`/api/categories/${id}`, options);
+  return useDelete(apiUrl(`/api/categories/${id}`), options);
 }
 
 // Cart
 export function useCart(options = {}) {
-  return useFetch('/api/cart', options);
+  return useFetch(apiUrl('/api/cart'), options);
 }
 
 export function useAddToCart(options = {}) {
-  return useCreate('/api/cart/add', options);
+  return useCreate(apiUrl('/api/cart/add'), options);
 }
 
 export function useUpdateCartItem(options = {}) {
-  return useUpdate('/api/cart/update', options);
+  return useUpdate(apiUrl('/api/cart/update'), options);
 }
 
 export function useRemoveFromCart(options = {}) {
-  return useDelete('/api/cart/remove', options);
+  return useDelete(apiUrl('/api/cart/remove'), options);
 }

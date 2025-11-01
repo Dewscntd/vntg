@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
+import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -76,7 +77,7 @@ export default function NewProductPage() {
   const fetchCategories = async () => {
     try {
       // Fetch from API but filter out unwanted categories
-      const response = await fetch('/api/categories');
+      const response = await fetch(apiUrl('/api/categories'));
       if (response.ok) {
         const data = await response.json();
         const allCategories = data.data?.categories || [];
@@ -152,7 +153,7 @@ export default function NewProductPage() {
         const imageFormData = new FormData();
         imageFormData.append('file', imageFile);
 
-        const imageResponse = await fetch('/api/products/upload', {
+        const imageResponse = await fetch(apiUrl('/api/products/upload'), {
           method: 'POST',
           body: imageFormData,
         });
@@ -179,7 +180,7 @@ export default function NewProductPage() {
         },
       };
 
-      const response = await fetch('/api/products', {
+      const response = await fetch(apiUrl('/api/products'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

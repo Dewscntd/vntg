@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import { apiUrl } from '@/lib/utils/api';
 import { useAuth } from '@/lib/auth/auth-context';
 import { useCart } from '@/lib/context/cart-context';
 import {
@@ -268,7 +269,7 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/checkout/payment-intent', {
+      const response = await fetch(apiUrl('/api/checkout/payment-intent'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -304,7 +305,7 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/checkout/create-order', {
+      const response = await fetch(apiUrl('/api/checkout/create-order'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

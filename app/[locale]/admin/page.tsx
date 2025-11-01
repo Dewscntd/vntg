@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   BarChart3,
+import { apiUrl } from '@/lib/utils/api';
   Package,
   ShoppingCart,
   Users,
@@ -120,7 +121,7 @@ export default function AdminDashboard() {
       }
 
       try {
-        const response = await fetch('/api/user/profile');
+        const response = await fetch(apiUrl('/api/user/profile'));
 
         if (response.ok) {
           const userData = await response.json();
@@ -147,10 +148,10 @@ export default function AdminDashboard() {
 
         // Fetch dashboard metrics from multiple endpoints
         const [productsRes, ordersRes, usersRes, analyticsRes] = await Promise.all([
-          fetch('/api/products?limit=1'),
-          fetch('/api/orders?limit=10'),
-          fetch('/api/admin/users?limit=1'),
-          fetch('/api/analytics/metrics'),
+          fetch(apiUrl('/api/products?limit=1')),
+          fetch(apiUrl('/api/orders?limit=10')),
+          fetch(apiUrl('/api/admin/users?limit=1')),
+          fetch(apiUrl('/api/analytics/metrics')),
         ]);
 
         const [productsData, ordersData, usersData, analyticsData] = await Promise.all([

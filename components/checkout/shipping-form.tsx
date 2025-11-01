@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
+import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -21,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { MemberBenefitsBanner } from './member-benefits-banner';
 import { Truck, Clock, Zap } from 'lucide-react';
 
+import { apiUrl } from '@/lib/utils/api';
 interface ShippingFormProps {
   onNext: () => void;
   className?: string;
@@ -88,7 +90,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
 
       // Save address to user profile if requested
       if (saveAddress && session) {
-        await fetch('/api/user/addresses', {
+        await fetch(apiUrl('/api/user/addresses'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

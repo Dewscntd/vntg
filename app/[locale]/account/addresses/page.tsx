@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
+import { apiUrl } from '@/lib/utils/api';
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -19,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
+import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -67,7 +69,7 @@ export default function AddressBookPage() {
     if (!session) return;
 
     try {
-      const response = await fetch('/api/user/addresses');
+      const response = await fetch(apiUrl('/api/user/addresses'));
       if (response.ok) {
         const data = await response.json();
         setAddresses(data.addresses || []);
@@ -136,7 +138,7 @@ export default function AddressBookPage() {
     if (!confirm('Are you sure you want to delete this address?')) return;
 
     try {
-      const response = await fetch(`/api/user/addresses/${addressId}`, {
+      const response = await fetch(apiUrl(`/api/user/addresses/${addressId}`), {
         method: 'DELETE',
       });
 
@@ -153,7 +155,7 @@ export default function AddressBookPage() {
 
   const handleSetDefault = async (addressId: string) => {
     try {
-      const response = await fetch(`/api/user/addresses/${addressId}/default`, {
+      const response = await fetch(apiUrl(`/api/user/addresses/${addressId}/default`), {
         method: 'POST',
       });
 
