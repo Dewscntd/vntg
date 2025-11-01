@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   keywords: 'Peakees, about us, e-commerce, premium products, customer service',
   openGraph: {
     title: 'About Peakees - Your Premium Shopping Destination',
-    description: "Discover Peakees's commitment to quality products and exceptional customer service.",
+    description:
+      "Discover Peakees's commitment to quality products and exceptional customer service.",
     type: 'website',
   },
 };
