@@ -43,6 +43,17 @@ export function CategoryNavigation({
   const allCategories = categoriesData?.categories || [];
   const categoryOrder = ['Man', 'Woman', 'Teens', 'Kids', 'Books & Media', 'Toys & Games'];
 
+  const categoryDisplayNames: Record<string, string> = {
+    Man: 'גברים',
+    Woman: 'נשים',
+    Teens: 'נוער',
+    Kids: 'ילדים',
+    'Books & Media': 'ספרים ומדיה',
+    'Toys & Games': 'צעצועים ומשחקים',
+  };
+
+  const getDisplayName = (name: string) => categoryDisplayNames[name] || name;
+
   // Sort categories by the desired order
   const categories = categoryOrder
     .map((name) => allCategories.find((cat: any) => cat.name === name))
@@ -103,14 +114,14 @@ export function CategoryNavigation({
     const isCurrent = currentCategoryId === category.id;
 
     return (
-      <div className={cn('relative', level > 0 && 'ml-4')}>
-        <div className="flex items-center">
+      <div className={cn('relative', level > 0 && 'mr-4')}>
+        <div className="flex items-center gap-2">
           {hasChildren && orientation === 'vertical' && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => toggleCategory(category.id)}
-              className="mr-1 h-auto p-1"
+              className="h-auto p-1"
             >
               {isExpanded ? (
                 <ChevronDown className="h-3 w-3" />
@@ -123,13 +134,13 @@ export function CategoryNavigation({
           <Link
             href={`/categories/${category.id}`}
             className={cn(
-              'flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+              'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
               isCurrent && 'bg-accent font-medium text-accent-foreground',
               orientation === 'horizontal' && 'whitespace-nowrap'
             )}
           >
             {level === 0 && <Package className="h-4 w-4" />}
-            <span>{category.name}</span>
+            <span>{getDisplayName(category.name)}</span>
             {category.productCount && (
               <span className="text-xs text-muted-foreground">({category.productCount})</span>
             )}
@@ -142,7 +153,7 @@ export function CategoryNavigation({
             className={cn(
               orientation === 'vertical'
                 ? 'mt-1 space-y-1'
-                : 'absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-md border bg-popover p-1 shadow-md',
+                : 'absolute right-0 top-full z-50 mt-1 min-w-[200px] rounded-md border bg-popover p-1 shadow-md',
               orientation === 'horizontal' && 'hidden group-hover:block'
             )}
           >
@@ -157,16 +168,16 @@ export function CategoryNavigation({
 
   if (isLoading) {
     return (
-      <div className={cn('flex items-center space-x-2', className)}>
+      <div className={cn('flex items-center gap-2', className)}>
         <div className="h-4 w-4 animate-spin rounded-full border-2 border-muted border-t-foreground" />
-        <span className="text-sm text-muted-foreground">Loading categories...</span>
+        <span className="text-sm text-muted-foreground">טוען קטגוריות...</span>
       </div>
     );
   }
 
   if (orientation === 'horizontal') {
     return (
-      <nav className={cn('flex items-center space-x-1', className)}>
+      <nav className={cn('flex items-center gap-1', className)}>
         {showAllLink && (
           <Link
             href="/products"
@@ -175,7 +186,7 @@ export function CategoryNavigation({
               !currentCategoryId && 'bg-accent font-medium text-accent-foreground'
             )}
           >
-            All Products
+            כל המוצרים
           </Link>
         )}
 
@@ -190,7 +201,7 @@ export function CategoryNavigation({
             href="/categories"
             className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
           >
-            View All Categories
+            כל הקטגוריות
           </Link>
         )}
       </nav>
@@ -203,12 +214,12 @@ export function CategoryNavigation({
         <Link
           href="/products"
           className={cn(
-            'flex items-center space-x-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+            'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
             !currentCategoryId && 'bg-accent font-medium text-accent-foreground'
           )}
         >
           <Package className="h-4 w-4" />
-          <span>All Products</span>
+          <span>כל המוצרים</span>
         </Link>
       )}
 
@@ -219,10 +230,10 @@ export function CategoryNavigation({
       {maxItems && categoryTree.length > maxItems && (
         <Link
           href="/categories"
-          className="flex items-center space-x-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
           <Package className="h-4 w-4" />
-          <span>View All Categories</span>
+          <span>כל הקטגוריות</span>
         </Link>
       )}
     </nav>

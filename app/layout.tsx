@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Rubik } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/lib/auth/auth-context';
 import { AppProviders } from '@/components/providers/app-providers';
 import { RouteTransitionProvider } from '@/components/providers/route-transition-provider';
 
-const inter = Inter({ subsets: ['latin'] });
+const rubik = Rubik({ subsets: ['hebrew'] });
 
 export const metadata: Metadata = {
-  title: 'Peakees | Second-Hand Fashion Store',
+  title: 'Peakees | חנות יד שנייה לכל המשפחה',
   description:
-    'Unique second-hand clothing, shoes, toys and books in Israel. Quality pre-owned fashion for everyone.',
+    'Peakees מציעה ביגוד, נעליים, צעצועים וספרים במצב מצוין לכל המשפחה – עם חוויית קנייה מקומית ואישית.',
 };
 
 export default function RootLayout({
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="he" dir="rtl" suppressHydrationWarning>
+      <body className={rubik.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

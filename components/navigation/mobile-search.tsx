@@ -24,7 +24,7 @@ interface SearchSuggestion {
   count?: number;
 }
 
-export function MobileSearch({ className, placeholder = 'Search products...' }: MobileSearchProps) {
+export function MobileSearch({ className, placeholder = 'חיפוש מוצרים...' }: MobileSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
@@ -34,20 +34,14 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   // Mock trending searches and suggestions
-  const trendingSearches = [
-    'vintage jackets',
-    'retro sneakers',
-    'classic watches',
-    'designer bags',
-    'vintage denim',
-  ];
+  const trendingSearches = ['מעילי וינטג׳', 'סניקרס רטרו', 'שעונים קלאסיים', 'תיקי מעצבים', 'דנים יד שנייה'];
 
   const mockSuggestions: SearchSuggestion[] = [
-    { id: '1', text: 'vintage leather jacket', type: 'product', count: 24 },
-    { id: '2', text: 'retro sneakers', type: 'product', count: 18 },
-    { id: '3', text: 'Clothing', type: 'category', count: 156 },
-    { id: '4', text: 'Accessories', type: 'category', count: 89 },
-    { id: '5', text: 'vintage watches', type: 'trending' },
+    { id: '1', text: 'מעיל עור וינטג׳', type: 'product', count: 24 },
+    { id: '2', text: 'סניקרס רטרו', type: 'product', count: 18 },
+    { id: '3', text: 'בגדים', type: 'category', count: 156 },
+    { id: '4', text: 'אקססוריז', type: 'category', count: 89 },
+    { id: '5', text: 'שעוני וינטג׳', type: 'trending' },
   ];
 
   // Load recent searches from localStorage
@@ -137,7 +131,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
           size="icon"
           className={cn('touch-manipulation lg:hidden', className)}
           onClick={handleTriggerClick}
-          aria-label="Open search"
+          aria-label="פתיחת חיפוש"
         >
           <Search className="h-5 w-5" />
         </Button>
@@ -149,9 +143,9 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <SheetHeader className="p-4 pb-0">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
               <Input
                 ref={inputRef}
                 value={query}
@@ -162,7 +156,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
                   }
                 }}
                 placeholder={placeholder}
-                className="h-12 touch-manipulation pl-10 pr-4 text-base"
+                className="h-12 touch-manipulation pr-10 pl-4 text-right text-base"
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
@@ -174,7 +168,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
               size="icon"
               onClick={() => setIsOpen(false)}
               className="shrink-0 touch-manipulation"
-              aria-label="Close search"
+              aria-label="סגירת חיפוש"
             >
               <X className="h-5 w-5" />
             </Button>
@@ -186,32 +180,32 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {/* Search Suggestions */}
             {query && suggestions.length > 0 && (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-muted-foreground">Suggestions</h3>
+                <h3 className="text-sm font-semibold text-muted-foreground">הצעות לחיפוש</h3>
                 <div className="space-y-1">
                   {suggestions.map((suggestion) => (
                     <button
                       key={suggestion.id}
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="flex w-full touch-manipulation items-center justify-between rounded-lg p-3 text-left transition-colors hover:bg-accent"
+                      className="flex w-full touch-manipulation items-center justify-between rounded-lg p-3 text-right transition-colors hover:bg-accent"
                     >
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center gap-3">
                         <Search className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm">{suggestion.text}</span>
                         {suggestion.type === 'category' && (
                           <Badge variant="outline" className="text-xs">
-                            Category
+                            קטגוריה
                           </Badge>
                         )}
                         {suggestion.type === 'trending' && (
                           <Badge variant="secondary" className="text-xs">
-                            <TrendingUp className="mr-1 h-3 w-3" />
-                            Trending
+                            <TrendingUp className="ml-1 h-3 w-3" />
+                            חיפוש חם
                           </Badge>
                         )}
                       </div>
                       {suggestion.count && (
                         <span className="text-xs text-muted-foreground">
-                          {suggestion.count} items
+                          {suggestion.count} פריטים
                         </span>
                       )}
                     </button>
@@ -224,14 +218,14 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {!query && recentSearches.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-muted-foreground">Recent Searches</h3>
+                  <h3 className="text-sm font-semibold text-muted-foreground">חיפושים אחרונים</h3>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={clearRecentSearches}
                     className="text-xs text-muted-foreground hover:text-foreground"
                   >
-                    Clear
+                    ניקוי
                   </Button>
                 </div>
                 <div className="space-y-1">
@@ -239,7 +233,7 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
                     <button
                       key={index}
                       onClick={() => handleSearch(search)}
-                      className="flex w-full touch-manipulation items-center space-x-3 rounded-lg p-3 text-left transition-colors hover:bg-accent"
+                      className="flex w-full touch-manipulation items-center gap-3 rounded-lg p-3 text-right transition-colors hover:bg-accent"
                     >
                       <Search className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm">{search}</span>
@@ -252,13 +246,13 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {/* Trending Searches */}
             {!query && (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-muted-foreground">Trending Searches</h3>
+                <h3 className="text-sm font-semibold text-muted-foreground">חיפושים מובילים</h3>
                 <div className="flex flex-wrap gap-2">
                   {trendingSearches.map((search, index) => (
                     <button
                       key={index}
                       onClick={() => handleSearch(search)}
-                      className="inline-flex touch-manipulation items-center space-x-1 rounded-full bg-muted px-3 py-2 transition-colors hover:bg-accent"
+                      className="inline-flex touch-manipulation items-center gap-1 rounded-full bg-muted px-3 py-2 transition-colors hover:bg-accent"
                     >
                       <TrendingUp className="h-3 w-3" />
                       <span className="text-xs">{search}</span>
@@ -272,14 +266,14 @@ export function MobileSearch({ className, placeholder = 'Search products...' }: 
             {query && suggestions.length === 0 && (
               <div className="py-8 text-center">
                 <Search className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">No suggestions found for "{query}"</p>
+                <p className="text-sm text-muted-foreground">לא נמצאו הצעות לחיפוש „{query}”</p>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => handleSearch(query)}
                   className="mt-4"
                 >
-                  Search anyway
+                  לחפש בכל זאת
                 </Button>
               </div>
             )}

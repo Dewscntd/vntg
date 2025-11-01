@@ -17,7 +17,7 @@ export interface ProductSearchProps {
 }
 
 export function ProductSearch({
-  placeholder = 'Search products...',
+  placeholder = 'חיפוש מוצרים...',
   className,
   showSuggestions = true,
   onSearch,
@@ -118,7 +118,7 @@ export function ProductSearch({
   return (
     <div ref={containerRef} className={cn('relative w-full max-w-md', className)}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           ref={inputRef}
           type="text"
@@ -131,9 +131,9 @@ export function ProductSearch({
               setIsOpen(true);
             }
           }}
-          className="pl-10 pr-20"
+          className="pr-10 pl-20 text-right"
         />
-        <div className="absolute right-1 top-1/2 flex -translate-y-1/2 items-center space-x-1">
+        <div className="absolute left-1 top-1/2 flex -translate-y-1/2 items-center gap-1">
           {query && (
             <Button
               type="button"
@@ -143,7 +143,7 @@ export function ProductSearch({
               className="h-7 w-7 p-0"
             >
               <X className="h-3 w-3" />
-              <span className="sr-only">Clear search</span>
+              <span className="sr-only">ניקוי חיפוש</span>
             </Button>
           )}
           <Button
@@ -153,7 +153,7 @@ export function ProductSearch({
             disabled={!query.trim()}
             className="h-7 px-2"
           >
-            Search
+            חיפוש
           </Button>
         </div>
       </div>
@@ -164,22 +164,22 @@ export function ProductSearch({
           {suggestionsLoading ? (
             <div className="flex items-center justify-center py-4">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="ml-2 text-sm text-muted-foreground">Searching...</span>
+              <span className="mr-2 text-sm text-muted-foreground">מחפש...</span>
             </div>
           ) : suggestionProducts.length > 0 ? (
             <div className="space-y-1">
-              <div className="px-2 py-1 text-xs font-medium text-muted-foreground">Suggestions</div>
+              <div className="px-2 py-1 text-xs font-medium text-muted-foreground">הצעות</div>
               {suggestionProducts.map((product: any) => (
                 <button
                   key={product.id}
                   onClick={() => handleSuggestionClick(product.name)}
-                  className="flex w-full items-center space-x-3 rounded-sm px-2 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
+                  className="flex w-full items-center gap-3 rounded-sm px-2 py-2 text-right text-sm hover:bg-accent hover:text-accent-foreground"
                 >
                   <Search className="h-3 w-3 text-muted-foreground" />
                   <span className="flex-1 truncate">{product.name}</span>
                   {product.category && (
                     <span className="text-xs text-muted-foreground">
-                      in {product.category.name}
+                      בקטגוריה {product.category.name}
                     </span>
                   )}
                 </button>
@@ -187,7 +187,7 @@ export function ProductSearch({
             </div>
           ) : debouncedQuery.length >= 2 ? (
             <div className="py-4 text-center text-sm text-muted-foreground">
-              No products found for "{debouncedQuery}"
+              לא נמצאו מוצרים עבור „{debouncedQuery}”
             </div>
           ) : null}
         </div>

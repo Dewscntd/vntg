@@ -17,55 +17,55 @@ import { ScrollReveal, RevealSection } from '@/components/layout/scroll-reveal';
 const benefits = [
   {
     icon: Recycle,
-    title: 'Eco-Friendly Fashion',
+    title: 'אופנה ידידותית לסביבה',
     description:
-      "Reduce your environmental footprint with sustainable, pre-loved clothing that's both stylish and responsible.",
-    badge: 'Sustainable',
+      'הורידו את טביעת הרגל הסביבתית עם פריטי יד שנייה איכותיים, מעוצבים ואחראיים.',
+    badge: 'קיימות',
     color: 'text-green-600',
     bgColor: 'bg-green-500/10',
   },
   {
     icon: Star,
-    title: 'Quality Guaranteed',
+    title: 'איכות ללא פשרות',
     description:
-      'Every item is carefully inspected and curated to meet our high standards for condition and authenticity.',
-    badge: 'Premium',
+      'כל פריט נבדק ומטופל בקפידה כדי לעמוד בסטנדרטים הגבוהים שלנו של מצב ואותנטיות.',
+    badge: 'פרימיום',
     color: 'text-yellow-600',
     bgColor: 'bg-yellow-500/10',
   },
   {
     icon: Award,
-    title: 'Unique Finds',
+    title: 'מציאות מיוחדות',
     description:
-      "Discover one-of-a-kind vintage pieces and rare items you won't find anywhere else.",
-    badge: 'Exclusive',
+      'לגלות פריטים חד-פעמיים וסיפורים נדירים שלא תמצאו בשום מקום אחר.',
+    badge: 'בלעדי',
     color: 'text-purple-600',
     bgColor: 'bg-purple-500/10',
   },
   {
     icon: Truck,
-    title: 'Fast & Secure Shipping',
+    title: 'משלוח מהיר ובטוח',
     description:
-      'Quick, reliable delivery with secure packaging to ensure your items arrive in perfect condition.',
-    badge: 'Reliable',
+      'משלוח מהיר ואמין עם אריזה קפדנית כדי שהפריטים יגיעו אליכם מושלמים.',
+    badge: 'אמינות',
     color: 'text-blue-600',
     bgColor: 'bg-blue-500/10',
   },
   {
     icon: CreditCard,
-    title: 'Secure Payments',
+    title: 'תשלומים מאובטחים',
     description:
-      'Shop with confidence using our secure payment system with multiple payment options.',
-    badge: 'Secure',
+      'חוויית קנייה בטוחה עם מגוון אפשרויות תשלום מותאמות לישראל.',
+    badge: 'ביטחון',
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-500/10',
   },
   {
     icon: RotateCcw,
-    title: 'Easy Returns',
+    title: 'החזרות קלות',
     description:
-      'Not completely satisfied? Our hassle-free return policy ensures you shop with confidence.',
-    badge: 'Flexible',
+      'לא התחברתם? מדיניות ההחזרות הידידותית שלנו מאפשרת לקנות בראש שקט.',
+    badge: 'גמישות',
     color: 'text-orange-600',
     bgColor: 'bg-orange-500/10',
   },
@@ -76,8 +76,8 @@ export function ValuePropositions() {
     <section className="bg-background py-24">
       <div className="container mx-auto px-4">
         <RevealSection
-          title="Why Choose VNTG?"
-          subtitle="We're committed to providing an exceptional shopping experience with sustainable, high-quality vintage fashion"
+          title="למה לבחור ב-Peakees?"
+          subtitle="אנחנו מחויבים לחוויית קנייה ישראלית יוצאת דופן עם אופנה מקיימת, איכותית ומלאת אופי"
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -115,15 +115,15 @@ export function ValuePropositions() {
           <div className="mt-16 grid gap-8 text-center sm:grid-cols-3" data-reveal>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">10,000+</div>
-              <div className="text-sm text-muted-foreground">Curated Items</div>
+              <div className="text-sm text-muted-foreground">פריטים שעברו אוצרות</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">5,000+</div>
-              <div className="text-sm text-muted-foreground">Happy Customers</div>
+              <div className="text-sm text-muted-foreground">משפחות מרוצות</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">99%</div>
-              <div className="text-sm text-muted-foreground">Satisfaction Rate</div>
+              <div className="text-sm text-muted-foreground">שיעור שביעות רצון</div>
             </div>
           </div>
         </RevealSection>

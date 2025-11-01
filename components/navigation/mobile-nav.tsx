@@ -74,32 +74,32 @@ export function MobileNav({ className }: MobileNavProps) {
 
   const navItems: NavItem[] = [
     {
-      title: 'Home',
+      title: 'דף הבית',
       href: '/',
       icon: Home,
     },
     {
-      title: 'Shop',
+      title: 'חנות',
       href: '/shop',
       icon: ShoppingBag,
     },
     {
-      title: 'Products',
+      title: 'מוצרים',
       href: '/products',
       icon: Package,
     },
     {
-      title: 'Categories',
+      title: 'קטגוריות',
       href: '/categories',
       icon: Package,
     },
     {
-      title: 'About',
+      title: 'על Peakees',
       href: '/about',
       icon: Info,
     },
     {
-      title: 'Contact',
+      title: 'צור קשר',
       href: '/contact',
       icon: Phone,
     },
@@ -108,17 +108,17 @@ export function MobileNav({ className }: MobileNavProps) {
   const accountItems: NavItem[] = user
     ? [
         {
-          title: 'My Account',
+          title: 'החשבון שלי',
           href: '/account',
           icon: User,
         },
         {
-          title: 'Orders',
+          title: 'הזמנות',
           href: '/account/orders',
           icon: Package,
         },
         {
-          title: 'Cart',
+          title: 'עגלה',
           href: '/cart',
           icon: ShoppingBag,
           badge: itemCount > 0 ? itemCount : undefined,
@@ -126,17 +126,17 @@ export function MobileNav({ className }: MobileNavProps) {
       ]
     : [
         {
-          title: 'Sign In',
+          title: 'התחברות',
           href: '/auth/login',
           icon: User,
         },
         {
-          title: 'Create Account',
+          title: 'יצירת חשבון',
           href: '/auth/register',
           icon: User,
         },
         {
-          title: 'Cart',
+          title: 'עגלה',
           href: '/cart',
           icon: ShoppingBag,
           badge: itemCount > 0 ? itemCount : undefined,
@@ -157,13 +157,13 @@ export function MobileNav({ className }: MobileNavProps) {
               size="touch"
               onClick={() => toggleSection(item.title)}
               className={cn(
-                'flex-1 justify-between text-left font-normal',
-                level > 0 && 'ml-4',
+                'flex-1 justify-between text-right font-normal',
+                level > 0 && 'mr-4',
                 isActive && 'bg-accent text-accent-foreground'
               )}
               haptic
             >
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-3">
                 <item.icon className="h-5 w-5" />
                 <span>{item.title}</span>
                 {item.badge && (
@@ -182,8 +182,8 @@ export function MobileNav({ className }: MobileNavProps) {
             <Link
               href={item.href}
               className={cn(
-                'flex flex-1 items-center space-x-3 rounded-md p-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
-                level > 0 && 'ml-4',
+                'flex flex-1 items-center gap-3 rounded-md p-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+                level > 0 && 'mr-4',
                 isActive && 'bg-accent font-medium text-accent-foreground'
               )}
               onClick={() => setIsOpen(false)}
@@ -200,7 +200,7 @@ export function MobileNav({ className }: MobileNavProps) {
         </div>
 
         {hasChildren && isExpanded && (
-          <div className="space-y-1 pl-4">
+          <div className="space-y-1 pr-4">
             {item.children!.map((child) => (
               <NavItemComponent key={child.title} item={child} level={level + 1} />
             ))}
@@ -218,7 +218,7 @@ export function MobileNav({ className }: MobileNavProps) {
           variant="ghost"
           size="md"
           icon={<Menu />}
-          label="Open navigation menu"
+          label="פתיחת תפריט ניווט"
           className={cn('md:hidden', className)}
           onClick={handleTriggerClick}
           haptic
@@ -226,23 +226,23 @@ export function MobileNav({ className }: MobileNavProps) {
       </SheetTrigger>
 
       <SheetContent
-        side="left"
+        side="right"
         className="flex w-80 flex-col p-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <SheetHeader className="p-6 pb-4">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center space-x-2">
+            <SheetTitle className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">V</span>
+                <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
-              <span className="text-xl font-bold">VNTG</span>
+              <span className="text-xl font-bold">Peakees</span>
             </SheetTitle>
             <TouchIconButton
               variant="ghost"
               size="md"
               icon={<X />}
-              label="Close navigation menu"
+              label="סגירת תפריט ניווט"
               onClick={() => setIsOpen(false)}
               haptic
             />
@@ -254,7 +254,7 @@ export function MobileNav({ className }: MobileNavProps) {
             {/* Main Navigation */}
             <div className="space-y-1">
               <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Navigation
+                ניווט
               </h3>
               {navItems.map((item) => (
                 <NavItemComponent key={item.title} item={item} />
@@ -266,9 +266,9 @@ export function MobileNav({ className }: MobileNavProps) {
             {/* Categories */}
             <div className="space-y-1">
               <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Categories
+                קטגוריות
               </h3>
-              <div className="pl-3">
+              <div className="pr-3">
                 <CategoryNavigation
                   orientation="vertical"
                   showAllLink={false}
@@ -282,7 +282,7 @@ export function MobileNav({ className }: MobileNavProps) {
             {/* Account Section */}
             <div className="space-y-1">
               <h3 className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Account
+                חשבון
               </h3>
               {accountItems.map((item) => (
                 <NavItemComponent key={item.title} item={item} />
@@ -294,7 +294,7 @@ export function MobileNav({ className }: MobileNavProps) {
         {/* Footer */}
         <div className="border-t p-6 pt-4">
           <div className="text-center">
-            <p className="text-xs text-muted-foreground">© 2024 VNTG. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">© 2024 Peakees. כל הזכויות שמורות.</p>
           </div>
         </div>
       </SheetContent>

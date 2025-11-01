@@ -7,58 +7,58 @@ import { ScrollReveal, RevealSection } from '@/components/layout/scroll-reveal';
 
 const testimonials = [
   {
-    name: 'Sarah Johnson',
-    role: 'Fashion Enthusiast',
-    avatar: 'https://via.placeholder.com/100x100?text=SJ',
+    name: 'נועה לוי',
+    role: 'חובבת וינטג׳',
+    avatar: 'https://via.placeholder.com/100x100?text=NL',
     content:
-      "I found the most incredible vintage denim jacket on VNTG. The quality was amazing and it's become my signature piece. Love knowing I'm shopping sustainably!",
+      'מצאתי ב-Peakees את מעיל הג׳ינס המושלם. הוא מרגיש כמו חדש והפך לפריט שאני לא מורידה. כיף לדעת שאני קונה באופן מקיים.',
     rating: 5,
-    initials: 'SJ',
+    initials: 'NL',
   },
   {
-    name: 'Michael Chen',
-    role: 'Sustainable Living Advocate',
-    avatar: 'https://via.placeholder.com/100x100?text=MC',
+    name: 'עמית כהן',
+    role: 'פעיל סביבה',
+    avatar: 'https://via.placeholder.com/100x100?text=AK',
     content:
-      "As someone who cares about the environment, VNTG is perfect. Every purchase feels good knowing I'm giving pre-loved items a new life while getting unique pieces.",
+      'כמי שמנסה להפחית צריכה, Peakees היא בדיוק מה שחיפשתי. כל רכישה נותנת חיים חדשים לפריטים איכותיים ומיוחדים.',
     rating: 5,
-    initials: 'MC',
+    initials: 'AK',
   },
   {
-    name: 'Emma Rodriguez',
-    role: 'Vintage Collector',
-    avatar: 'https://via.placeholder.com/100x100?text=ER',
+    name: 'שרית אברמוב',
+    role: 'אספנית וינטג׳',
+    avatar: 'https://via.placeholder.com/100x100?text=SA',
     content:
-      "The curation at VNTG is exceptional. I've found rare vintage pieces I couldn't find anywhere else. Their attention to quality and authenticity is unmatched.",
+      'האוצרות של Peakees מדויקת. מצאתי פריטי אספנות נדירים שלא ראיתי בשום מקום אחר. האיכות והאותנטיות פשוט מרשימות.',
     rating: 5,
-    initials: 'ER',
+    initials: 'SA',
   },
   {
-    name: 'David Park',
-    role: 'Style Blogger',
-    avatar: 'https://via.placeholder.com/100x100?text=DP',
+    name: 'דניאל פרידמן',
+    role: 'בלוגרית סטייל',
+    avatar: 'https://via.placeholder.com/100x100?text=DF',
     content:
-      'VNTG has become my go-to for unique fashion finds. The variety is incredible - from classic pieces to bold statement items. Plus, the shopping experience is seamless.',
+      'Peakees היא הכתובת שלי למציאות ייחודיות. יש מגוון מטורף – מפריטי בסיס ועד פריטי הצהרה, והחוויה באתר נעימה וקלה.',
     rating: 5,
-    initials: 'DP',
+    initials: 'DF',
   },
   {
-    name: 'Lisa Wang',
-    role: 'Working Professional',
-    avatar: 'https://via.placeholder.com/100x100?text=LW',
+    name: 'הילה בן-דוד',
+    role: 'מנהלת מוצר',
+    avatar: 'https://via.placeholder.com/100x100?text=HB',
     content:
-      'I love that I can find professional vintage pieces that stand out in the best way. VNTG helps me express my personality while maintaining a polished look.',
+      'אני אוהבת למצוא פריטים מקצועיים ומיוחדים למשרד. Peakees נותנת לי להתלבש אחרת ועדיין להישאר אלגנטית.',
     rating: 5,
-    initials: 'LW',
+    initials: 'HB',
   },
   {
-    name: 'Alex Thompson',
-    role: 'Parent & Eco-Conscious Shopper',
-    avatar: 'https://via.placeholder.com/100x100?text=AT',
+    name: 'רן ואילת צור',
+    role: 'הורים מודעי סביבה',
+    avatar: 'https://via.placeholder.com/100x100?text=RC',
     content:
-      "Shopping at VNTG for my family feels great. Quality clothes for my kids that have history and character, plus I'm teaching them about sustainable choices.",
+      'לקנות לילדים דרך Peakees זה תענוג. בגדים איכותיים עם אופי, ואנחנו גם מלמדים אותם על צריכה אחראית.',
     rating: 5,
-    initials: 'AT',
+    initials: 'RC',
   },
 ];
 
@@ -67,8 +67,8 @@ export function SocialProof() {
     <section className="bg-muted/30 py-24">
       <div className="container mx-auto px-4">
         <RevealSection
-          title="What Our Customers Say"
-          subtitle="Join thousands of satisfied customers who've found their perfect vintage pieces"
+          title="מה הלקוחות שלנו מספרים"
+          subtitle="הצטרפו לאלפי משפחות שכבר מצאו את הפריט האהוב הבא שלהן ב-Peakees"
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -79,12 +79,12 @@ export function SocialProof() {
                 className="relative h-full overflow-hidden border-0 shadow-lg"
                 data-reveal
               >
-                <CardContent className="p-6">
+                <CardContent className="p-6 text-right">
                   {/* Quote Icon */}
                   <Quote className="mb-4 h-8 w-8 text-primary/20" />
 
                   {/* Rating */}
-                  <div className="mb-4 flex items-center gap-1">
+                  <div className="mb-4 flex items-center justify-end gap-1">
                     {Array.from({ length: testimonial.rating }).map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                     ))}
@@ -92,11 +92,11 @@ export function SocialProof() {
 
                   {/* Testimonial Content */}
                   <blockquote className="mb-6 text-sm leading-relaxed text-muted-foreground">
-                    "{testimonial.content}"
+                    „{testimonial.content}”
                   </blockquote>
 
                   {/* Customer Info */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-row-reverse items-center gap-3 text-right">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                       <AvatarFallback className="text-xs font-medium">
@@ -117,19 +117,19 @@ export function SocialProof() {
           <div className="mt-16 grid gap-8 text-center sm:grid-cols-4" data-reveal>
             <div className="space-y-2">
               <div className="text-2xl font-bold text-primary">4.9/5</div>
-              <div className="text-sm text-muted-foreground">Customer Rating</div>
+              <div className="text-sm text-muted-foreground">דירוג לקוחות</div>
             </div>
             <div className="space-y-2">
-              <div className="text-2xl font-bold text-primary">2-3 Days</div>
-              <div className="text-sm text-muted-foreground">Average Delivery</div>
+              <div className="text-2xl font-bold text-primary">2-3 ימים</div>
+              <div className="text-sm text-muted-foreground">זמן משלוח ממוצע</div>
             </div>
             <div className="space-y-2">
-              <div className="text-2xl font-bold text-primary">30 Days</div>
-              <div className="text-sm text-muted-foreground">Return Policy</div>
+              <div className="text-2xl font-bold text-primary">30 ימים</div>
+              <div className="text-sm text-muted-foreground">מדיניות החזרה</div>
             </div>
             <div className="space-y-2">
               <div className="text-2xl font-bold text-primary">24/7</div>
-              <div className="text-sm text-muted-foreground">Customer Support</div>
+              <div className="text-sm text-muted-foreground">תמיכת לקוחות</div>
             </div>
           </div>
         </RevealSection>

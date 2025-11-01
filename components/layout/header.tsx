@@ -35,44 +35,44 @@ export function Header({ className }: HeaderProps) {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Mobile Menu & Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-3">
             <MobileNav />
-            <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
+            <Link href="/" className="flex items-center gap-2" ref={logoRef}>
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">V</span>
+                <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
-              <span className="hidden text-xl font-bold sm:block">VNTG</span>
+              <span className="hidden text-xl font-bold sm:block">Peakees</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-6 md:flex">
+          <nav className="hidden items-center gap-6 md:flex">
             <Link href="/shop" className="text-sm font-medium transition-colors hover:text-primary">
-              Shop
+              חנות
             </Link>
             <Link
               href="/products"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
-              Products
+              מוצרים
             </Link>
             <Link
               href="/categories"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
-              Categories
+              קטגוריות
             </Link>
             <Link
               href="/about"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
-              About
+              עלינו
             </Link>
             <Link
               href="/contact"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
-              Contact
+              יצירת קשר
             </Link>
           </nav>
 
@@ -82,7 +82,7 @@ export function Header({ className }: HeaderProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-1 sm:space-x-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Mobile Search */}
             <MobileSearch className="lg:hidden" />
 
@@ -92,7 +92,7 @@ export function Header({ className }: HeaderProps) {
             ) : (
               <Button variant="ghost" size="icon" className="hidden sm:flex">
                 <User className="h-5 w-5" />
-                <span className="sr-only">Account</span>
+                <span className="sr-only">חשבון</span>
               </Button>
             )}
 

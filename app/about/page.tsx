@@ -1,78 +1,74 @@
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Us | VNTG - Premium E-commerce Experience',
+  title: 'אודות Peakees | חוויית קנייה מקומית ומקיימת',
   description:
-    "Learn about VNTG's mission to provide exceptional shopping experiences with curated products, secure payments, and outstanding customer service.",
-  keywords: 'VNTG, about us, e-commerce, premium products, customer service',
+    'גלו את החזון של Peakees – חנות יד שנייה ישראלית עם שירות אישי, תשלומים מאובטחים וחוויית קנייה קהילתית.',
+  keywords: 'Peakees, אודות, יד שנייה, חנות אונליין, קהילה',
   openGraph: {
-    title: 'About VNTG - Your Premium Shopping Destination',
-    description: "Discover VNTG's commitment to quality products and exceptional customer service.",
+    title: 'אודות Peakees - בית לחוויית יד שנייה',
+    description: 'Peakees מחברת בין משפחות דרך פריטים איכותיים, שירות חם ותמיכה בקיימות.',
     type: 'website',
   },
 };
 
 export default function AboutPage() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4 py-8 text-right">
       <div className="mx-auto max-w-4xl">
         <div className="mb-8">
           <Link href="/">
             <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              <ArrowRight className="ml-2 h-4 w-4" />
+              חזרה לדף הבית
             </Button>
           </Link>
-          <h1 className="mb-4 text-4xl font-bold">About VNTG</h1>
+          <h1 className="mb-4 text-4xl font-bold">אודות Peakees</h1>
           <p className="text-xl text-muted-foreground">
-            Your premium e-commerce destination for quality products
+            בית לפריטי יד שנייה איכותיים וחוויית קנייה ישראלית
           </p>
         </div>
 
-        <article className="prose max-w-none">
+        <article className="prose max-w-none rtl:prose-ul:text-right rtl:prose-p:text-right">
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold">Our Story</h2>
+            <h2 className="mb-4 text-2xl font-semibold">הסיפור שלנו</h2>
             <p className="mb-4">
-              VNTG is a modern e-commerce platform built to deliver exceptional shopping
-              experiences. We specialize in curating high-quality products across multiple
-              categories, ensuring our customers find exactly what they&apos;re looking for.
+              Peakees נולדה מתוך אהבה לפריטים עם אופי והבנה שצריכה אחראית מתחילה בבית. אנחנו אוצרים בקפידה בגדים, נעליים, ספרים וצעצועים במצב מצוין, כדי שכל משפחה תמצא את מה שמתאים לה.
             </p>
             <p className="mb-4">
-              Our platform combines cutting-edge technology with user-friendly design to create a
-              seamless shopping experience from browse to checkout.
+              הפלטפורמה שלנו משלבת טכנולוגיה מתקדמת עם שירות אישי בעברית, כך שתוכלו לגלות, לבחור ולהזמין בקלות – ולקבל פריטים איכותיים ישירות עד הבית.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold">Our Mission</h2>
+            <h2 className="mb-4 text-2xl font-semibold">החזון שלנו</h2>
             <p className="mb-4">
-              To provide customers with access to premium products while maintaining the highest
-              standards of service, security, and satisfaction.
+              להנגיש פריטי יד שנייה איכותיים לכל משפחה בישראל, תוך שמירה על שירות חם, תשלום מאובטח ותמיכה בקהילה ובסביבה.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-2xl font-semibold">Why Choose VNTG?</h2>
+            <h2 className="mb-4 text-2xl font-semibold">למה לבחור ב-Peakees?</h2>
             <ul className="mb-4 list-inside list-disc space-y-2" role="list">
-              <li>Carefully curated product selection</li>
-              <li>Secure payment processing with Stripe</li>
-              <li>Fast and reliable shipping</li>
-              <li>Excellent customer support</li>
-              <li>Easy returns and exchanges</li>
-              <li>Mobile-optimized shopping experience</li>
-              <li>Sustainable and ethical sourcing</li>
-              <li>24/7 customer support availability</li>
+              <li>אוצרות ידנית ומוקפדת של כל פריט</li>
+              <li>תשלום מאובטח במגוון אפשרויות ישראליות</li>
+              <li>משלוח מהיר לכל הארץ</li>
+              <li>שירות לקוחות אישי וזמין</li>
+              <li>מדיניות החזרות נוחה וברורה</li>
+              <li>חוויית שימוש מותאמת לנייד ולמשפחות</li>
+              <li>תמיכה בצריכה אחראית ובקהילה המקומית</li>
+              <li>ליווי מקצועי גם אחרי הרכישה</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold">Get in Touch</h2>
-            <p className="mb-4">Have questions? We&apos;d love to hear from you.</p>
+            <h2 className="mb-4 text-2xl font-semibold">נשמח לשמור על קשר</h2>
+            <p className="mb-4">יש לכם שאלות? הצוות של Peakees כאן בשבילכם.</p>
             <Link href="/contact">
-              <Button>Contact Us</Button>
+              <Button>צרו קשר</Button>
             </Link>
           </section>
         </article>

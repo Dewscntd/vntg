@@ -20,7 +20,7 @@ export function LandingCTA() {
           <ScrollReveal animation="fadeIn" delay={200}>
             <div className="inline-flex items-center gap-2 rounded-full border bg-background/50 px-4 py-2 text-sm backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="font-medium">Ready to Start Your Vintage Journey?</span>
+              <span className="font-medium">מוכנים להתחיל את המסע המחודש שלכם?</span>
             </div>
           </ScrollReveal>
 
@@ -33,15 +33,14 @@ export function LandingCTA() {
               gradientTo="to-foreground/80"
               className="leading-tight"
             >
-              Your Perfect Vintage Piece is Waiting
+              הפריט הבא שלכם מחכה ב-Peakees
             </ResponsiveH2>
           </TextReveal>
 
           {/* Supporting Text */}
           <ScrollReveal animation="fadeIn" delay={400}>
             <ResponsiveLead size="lg" className="mx-auto max-w-2xl text-muted-foreground">
-              Join thousands of fashion-forward individuals who've discovered the joy of
-              sustainable, unique style. Start exploring our curated collection today.
+              הצטרפו לאלפים שכבר גילו כמה קל ליהנות מסטייל מקומי, ייחודי ומקיים. התחילו לגלות את הקולקציה הנבחרת שלנו עוד היום.
             </ResponsiveLead>
           </ScrollReveal>
 
@@ -50,13 +49,13 @@ export function LandingCTA() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button size="lg" className="group px-8 py-6 text-lg" asChild>
                 <TransitionLink href="/shop">
-                  <ShoppingBag className="mr-2 h-5 w-5" />
-                  <span>Enter the Shop</span>
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  <ShoppingBag className="ml-2 h-5 w-5" />
+                  <span>להיכנס לחנות</span>
+                  <ArrowRight className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
                 </TransitionLink>
               </Button>
               <Button variant="outline" size="lg" className="px-8 py-6 text-lg" asChild>
-                <TransitionLink href="/categories">Browse Categories</TransitionLink>
+                <TransitionLink href="/categories">לסייר בקטגוריות</TransitionLink>
               </Button>
             </div>
           </ScrollReveal>
@@ -66,15 +65,15 @@ export function LandingCTA() {
             <div className="flex flex-wrap justify-center gap-6 pt-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Free shipping over $75</span>
+                <span>משלוח חינם בקנייה מעל ₪250</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                <span>30-day returns</span>
+                <span>30 ימי החזרה</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-purple-500"></div>
-                <span>Secure checkout</span>
+                <span>תשלום מאובטח</span>
               </div>
             </div>
           </ScrollReveal>
