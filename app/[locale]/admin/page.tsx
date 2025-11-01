@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   BarChart3,
-import { apiUrl } from '@/lib/utils/api';
   Package,
   ShoppingCart,
   Users,
@@ -26,6 +25,7 @@ import { apiUrl } from '@/lib/utils/api';
   Activity,
   AlertTriangle,
 } from 'lucide-react';
+import { apiUrl } from '@/lib/utils/api';
 
 interface DashboardMetrics {
   totalProducts: number;

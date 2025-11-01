@@ -12,12 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
-import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { apiUrl } from '@/lib/utils/api';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BrandSelector } from '@/components/ui/brand-selector';
 import { SizeSelector } from '@/components/ui/size-selector';

@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { OrderCard } from '@/components/orders/order-card';
 import {
   User,
-import { apiUrl } from '@/lib/utils/api';
   Package,
   CreditCard,
   MapPin,
@@ -20,7 +19,6 @@ import { apiUrl } from '@/lib/utils/api';
   Plus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
 import { apiUrl } from '@/lib/utils/api';
 interface DashboardStats {
   totalOrders: number;

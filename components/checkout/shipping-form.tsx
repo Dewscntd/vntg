@@ -12,17 +12,16 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
-import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { apiUrl } from '@/lib/utils/api';
 import { cn } from '@/lib/utils';
 import { MemberBenefitsBanner } from './member-benefits-banner';
 import { Truck, Clock, Zap } from 'lucide-react';
 
-import { apiUrl } from '@/lib/utils/api';
 interface ShippingFormProps {
   onNext: () => void;
   className?: string;

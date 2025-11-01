@@ -12,7 +12,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
-import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -21,7 +20,6 @@ import { apiUrl } from '@/lib/utils/api';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BrandSelector } from '@/components/ui/brand-selector';
 import { ArrowLeft, Upload, X } from 'lucide-react';
-
 import { apiUrl } from '@/lib/utils/api';
 interface Category {
   id: string;

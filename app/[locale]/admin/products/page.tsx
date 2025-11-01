@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import {
   Select,
-import { apiUrl } from '@/lib/utils/api';
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -18,7 +17,6 @@ import { apiUrl } from '@/lib/utils/api';
 } from '@/components/ui/select';
 import {
   Plus,
-import { apiUrl } from '@/lib/utils/api';
   Search,
   Filter,
   Edit,
@@ -30,11 +28,11 @@ import { apiUrl } from '@/lib/utils/api';
 } from 'lucide-react';
 import {
   DropdownMenu,
-import { apiUrl } from '@/lib/utils/api';
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { apiUrl } from '@/lib/utils/api';
 
 interface Product {
   id: string;

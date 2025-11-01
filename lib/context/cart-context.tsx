@@ -2,13 +2,13 @@
 
 import React, {
   createContext,
-import { apiUrl } from '@/lib/utils/api';
   useContext,
   useReducer,
   useEffect,
   useCallback,
   useState,
 } from 'react';
+import { apiUrl } from '@/lib/utils/api';
 import { useAuth } from '@/lib/auth/auth-context';
 import {
   saveCartToStorage,
