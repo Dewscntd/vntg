@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth/auth-context';
 import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
@@ -19,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 function LoginFormContent() {
+  const t = useTranslations('auth');
   const { signIn } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -65,7 +67,7 @@ function LoginFormContent() {
       }
       router.refresh();
     } catch (error) {
-      setError('An unexpected error occurred. Please try again.');
+      setError(t('unexpectedError'));
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -75,9 +77,9 @@ function LoginFormContent() {
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Login</h1>
+        <h1 className="text-3xl font-bold">{t('loginTitle')}</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Enter your email and password to login to your account
+          {t('loginSubtitle')}
         </p>
       </div>
 
@@ -92,10 +94,10 @@ function LoginFormContent() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('email')}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="you@example.com"
+                    placeholder={t('emailPlaceholder')}
                     type="email"
                     autoComplete="email"
                     disabled={isLoading}
@@ -111,10 +113,10 @@ function LoginFormContent() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t('password')}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="••••••••"
+                    placeholder={t('passwordPlaceholder')}
                     type="password"
                     autoComplete="current-password"
                     disabled={isLoading}
@@ -130,19 +132,19 @@ function LoginFormContent() {
               href="/auth/reset-password"
               className="text-sm text-primary underline-offset-4 hover:underline"
             >
-              Forgot password?
+              {t('forgotPassword')}
             </Link>
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isLoading ? t('loggingIn') : t('loginButton')}
           </Button>
         </form>
       </Form>
 
       <div className="text-center text-sm">
-        Don&apos;t have an account?{' '}
+        {t('noAccount')}{' '}
         <Link href="/auth/register" className="text-primary underline-offset-4 hover:underline">
-          Register
+          {t('register')}
         </Link>
       </div>
     </div>
@@ -150,8 +152,10 @@ function LoginFormContent() {
 }
 
 export function LoginForm() {
+  const t = useTranslations('auth');
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>{t('loading')}</div>}>
       <LoginFormContent />
     </Suspense>
   );

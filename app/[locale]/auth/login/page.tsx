@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import { LoginForm } from '@/components/auth/login-form';
 import { SocialButtons } from '@/components/auth/social-buttons';
 import {
@@ -11,22 +12,28 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-export const metadata: Metadata = {
-  title: 'Login | Peakees',
-  description: 'Login to your Peakees account',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('auth');
 
-export default function LoginPage() {
+  return {
+    title: `${t('login')} | Peakees`,
+    description: t('loginTitle'),
+  };
+}
+
+export default async function LoginPage() {
+  const t = await getTranslations('auth');
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link href="/" className="absolute left-4 top-4 md:left-8 md:top-8">
-        <span className="text-lg font-bold">← Back</span>
+        <span className="text-lg font-bold">{t('back')}</span>
       </Link>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Login</CardTitle>
+          <CardTitle className="text-center text-2xl">{t('login')}</CardTitle>
           <CardDescription className="text-center">
-            Enter your credentials to access your account
+            {t('loginSubtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
