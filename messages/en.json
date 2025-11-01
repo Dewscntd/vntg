@@ -376,6 +376,30 @@
     "myAccount": "My Account",
     "myAccountDescription": "Manage your profile, orders, and account preferences."
   },
+  "about": {
+    "backToHome": "Back to Home",
+    "title": "About Peakees",
+    "subtitle": "Your premium e-commerce destination for quality products",
+    "ourStory": "Our Story",
+    "ourStoryPara1": "Peakees is a modern e-commerce platform built to deliver exceptional shopping experiences. We specialize in curating high-quality products across multiple categories, ensuring our customers find exactly what they're looking for.",
+    "ourStoryPara2": "Our platform combines cutting-edge technology with user-friendly design to create a seamless shopping experience from browse to checkout.",
+    "ourMission": "Our Mission",
+    "ourMissionPara": "To provide customers with access to premium products while maintaining the highest standards of service, security, and satisfaction.",
+    "whyChoose": "Why Choose Peakees?",
+    "whyChooseItems": {
+      "curated": "Carefully curated product selection",
+      "secure": "Secure payment processing with Stripe",
+      "fastShipping": "Fast and reliable shipping",
+      "support": "Excellent customer support",
+      "returns": "Easy returns and exchanges",
+      "mobile": "Mobile-optimized shopping experience",
+      "sustainable": "Sustainable and ethical sourcing",
+      "available": "24/7 customer support availability"
+    },
+    "getInTouch": "Get in Touch",
+    "getInTouchPara": "Have questions? We'd love to hear from you.",
+    "contactUs": "Contact Us"
+  },
   "meta": {
     "defaultTitle": "Peakees | Second-Hand Fashion Store",
     "defaultDescription": "Unique second-hand clothing, shoes, toys and books in Israel. Quality pre-owned fashion for everyone.",
@@ -385,6 +409,8 @@
     "cart": "Shopping Cart",
     "checkout": "Checkout",
     "account": "My Account",
-    "about": "About Peakees"
+    "about": "About Peakees",
+    "aboutTitle": "About Us | Peakees - Premium E-commerce Experience",
+    "aboutDescription": "Learn about Peakees's mission to provide exceptional shopping experiences with curated products, secure payments, and outstanding customer service."
   }
 }
