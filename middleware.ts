@@ -11,8 +11,10 @@ const intlMiddleware = createIntlMiddleware({
 
 export async function middleware(req: NextRequest) {
   // Skip middleware for API routes entirely
-  if (req.nextUrl.pathname.startsWith('/api') || 
-      req.nextUrl.pathname.match(/^\/(en|he)\/api/)) {
+  const pathname = req.nextUrl.pathname;
+  if (pathname.startsWith('/api') || 
+      pathname.startsWith('/en/api') ||
+      pathname.startsWith('/he/api')) {
     return NextResponse.next();
   }
   
