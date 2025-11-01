@@ -10,6 +10,12 @@ const intlMiddleware = createIntlMiddleware({
 });
 
 export async function middleware(req: NextRequest) {
+  // Skip middleware for API routes entirely
+  if (req.nextUrl.pathname.startsWith('/api') || 
+      req.nextUrl.pathname.match(/^\/(en|he)\/api/)) {
+    return NextResponse.next();
+  }
+  
   const res = intlMiddleware(req);
 
   // Skip all auth checks when using stubs for local development
