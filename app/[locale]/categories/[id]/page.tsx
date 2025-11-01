@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { ProductGrid } from '@/components/products/product-grid';
@@ -18,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export default function CategoryPage() {
+  const t = useTranslations('navigation.breadcrumb');
   const params = useParams();
   const searchParams = useSearchParams();
   const categoryId = params.id as string;
@@ -122,6 +124,7 @@ export default function CategoryPage() {
   }
 
   const breadcrumbItems = generateCategoryBreadcrumbs(
+    t('categories'),
     category?.name,
     category?.parent ? { name: category.parent.name, id: category.parent.id } : undefined
   );

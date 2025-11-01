@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Loader2, Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { ProductGrid } from '@/components/products/product-grid';
@@ -18,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 function SearchContent() {
+  const t = useTranslations('navigation.breadcrumb');
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
 
@@ -93,7 +95,7 @@ function SearchContent() {
     );
   }
 
-  const breadcrumbItems = generateSearchBreadcrumbs(query);
+  const breadcrumbItems = generateSearchBreadcrumbs(t('products'), t('searchResults'), query);
   const paginationData = pagination
     ? calculatePagination(pagination.offset, pagination.limit, pagination.total)
     : null;

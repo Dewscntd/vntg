@@ -154,7 +154,23 @@
     "login": "התחברות",
     "register": "הרשמה",
     "logout": "התנתקות",
-    "admin": "ניהול"
+    "admin": "ניהול",
+    "breadcrumb": {
+      "home": "בית",
+      "products": "מוצרים",
+      "categories": "קטגוריות",
+      "searchResults": "תוצאות חיפוש עבור \"{query}\""
+    },
+    "pagination": {
+      "previous": "קודם",
+      "next": "הבא",
+      "showing": "מציג",
+      "to": "עד",
+      "of": "מתוך",
+      "results": "תוצאות",
+      "item": "פריט",
+      "items": "פריטים"
+    }
   },
   "products": {
     "title": "מוצרים",

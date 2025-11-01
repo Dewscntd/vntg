@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 export interface BreadcrumbItem {
@@ -23,7 +24,8 @@ export function Breadcrumb({
   showHome = true,
   separator = <ChevronRight className="h-4 w-4" />,
 }: BreadcrumbProps) {
-  const allItems = showHome ? [{ label: 'Home', href: '/' }, ...items] : items;
+  const t = useTranslations('navigation.breadcrumb');
+  const allItems = showHome ? [{ label: t('home'), href: '/' }, ...items] : items;
 
   return (
     <nav aria-label="Breadcrumb" className={cn('flex items-center space-x-1 text-sm', className)}>
@@ -77,12 +79,14 @@ export function Breadcrumb({
 }
 
 // Utility function to generate breadcrumbs for common pages
+// Note: These need translation labels passed in from the calling component
 export function generateProductBreadcrumbs(
+  productsLabel: string,
   productName?: string,
   categoryName?: string,
   categoryId?: string
 ): BreadcrumbItem[] {
-  const items: BreadcrumbItem[] = [{ label: 'Products', href: '/products' }];
+  const items: BreadcrumbItem[] = [{ label: productsLabel, href: '/products' }];
 
   if (categoryName && categoryId) {
     items.push({
@@ -102,10 +106,11 @@ export function generateProductBreadcrumbs(
 }
 
 export function generateCategoryBreadcrumbs(
+  categoriesLabel: string,
   categoryName?: string,
   parentCategory?: { name: string; id: string }
 ): BreadcrumbItem[] {
-  const items: BreadcrumbItem[] = [{ label: 'Categories', href: '/categories' }];
+  const items: BreadcrumbItem[] = [{ label: categoriesLabel, href: '/categories' }];
 
   if (parentCategory) {
     items.push({
@@ -124,9 +129,13 @@ export function generateCategoryBreadcrumbs(
   return items;
 }
 
-export function generateSearchBreadcrumbs(query: string): BreadcrumbItem[] {
+export function generateSearchBreadcrumbs(
+  productsLabel: string,
+  searchResultsTemplate: string,
+  query: string
+): BreadcrumbItem[] {
   return [
-    { label: 'Products', href: '/products' },
-    { label: `Search results for "${query}"`, current: true },
+    { label: productsLabel, href: '/products' },
+    { label: searchResultsTemplate.replace('{query}', query), current: true },
   ];
 }

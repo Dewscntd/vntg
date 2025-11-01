@@ -154,7 +154,23 @@
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
-    "admin": "Admin"
+    "admin": "Admin",
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products",
+      "categories": "Categories",
+      "searchResults": "Search results for \"{query}\""
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing",
+      "to": "to",
+      "of": "of",
+      "results": "results",
+      "item": "item",
+      "items": "items"
+    }
   },
   "products": {
     "title": "Products",

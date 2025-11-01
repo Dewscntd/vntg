@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -27,6 +28,7 @@ export function Pagination({
   showInfo = true,
   maxVisiblePages = 7,
 }: PaginationProps) {
+  const t = useTranslations('navigation.pagination');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -97,7 +99,7 @@ export function Pagination({
   if (totalPages <= 1) {
     return showInfo ? (
       <div className={cn('flex justify-center text-sm text-muted-foreground', className)}>
-        Showing {totalItems} item{totalItems !== 1 ? 's' : ''}
+        {t('showing')} {totalItems} {totalItems !== 1 ? t('items') : t('item')}
       </div>
     ) : null;
   }
@@ -112,7 +114,7 @@ export function Pagination({
       {/* Pagination Info */}
       {showInfo && (
         <div className="text-sm text-muted-foreground">
-          Showing {startItem} to {endItem} of {totalItems} results
+          {t('showing')} {startItem} {t('to')} {endItem} {t('of')} {totalItems} {t('results')}
         </div>
       )}
 
@@ -127,7 +129,7 @@ export function Pagination({
           className="flex items-center space-x-1"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">Previous</span>
+          <span className="hidden sm:inline">{t('previous')}</span>
         </Button>
 
         {/* Page Numbers */}
@@ -159,7 +161,7 @@ export function Pagination({
           disabled={currentPage >= totalPages}
           className="flex items-center space-x-1"
         >
-          <span className="hidden sm:inline">Next</span>
+          <span className="hidden sm:inline">{t('next')}</span>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
