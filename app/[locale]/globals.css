@@ -74,3 +74,73 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* RTL Support */
+[dir='rtl'] {
+  direction: rtl;
+}
+
+[dir='ltr'] {
+  direction: ltr;
+}
+
+/* Mirror flex and grid layouts for RTL */
+[dir='rtl'] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .flex-row-reverse {
+  flex-direction: row;
+}
+
+/* Text alignment */
+[dir='rtl'] .text-left {
+  text-align: right;
+}
+
+[dir='rtl'] .text-right {
+  text-align: left;
+}
+
+/* Margins and padding - use logical properties where possible */
+[dir='rtl'] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir='rtl'] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Border radius mirroring for RTL */
+[dir='rtl'] .rounded-l {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+[dir='rtl'] .rounded-r {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+
+/* Icon and button positioning */
+[dir='rtl'] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+/* Transform for icons that need flipping */
+[dir='rtl'] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Dropdown and popover alignment */
+[dir='rtl'] .dropdown-menu,
+[dir='rtl'] .popover-content {
+  left: auto !important;
+  right: 0 !important;
+}
