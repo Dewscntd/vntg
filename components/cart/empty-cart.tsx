@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ShoppingCart, ArrowRight, Heart, Star } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,6 +16,9 @@ export interface EmptyCartProps {
 }
 
 export function EmptyCart({ className, compact = false, showSuggestions = true }: EmptyCartProps) {
+  const t = useTranslations('cart');
+  const tCommon = useTranslations('common');
+
   // GSAP animation for empty cart illustration
   useGSAP(({ timeline }) => {
     timeline
@@ -42,11 +46,11 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
       <div className={cn('py-8 text-center', className)}>
         <ShoppingCart className="mx-auto mb-4 h-12 w-12 text-muted-foreground" data-cart-icon />
         <div data-empty-content>
-          <h3 className="mb-2 text-lg font-medium">Your cart is empty</h3>
-          <p className="mb-4 text-sm text-muted-foreground">Add some products to get started</p>
+          <h3 className="mb-2 text-lg font-medium">{t('empty')}</h3>
+          <p className="mb-4 text-sm text-muted-foreground">{t('emptyMessage')}</p>
           <Button asChild>
             <Link href="/products">
-              Start Shopping
+              {tCommon('startShopping')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
@@ -64,21 +68,21 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
 
       {/* Empty Cart Content */}
       <div data-empty-content className="mb-8">
-        <h2 className="mb-4 text-2xl font-bold">Your cart is empty</h2>
+        <h2 className="mb-4 text-2xl font-bold">{t('empty')}</h2>
         <p className="mx-auto mb-6 max-w-md text-lg text-muted-foreground">
-          Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
+          {t('emptyMessage')}
         </p>
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild size="lg">
             <Link href="/products">
-              Start Shopping
+              {tCommon('startShopping')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
 
           <Button variant="outline" asChild size="lg">
-            <Link href="/categories">Browse Categories</Link>
+            <Link href="/categories">{t('browseCategories')}</Link>
           </Button>
         </div>
       </div>
@@ -86,19 +90,19 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
       {/* Shopping Suggestions */}
       {showSuggestions && (
         <div className="mx-auto max-w-4xl">
-          <h3 className="mb-6 text-lg font-semibold">Why not try these?</h3>
+          <h3 className="mb-6 text-lg font-semibold">{t('whyNotTry')}</h3>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {/* Featured Products */}
             <Card data-suggestions>
               <CardContent className="p-6 text-center">
                 <Star className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
-                <h4 className="mb-2 font-medium">Featured Products</h4>
+                <h4 className="mb-2 font-medium">{t('featuredProducts')}</h4>
                 <p className="mb-4 text-sm text-muted-foreground">
-                  Check out our most popular items
+                  {t('featuredDescription')}
                 </p>
                 <Button variant="outline" asChild size="sm">
-                  <Link href="/products?featured=true">View Featured</Link>
+                  <Link href="/products?featured=true">{t('viewFeatured')}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -107,10 +111,10 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
             <Card data-suggestions>
               <CardContent className="p-6 text-center">
                 <ShoppingCart className="mx-auto mb-3 h-8 w-8 text-blue-500" />
-                <h4 className="mb-2 font-medium">New Arrivals</h4>
-                <p className="mb-4 text-sm text-muted-foreground">Discover the latest additions</p>
+                <h4 className="mb-2 font-medium">{t('newArrivals')}</h4>
+                <p className="mb-4 text-sm text-muted-foreground">{t('newArrivalsDescription')}</p>
                 <Button variant="outline" asChild size="sm">
-                  <Link href="/products?new=true">Shop New</Link>
+                  <Link href="/products?new=true">{t('shopNew')}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -119,12 +123,12 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
             <Card data-suggestions>
               <CardContent className="p-6 text-center">
                 <Heart className="mx-auto mb-3 h-8 w-8 text-red-500" />
-                <h4 className="mb-2 font-medium">Sale Items</h4>
+                <h4 className="mb-2 font-medium">{t('saleItems')}</h4>
                 <p className="mb-4 text-sm text-muted-foreground">
-                  Great deals you don't want to miss
+                  {t('saleDescription')}
                 </p>
                 <Button variant="outline" asChild size="sm">
-                  <Link href="/products?sale=true">Shop Sale</Link>
+                  <Link href="/products?sale=true">{t('shopSale')}</Link>
                 </Button>
               </CardContent>
             </Card>

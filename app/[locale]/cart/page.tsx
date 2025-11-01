@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,6 +18,9 @@ import { useAuth } from '@/lib/auth/auth-context';
 export default function CartPage() {
   const { items, itemCount, total, isLoading } = useCart();
   const { user } = useAuth();
+  const t = useTranslations('cart');
+  const tNav = useTranslations('navigation');
+  const tCommon = useTranslations('common');
 
   // Track cart page view
   useEffect(() => {
@@ -52,10 +56,10 @@ export default function CartPage() {
           {/* Breadcrumb */}
           <nav className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">
-              Home
+              {tNav('home')}
             </Link>
             <span>/</span>
-            <span className="text-foreground">Shopping Cart</span>
+            <span className="text-foreground">{t('title')}</span>
           </nav>
 
           <EmptyCart />
@@ -70,10 +74,10 @@ export default function CartPage() {
         {/* Breadcrumb */}
         <nav className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground">
-            Home
+            {tNav('home')}
           </Link>
           <span>/</span>
-          <span className="text-foreground">Shopping Cart</span>
+          <span className="text-foreground">{t('title')}</span>
         </nav>
 
         {/* Header */}
@@ -81,17 +85,17 @@ export default function CartPage() {
           <div>
             <h1 className="flex items-center gap-3 text-3xl font-bold">
               <ShoppingBag className="h-8 w-8" />
-              Shopping Cart
+              {t('title')}
             </h1>
             <p className="mt-1 text-muted-foreground">
-              {itemCount} {itemCount === 1 ? 'item' : 'items'} in your cart
+              {itemCount} {itemCount === 1 ? t('item') : t('items')} {t('itemsInCart').toLowerCase()}
             </p>
           </div>
 
           <Button variant="outline" asChild>
             <Link href="/products">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Continue Shopping
+              {t('continueShopping')}
             </Link>
           </Button>
         </div>
@@ -101,7 +105,7 @@ export default function CartPage() {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Items in Your Cart</CardTitle>
+                <CardTitle>{t('itemsInCart')}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="divide-y">
@@ -117,13 +121,13 @@ export default function CartPage() {
             {/* Additional Actions */}
             <div className="mt-6 flex flex-col gap-4 sm:flex-row">
               <Button variant="outline" className="flex-1">
-                Save for Later
+                {t('saveForLater')}
               </Button>
               <Button variant="outline" className="flex-1">
-                Share Cart
+                {t('shareCart')}
               </Button>
               <Button variant="outline" className="flex-1">
-                Print Cart
+                {t('printCart')}
               </Button>
             </div>
           </div>
@@ -139,19 +143,19 @@ export default function CartPage() {
             {/* Promo Code */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Promo Code</CardTitle>
+                <CardTitle className="text-lg">{t('promoCode')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Enter promo code"
+                    placeholder={t('promoCodePlaceholder')}
                     className="flex-1 rounded-md border px-3 py-2 text-sm"
                   />
-                  <Button size="sm">Apply</Button>
+                  <Button size="sm">{tCommon('apply')}</Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Enter a valid promo code to receive a discount
+                  {t('promoCodeDescription')}
                 </p>
               </CardContent>
             </Card>
@@ -159,23 +163,23 @@ export default function CartPage() {
             {/* Security & Trust */}
             <Card className="bg-muted/50">
               <CardContent className="p-4">
-                <h3 className="mb-3 font-medium">Secure Shopping</h3>
+                <h3 className="mb-3 font-medium">{t('secureShopping')}</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                    <span>SSL encrypted checkout</span>
+                    <span>{t('sslEncrypted')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                    <span>30-day return policy</span>
+                    <span>{t('returnPolicy')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                    <span>24/7 customer support</span>
+                    <span>{t('customerSupport')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                    <span>Free shipping over $50</span>
+                    <span>{t('freeShipping')}</span>
                   </div>
                 </div>
               </CardContent>
@@ -184,13 +188,13 @@ export default function CartPage() {
             {/* Recently Viewed */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">You Might Also Like</CardTitle>
+                <CardTitle className="text-lg">{t('youMightLike')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="text-sm text-muted-foreground">Based on items in your cart</div>
+                  <div className="text-sm text-muted-foreground">{t('basedOnCart')}</div>
                   <Button variant="outline" size="sm" className="w-full">
-                    View Recommendations
+                    {t('viewRecommendations')}
                   </Button>
                 </div>
               </CardContent>
@@ -200,16 +204,16 @@ export default function CartPage() {
 
         {/* Help Section */}
         <div className="mt-12 text-center">
-          <h2 className="mb-4 text-xl font-semibold">Need Help?</h2>
+          <h2 className="mb-4 text-xl font-semibold">{t('needHelp')}</h2>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button variant="outline" asChild>
-              <Link href="/help/shipping">Shipping Info</Link>
+              <Link href="/help/shipping">{t('shippingInfo')}</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/help/returns">Return Policy</Link>
+              <Link href="/help/returns">{t('returnPolicyLink')}</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/contact">Contact Support</Link>
+              <Link href="/contact">{t('contactSupport')}</Link>
             </Button>
           </div>
         </div>
