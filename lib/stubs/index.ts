@@ -1,7 +1,7 @@
 // Development Stubs Configuration
 // Set NEXT_PUBLIC_USE_STUBS=true in .env.local to enable stubs for local development
 
-export const USE_STUBS = true; // Temporarily force stubs for development
+export const USE_STUBS = process.env.NEXT_PUBLIC_USE_STUBS === 'true';
 
 console.log('🔍 Environment check:', {
   NEXT_PUBLIC_USE_STUBS: process.env.NEXT_PUBLIC_USE_STUBS,

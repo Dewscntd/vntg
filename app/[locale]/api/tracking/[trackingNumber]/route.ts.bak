@@ -9,7 +9,7 @@ import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/i
 export async function GET(req: NextRequest, { params }: { params: Promise<{ trackingNumber: string }> }) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    const { trackingNumber } = await params;
+    const trackingNumber = params.trackingNumber;
     const { searchParams } = new URL(req.url);
     const carrier = searchParams.get('carrier');
 

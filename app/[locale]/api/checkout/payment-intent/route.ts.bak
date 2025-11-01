@@ -132,7 +132,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const stripe = getServerStripe();
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const { id: paymentIntentId } = await params;
+      const paymentIntentId = params.id;
 
       // Verify the payment intent belongs to the user
       const { data: dbPaymentIntent, error: dbError } = await supabase

@@ -6,12 +6,12 @@ import { withAuth } from '@/lib/api/middleware';
 import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
 
 // POST /api/user/addresses/[id]/default - Set address as default
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const addressId = params.id;
+      const { id: addressId } = await params;
 
       // Verify the address belongs to the user and get its type
       const { data: existingAddress, error: fetchError } = await supabase
