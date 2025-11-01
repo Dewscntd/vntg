@@ -158,11 +158,19 @@
   },
   "products": {
     "title": "מוצרים",
+    "subtitle": "גלו את האוסף שלנו של מוצרים מובחרים",
     "searchPlaceholder": "חפש מוצרים...",
     "filterBy": "סנן לפי",
     "sortBy": "מיין לפי",
     "noProducts": "לא נמצאו מוצרים",
+    "noProductsMessage": "לא הצלחנו למצוא מוצרים התואמים את הקריטריונים שלך. נסה לשנות את המסננים או את מילות החיפוש.",
     "loading": "טוען מוצרים...",
+    "loadingProducts": "טוען מוצרים...",
+    "failedToLoad": "טעינת המוצרים נכשלה",
+    "tryAgain": "נסה שוב",
+    "showing": "מציג",
+    "of": "מתוך",
+    "productsCount": "מוצרים",
     "featured": "מוצרים מומלצים",
     "newArrivals": "הגעות חדשות",
     "onSale": "במבצע",
@@ -251,7 +259,12 @@
     "shipping": "פרטי משלוח",
     "payment": "פרטי תשלום",
     "review": "סקירת הזמנה",
-    "confirmation": "אישור הזמנה"
+    "confirmation": "אישור הזמנה",
+    "emptyCart": "העגלה שלך ריקה",
+    "emptyCartMessage": "הוסף פריטים לעגלה שלך כדי להמשיך לתהליך הרכישה.",
+    "continueShopping": "המשך קניות",
+    "processing": "מעבד...",
+    "loadingCheckout": "טוען תהליך רכישה..."
   },
   "shipping": {
     "title": "פרטי משלוח",

@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/auth/auth-context';
 import { useCart } from '@/lib/context/cart-context';
 import { useCheckout } from '@/lib/context/checkout-context';
@@ -17,6 +18,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ShoppingCart, AlertCircle } from 'lucide-react';
 
 export default function CheckoutPage() {
+  const t = useTranslations('checkout');
   const router = useRouter();
   const { session, isLoading: authLoading } = useAuth();
   const { items, itemCount, total } = useCart();
@@ -58,11 +60,11 @@ export default function CheckoutPage() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <ShoppingCart className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">Your cart is empty</h2>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">{t('emptyCart')}</h2>
           <p className="mb-4 text-gray-600">
-            Add some items to your cart to proceed with checkout.
+            {t('emptyCartMessage')}
           </p>
-          <Button onClick={() => router.push('/products')}>Continue Shopping</Button>
+          <Button onClick={() => router.push('/products')}>{t('continueShopping')}</Button>
         </div>
       </div>
     );
@@ -125,7 +127,7 @@ export default function CheckoutPage() {
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-75">
           <div className="flex items-center space-x-2">
             <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
-            <span className="text-gray-600">Processing...</span>
+            <span className="text-gray-600">{t('processing')}</span>
           </div>
         </div>
       )}

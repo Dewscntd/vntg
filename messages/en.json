@@ -158,11 +158,19 @@
   },
   "products": {
     "title": "Products",
+    "subtitle": "Discover our collection of premium products",
     "searchPlaceholder": "Search products...",
     "filterBy": "Filter by",
     "sortBy": "Sort by",
     "noProducts": "No products found",
+    "noProductsMessage": "We couldn't find any products matching your criteria. Try adjusting your filters or search terms.",
     "loading": "Loading products...",
+    "loadingProducts": "Loading products...",
+    "failedToLoad": "Failed to load products",
+    "tryAgain": "Try Again",
+    "showing": "Showing",
+    "of": "of",
+    "productsCount": "products",
     "featured": "Featured Products",
     "newArrivals": "New Arrivals",
     "onSale": "On Sale",
@@ -251,7 +259,12 @@
     "shipping": "Shipping Details",
     "payment": "Payment Details",
     "review": "Order Review",
-    "confirmation": "Order Confirmation"
+    "confirmation": "Order Confirmation",
+    "emptyCart": "Your cart is empty",
+    "emptyCartMessage": "Add some items to your cart to proceed with checkout.",
+    "continueShopping": "Continue Shopping",
+    "processing": "Processing...",
+    "loadingCheckout": "Loading checkout..."
   },
   "shipping": {
     "title": "Shipping Details",

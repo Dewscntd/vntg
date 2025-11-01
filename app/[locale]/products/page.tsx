@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { ProductGrid } from '@/components/products/product-grid';
 import { ProductSearch, ProductFilters, ProductSorting } from '@/components/products/browse';
@@ -13,6 +14,8 @@ import { useProducts } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
 
 function ProductsContent() {
+  const t = useTranslations('products');
+  const tNav = useTranslations('navigation');
   const searchParams = useSearchParams();
   const [queryParams, setQueryParams] = useState({
     limit: 12,
@@ -76,13 +79,13 @@ function ProductsContent() {
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <div className="mb-6">
-        <Breadcrumb items={[{ label: 'Products', current: true }]} />
+        <Breadcrumb items={[{ label: tNav('products'), current: true }]} />
       </div>
 
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-        <p className="mt-2 text-muted-foreground">Discover our collection of premium products</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+        <p className="mt-2 text-muted-foreground">{t('subtitle')}</p>
       </div>
 
       {/* Search and Filters */}
@@ -106,8 +109,8 @@ function ProductsContent() {
               <div className="text-sm text-muted-foreground">
                 {pagination && (
                   <>
-                    Showing {Math.min(pagination.offset + pagination.limit, pagination.total)} of{' '}
-                    {pagination.total} products
+                    {t('showing')} {Math.min(pagination.offset + pagination.limit, pagination.total)} {t('of')}{' '}
+                    {pagination.total} {t('productsCount')}
                   </>
                 )}
               </div>
@@ -118,20 +121,20 @@ function ProductsContent() {
             {isLoading && products.length === 0 && (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin" />
-                <span className="ml-2 text-muted-foreground">Loading products...</span>
+                <span className="ml-2 text-muted-foreground">{t('loadingProducts')}</span>
               </div>
             )}
 
             {/* Error State */}
             {error && (
               <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 text-center">
-                <p className="font-medium text-destructive">Failed to load products</p>
+                <p className="font-medium text-destructive">{t('failedToLoad')}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{error.message}</p>
                 <button
                   onClick={() => refetch()}
                   className="mt-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                 >
-                  Try Again
+                  {t('tryAgain')}
                 </button>
               </div>
             )}
@@ -156,10 +159,9 @@ function ProductsContent() {
             {!isLoading && !error && products.length === 0 && (
               <div className="py-12 text-center">
                 <div className="mx-auto max-w-md">
-                  <h3 className="text-lg font-medium text-foreground">No products found</h3>
+                  <h3 className="text-lg font-medium text-foreground">{t('noProducts')}</h3>
                   <p className="mt-2 text-muted-foreground">
-                    We couldn't find any products matching your criteria. Try adjusting your filters
-                    or search terms.
+                    {t('noProductsMessage')}
                   </p>
                 </div>
               </div>
