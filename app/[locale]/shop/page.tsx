@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { getTranslations } from 'next-intl/server';
 import { ShopPageTemplate } from '@/components/layout/page-template';
 import { TransitionLink } from '@/components/providers/route-transition-provider';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,10 @@ import {
 import { DesktopHero, DesktopSection } from '@/components/layout/desktop-layout';
 import { ResponsiveDisplay, ResponsiveLead } from '@/components/ui/responsive-typography';
 
-export default function Home() {
+export default async function Home() {
+  const t = await getTranslations('shop');
+  const tNav = await getTranslations('navigation');
+
   return (
     <ShopPageTemplate showHeader={true} padding={false} className="space-y-16">
       {/* Hero Section */}
@@ -32,13 +36,12 @@ export default function Home() {
               gradientFrom="from-primary"
               gradientTo="to-primary/60"
             >
-              Welcome to Peakees
+              {t('welcome')}
             </ResponsiveDisplay>
           </TextReveal>
           <ScrollReveal animation="fadeIn" delay={300}>
             <ResponsiveLead size="lg" className="mx-auto max-w-3xl">
-              Curated vintage fashion for every style. Discover unique pieces for men, women, teens,
-              and kids.
+              {t('heroSubtitle')}
             </ResponsiveLead>
           </ScrollReveal>
           <ScrollReveal animation="fadeIn" delay={600}>
@@ -46,13 +49,13 @@ export default function Home() {
               <Button size="lg" asChild>
                 <TransitionLink href="/products">
                   <ShoppingBag className="mr-2 h-5 w-5" />
-                  Shop Now
+                  {t('shopNow')}
                 </TransitionLink>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <TransitionLink href="/categories">
                   <Package className="mr-2 h-5 w-5" />
-                  Browse Categories
+                  {tNav('categories')}
                 </TransitionLink>
               </Button>
             </div>
@@ -63,8 +66,8 @@ export default function Home() {
       {/* Featured Categories Section */}
       <DesktopSection spacing="xl" background="default">
         <RevealSection
-          title="Shop by Category"
-          subtitle="Discover vintage fashion for every member of your family"
+          title={t('shopByCategory')}
+          subtitle={t('shopByCategorySubtitle')}
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -78,11 +81,11 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/10 transition-colors group-hover:bg-blue-500/20">
                     <User className="h-8 w-8 text-blue-600" />
                   </div>
-                  <CardTitle className="text-lg">Men</CardTitle>
+                  <CardTitle className="text-lg">{t('men')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <CardDescription>
-                    Classic and contemporary styles for the modern man
+                    {t('menDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -97,10 +100,10 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-pink-500/10 transition-colors group-hover:bg-pink-500/20">
                     <User className="h-8 w-8 text-pink-600" />
                   </div>
-                  <CardTitle className="text-lg">Women</CardTitle>
+                  <CardTitle className="text-lg">{t('women')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <CardDescription>Elegant and trendy pieces for every occasion</CardDescription>
+                  <CardDescription>{t('womenDescription')}</CardDescription>
                 </CardContent>
               </TransitionLink>
             </Card>
@@ -114,11 +117,11 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10 transition-colors group-hover:bg-purple-500/20">
                     <User className="h-8 w-8 text-purple-600" />
                   </div>
-                  <CardTitle className="text-lg">Teens</CardTitle>
+                  <CardTitle className="text-lg">{t('teens')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <CardDescription>
-                    Fresh streetwear and trendy styles for young adults
+                    {t('teensDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -133,10 +136,10 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 transition-colors group-hover:bg-green-500/20">
                     <User className="h-8 w-8 text-green-600" />
                   </div>
-                  <CardTitle className="text-lg">Kids</CardTitle>
+                  <CardTitle className="text-lg">{t('kids')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <CardDescription>Comfortable and fun clothing for children</CardDescription>
+                  <CardDescription>{t('kidsDescription')}</CardDescription>
                 </CardContent>
               </TransitionLink>
             </Card>
@@ -150,11 +153,11 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/10 transition-colors group-hover:bg-orange-500/20">
                     <Package className="h-8 w-8 text-orange-600" />
                   </div>
-                  <CardTitle className="text-lg">Books & Media</CardTitle>
+                  <CardTitle className="text-lg">{t('booksMedia')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <CardDescription>
-                    Fashion magazines, style guides, and inspiring reads
+                    {t('booksMediaDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -169,11 +172,11 @@ export default function Home() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 transition-colors group-hover:bg-red-500/20">
                     <Package className="h-8 w-8 text-red-600" />
                   </div>
-                  <CardTitle className="text-lg">Toys & Games</CardTitle>
+                  <CardTitle className="text-lg">{t('toysGames')}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <CardDescription>
-                    Fashion-themed games and creative toys for all ages
+                    {t('toysGamesDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -185,8 +188,8 @@ export default function Home() {
       {/* Features Section */}
       <DesktopSection spacing="xl" background="muted">
         <RevealSection
-          title="Why Choose Peakees?"
-          subtitle="We're committed to providing the best shopping experience with quality products and exceptional service."
+          title={t('whyChoose')}
+          subtitle={t('whyChooseSubtitle')}
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -196,12 +199,11 @@ export default function Home() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Star className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Premium Quality</CardTitle>
+                <CardTitle>{t('premiumQuality')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Carefully curated products that meet our high standards for quality and
-                  authenticity.
+                  {t('premiumQualityDescription')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -211,11 +213,11 @@ export default function Home() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Truck className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Fast Shipping</CardTitle>
+                <CardTitle>{t('fastShipping')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Quick and reliable delivery to get your purchases to you as soon as possible.
+                  {t('fastShippingDescription')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -225,11 +227,11 @@ export default function Home() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Secure Shopping</CardTitle>
+                <CardTitle>{t('secureShopping')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Your data and payments are protected with industry-leading security measures.
+                  {t('secureShoppingDescription')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -240,8 +242,8 @@ export default function Home() {
       {/* Quick Links Section */}
       <DesktopSection spacing="xl" background="default">
         <RevealSection
-          title="Explore Peakees"
-          subtitle="Quick access to the most popular sections of our store."
+          title={t('explorePeakees')}
+          subtitle={t('explorePeakeesSubtitle')}
           titleAnimation="textReveal"
           contentAnimation="stagger"
         >
@@ -253,12 +255,12 @@ export default function Home() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <ShoppingBag className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle>All Products</CardTitle>
+                    <CardTitle>{t('allProducts')}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Browse our complete collection of vintage and modern items.
+                    {t('allProductsDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -271,12 +273,12 @@ export default function Home() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <Package className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle>Categories</CardTitle>
+                    <CardTitle>{t('categoriesLink')}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Shop by category to find exactly what you're looking for.
+                    {t('categoriesDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
@@ -289,12 +291,12 @@ export default function Home() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                       <User className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle>My Account</CardTitle>
+                    <CardTitle>{t('myAccount')}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Manage your profile, orders, and account preferences.
+                    {t('myAccountDescription')}
                   </CardDescription>
                 </CardContent>
               </TransitionLink>
