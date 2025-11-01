@@ -140,3 +140,49 @@ See also:
 - `lib/stubs/README.md` - Stub system documentation
 - `lib/stubs/COMPREHENSIVE_MOCKING_GUIDE.md` - Detailed mocking guide
 - `.env.example` - Environment variable template
+
+## ⚠️ Important: API Route Usage
+
+### API URL Format
+
+**IMPORTANT:** API routes are under the locale folder structure and must be accessed with a locale prefix.
+
+**Correct URLs:**
+```
+http://localhost:3200/he/api/categories
+http://localhost:3200/en/api/products
+http://localhost:3200/he/api/cart
+```
+
+**Incorrect URLs (will return HTML page):**
+```
+http://localhost:3200/api/categories  ❌ (treats "api" as locale)
+http://localhost:3200/api/products    ❌
+```
+
+### Available API Routes
+
+All API routes are in `/app/[locale]/api/` directory:
+- `/[locale]/api/categories` - Category management
+- `/[locale]/api/products` - Product management
+- `/[locale]/api/cart` - Shopping cart
+- `/[locale]/api/orders` - Order management
+- `/[locale]/api/user` - User profile & addresses
+- `/[locale]/api/checkout` - Checkout & payments
+- `/[locale]/api/tracking` - Order tracking
+
+### Frontend Usage
+
+In your React components, always include the locale:
+
+```typescript
+// ✅ Correct
+const response = await fetch(`/${locale}/api/categories`);
+
+// ✅ Also correct (uses current locale from context)
+const response = await fetch('/he/api/categories');
+
+// ❌ Wrong - will not work
+const response = await fetch('/api/categories');
+```
+
