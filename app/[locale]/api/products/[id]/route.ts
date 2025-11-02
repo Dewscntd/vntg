@@ -13,8 +13,8 @@ import {
 import { USE_STUBS, mockProducts, mockCategories } from '@/lib/stubs';
 
 // GET /api/products/[id] - Get a single product by ID
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   // Handle stub mode
   if (USE_STUBS) {
@@ -62,12 +62,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/products/[id] - Update a product (admin only)
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  return withAdmin(req, (req, session) =>
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  return withAdmin(req, async (req, session) =>
     withValidation(req, updateProductSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
-        const { id } = params;
+        const { id } = await params;
 
         // Check if product exists
         const { data: existingProduct, error: checkError } = await supabase
@@ -107,11 +107,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE /api/products/[id] - Delete a product (admin only)
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   return withAdmin(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
-      const { id } = params;
+      const { id } = await params;
 
       // Check if product exists
       const { data: existingProduct, error: checkError } = await supabase

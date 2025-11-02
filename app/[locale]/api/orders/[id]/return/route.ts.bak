@@ -16,7 +16,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const { id: orderId } = await params;
+      const orderId = params.id;
 
       const body = await req.json();
       const { reason } = body;

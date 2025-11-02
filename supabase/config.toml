@@ -1,0 +1,99 @@
+# Supabase Local Development Configuration
+# Reference: https://supabase.com/docs/guides/cli/config
+
+[project]
+name = "vntg"
+organization_id = "vntg"
+reference_id = "vntg-local"
+
+# Port configuration
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[db.pooler]
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[realtime]
+enabled = true
+ip_version = "ipv4"
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1:54321"
+
+# Email configuration for local development
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000"]
+jwt_expiry = 3600
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
+# For local development, disable email confirmations
+autoconfirm = true
+
+[auth.sms]
+enable_signup = false
+
+# Storage configuration
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+# Local storage backend
+backend = "file"
+buckets = [
+  { name = "product-images", public = true },
+  { name = "user-avatars", public = true },
+  { name = "order-documents", public = false }
+]
+
+# Edge Functions configuration
+[functions]
+# Set custom timeout for local development (default is 10s)
+verify_jwt = false
+
+# Analytics (disable for local development)
+[analytics]
+enabled = false
+
+# Inbucket - Local email testing
+[inbucket]
+enabled = true
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+# PostgreSQL settings
+[db.settings]
+# Locale settings
+locales = ["en_US.UTF-8"]
+
+# Enable pgAudit extension for admin logging
+session_preload_libraries = "pgaudit"
+
+# Connection pooling
+statement_timeout = "60s"
+
+# Experimental features
+[experimental]
+# Enable Orioledb if needed
+orioledb_version = ""

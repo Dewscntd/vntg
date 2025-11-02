@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
         const userId = session.user.id;
-        const { id: addressId } = await params;
+        const addressId = params.id;
 
         // Verify the address belongs to the user
         const { data: existingAddress, error: fetchError } = await supabase
@@ -113,7 +113,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const { id: addressId } = await params;
+      const addressId = params.id;
 
       // Verify the address belongs to the user
       const { data: existingAddress, error: fetchError } = await supabase

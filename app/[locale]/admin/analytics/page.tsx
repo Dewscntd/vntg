@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
+import { apiUrl } from '@/lib/utils/api';
 export default function AdminAnalyticsPage() {
   const { session, user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -21,7 +22,7 @@ export default function AdminAnalyticsPage() {
       }
 
       try {
-        const response = await fetch('/api/user/profile');
+        const response = await fetch(apiUrl('/api/user/profile'));
         if (response.ok) {
           const userData = await response.json();
           setIsAdmin(userData.role === 'admin');

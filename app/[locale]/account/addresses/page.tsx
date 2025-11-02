@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { apiUrl } from '@/lib/utils/api';
 import { MapPin, Plus, Edit, Trash2, ArrowLeft, Home, Building } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -67,7 +68,7 @@ export default function AddressBookPage() {
     if (!session) return;
 
     try {
-      const response = await fetch('/api/user/addresses');
+      const response = await fetch(apiUrl('/api/user/addresses'));
       if (response.ok) {
         const data = await response.json();
         setAddresses(data.addresses || []);
@@ -136,7 +137,7 @@ export default function AddressBookPage() {
     if (!confirm('Are you sure you want to delete this address?')) return;
 
     try {
-      const response = await fetch(`/api/user/addresses/${addressId}`, {
+      const response = await fetch(apiUrl(`/api/user/addresses/${addressId}`), {
         method: 'DELETE',
       });
 
@@ -153,7 +154,7 @@ export default function AddressBookPage() {
 
   const handleSetDefault = async (addressId: string) => {
     try {
-      const response = await fetch(`/api/user/addresses/${addressId}/default`, {
+      const response = await fetch(apiUrl(`/api/user/addresses/${addressId}/default`), {
         method: 'POST',
       });
 

@@ -20,7 +20,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { BrandSelector } from '@/components/ui/brand-selector';
 import { ArrowLeft, Upload, X } from 'lucide-react';
-
+import { apiUrl } from '@/lib/utils/api';
 interface Category {
   id: string;
   name: string;
@@ -79,7 +79,7 @@ export default function EditProductPage() {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`/api/products/${productId}`);
+      const response = await fetch(apiUrl(`/api/products/${productId}`));
       if (response.ok) {
         const data = await response.json();
         const product: Product = data.data;
@@ -117,7 +117,7 @@ export default function EditProductPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories');
+      const response = await fetch(apiUrl('/api/categories'));
       if (response.ok) {
         const data = await response.json();
         setCategories(data.data?.categories || []);
@@ -172,7 +172,7 @@ export default function EditProductPage() {
         const imageFormData = new FormData();
         imageFormData.append('file', imageFile);
 
-        const imageResponse = await fetch('/api/products/upload', {
+        const imageResponse = await fetch(apiUrl('/api/products/upload'), {
           method: 'POST',
           body: imageFormData,
         });
@@ -196,7 +196,7 @@ export default function EditProductPage() {
         specifications: formData.specifications,
       };
 
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(apiUrl(`/api/products/${productId}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const { id: orderId } = await params;
+      const orderId = params.id;
 
       const { data: order, error } = await supabase
         .from('orders')
@@ -91,7 +91,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       const userId = session.user.id;
-      const { id: orderId } = await params;
+      const orderId = params.id;
       const body = await req.json();
 
       // Only allow certain fields to be updated by customers

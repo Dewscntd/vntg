@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { apiUrl } from '@/lib/utils/api';
 import { cn } from '@/lib/utils';
 import { MemberBenefitsBanner } from './member-benefits-banner';
 import { Truck, Clock, Zap } from 'lucide-react';
@@ -88,7 +89,7 @@ export function ShippingForm({ onNext, className }: ShippingFormProps) {
 
       // Save address to user profile if requested
       if (saveAddress && session) {
-        await fetch('/api/user/addresses', {
+        await fetch(apiUrl('/api/user/addresses'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
