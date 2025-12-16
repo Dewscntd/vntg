@@ -4,12 +4,57 @@ import type { NextRequest } from 'next/server';
 import type { Database } from '@/types/supabase';
 import createIntlMiddleware from 'next-intl/middleware';
 
+const SUPPORTED_LOCALES = ['en', 'he'] as const;
+type Locale = (typeof SUPPORTED_LOCALES)[number];
+const DEFAULT_LOCALE: Locale = 'he';
+
+function isSupportedLocale(locale: string | undefined): locale is Locale {
+  return !!locale && SUPPORTED_LOCALES.includes(locale as Locale);
+}
+
 const intlMiddleware = createIntlMiddleware({
-  locales: ['en', 'he'],
-  defaultLocale: 'he'
+  locales: SUPPORTED_LOCALES,
+  defaultLocale: DEFAULT_LOCALE,
 });
 
+function resolveLocale(req: NextRequest): Locale {
+  const cookieLocale = req.cookies.get('NEXT_LOCALE')?.value;
+
+  if (isSupportedLocale(cookieLocale)) {
+    return cookieLocale;
+  }
+
+  const acceptLanguage = req.headers.get('accept-language');
+  if (acceptLanguage) {
+    const candidates = acceptLanguage.split(',').map((segment) => segment.trim().split(';')[0]);
+
+    for (const candidate of candidates) {
+      if (isSupportedLocale(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  return DEFAULT_LOCALE;
+}
+
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname === '/api' || pathname.startsWith('/api/')) {
+    const locale = resolveLocale(req);
+    const rewriteUrl = req.nextUrl.clone();
+
+    const targetPath = `/${locale}${pathname === '/api' ? '/api' : pathname}`;
+
+    if (rewriteUrl.pathname !== targetPath) {
+      rewriteUrl.pathname = targetPath;
+      return NextResponse.rewrite(rewriteUrl);
+    }
+
+    return NextResponse.next();
+  }
+
   const res = intlMiddleware(req);
 
   // Skip all auth checks when using stubs for local development
@@ -17,7 +62,7 @@ export async function middleware(req: NextRequest) {
   if (useStubs) {
     return res;
   }
-  
+
   const supabase = createMiddlewareClient<Database>({ req, res });
 
   const {
@@ -30,7 +75,7 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.includes('/admin-direct')) {
       return res;
     }
-    
+
     if (!session) {
       const loginUrl = new URL('/auth/login', req.url);
       loginUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
@@ -51,7 +96,7 @@ export async function middleware(req: NextRequest) {
         .select('role')
         .eq('email', session.user.email)
         .single();
-      
+
       if (!emailError && userByEmail) {
         user = userByEmail;
         error = null;
@@ -62,7 +107,7 @@ export async function middleware(req: NextRequest) {
     if (session.user.email === 'michaelvx@gmail.com') {
       return res; // Allow access immediately
     }
-    
+
     // For other users, check database role
     if (error || user?.role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url));
@@ -85,5 +130,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  matcher: ['/((?!_next|.*\\..*).*)'],
 };

@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
 
   return withQueryValidation(req, productQuerySchema, async (req, query) => {
     try {
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
       const {
         limit,
@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
   return withAdmin(req, (req, session) =>
     withValidation(req, createProductSchema, async (req, validData) => {
       try {
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
 
         // Insert the new product
