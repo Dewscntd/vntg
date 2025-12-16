@@ -47,7 +47,8 @@ export async function GET(req: NextRequest) {
   return withQueryValidation(req, categoryQuerySchema, async (req, query) => {
     try {
       const cookieStore = await cookies();
-      const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore as any });
       const { limit, offset, orderBy, orderDirection, parent_id, search } = query;
 
       // Start building the query
@@ -56,8 +57,8 @@ export async function GET(req: NextRequest) {
         .select('*, parent:parent_id(id, name)', { count: 'exact' });
 
       // Apply filters
-      if (parent_id !== undefined) {
-        dbQuery = dbQuery.eq('parent_id', parent_id);
+      if (parent_id !== undefined && parent_id !== null) {
+        dbQuery = dbQuery.eq('parent_id', parent_id as string);
       }
 
       if (search) {
@@ -97,16 +98,15 @@ export async function POST(req: NextRequest) {
     withValidation(req, createCategorySchema, async (req, validData) => {
       try {
         const cookieStore = await cookies();
-        const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore as any });
 
         // Insert the new category
         const { data: category, error } = await supabase
           .from('categories')
           .insert({
             ...validData,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
+          } as any)
           .select()
           .single();
 

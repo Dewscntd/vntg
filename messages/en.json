@@ -5,8 +5,9 @@
   "landing": {
     "hero": {
       "badge": "Curated Vintage Fashion",
-      "headline": "Discover Vintage Fashion That Tells Your Story",
+      "headline": "Vintage. Curated. Yours.",
       "subheading": "Every piece in our collection has a history. Find unique, sustainable fashion that speaks to your individual style—from timeless classics to bold statement pieces.",
+      "subheadingShort": "Discover one-of-a-kind vintage pieces, hand-selected for quality and style.",
       "valuePoints": {
         "sustainable": "Sustainable Fashion",
         "quality": "Curated Quality",
@@ -14,9 +15,16 @@
       },
       "cta": {
         "explore": "Explore Our Collection",
-        "learn": "Learn Our Story"
+        "learn": "Learn Our Story",
+        "shopNew": "Shop New Arrivals",
+        "ourStory": "Our Story"
       },
-      "scroll": "Scroll to discover"
+      "trust": {
+        "newArrivals": "100+ New Pieces Weekly",
+        "verified": "Verified Authentic",
+        "freeShipping": "Free Shipping €75+"
+      },
+      "scroll": "Scroll"
     },
     "brandStory": {
       "title": "The Peakees Story",
@@ -140,6 +148,44 @@
         "returns": "30-day returns",
         "checkout": "Secure checkout"
       }
+    },
+    "featured": {
+      "badge": "Just Dropped",
+      "title": "Fresh Arrivals",
+      "subtitle": "Hand-picked vintage pieces added to our collection this week",
+      "viewAll": "View All New Arrivals"
+    },
+    "categories": {
+      "title": "Find Your Style",
+      "subtitle": "Explore our curated collections across different categories and eras"
+    },
+    "trust": {
+      "title": "Loved by Vintage Enthusiasts",
+      "subtitle": "Join thousands of customers who've found their perfect vintage pieces",
+      "stats": {
+        "rating": "Customer Rating",
+        "customers": "Happy Customers",
+        "items": "Curated Items",
+        "returns": "Return Policy"
+      }
+    },
+    "newsletter": {
+      "title": "Don't Miss a Drop",
+      "subtitle": "Weekly arrivals, exclusive deals, and vintage stories delivered to your inbox",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "subscribed": "Subscribed!",
+      "successMessage": "Welcome to the Peakees community! Check your inbox for a special welcome offer.",
+      "error": {
+        "invalidEmail": "Please enter a valid email address"
+      },
+      "benefits": {
+        "weekly": "Weekly new arrivals",
+        "exclusive": "Exclusive offers",
+        "unsubscribe": "Unsubscribe anytime"
+      },
+      "joinedCount": "Join 5,000+ vintage lovers"
     }
   },
   "navigation": {

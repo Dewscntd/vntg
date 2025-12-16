@@ -71,7 +71,8 @@ export async function GET(req: NextRequest) {
   return withQueryValidation(req, productQuerySchema, async (req, query) => {
     try {
       const cookieStore = await cookies();
-      const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore as any });
       const {
         limit,
         offset,
@@ -153,16 +154,15 @@ export async function POST(req: NextRequest) {
     withValidation(req, createProductSchema, async (req, validData) => {
       try {
         const cookieStore = await cookies();
-        const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore as any });
 
         // Insert the new product
         const { data: product, error } = await supabase
           .from('products')
           .insert({
             ...validData,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
+          } as any)
           .select()
           .single();
 

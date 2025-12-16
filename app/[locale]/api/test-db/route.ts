@@ -11,7 +11,8 @@ export async function GET(req: NextRequest) {
     console.log('Supabase Key exists:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
     const cookieStore = await cookies();
-    const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore as any });
 
     // Test if products table exists with a simple query
     const { data, error } = await supabase.from('products').select('id').limit(1);

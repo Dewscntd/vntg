@@ -33,7 +33,8 @@ export async function GET(req: NextRequest) {
     // Check database connectivity
     try {
       const cookieStore = await cookies();
-      const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
       const { data, error } = await supabase.from('products').select('id').limit(1);
 
       checks.database = {
@@ -180,7 +181,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const cookieStore = await cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
 
     // Detailed database checks
     try {
