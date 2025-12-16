@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:stub": "NEXT_PUBLIC_USE_STUBS=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

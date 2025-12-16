@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 
   return withQueryValidation(req, categoryQuerySchema, async (req, query) => {
     try {
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
       const { limit, offset, orderBy, orderDirection, parent_id, search } = query;
 
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
   return withAdmin(req, (req, session) =>
     withValidation(req, createCategorySchema, async (req, validData) => {
       try {
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore });
 
         // Insert the new category
