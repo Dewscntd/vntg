@@ -98,13 +98,13 @@ function CategoryCard({ category, size = 'default', index }: CategoryCardProps) 
         {/* Content */}
         <div className="absolute inset-0 flex flex-col justify-end p-6">
           <div className="translate-y-2 transition-transform duration-300 group-hover:translate-y-0">
-            <p className="mb-1 text-sm font-medium text-white/70">
-              {category.itemCount}+ pieces
-            </p>
-            <h3 className={cn(
-              'font-semibold text-white',
-              isLarge ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'
-            )}>
+            <p className="mb-1 text-sm font-medium text-white/70">{category.itemCount}+ pieces</p>
+            <h3
+              className={cn(
+                'font-semibold text-white',
+                isLarge ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'
+              )}
+            >
               {category.name}
             </h3>
             <div className="mt-3 flex items-center gap-2 text-sm font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -130,9 +130,7 @@ export function CategoryTiles() {
             <ResponsiveH2 size="md" className="mb-4 text-foreground">
               {t('title')}
             </ResponsiveH2>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
-              {t('subtitle')}
-            </p>
+            <p className="mx-auto max-w-2xl text-muted-foreground">{t('subtitle')}</p>
           </div>
         </ScrollReveal>
 
@@ -149,11 +147,7 @@ export function CategoryTiles() {
           {/* Regular Categories */}
           <div className="grid grid-cols-2 gap-4 md:col-span-2 lg:col-span-1 lg:row-span-2">
             {categories.slice(2).map((category, index) => (
-              <CategoryCard
-                key={category.id}
-                category={category}
-                index={index + 2}
-              />
+              <CategoryCard key={category.id} category={category} index={index + 2} />
             ))}
           </div>
         </div>

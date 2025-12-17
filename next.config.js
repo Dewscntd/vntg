@@ -18,20 +18,18 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: [
-      'localhost',
-      'res.cloudinary.com',
-      'images.unsplash.com',
-      'plus.unsplash.com',
-      'lh3.googleusercontent.com',
-      'avatars.githubusercontent.com',
-      'ogrpjursibfrejjkfkxa.supabase.co',
-      'via.placeholder.com',
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'plus.unsplash.com' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+      { protocol: 'https', hostname: 'ogrpjursibfrejjkfkxa.supabase.co' },
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
-    // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Bundle optimization

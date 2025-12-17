@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useCallback,
   useState,
+  useRef,
 } from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
 import {
@@ -204,7 +205,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { user, session } = useAuth();
-  const [lastUserId, setLastUserId] = useState<string | null>(null);
+  const lastUserIdRef = useRef<string | null>(null);
 
   // Fetch cart from API
   const fetchCart = useCallback(async () => {
@@ -247,56 +248,51 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const loadCart = async () => {
       if (!mounted) return;
 
+      console.log('🛒 CART: loadCart called, session:', !!session?.access_token);
+
       if (session?.access_token) {
-        // User is logged in - sync with server
-        const localCart = loadCartFromStorage();
-        if (localCart) {
-          try {
-            const syncedCart = await syncCartWithServer(localCart, session.access_token);
-            if (syncedCart && mounted) {
-              dispatch({
-                type: 'SET_CART',
-                payload: syncedCart,
-              });
-            }
-          } catch (error) {
-            if (mounted) {
-              dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
-            }
+        // Always fetch from server in development - skip local storage sync
+        console.log('🛒 CART: Fetching cart from server...');
+
+        if (!mounted) return;
+
+        dispatch({ type: 'SET_LOADING', payload: true });
+
+        try {
+          const response = await fetch('/api/cart', {
+            headers: {
+              Authorization: `Bearer ${session.access_token}`,
+            },
+          });
+
+          console.log('🛒 CART: Response status:', response.status);
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch cart');
           }
-        } else {
-          // Fetch cart directly to avoid stale closure
-          if (!mounted) return;
 
-          dispatch({ type: 'SET_LOADING', payload: true });
+          const responseData = await response.json();
+          console.log('🛒 CART: Received data:', responseData);
 
-          try {
-            const response = await fetch('/api/cart', {
-              headers: {
-                Authorization: `Bearer ${session.access_token}`,
+          // Handle wrapped response format: {status: 'success', data: {...}}
+          const data = responseData.data || responseData;
+          console.log('🛒 CART: Extracted cart data:', data);
+
+          if (mounted) {
+            dispatch({
+              type: 'SET_CART',
+              payload: {
+                items: data.items || [],
+                total: data.total || 0,
+                itemCount: data.itemCount || 0,
               },
             });
-
-            if (!response.ok) {
-              throw new Error('Failed to fetch cart');
-            }
-
-            const data = await response.json();
-
-            if (mounted) {
-              dispatch({
-                type: 'SET_CART',
-                payload: {
-                  items: data.items || [],
-                  total: data.total || 0,
-                  itemCount: data.itemCount || 0,
-                },
-              });
-            }
-          } catch (error) {
-            if (mounted) {
-              dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
-            }
+            console.log('🛒 CART: Dispatched SET_CART with', data.itemCount, 'items');
+          }
+        } catch (error) {
+          console.error('🛒 CART: Error fetching cart:', error);
+          if (mounted) {
+            dispatch({ type: 'SET_ERROR', payload: (error as Error).message });
           }
         }
       } else {
@@ -317,17 +313,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    // Only load cart if user has actually changed (login/logout)
+    // Load cart when user changes
     const currentUserId = user?.id || null;
-    if (currentUserId !== lastUserId) {
-      setLastUserId(currentUserId);
+    const lastUserId = lastUserIdRef.current;
+
+    console.log('🛒 CART useEffect: currentUserId:', currentUserId, 'lastUserId:', lastUserId, 'hasSession:', !!session?.access_token);
+
+    // Load cart if user just logged in (has session and user changed)
+    if (currentUserId && currentUserId !== lastUserId && session?.access_token) {
+      console.log('🛒 CART: User logged in, loading cart immediately');
+      lastUserIdRef.current = currentUserId;
       loadCart();
+    } else if (currentUserId !== lastUserId) {
+      // Just update the lastUserId without loading if no session yet
+      console.log('🛒 CART: Updating lastUserId without loading (no session yet)');
+      lastUserIdRef.current = currentUserId;
     }
 
     return () => {
       mounted = false;
     };
-  }, [user?.id, lastUserId]);
+  }, [user?.id, session?.access_token]);
 
   // Set up cart abandonment tracking
   useEffect(() => {

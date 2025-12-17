@@ -1,7 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { Database } from '@/types/supabase';
+import { createServerClient } from '@/lib/supabase/server';
 import { updateCartItemSchema } from '@/lib/validations/cart';
 import { withAuth, withValidation } from '@/lib/api/middleware';
 import {
@@ -16,7 +14,7 @@ export async function PUT(req: NextRequest) {
   return withAuth(req, (req, session) =>
     withValidation(req, updateCartItemSchema, async (req, validData) => {
       try {
-        const supabase = createRouteHandlerClient<Database>({ cookies });
+        const supabase = createServerClient();
         const userId = session.user.id;
         const { id, quantity } = validData;
 

@@ -88,7 +88,8 @@ export default function CartPage() {
               {t('title')}
             </h1>
             <p className="mt-1 text-muted-foreground">
-              {itemCount} {itemCount === 1 ? t('item') : t('items')} {t('itemsInCart').toLowerCase()}
+              {itemCount} {itemCount === 1 ? t('item') : t('items')}{' '}
+              {t('itemsInCart').toLowerCase()}
             </p>
           </div>
 
@@ -154,9 +155,7 @@ export default function CartPage() {
                   />
                   <Button size="sm">{tCommon('apply')}</Button>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {t('promoCodeDescription')}
-                </p>
+                <p className="text-xs text-muted-foreground">{t('promoCodeDescription')}</p>
               </CardContent>
             </Card>
 

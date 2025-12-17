@@ -59,6 +59,7 @@
     "@stripe/stripe-js": "^2.3.0",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/supabase-js": "^2.50.2",
+    "@tanstack/react-virtual": "^3.13.13",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.1.1",

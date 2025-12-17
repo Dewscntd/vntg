@@ -6,6 +6,10 @@ import { cn } from '@/lib/utils';
 import { usePerformanceMonitor } from '@/lib/performance/performance-monitor';
 import { Skeleton } from '@/components/ui/skeleton';
 
+// Minimal SVG placeholder as data URI - a simple neutral background
+const FALLBACK_PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23f5f5f4' width='400' height='400'/%3E%3C/svg%3E";
+
 export interface LazyImageProps {
   src: string | null;
   alt: string;
@@ -47,10 +51,11 @@ export function LazyImage({
   onError,
   rootMargin = '50px',
   threshold = 0.1,
-  fallbackSrc = '/images/placeholder.jpg',
+  fallbackSrc = FALLBACK_PLACEHOLDER,
 }: LazyImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [triedFallback, setTriedFallback] = useState(false);
   const [isInView, setIsInView] = useState(priority);
   const [shouldLoad, setShouldLoad] = useState(priority);
   const imgRef = useRef<HTMLDivElement>(null);
@@ -120,6 +125,13 @@ export function LazyImage({
   // Handle image error
   const handleError = () => {
     setIsLoading(false);
+
+    // If we already tried the fallback, give up
+    if (hasError) {
+      setTriedFallback(true);
+      return;
+    }
+
     setHasError(true);
 
     // Record image error
@@ -142,8 +154,9 @@ export function LazyImage({
     return canvas.toDataURL();
   };
 
-  const imageSrc = hasError ? fallbackSrc : src;
-  const shouldShowImage = shouldLoad && imageSrc;
+  // Use fallback if original failed, but only if we haven't tried fallback yet
+  const imageSrc = hasError && !triedFallback ? fallbackSrc : src;
+  const shouldShowImage = shouldLoad && imageSrc && !triedFallback;
 
   // Start performance measurement when image starts loading
   useEffect(() => {
@@ -166,11 +179,11 @@ export function LazyImage({
         <Skeleton className="absolute inset-0" />
       )}
 
-      {/* Error state */}
-      {hasError && (
+      {/* Error state - show when fallback has also failed */}
+      {triedFallback && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted">
           <div className="text-center">
-            <div className="mb-2 text-2xl">📷</div>
+            <div className="mb-2 text-2xl text-muted-foreground">📷</div>
             <span className="text-xs text-muted-foreground">Image not available</span>
           </div>
         </div>

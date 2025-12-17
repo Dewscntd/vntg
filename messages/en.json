@@ -248,7 +248,31 @@
     "price": "Price",
     "originalPrice": "Original Price",
     "salePrice": "Sale Price",
-    "discount": "Discount"
+    "discount": "Discount",
+    "garmentDetails": {
+      "title": "Garment Details",
+      "material": "Material",
+      "madeIn": "Made in",
+      "care": "Care",
+      "season": "Season",
+      "collectionYear": "Collection Year"
+    },
+    "seasons": {
+      "springSummer": "Spring-Summer",
+      "fallWinter": "Fall-Winter",
+      "allSeason": "All Season"
+    },
+    "careInstructions": {
+      "machineWashCold": "Machine wash cold",
+      "machineWashWarm": "Machine wash warm",
+      "handWash": "Hand wash",
+      "dryCleanOnly": "Dry clean only",
+      "doNotBleach": "Do not bleach",
+      "tumbleDryLow": "Tumble dry low",
+      "airDry": "Air dry",
+      "ironLowHeat": "Iron low heat",
+      "doNotIron": "Do not iron"
+    }
   },
   "categories": {
     "title": "Categories",
@@ -415,7 +439,19 @@
     "analytics": "Analytics",
     "addProduct": "Add Product",
     "editProduct": "Edit Product",
-    "deleteProduct": "Delete Product"
+    "deleteProduct": "Delete Product",
+    "seasonal": {
+      "title": "Seasonal Collection Settings",
+      "subtitle": "Manage the active seasonal collection",
+      "currentSeason": "Current Active Collection",
+      "changeSeason": "Change Season",
+      "season": "Season",
+      "year": "Year",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "activeSince": "Active since",
+      "notice": "Products will only show in shop if they match the active season or are marked as \"All Season\""
+    }
   },
   "common": {
     "required": "Required",
@@ -451,6 +487,111 @@
     "networkError": "Network error. Please check your connection",
     "unknownError": "An unexpected error occurred"
   },
+  "shopPage": {
+    "header": {
+      "title": "Shop",
+      "subtitle": "Discover curated vintage fashion, accessories, and lifestyle pieces",
+      "searchPlaceholder": "Search for products...",
+      "search": "Search",
+      "allProducts": "All Products",
+      "newIn": "New In",
+      "onSale": "On Sale"
+    },
+    "categories": {
+      "title": "Shop by Category",
+      "subtitle": "Find the perfect vintage pieces for everyone",
+      "shopNow": "Shop Now",
+      "items": {
+        "men": {
+          "title": "Men",
+          "description": "Classic and contemporary styles"
+        },
+        "women": {
+          "title": "Women",
+          "description": "Elegant and trendy pieces"
+        },
+        "kids": {
+          "title": "Kids",
+          "description": "Fun and comfortable clothing"
+        },
+        "teens": {
+          "title": "Teens",
+          "description": "Fresh streetwear styles"
+        },
+        "accessories": {
+          "title": "Accessories",
+          "description": "Complete your look"
+        },
+        "shoes": {
+          "title": "Shoes",
+          "description": "Vintage footwear finds"
+        }
+      }
+    },
+    "collections": {
+      "title": "Collections",
+      "browse": "Browse",
+      "items": {
+        "newArrivals": {
+          "title": "New Arrivals",
+          "count": "100+ items"
+        },
+        "sale": {
+          "title": "Sale",
+          "count": "Up to 50% off"
+        },
+        "vintagePicks": {
+          "title": "Vintage Picks",
+          "count": "Curated selection"
+        },
+        "bestSellers": {
+          "title": "Best Sellers",
+          "count": "Top rated items"
+        }
+      }
+    },
+    "departments": {
+      "title": "Shop by Department",
+      "subtitle": "Browse all product types",
+      "viewAll": "View All",
+      "groups": {
+        "clothing": {
+          "title": "Clothing"
+        },
+        "accessoriesGroup": {
+          "title": "Accessories"
+        },
+        "footwear": {
+          "title": "Footwear"
+        },
+        "lifestyle": {
+          "title": "Lifestyle"
+        }
+      },
+      "items": {
+        "tops": "Tops",
+        "bottoms": "Bottoms",
+        "dresses": "Dresses",
+        "outerwear": "Outerwear",
+        "activewear": "Activewear",
+        "bags": "Bags",
+        "jewelry": "Jewelry",
+        "belts": "Belts",
+        "hats": "Hats",
+        "scarves": "Scarves",
+        "sneakers": "Sneakers",
+        "boots": "Boots",
+        "sandals": "Sandals",
+        "heels": "Heels",
+        "flats": "Flats",
+        "books": "Books",
+        "vinyl": "Vinyl Records",
+        "homeDecor": "Home Decor",
+        "toys": "Toys",
+        "games": "Games"
+      }
+    }
+  },
   "shop": {
     "welcome": "Welcome to Peakees",
     "heroSubtitle": "Curated vintage fashion for every style. Discover unique pieces for men, women, teens, and kids.",
@@ -484,7 +625,75 @@
     "categoriesLink": "Categories",
     "categoriesDescription": "Shop by category to find exactly what you're looking for.",
     "myAccount": "My Account",
-    "myAccountDescription": "Manage your profile, orders, and account preferences."
+    "myAccountDescription": "Manage your profile, orders, and account preferences.",
+    "gender": {
+      "women": "Women",
+      "men": "Men"
+    },
+    "title": {
+      "women": "Women's Collection",
+      "men": "Men's Collection"
+    },
+    "categories": {
+      "men": {
+        "all": "All",
+        "new-arrivals": "New Arrivals",
+        "jackets-coats": "Jackets & Coats",
+        "knitwear": "Knitwear",
+        "shirts": "Shirts",
+        "t-shirts": "T-Shirts",
+        "pants": "Pants",
+        "denim": "Denim",
+        "accessories": "Accessories"
+      },
+      "women": {
+        "all": "All",
+        "new-arrivals": "New Arrivals",
+        "dresses": "Dresses",
+        "tops": "Tops",
+        "knitwear": "Knitwear",
+        "jackets-coats": "Jackets & Coats",
+        "pants": "Pants",
+        "skirts": "Skirts",
+        "accessories": "Accessories"
+      }
+    },
+    "filters": {
+      "filters": "Filters",
+      "sort": "Sort",
+      "sortBy": "Sort by",
+      "newest": "Newest",
+      "priceLowHigh": "Price: Low to High",
+      "priceHighLow": "Price: High to Low",
+      "nameAZ": "Name: A to Z",
+      "nameZA": "Name: Z to A",
+      "priceRange": "Price Range",
+      "size": "Size",
+      "color": "Color",
+      "availability": "Availability",
+      "inStock": "In Stock Only",
+      "clearFilters": "Clear Filters",
+      "clearAll": "Clear All",
+      "apply": "Apply Filters",
+      "viewProducts": "View Products"
+    },
+    "colors": {
+      "black": "Black",
+      "white": "White",
+      "gray": "Gray",
+      "blue": "Blue",
+      "red": "Red",
+      "green": "Green"
+    },
+    "grid": {
+      "columns2": "2 columns",
+      "columns4": "4 columns"
+    },
+    "products": "products",
+    "loading": "Loading...",
+    "loadMore": "Load more...",
+    "noProducts": "No products found",
+    "close": "Close"
   },
   "about": {
     "backToHome": "Back to Home",

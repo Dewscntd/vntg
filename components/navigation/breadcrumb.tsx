@@ -105,6 +105,49 @@ export function generateProductBreadcrumbs(
   return items;
 }
 
+// Generate breadcrumbs for shop product pages with gender and clothing type
+export interface ShopProductBreadcrumbParams {
+  gender?: string;
+  genderLabel?: string;
+  clothingType?: string;
+  clothingTypeLabel?: string;
+  productName: string;
+}
+
+export function generateShopProductBreadcrumbs({
+  gender,
+  genderLabel,
+  clothingType,
+  clothingTypeLabel,
+  productName,
+}: ShopProductBreadcrumbParams): BreadcrumbItem[] {
+  const items: BreadcrumbItem[] = [];
+
+  // Add gender (Men/Women)
+  if (gender && genderLabel) {
+    items.push({
+      label: genderLabel,
+      href: `/shop/${gender}`,
+    });
+  }
+
+  // Add clothing type (Sweaters, Jackets, etc.)
+  if (gender && clothingType && clothingTypeLabel) {
+    items.push({
+      label: clothingTypeLabel,
+      href: `/shop/${gender}/${clothingType}`,
+    });
+  }
+
+  // Add product name
+  items.push({
+    label: productName,
+    current: true,
+  });
+
+  return items;
+}
+
 export function generateCategoryBreadcrumbs(
   categoriesLabel: string,
   categoryName?: string,

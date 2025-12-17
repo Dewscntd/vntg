@@ -23,7 +23,10 @@ export async function GET(req: NextRequest) {
         database: { status: 'healthy', responseTime: 5, mode: 'stub' },
         stripe: { status: 'healthy', responseTime: 10, mode: 'stub' },
         environment: { status: 'healthy', missingVariables: [] },
-        memory: { status: 'healthy', usage: { rss: 100, heapTotal: 50, heapUsed: 30, external: 5 } },
+        memory: {
+          status: 'healthy',
+          usage: { rss: 100, heapTotal: 50, heapUsed: 30, external: 5 },
+        },
         uptime: { status: 'healthy', seconds: process.uptime() },
       },
     });

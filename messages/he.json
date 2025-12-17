@@ -248,7 +248,31 @@
     "price": "מחיר",
     "originalPrice": "מחיר מקורי",
     "salePrice": "מחיר מבצע",
-    "discount": "הנחה"
+    "discount": "הנחה",
+    "garmentDetails": {
+      "title": "פרטי הבגד",
+      "material": "חומר",
+      "madeIn": "יוצר ב",
+      "care": "טיפול",
+      "season": "עונה",
+      "collectionYear": "שנת קולקציה"
+    },
+    "seasons": {
+      "springSummer": "אביב-קיץ",
+      "fallWinter": "סתיו-חורף",
+      "allSeason": "כל העונות"
+    },
+    "careInstructions": {
+      "machineWashCold": "כביסה במכונה מים קרים",
+      "machineWashWarm": "כביסה במכונה מים חמים",
+      "handWash": "כביסת ידיים",
+      "dryCleanOnly": "ניקוי יבש בלבד",
+      "doNotBleach": "אין להלבין",
+      "tumbleDryLow": "ייבוש במייבש חום נמוך",
+      "airDry": "ייבוש באוויר",
+      "ironLowHeat": "גיהוץ בחום נמוך",
+      "doNotIron": "אין לגהץ"
+    }
   },
   "categories": {
     "title": "קטגוריות",
@@ -415,7 +439,19 @@
     "analytics": "אנליטיקס",
     "addProduct": "הוסף מוצר",
     "editProduct": "ערוך מוצר",
-    "deleteProduct": "מחק מוצר"
+    "deleteProduct": "מחק מוצר",
+    "seasonal": {
+      "title": "הגדרות קולקציה עונתית",
+      "subtitle": "נהל את הקולקציה העונתית הפעילה",
+      "currentSeason": "קולקציה פעילה נוכחית",
+      "changeSeason": "שנה עונה",
+      "season": "עונה",
+      "year": "שנה",
+      "saveChanges": "שמור שינויים",
+      "saving": "שומר...",
+      "activeSince": "פעיל מאז",
+      "notice": "מוצרים יוצגו בחנות רק אם הם תואמים את העונה הפעילה או מסומנים כ\"כל העונות\""
+    }
   },
   "common": {
     "required": "שדה חובה",
@@ -451,6 +487,111 @@
     "networkError": "שגיאת רשת. אנא בדוק את החיבור שלך",
     "unknownError": "אירעה שגיאה לא צפויה"
   },
+  "shopPage": {
+    "header": {
+      "title": "החנות",
+      "subtitle": "גלו אופנת וינטג' נבחרת, אביזרים ופריטי לייפסטייל",
+      "searchPlaceholder": "חפשו מוצרים...",
+      "search": "חיפוש",
+      "allProducts": "כל המוצרים",
+      "newIn": "חדש",
+      "onSale": "מבצע"
+    },
+    "categories": {
+      "title": "קנו לפי קטגוריה",
+      "subtitle": "מצאו את פריטי הוינטג' המושלמים לכולם",
+      "shopNow": "קנו עכשיו",
+      "items": {
+        "men": {
+          "title": "גברים",
+          "description": "סגנונות קלאסיים ועכשוויים"
+        },
+        "women": {
+          "title": "נשים",
+          "description": "פריטים אלגנטיים וטרנדיים"
+        },
+        "kids": {
+          "title": "ילדים",
+          "description": "בגדים נוחים ומהנים"
+        },
+        "teens": {
+          "title": "בני נוער",
+          "description": "סגנונות סטריטוור טריים"
+        },
+        "accessories": {
+          "title": "אביזרים",
+          "description": "השלימו את הלוק"
+        },
+        "shoes": {
+          "title": "נעליים",
+          "description": "מציאות וינטג'"
+        }
+      }
+    },
+    "collections": {
+      "title": "קולקציות",
+      "browse": "עיינו",
+      "items": {
+        "newArrivals": {
+          "title": "הגעות חדשות",
+          "count": "100+ פריטים"
+        },
+        "sale": {
+          "title": "מבצע",
+          "count": "עד 50% הנחה"
+        },
+        "vintagePicks": {
+          "title": "בחירות וינטג'",
+          "count": "מבחר נבחר"
+        },
+        "bestSellers": {
+          "title": "רבי מכר",
+          "count": "הפריטים המובילים"
+        }
+      }
+    },
+    "departments": {
+      "title": "קנו לפי מחלקה",
+      "subtitle": "עיינו בכל סוגי המוצרים",
+      "viewAll": "צפו בהכל",
+      "groups": {
+        "clothing": {
+          "title": "ביגוד"
+        },
+        "accessoriesGroup": {
+          "title": "אביזרים"
+        },
+        "footwear": {
+          "title": "הנעלה"
+        },
+        "lifestyle": {
+          "title": "לייפסטייל"
+        }
+      },
+      "items": {
+        "tops": "חולצות",
+        "bottoms": "מכנסיים",
+        "dresses": "שמלות",
+        "outerwear": "ביגוד עליון",
+        "activewear": "ביגוד ספורט",
+        "bags": "תיקים",
+        "jewelry": "תכשיטים",
+        "belts": "חגורות",
+        "hats": "כובעים",
+        "scarves": "צעיפים",
+        "sneakers": "סניקרס",
+        "boots": "מגפיים",
+        "sandals": "סנדלים",
+        "heels": "עקבים",
+        "flats": "נעליים שטוחות",
+        "books": "ספרים",
+        "vinyl": "תקליטים",
+        "homeDecor": "עיצוב הבית",
+        "toys": "צעצועים",
+        "games": "משחקים"
+      }
+    }
+  },
   "shop": {
     "welcome": "ברוכים הבאים לפיקיז",
     "heroSubtitle": "אופנת וינטג' נבחרת לכל סגנון. גלו פריטים ייחודיים לגברים, נשים, בני נוער וילדים.",
@@ -484,7 +625,74 @@
     "categoriesLink": "קטגוריות",
     "categoriesDescription": "קנו לפי קטגוריה כדי למצוא בדיוק מה שאתם מחפשים.",
     "myAccount": "החשבון שלי",
-    "myAccountDescription": "נהלו את הפרופיל, ההזמנות והעדפות החשבון שלכם."
+    "myAccountDescription": "נהלו את הפרופיל, ההזמנות והעדפות החשבון שלכם.",
+    "gender": {
+      "women": "נשים",
+      "men": "גברים"
+    },
+    "title": {
+      "women": "קולקציית נשים",
+      "men": "קולקציית גברים"
+    },
+    "categories": {
+      "men": {
+        "all": "הכל",
+        "new-arrivals": "הגעות חדשות",
+        "jackets-coats": "ז'קטים ומעילים",
+        "knitwear": "סריגים",
+        "shirts": "חולצות",
+        "t-shirts": "טישרטים",
+        "pants": "מכנסיים",
+        "denim": "ג'ינס",
+        "accessories": "אביזרים"
+      },
+      "women": {
+        "all": "הכל",
+        "new-arrivals": "הגעות חדשות",
+        "dresses": "שמלות",
+        "tops": "חולצות",
+        "knitwear": "סריגים",
+        "jackets-coats": "ז'קטים ומעילים",
+        "pants": "מכנסיים",
+        "skirts": "חצאיות",
+        "accessories": "אביזרים"
+      }
+    },
+    "filters": {
+      "filters": "מסננים",
+      "sort": "מיון",
+      "sortBy": "מיין לפי",
+      "newest": "החדשים ביותר",
+      "priceLowHigh": "מחיר: נמוך לגבוה",
+      "priceHighLow": "מחיר: גבוה לנמוך",
+      "nameAZ": "שם: א' ל-ת",
+      "nameZA": "שם: ת ל-א'",
+      "priceRange": "טווח מחירים",
+      "size": "מידה",
+      "color": "צבע",
+      "availability": "זמינות",
+      "inStock": "במלאי בלבד",
+      "clearFilters": "נקה מסננים",
+      "clearAll": "נקה הכל",
+      "apply": "החל מסננים",
+      "viewProducts": "הצג מוצרים"
+    },
+    "colors": {
+      "black": "שחור",
+      "white": "לבן",
+      "gray": "אפור",
+      "blue": "כחול",
+      "red": "אדום",
+      "green": "ירוק"
+    },
+    "grid": {
+      "columns2": "2 עמודות",
+      "columns4": "4 עמודות"
+    },
+    "products": "מוצרים",
+    "loading": "טוען...",
+    "noProducts": "לא נמצאו מוצרים",
+    "close": "סגור"
   },
   "about": {
     "backToHome": "חזרה לעמוד הבית",

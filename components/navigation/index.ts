@@ -2,6 +2,7 @@
 export {
   Breadcrumb,
   generateProductBreadcrumbs,
+  generateShopProductBreadcrumbs,
   generateCategoryBreadcrumbs,
   generateSearchBreadcrumbs,
 } from './breadcrumb';
@@ -11,7 +12,7 @@ export { MobileNav } from './mobile-nav';
 export { MobileSearch } from './mobile-search';
 
 // Re-export types
-export type { BreadcrumbProps, BreadcrumbItem } from './breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem, ShopProductBreadcrumbParams } from './breadcrumb';
 export type { PaginationProps } from './pagination';
 export type { CategoryNavigationProps } from './category-navigation';
 export type { MobileNavProps } from './mobile-nav';

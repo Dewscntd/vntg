@@ -14,7 +14,8 @@ const testimonials = [
     id: 1,
     name: 'Sarah Johnson',
     role: 'Fashion Enthusiast',
-    content: 'Found an incredible 90s Carhartt jacket in perfect condition. The curation here is unmatched - every piece feels special.',
+    content:
+      'Found an incredible 90s Carhartt jacket in perfect condition. The curation here is unmatched - every piece feels special.',
     avatar: 'https://i.pravatar.cc/100?img=1',
     rating: 5,
   },
@@ -22,7 +23,8 @@ const testimonials = [
     id: 2,
     name: 'Michael Chen',
     role: 'Sustainable Living Advocate',
-    content: 'Finally, a vintage store that cares about authenticity. The quality check process gives me confidence in every purchase.',
+    content:
+      'Finally, a vintage store that cares about authenticity. The quality check process gives me confidence in every purchase.',
     avatar: 'https://i.pravatar.cc/100?img=3',
     rating: 5,
   },
@@ -30,7 +32,8 @@ const testimonials = [
     id: 3,
     name: 'Emma Rodriguez',
     role: 'Vintage Collector',
-    content: 'The selection is incredible. I\'ve found rare pieces here that I couldn\'t find anywhere else. My go-to for unique finds.',
+    content:
+      "The selection is incredible. I've found rare pieces here that I couldn't find anywhere else. My go-to for unique finds.",
     avatar: 'https://i.pravatar.cc/100?img=5',
     rating: 5,
   },
@@ -68,12 +71,18 @@ const benefits = [
   },
 ];
 
-function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testimonials[0]; isActive: boolean }) {
+function TestimonialCard({
+  testimonial,
+  isActive,
+}: {
+  testimonial: (typeof testimonials)[0];
+  isActive: boolean;
+}) {
   return (
     <div
       className={cn(
         'absolute inset-0 flex flex-col items-center justify-center px-4 transition-all duration-500',
-        isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
+        isActive ? 'translate-x-0 opacity-100' : 'pointer-events-none translate-x-8 opacity-0'
       )}
     >
       <Quote className="mb-6 h-10 w-10 text-primary/20" />
@@ -122,9 +131,7 @@ export function TrustSection() {
             <ResponsiveH2 size="md" className="mb-4 text-foreground">
               {t('title')}
             </ResponsiveH2>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
-              {t('subtitle')}
-            </p>
+            <p className="mx-auto max-w-2xl text-muted-foreground">{t('subtitle')}</p>
           </div>
         </ScrollReveal>
 

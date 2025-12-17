@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { User } from 'lucide-react';
+import { User, Heart, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { CartButton } from '@/components/cart/cart-button';
@@ -13,31 +13,32 @@ import { MobileSearch } from '@/components/navigation/mobile-search';
 import { UserNav } from '@/components/auth/user-nav';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/auth/auth-context';
-import { useMagneticButton } from '@/lib/hooks/use-enhanced-interactions';
 
 export interface HeaderProps {
   className?: string;
+  /** Use minimal variant for shop pages (hides main nav and category nav) */
+  variant?: 'default' | 'minimal';
 }
 
-export function Header({ className }: HeaderProps) {
+export function Header({ className, variant = 'default' }: HeaderProps) {
   const { user } = useAuth();
-  const logoRef = useMagneticButton<HTMLAnchorElement>(0.2);
-  const cartButtonRef = useMagneticButton<HTMLDivElement>(0.15);
+
+  const isMinimal = variant === 'minimal';
 
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        'sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
         className
       )}
     >
       {/* Top Bar */}
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Mobile Menu & Logo */}
-          <div className="flex items-center space-x-3">
-            <MobileNav />
-            <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
+        <div className="flex h-14 items-center justify-between gap-4">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            {!isMinimal && <MobileNav />}
+            <Link href="/" className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <span className="text-lg font-bold text-primary-foreground">P</span>
               </div>
@@ -45,76 +46,65 @@ export function Header({ className }: HeaderProps) {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-6 md:flex">
-            <Link href="/shop" className="text-sm font-medium transition-colors hover:text-primary">
-              Shop
-            </Link>
-            <Link
-              href="/products"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Products
-            </Link>
-            <Link
-              href="/categories"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Categories
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Contact
-            </Link>
-          </nav>
+          {/* Desktop Navigation - Only show in default variant */}
+          {!isMinimal && (
+            <nav className="hidden items-center gap-6 md:flex">
+              <Link href="/shop" className="text-sm font-medium transition-colors hover:text-primary">
+                Shop
+              </Link>
+              <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
+                About
+              </Link>
+              <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
+                Contact
+              </Link>
+            </nav>
+          )}
 
           {/* Search Bar - Desktop */}
-          <div className="mx-8 hidden max-w-md flex-1 lg:flex">
+          <div className={cn('hidden max-w-md flex-1 lg:flex', isMinimal ? 'mx-4' : 'mx-8')}>
             <ProductSearch className="w-full" />
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-1 sm:space-x-2">
-            {/* Mobile Search */}
+          {/* Actions - User, Favorites, Cart */}
+          <div className="flex items-center gap-1">
+            {/* Search - Mobile/Tablet */}
             <MobileSearch className="lg:hidden" />
 
             {/* User Account */}
             {user ? (
               <UserNav />
             ) : (
-              <Button variant="ghost" size="icon" className="hidden sm:flex">
-                <User className="h-5 w-5" />
-                <span className="sr-only">Account</span>
+              <Button variant="ghost" size="icon" className="h-10 w-10" asChild>
+                <Link href="/login">
+                  <User className="h-5 w-5" />
+                  <span className="sr-only">Account</span>
+                </Link>
               </Button>
             )}
 
+            {/* Favorites/Wishlist */}
+            <Button variant="ghost" size="icon" className="h-10 w-10" asChild>
+              <Link href="/favorites">
+                <Heart className="h-5 w-5" />
+                <span className="sr-only">Favorites</span>
+              </Link>
+            </Button>
+
             {/* Cart Button with Preview */}
-            <div ref={cartButtonRef}>
-              <CartPreview trigger={<CartButton />} side="bottom" align="end" showOnHover={true} />
-            </div>
+            <CartPreview trigger={<CartButton />} side="bottom" align="end" showOnHover={true} />
           </div>
         </div>
       </div>
 
-      {/* Category Navigation - Desktop */}
-      <div className="hidden border-t md:block">
-        <div className="container mx-auto px-4">
-          <CategoryNavigation orientation="horizontal" maxItems={6} className="py-3" />
+      {/* Category Navigation - Only show in default variant */}
+      {!isMinimal && (
+        <div className="hidden border-t md:block">
+          <div className="container mx-auto px-4">
+            <CategoryNavigation orientation="horizontal" maxItems={6} className="py-3" />
+          </div>
         </div>
-      </div>
-
-      {/* Mobile Search Bar - Tablet only */}
-      <div className="hidden border-t px-4 py-3 md:block lg:hidden">
-        <ProductSearch className="w-full" />
-      </div>
+      )}
     </header>
   );
 }

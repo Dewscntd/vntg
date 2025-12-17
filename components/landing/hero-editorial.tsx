@@ -69,7 +69,7 @@ export function HeroEditorial() {
           {/* Ken Burns Effect */}
           <div
             className={cn(
-              'absolute inset-0 transition-transform duration-[20000ms] ease-linear',
+              'duration-[20000ms] absolute inset-0 transition-transform ease-linear',
               currentImage === index ? 'scale-110' : 'scale-100'
             )}
           />
@@ -92,19 +92,13 @@ export function HeroEditorial() {
 
             {/* Subheading */}
             <ScrollReveal animation="fadeIn" delay={400}>
-              <p className="max-w-xl text-lg text-white/80 md:text-xl">
-                {t('subheadingShort')}
-              </p>
+              <p className="max-w-xl text-lg text-white/80 md:text-xl">{t('subheadingShort')}</p>
             </ScrollReveal>
 
             {/* CTAs */}
             <ScrollReveal animation="fadeIn" delay={600}>
               <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-                <Button
-                  size="lg"
-                  className="group bg-white text-black hover:bg-white/90"
-                  asChild
-                >
+                <Button size="lg" className="group bg-white text-black hover:bg-white/90" asChild>
                   <Link href="/shop">
                     {t('cta.shopNew')}
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -150,9 +144,7 @@ export function HeroEditorial() {
             onClick={() => setCurrentImage(index)}
             className={cn(
               'h-1 rounded-full transition-all duration-300',
-              currentImage === index
-                ? 'w-8 bg-white'
-                : 'w-2 bg-white/40 hover:bg-white/60'
+              currentImage === index ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'
             )}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -163,7 +155,7 @@ export function HeroEditorial() {
       <ScrollReveal animation="fadeIn" delay={1000}>
         <button
           onClick={scrollToContent}
-          className="absolute bottom-8 right-4 z-20 hidden items-center gap-2 text-white/60 transition-colors hover:text-white md:flex md:bottom-12 md:right-8"
+          className="absolute bottom-8 right-4 z-20 hidden items-center gap-2 text-white/60 transition-colors hover:text-white md:bottom-12 md:right-8 md:flex"
         >
           <span className="text-xs uppercase tracking-wider">{t('scroll')}</span>
           <ChevronDown className="h-4 w-4 animate-bounce" />

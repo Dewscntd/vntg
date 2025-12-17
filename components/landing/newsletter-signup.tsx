@@ -60,9 +60,7 @@ export function NewsletterSignup() {
           </ScrollReveal>
 
           <ScrollReveal animation="fadeIn" delay={200}>
-            <p className="mb-8 text-lg text-background/70">
-              {t('subtitle')}
-            </p>
+            <p className="mb-8 text-lg text-background/70">{t('subtitle')}</p>
           </ScrollReveal>
 
           <ScrollReveal animation="fadeIn" delay={400}>
@@ -122,9 +120,7 @@ export function NewsletterSignup() {
 
               {/* Success Message */}
               {submitState === 'success' && (
-                <p className="mt-4 text-sm text-green-400">
-                  {t('successMessage')}
-                </p>
+                <p className="mt-4 text-sm text-green-400">{t('successMessage')}</p>
               )}
             </form>
           </ScrollReveal>
@@ -157,9 +153,7 @@ export function NewsletterSignup() {
                   </div>
                 ))}
               </div>
-              <p className="text-sm text-background/70">
-                {t('joinedCount')}
-              </p>
+              <p className="text-sm text-background/70">{t('joinedCount')}</p>
             </div>
           </ScrollReveal>
         </div>

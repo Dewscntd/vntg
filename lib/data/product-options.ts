@@ -113,6 +113,33 @@ export const CONDITIONS = [
   { value: 'vintage', label: "Vintage / וינטאג'", description: 'Older item with character' },
 ];
 
+export const SEASONS = [
+  { value: 'spring-summer', label: 'Spring-Summer / אביב-קיץ', icon: '☀️' },
+  { value: 'fall-winter', label: 'Fall-Winter / סתיו-חורף', icon: '🍂' },
+  { value: 'all-season', label: 'All Season / כל העונות', icon: '🔄' },
+];
+
+export const CARE_INSTRUCTIONS = [
+  { value: 'machine-wash-cold', label: 'Machine wash cold / כביסה במכונה מים קרים', icon: '🧼' },
+  { value: 'machine-wash-warm', label: 'Machine wash warm / כביסה במכונה מים חמים', icon: '🌡️' },
+  { value: 'hand-wash', label: 'Hand wash / כביסת ידיים', icon: '✋' },
+  { value: 'dry-clean-only', label: 'Dry clean only / ניקוי יבש בלבד', icon: '🏢' },
+  { value: 'do-not-bleach', label: 'Do not bleach / אין להלבין', icon: '🚫' },
+  { value: 'tumble-dry-low', label: 'Tumble dry low / ייבוש במייבש חום נמוך', icon: '🔽' },
+  { value: 'air-dry', label: 'Air dry / ייבוש באוויר', icon: '💨' },
+  { value: 'iron-low-heat', label: 'Iron low heat / גיהוץ בחום נמוך', icon: '🔥' },
+  { value: 'do-not-iron', label: 'Do not iron / אין לגהץ', icon: '⛔' },
+];
+
+export const COLLECTION_YEARS = [
+  { value: 2025, label: '2025' },
+  { value: 2024, label: '2024' },
+  { value: 2023, label: '2023' },
+  { value: 2022, label: '2022' },
+  { value: 2021, label: '2021' },
+  { value: 2020, label: '2020' },
+];
+
 // Helper functions
 export function getSizesForCategory(category: string) {
   if (category.includes('shoes') || category.includes('נעל')) {
@@ -151,4 +178,24 @@ export function getConditionDisplayName(condition: string, isHebrew: boolean = f
     return conditionObj.label.split(' / ')[1] || conditionObj.label;
   }
   return conditionObj.label.split(' / ')[0];
+}
+
+export function getSeasonDisplayName(season: string, isHebrew: boolean = false) {
+  const seasonObj = SEASONS.find((s) => s.value === season);
+  if (!seasonObj) return season;
+
+  if (isHebrew) {
+    return seasonObj.label.split(' / ')[1] || seasonObj.label;
+  }
+  return seasonObj.label.split(' / ')[0];
+}
+
+export function getCareInstructionDisplayName(instruction: string, isHebrew: boolean = false) {
+  const instructionObj = CARE_INSTRUCTIONS.find((i) => i.value === instruction);
+  if (!instructionObj) return instruction;
+
+  if (isHebrew) {
+    return instructionObj.label.split(' / ')[1] || instructionObj.label;
+  }
+  return instructionObj.label.split(' / ')[0];
 }

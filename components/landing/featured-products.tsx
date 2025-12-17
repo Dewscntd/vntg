@@ -27,10 +27,7 @@ function ProductCardMinimal({ product, index }: ProductCardMinimalProps) {
   const category = mockCategories.find((c) => c.id === product.category_id);
 
   return (
-    <Link
-      href={`/products/${product.id}`}
-      className="group relative flex-shrink-0 snap-start"
-    >
+    <Link href={`/products/${product.id}`} className="group relative flex-shrink-0 snap-start">
       <div className="relative aspect-[3/4] w-[280px] overflow-hidden rounded-xl bg-muted md:w-full">
         {/* Product Image */}
         <LazyImage
@@ -73,9 +70,7 @@ function ProductCardMinimal({ product, index }: ProductCardMinimalProps) {
         <h3 className="line-clamp-1 text-base font-medium transition-colors group-hover:text-primary">
           {product.name}
         </h3>
-        <p className="text-lg font-semibold">
-          ${product.price.toFixed(2)}
-        </p>
+        <p className="text-lg font-semibold">${product.price.toFixed(2)}</p>
       </div>
     </Link>
   );
@@ -105,9 +100,7 @@ export function FeaturedProducts() {
               <ResponsiveH2 size="md" className="text-foreground">
                 {t('title')}
               </ResponsiveH2>
-              <p className="max-w-md text-muted-foreground">
-                {t('subtitle')}
-              </p>
+              <p className="max-w-md text-muted-foreground">{t('subtitle')}</p>
             </div>
             <Button variant="outline" className="group" asChild>
               <Link href="/shop">
@@ -126,22 +119,14 @@ export function FeaturedProducts() {
             className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:hidden"
           >
             {featuredProducts.map((product, index) => (
-              <ProductCardMinimal
-                key={product.id}
-                product={product}
-                index={index}
-              />
+              <ProductCardMinimal key={product.id} product={product} index={index} />
             ))}
           </div>
 
           {/* Desktop: Grid */}
           <div className="hidden gap-6 md:grid md:grid-cols-3 lg:grid-cols-4">
             {featuredProducts.map((product, index) => (
-              <ProductCardMinimal
-                key={product.id}
-                product={product}
-                index={index}
-              />
+              <ProductCardMinimal key={product.id} product={product} index={index} />
             ))}
           </div>
         </ScrollReveal>

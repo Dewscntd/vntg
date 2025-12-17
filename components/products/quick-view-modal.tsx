@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { ProductPrice } from '@/components/products/product-price';
 import { ProductBadge } from '@/components/products/product-badge';
+import { FavoriteButton } from '@/components/products/favorite-button';
 import { useProduct } from '@/lib/hooks';
 import { useCartActions } from '@/lib/hooks/use-cart-actions';
 import { useGSAP } from '@/lib/hooks/use-gsap';
@@ -282,6 +283,12 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                       </>
                     )}
                   </Button>
+
+                  <FavoriteButton
+                    productId={product.id}
+                    productName={product.name}
+                    size="md"
+                  />
 
                   <Button variant="outline" asChild>
                     <Link href={`/products/${product.id}`}>
