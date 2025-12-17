@@ -230,6 +230,82 @@ export interface Database {
           updated_at?: string;
         };
       };
+      user_addresses: {
+        Row: {
+          id: string;
+          user_id: string;
+          name: string;
+          street: string;
+          city: string;
+          state: string;
+          zip: string;
+          country: string;
+          is_default: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          name: string;
+          street: string;
+          city: string;
+          state: string;
+          zip: string;
+          country: string;
+          is_default?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          name?: string;
+          street?: string;
+          city?: string;
+          state?: string;
+          zip?: string;
+          country?: string;
+          is_default?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      payment_intents: {
+        Row: {
+          id: string;
+          stripe_payment_intent_id: string;
+          user_id: string;
+          amount: number;
+          currency: string;
+          status: string;
+          metadata: Json | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          stripe_payment_intent_id: string;
+          user_id: string;
+          amount: number;
+          currency: string;
+          status: string;
+          metadata?: Json | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          stripe_payment_intent_id?: string;
+          user_id?: string;
+          amount?: number;
+          currency?: string;
+          status?: string;
+          metadata?: Json | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;

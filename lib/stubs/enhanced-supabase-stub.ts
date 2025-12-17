@@ -32,23 +32,41 @@ export const createEnhancedSupabaseStub = () => ({
       await simulateDelay(150);
 
       if (shouldSimulateError(0.02)) {
-        return { data: { user: null }, error: { message: 'Network error' } };
+        const error = new Error('Network error');
+        error.name = 'AuthApiError';
+        return { data: { user: null }, error };
       }
 
       // Simulate different auth states
-      const authStates = [
+      const dbAuthStates = [
         { user: mockUsers[0] }, // Logged in user
         { user: mockUsers[2] }, // Admin user
         { user: null }, // Not logged in
       ];
 
-      const randomState = authStates[Math.floor(Math.random() * authStates.length)];
-      return { data: randomState, error: null };
+      const randomDbState = dbAuthStates[Math.floor(Math.random() * dbAuthStates.length)];
+      const authState = randomDbState.user ? {
+        user: {
+          ...randomDbState.user,
+          aud: 'authenticated',
+          app_metadata: {},
+          user_metadata: {},
+        } as any
+      } : { user: null };
+
+      return { data: authState, error: null };
     },
 
     getSession: async () => {
       await simulateDelay(120);
-      const user = mockUsers[0];
+      const dbUser = mockUsers[0];
+      const user: any = dbUser ? {
+        ...dbUser,
+        aud: 'authenticated',
+        app_metadata: {},
+        user_metadata: {},
+      } : null;
+
       return {
         data: {
           session: user
@@ -56,8 +74,9 @@ export const createEnhancedSupabaseStub = () => ({
                 user,
                 access_token: 'mock-token',
                 refresh_token: 'mock-refresh-token',
-                expires_at: Date.now() + 3600000,
-                token_type: 'bearer',
+                expires_at: Math.floor(Date.now() / 1000) + 3600,
+                expires_in: 3600,
+                token_type: 'bearer' as const,
               }
             : null,
         },
@@ -81,11 +100,11 @@ export const createEnhancedSupabaseStub = () => ({
       );
 
       if (isValid) {
-        let user = mockUsers.find((u) => u.email === email);
+        let dbUser = mockUsers.find((u) => u.email === email);
 
         // Special handling for admin user
         if (email === 'michaelvx@gmail.com') {
-          user = {
+          dbUser = {
             id: 'admin-michael',
             email: 'michaelvx@gmail.com',
             full_name: 'Michael Admin',
@@ -101,7 +120,15 @@ export const createEnhancedSupabaseStub = () => ({
           }
         }
 
-        user = user || mockUsers[0];
+        dbUser = dbUser || mockUsers[0];
+
+        // Convert DB user to Supabase Auth User type
+        const user: any = {
+          ...dbUser,
+          aud: 'authenticated',
+          app_metadata: {},
+          user_metadata: {},
+        };
 
         return {
           data: {
@@ -110,8 +137,9 @@ export const createEnhancedSupabaseStub = () => ({
               user,
               access_token: 'mock-token',
               refresh_token: 'mock-refresh-token',
-              expires_at: Date.now() + 3600000,
-              token_type: 'bearer',
+              expires_at: Math.floor(Date.now() / 1000) + 3600,
+              expires_in: 3600,
+              token_type: 'bearer' as const,
             },
           },
           error: null,
@@ -119,15 +147,18 @@ export const createEnhancedSupabaseStub = () => ({
       }
 
       // Simulate different error types
-      const errors = [
-        { message: 'Invalid login credentials' },
-        { message: 'Email not confirmed' },
-        { message: 'Too many requests, please try again later' },
+      const errorMessages = [
+        'Invalid login credentials',
+        'Email not confirmed',
+        'Too many requests, please try again later',
       ];
+
+      const error = new Error(errorMessages[Math.floor(Math.random() * errorMessages.length)]);
+      error.name = 'AuthApiError';
 
       return {
         data: { user: null, session: null },
-        error: errors[Math.floor(Math.random() * errors.length)],
+        error,
       };
     },
 
@@ -137,13 +168,15 @@ export const createEnhancedSupabaseStub = () => ({
       // Check if email already exists
       const existingUser = mockUsers.find((u) => u.email === email);
       if (existingUser) {
+        const error = new Error('User already registered');
+        error.name = 'AuthApiError';
         return {
           data: { user: null, session: null },
-          error: { message: 'User already registered' },
+          error,
         };
       }
 
-      const newUser = {
+      const dbUser = {
         id: `user-${Date.now()}`,
         email,
         full_name:
@@ -154,7 +187,14 @@ export const createEnhancedSupabaseStub = () => ({
         updated_at: new Date().toISOString(),
       };
 
-      mockUsers.push(newUser);
+      mockUsers.push(dbUser);
+
+      const newUser: any = {
+        ...dbUser,
+        aud: 'authenticated',
+        app_metadata: {},
+        user_metadata: {},
+      };
 
       return {
         data: {
@@ -168,6 +208,74 @@ export const createEnhancedSupabaseStub = () => ({
     signOut: async () => {
       await simulateDelay(200);
       return { error: null };
+    },
+
+    signInWithOAuth: async ({ provider }: { provider: string }) => {
+      await simulateDelay(500);
+      return {
+        data: {
+          provider,
+          url: `https://mock-oauth-url.com/${provider}`,
+        },
+        error: null,
+      };
+    },
+
+    resetPasswordForEmail: async (email: string, options?: any) => {
+      await simulateDelay(800);
+      const userExists = mockUsers.some((u) => u.email === email);
+
+      if (!userExists) {
+        const error = new Error('User not found');
+        error.name = 'AuthApiError';
+        return {
+          data: null,
+          error,
+        };
+      }
+
+      return {
+        data: { email },
+        error: null,
+      };
+    },
+
+    updateUser: async (attributes: any) => {
+      await simulateDelay(600);
+      const currentDbUser = mockUsers[0];
+
+      if (!currentDbUser) {
+        const error = new Error('No user logged in');
+        error.name = 'AuthApiError';
+        return {
+          data: { user: null },
+          error,
+        };
+      }
+
+      const updatedDbUser = {
+        ...currentDbUser,
+        ...attributes.data,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Update in mock store
+      const userIndex = mockUsers.findIndex((u) => u.id === currentDbUser.id);
+      if (userIndex !== -1) {
+        mockUsers[userIndex] = updatedDbUser;
+      }
+
+      const updatedUser: any = {
+        ...updatedDbUser,
+        aud: 'authenticated',
+        app_metadata: {},
+        user_metadata: {},
+      };
+
+      return {
+        data: { user: updatedUser },
+        error: null,
+      };
     },
 
     onAuthStateChange: (callback: Function) => {
@@ -184,215 +292,191 @@ export const createEnhancedSupabaseStub = () => ({
 
   from: (table: string) => ({
     select: (columns: string = '*') => {
-      const queryBuilder = {
-        _table: table,
-        _columns: columns,
-        _filters: [] as any[],
-        _limit: null as number | null,
-        _offset: null as number | null,
-        _order: null as { column: string; ascending: boolean } | null,
-        _single: false,
+      let _table = table;
+      let _columns = columns;
+      let _filters: any[] = [];
+      let _limit: number | null = null;
+      let _offset: number | null = null;
+      let _order: { column: string; ascending: boolean } | null = null;
+      let _single = false;
 
+      const executeQuery = async (): Promise<any> => {
+        await simulateDelay(100 + Math.random() * 200);
+
+        if (shouldSimulateError()) {
+          const error = { message: 'Database connection error', code: 'PGRST301' };
+          return { data: null, error };
+        }
+
+        let data: any[] = [];
+
+        // Get base data
+        switch (_table) {
+          case 'products':
+            data = [...mockProducts];
+            break;
+          case 'categories':
+            data = [...mockCategories];
+            break;
+          case 'users':
+            data = [...mockUsers];
+            break;
+          case 'cart_items':
+            data = [...mockCartItems];
+            break;
+          case 'orders':
+            data = [...mockOrders];
+            break;
+          default:
+            data = [];
+        }
+
+        // Apply filters
+        data = _filters.reduce((filteredData, filter) => {
+          return filteredData.filter((item: any) => {
+            const itemValue = item[filter.column];
+
+            switch (filter.type) {
+              case 'eq':
+                return itemValue === filter.value;
+              case 'neq':
+                return itemValue !== filter.value;
+              case 'gt':
+                return itemValue > filter.value;
+              case 'gte':
+                return itemValue >= filter.value;
+              case 'lt':
+                return itemValue < filter.value;
+              case 'lte':
+                return itemValue <= filter.value;
+              case 'like':
+              case 'ilike':
+                const pattern = filter.value.replace(/%/g, '.*');
+                const regex = new RegExp(pattern, filter.type === 'ilike' ? 'i' : '');
+                return regex.test(String(itemValue));
+              case 'in':
+                return filter.value.includes(itemValue);
+              default:
+                return true;
+            }
+          });
+        }, data);
+
+        // Apply ordering
+        if (_order) {
+          data.sort((a, b) => {
+            const aVal = a[_order!.column];
+            const bVal = b[_order!.column];
+
+            if (aVal < bVal) return _order!.ascending ? -1 : 1;
+            if (aVal > bVal) return _order!.ascending ? 1 : -1;
+            return 0;
+          });
+        }
+
+        // Apply pagination
+        if (_offset !== null) {
+          data = data.slice(_offset, _offset + (_limit || data.length));
+        } else if (_limit !== null) {
+          data = data.slice(0, _limit);
+        }
+
+        // Return single item or array
+        if (_single) {
+          return {
+            data: data[0] || null,
+            error: data[0] ? null : { message: 'No rows found' },
+          };
+        } else {
+          return { data, error: null };
+        }
+      };
+
+      const queryBuilder = {
         eq: function (column: string, value: any) {
-          this._filters.push({ type: 'eq', column, value });
+          _filters.push({ type: 'eq', column, value });
           return this;
         },
 
         neq: function (column: string, value: any) {
-          this._filters.push({ type: 'neq', column, value });
+          _filters.push({ type: 'neq', column, value });
           return this;
         },
 
         gt: function (column: string, value: any) {
-          this._filters.push({ type: 'gt', column, value });
+          _filters.push({ type: 'gt', column, value });
           return this;
         },
 
         gte: function (column: string, value: any) {
-          this._filters.push({ type: 'gte', column, value });
+          _filters.push({ type: 'gte', column, value });
           return this;
         },
 
         lt: function (column: string, value: any) {
-          this._filters.push({ type: 'lt', column, value });
+          _filters.push({ type: 'lt', column, value });
           return this;
         },
 
         lte: function (column: string, value: any) {
-          this._filters.push({ type: 'lte', column, value });
+          _filters.push({ type: 'lte', column, value });
           return this;
         },
 
         like: function (column: string, pattern: string) {
-          this._filters.push({ type: 'like', column, value: pattern });
+          _filters.push({ type: 'like', column, value: pattern });
           return this;
         },
 
         ilike: function (column: string, pattern: string) {
-          this._filters.push({ type: 'ilike', column, value: pattern });
+          _filters.push({ type: 'ilike', column, value: pattern });
           return this;
         },
 
         in: function (column: string, values: any[]) {
-          this._filters.push({ type: 'in', column, value: values });
+          _filters.push({ type: 'in', column, value: values });
           return this;
         },
 
         limit: function (count: number) {
-          this._limit = count;
+          _limit = count;
           return this;
         },
 
         range: function (from: number, to: number) {
-          this._offset = from;
-          this._limit = to - from + 1;
+          _offset = from;
+          _limit = to - from + 1;
           return this;
         },
 
         order: function (column: string, options: { ascending?: boolean } = {}) {
-          this._order = { column, ascending: options.ascending !== false };
+          _order = { column, ascending: options.ascending !== false };
           return this;
         },
 
         single: function () {
-          this._single = true;
+          _single = true;
           return this;
         },
 
-        async then(resolve: Function) {
-          await simulateDelay(100 + Math.random() * 200);
+        then: function (onfulfilled?: any, onrejected?: any) {
+          return executeQuery().then(onfulfilled, onrejected);
+        },
 
-          if (shouldSimulateError()) {
-            const error = { message: 'Database connection error', code: 'PGRST301' };
-            resolve({ data: null, error });
-            return;
-          }
+        catch: function (onrejected?: any) {
+          return executeQuery().catch(onrejected);
+        },
 
-          let data: any[] = [];
-
-          // Get base data
-          switch (this._table) {
-            case 'products':
-              data = [...mockProducts];
-              break;
-            case 'categories':
-              data = [...mockCategories];
-              break;
-            case 'users':
-              data = [...mockUsers];
-              break;
-            case 'cart_items':
-              data = [...mockCartItems];
-              break;
-            case 'orders':
-              data = [...mockOrders];
-              break;
-            default:
-              data = [];
-          }
-
-          // Apply filters
-          data = this._filters.reduce((filteredData, filter) => {
-            return filteredData.filter((item: any) => {
-              const itemValue = item[filter.column];
-
-              switch (filter.type) {
-                case 'eq':
-                  return itemValue === filter.value;
-                case 'neq':
-                  return itemValue !== filter.value;
-                case 'gt':
-                  return itemValue > filter.value;
-                case 'gte':
-                  return itemValue >= filter.value;
-                case 'lt':
-                  return itemValue < filter.value;
-                case 'lte':
-                  return itemValue <= filter.value;
-                case 'like':
-                case 'ilike':
-                  const pattern = filter.value.replace(/%/g, '.*');
-                  const regex = new RegExp(pattern, filter.type === 'ilike' ? 'i' : '');
-                  return regex.test(String(itemValue));
-                case 'in':
-                  return filter.value.includes(itemValue);
-                default:
-                  return true;
-              }
-            });
-          }, data);
-
-          // Apply ordering
-          if (this._order) {
-            data.sort((a, b) => {
-              const aVal = a[this._order!.column];
-              const bVal = b[this._order!.column];
-
-              if (aVal < bVal) return this._order!.ascending ? -1 : 1;
-              if (aVal > bVal) return this._order!.ascending ? 1 : -1;
-              return 0;
-            });
-          }
-
-          // Apply pagination
-          if (this._offset !== null) {
-            data = data.slice(this._offset, this._offset + (this._limit || data.length));
-          } else if (this._limit !== null) {
-            data = data.slice(0, this._limit);
-          }
-
-          // Return single item or array
-          if (this._single) {
-            resolve({
-              data: data[0] || null,
-              error: data[0] ? null : { message: 'No rows found' },
-            });
-          } else {
-            resolve({ data, error: null });
-          }
+        finally: function (onfinally?: any) {
+          return executeQuery().finally(onfinally);
         },
       };
 
       return queryBuilder;
     },
 
-    insert: (data: any) => ({
-      select: (columns: string = '*') => ({
-        single: async () => {
-          await simulateDelay(300);
-
-          if (shouldSimulateError(0.03)) {
-            return { data: null, error: { message: 'Insert failed', code: 'PGRST204' } };
-          }
-
-          const newItem = {
-            ...data,
-            id: `${table}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          };
-
-          // Add to appropriate mock store
-          switch (table) {
-            case 'products':
-              mockProducts.push(newItem);
-              break;
-            case 'users':
-              mockUsers.push(newItem);
-              break;
-            case 'cart_items':
-              mockCartItems.push(newItem);
-              break;
-            case 'orders':
-              mockOrders.push(newItem);
-              break;
-          }
-
-          return { data: newItem, error: null };
-        },
-      }),
-
-      async then(resolve: Function) {
+    insert: (data: any) => {
+      const promise = (async () => {
         await simulateDelay(300);
 
         const newItems = Array.isArray(data) ? data : [data];
@@ -403,71 +487,110 @@ export const createEnhancedSupabaseStub = () => ({
           updated_at: new Date().toISOString(),
         }));
 
-        resolve({ data: insertedItems, error: null });
-      },
-    }),
+        return { data: insertedItems, error: null };
+      })();
 
-    update: (data: any) => ({
-      eq: (column: string, value: any) => ({
+      return Object.assign(promise, {
         select: (columns: string = '*') => ({
           single: async () => {
-            await simulateDelay(250);
+            await simulateDelay(300);
 
             if (shouldSimulateError(0.03)) {
-              return { data: null, error: { message: 'Update failed' } };
+              return { data: null, error: { message: 'Insert failed', code: 'PGRST204' } };
             }
 
-            const updatedItem = {
+            const newItem = {
               ...data,
-              id: value,
+              id: `${table}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+              created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
             };
 
-            // Update in appropriate mock store
+            // Add to appropriate mock store
             switch (table) {
               case 'products':
-                const productIndex = mockProducts.findIndex((p) => p.id === value);
-                if (productIndex !== -1) {
-                  mockProducts[productIndex] = {
-                    ...mockProducts[productIndex],
-                    ...data,
-                    updated_at: new Date().toISOString(),
-                  };
-                  return { data: mockProducts[productIndex], error: null };
-                }
+                mockProducts.push(newItem);
                 break;
               case 'users':
-                const userIndex = mockUsers.findIndex((u) => u.id === value);
-                if (userIndex !== -1) {
-                  mockUsers[userIndex] = {
-                    ...mockUsers[userIndex],
-                    ...data,
-                    updated_at: new Date().toISOString(),
-                  };
-                  return { data: mockUsers[userIndex], error: null };
-                }
+                mockUsers.push(newItem);
+                break;
+              case 'cart_items':
+                mockCartItems.push(newItem);
+                break;
+              case 'orders':
+                mockOrders.push(newItem);
                 break;
             }
 
-            return { data: updatedItem, error: null };
+            return { data: newItem, error: null };
           },
         }),
+      });
+    },
 
-        async then(resolve: Function) {
+    update: (data: any) => ({
+      eq: (column: string, value: any) => {
+        const promise = (async () => {
           await simulateDelay(250);
-          resolve({ data: [{ ...data, updated_at: new Date().toISOString() }], error: null });
-        },
-      }),
+          return { data: [{ ...data, updated_at: new Date().toISOString() }], error: null };
+        })();
+
+        // Return a proper Promise with select method attached
+        return Object.assign(promise, {
+          select: (columns: string = '*') => ({
+            single: async () => {
+              await simulateDelay(250);
+
+              if (shouldSimulateError(0.03)) {
+                return { data: null, error: { message: 'Update failed' } };
+              }
+
+              const updatedItem = {
+                ...data,
+                id: value,
+                updated_at: new Date().toISOString(),
+              };
+
+              // Update in appropriate mock store
+              switch (table) {
+                case 'products':
+                  const productIndex = mockProducts.findIndex((p) => p.id === value);
+                  if (productIndex !== -1) {
+                    mockProducts[productIndex] = {
+                      ...mockProducts[productIndex],
+                      ...data,
+                      updated_at: new Date().toISOString(),
+                    };
+                    return { data: mockProducts[productIndex], error: null };
+                  }
+                  break;
+                case 'users':
+                  const userIndex = mockUsers.findIndex((u) => u.id === value);
+                  if (userIndex !== -1) {
+                    mockUsers[userIndex] = {
+                      ...mockUsers[userIndex],
+                      ...data,
+                      updated_at: new Date().toISOString(),
+                    };
+                    return { data: mockUsers[userIndex], error: null };
+                  }
+                  break;
+              }
+
+              return { data: updatedItem, error: null };
+            },
+          }),
+        });
+      },
     }),
 
     delete: () => ({
-      eq: (column: string, value: any) => ({
-        async then(resolve: Function) {
+      eq: (column: string, value: any) => {
+        const executeDelete = async () => {
           await simulateDelay(200);
 
           if (shouldSimulateError(0.02)) {
-            resolve({ data: null, error: { message: 'Delete failed' } });
-            return;
+            return { data: null, error: { message: 'Delete failed' } };
           }
 
           // Remove from appropriate mock store
@@ -486,14 +609,28 @@ export const createEnhancedSupabaseStub = () => ({
               break;
           }
 
-          resolve({ data: null, error: null });
-        },
-      }),
+          return { data: null, error: null };
+        };
+
+        return {
+          then: function (onfulfilled?: any, onrejected?: any) {
+            return executeDelete().then(onfulfilled, onrejected);
+          },
+
+          catch: function (onrejected?: any) {
+            return executeDelete().catch(onrejected);
+          },
+
+          finally: function (onfinally?: any) {
+            return executeDelete().finally(onfinally);
+          },
+        };
+      },
     }),
 
     // RPC functions
-    rpc: (functionName: string, params?: any) => ({
-      async then(resolve: Function) {
+    rpc: (functionName: string, params?: any) => {
+      const executeRpc = async () => {
         await simulateDelay(300);
 
         switch (functionName) {
@@ -509,8 +646,7 @@ export const createEnhancedSupabaseStub = () => ({
               }
             });
 
-            resolve({ data: total, error: null });
-            break;
+            return { data: total, error: null };
 
           case 'search_products':
             const { query, category_id, limit = 20, offset = 0 } = params || {};
@@ -525,14 +661,27 @@ export const createEnhancedSupabaseStub = () => ({
             }
 
             const paginatedResults = searchResults.slice(offset, offset + limit);
-            resolve({ data: paginatedResults, error: null });
-            break;
+            return { data: paginatedResults, error: null };
 
           default:
-            resolve({ data: null, error: { message: `Function ${functionName} not found` } });
+            return { data: null, error: { message: `Function ${functionName} not found` } };
         }
-      },
-    }),
+      };
+
+      return {
+        then: function (onfulfilled?: any, onrejected?: any) {
+          return executeRpc().then(onfulfilled, onrejected);
+        },
+
+        catch: function (onrejected?: any) {
+          return executeRpc().catch(onrejected);
+        },
+
+        finally: function (onfinally?: any) {
+          return executeRpc().finally(onfinally);
+        },
+      };
+    },
   }),
 
   storage: {

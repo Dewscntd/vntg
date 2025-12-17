@@ -32,6 +32,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { apiUrl } from '@/lib/utils/api';
 
 interface Product {
   id: string;
@@ -88,7 +89,7 @@ export default function AdminProductsPage() {
         params.append('category_id', categoryFilter);
       }
 
-      const response = await fetch(`/api/products?${params}`);
+      const response = await fetch(apiUrl(`/api/products?${params}`));
       if (response.ok) {
         const result = await response.json();
         console.log('Full API Response:', result); // Debug log
@@ -116,7 +117,7 @@ export default function AdminProductsPage() {
   const fetchCategories = useCallback(async () => {
     try {
       // Fetch from API but filter out unwanted categories
-      const response = await fetch('/api/categories');
+      const response = await fetch(apiUrl('/api/categories'));
       if (response.ok) {
         const data = await response.json();
         const allCategories = data.data?.categories || [];
@@ -158,7 +159,7 @@ export default function AdminProductsPage() {
     }
 
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(apiUrl(`/api/products/${productId}`), {
         method: 'DELETE',
       });
 

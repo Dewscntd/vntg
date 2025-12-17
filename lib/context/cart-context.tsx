@@ -9,6 +9,7 @@ import React, {
   useState,
   useRef,
 } from 'react';
+import { apiUrl } from '@/lib/utils/api';
 import { useAuth } from '@/lib/auth/auth-context';
 import {
   saveCartToStorage,
@@ -217,7 +218,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/cart', {
+      const response = await fetch(apiUrl('/api/cart'), {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
@@ -365,7 +366,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/cart/add', {
+      const response = await fetch(apiUrl('/api/cart/add'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -404,7 +405,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/cart/remove', {
+      const response = await fetch(apiUrl('/api/cart/remove'), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -440,7 +441,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
-      const response = await fetch('/api/cart/update', {
+      const response = await fetch(apiUrl('/api/cart/update'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

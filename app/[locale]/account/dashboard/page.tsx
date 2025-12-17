@@ -19,7 +19,7 @@ import {
   Plus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
+import { apiUrl } from '@/lib/utils/api';
 interface DashboardStats {
   totalOrders: number;
   pendingOrders: number;
@@ -48,14 +48,14 @@ export default function AccountDashboard() {
 
       try {
         // Fetch recent orders
-        const ordersResponse = await fetch('/api/orders?limit=3');
+        const ordersResponse = await fetch(apiUrl('/api/orders?limit=3'));
         if (ordersResponse.ok) {
           const ordersData = await ordersResponse.json();
           setRecentOrders(ordersData.orders || []);
         }
 
         // Calculate stats from orders
-        const allOrdersResponse = await fetch('/api/orders?limit=100');
+        const allOrdersResponse = await fetch(apiUrl('/api/orders?limit=100'));
         if (allOrdersResponse.ok) {
           const allOrdersData = await allOrdersResponse.json();
           const orders = allOrdersData.orders || [];

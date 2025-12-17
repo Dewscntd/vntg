@@ -1,23 +1,117 @@
-# =============================================================================
-# Docker Compose Configuration for Peakees E-commerce Platform
-# For local development and testing
-# =============================================================================
+###############################################################################
+# Docker Compose for Local Development - VNTG E-commerce Platform
+###############################################################################
+# This Docker Compose file provides additional services for local development
+# that complement Supabase CLI's built-in services.
+#
+# Usage:
+#   docker-compose up -d              # Start all services
+#   docker-compose down               # Stop all services
+#   docker-compose logs -f redis      # View Redis logs
+#   docker-compose ps                 # Check service status
+#
+# Note: Supabase CLI (via 'supabase start') already provides:
+#   - PostgreSQL (port 54322)
+#   - PostgREST API (port 54321)
+#   - GoTrue Auth (port 54323)
+#   - Storage (port 54321)
+#   - Inbucket Email (port 54324)
+#
+# This compose file provides additional optional services.
+###############################################################################
 
 version: '3.8'
 
 services:
-  # Next.js Application
+  ###########################################################################
+  # Redis - Session storage and caching
+  ###########################################################################
+  redis:
+    image: redis:7-alpine
+    container_name: vntg-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - vntg-network
+
+  ###########################################################################
+  # Mailhog - Email testing (alternative to Supabase Inbucket)
+  ###########################################################################
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: vntg-mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - vntg-network
+    profiles:
+      - mailhog
+
+  ###########################################################################
+  # MinIO - S3-compatible object storage (alternative to Supabase Storage)
+  ###########################################################################
+  minio:
+    image: minio/minio:latest
+    container_name: vntg-minio
+    ports:
+      - "9000:9000"  # API
+      - "9001:9001"  # Console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - vntg-network
+    profiles:
+      - minio
+
+  ###########################################################################
+  # Adminer - Database management UI (alternative to Supabase Studio)
+  ###########################################################################
+  adminer:
+    image: adminer:latest
+    container_name: vntg-adminer
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_DESIGN: nette
+    networks:
+      - vntg-network
+    profiles:
+      - adminer
+
+  ###########################################################################
+  # Next.js App (for containerized development)
+  ###########################################################################
   app:
     build:
       context: .
       dockerfile: Dockerfile
       target: runner
+    container_name: vntg-app
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
-      - NEXT_PUBLIC_USE_STUBS=true
     volumes:
       - ./public:/app/public:ro
     depends_on:
@@ -29,25 +123,17 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - vntg-network
+    profiles:
+      - app
 
-  # Redis for caching
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Nginx reverse proxy (optional for production-like setup)
+  ###########################################################################
+  # Nginx - Reverse proxy (for production-like setup)
+  ###########################################################################
   nginx:
     image: nginx:alpine
+    container_name: vntg-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -57,12 +143,58 @@ services:
     depends_on:
       - app
     restart: unless-stopped
+    networks:
+      - vntg-network
     profiles:
-      - production
+      - nginx
 
+###############################################################################
+# Volumes
+###############################################################################
 volumes:
-  redis_data:
+  redis-data:
+    driver: local
+  minio-data:
+    driver: local
 
+###############################################################################
+# Networks
+###############################################################################
 networks:
-  default:
-    name: peakees-network
+  vntg-network:
+    driver: bridge
+    name: vntg-network
+
+###############################################################################
+# Usage Examples:
+###############################################################################
+# Default (Redis only):
+#   docker-compose up -d
+#
+# With Mailhog:
+#   docker-compose --profile mailhog up -d
+#
+# With MinIO:
+#   docker-compose --profile minio up -d
+#
+# With Adminer:
+#   docker-compose --profile adminer up -d
+#
+# With Next.js app:
+#   docker-compose --profile app up -d
+#
+# Everything:
+#   docker-compose --profile mailhog --profile minio --profile adminer --profile app up -d
+#
+###############################################################################
+# Service Access:
+###############################################################################
+# - Redis: localhost:6379
+# - Mailhog UI: http://localhost:8025
+# - MinIO API: http://localhost:9000
+# - MinIO Console: http://localhost:9001 (minioadmin/minioadmin)
+# - Adminer: http://localhost:8080
+# - Next.js App: http://localhost:3000
+# - Supabase Studio: http://localhost:54323
+# - Supabase API: http://localhost:54321
+###############################################################################

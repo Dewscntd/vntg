@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   return withAuth(req, async (req, session) => {
     try {
       const supabase = createRouteHandlerClient<Database>({ cookies });
-      const { id: orderId } = await params;
+      const orderId = params.id;
       const userId = session.user.id;
 
       // Verify order belongs to user (unless admin)
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     withValidation(req, createShipmentSchema, async (req, validData) => {
       try {
         const supabase = createRouteHandlerClient<Database>({ cookies });
-        const { id: orderId } = await params;
+        const orderId = params.id;
         const userId = session.user.id;
 
         // Check if user is admin
