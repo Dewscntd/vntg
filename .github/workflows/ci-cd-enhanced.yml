@@ -371,7 +371,7 @@ jobs:
       - name: Notify Sentry of deployment
         uses: getsentry/action-release@v1
         continue-on-error: true
-        if: secrets.SENTRY_AUTH_TOKEN != ''
+        if: ${{ secrets.SENTRY_AUTH_TOKEN != '' }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
@@ -409,29 +409,11 @@ jobs:
 
       - name: Notify deployment success
         uses: 8398a7/action-slack@v3
-        if: always() && secrets.SLACK_WEBHOOK != ''
+        if: ${{ always() && env.SLACK_WEBHOOK != '' }}
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         with:
           status: ${{ job.status }}
           channel: '#deployments'
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
           fields: repo,message,commit,author,took
-          custom_payload: |
-            {
-              attachments: [{
-                color: '${{ job.status }}' === 'success' ? 'good' : 'danger',
-                text: `Peakees Production Deployment ${{ job.status === 'success' && '✅ Successful' || '❌ Failed' }}`,
-                fields: [{
-                  title: 'Environment',
-                  value: 'Production',
-                  short: true
-                }, {
-                  title: 'Version',
-                  value: '${{ github.sha }}',
-                  short: true
-                }, {
-                  title: 'URL',
-                  value: 'https://peakees.vercel.app',
-                  short: false
-                }]
-              }]
-            }
