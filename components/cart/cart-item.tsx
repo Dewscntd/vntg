@@ -37,6 +37,11 @@ export function CartItem({ item, className, compact = false }: CartItemProps) {
     [isRemoving, slideOut]
   );
 
+  // Guard against missing product data (must be after all hooks)
+  if (!item.product) {
+    return null;
+  }
+
   const handleQuantityChange = async (newQuantity: number) => {
     if (newQuantity < 1 || newQuantity > item.product.inventory_count) return;
     if (newQuantity === item.quantity) return;

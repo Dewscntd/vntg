@@ -8,7 +8,8 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const cookieStore = await cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
 
     // Exchange the code for a session
     await supabase.auth.exchangeCodeForSession(code);

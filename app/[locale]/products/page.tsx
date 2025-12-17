@@ -109,7 +109,8 @@ function ProductsContent() {
               <div className="text-sm text-muted-foreground">
                 {pagination && (
                   <>
-                    {t('showing')} {Math.min(pagination.offset + pagination.limit, pagination.total)} {t('of')}{' '}
+                    {t('showing')}{' '}
+                    {Math.min(pagination.offset + pagination.limit, pagination.total)} {t('of')}{' '}
                     {pagination.total} {t('productsCount')}
                   </>
                 )}
@@ -160,9 +161,7 @@ function ProductsContent() {
               <div className="py-12 text-center">
                 <div className="mx-auto max-w-md">
                   <h3 className="text-lg font-medium text-foreground">{t('noProducts')}</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    {t('noProductsMessage')}
-                  </p>
+                  <p className="mt-2 text-muted-foreground">{t('noProductsMessage')}</p>
                 </div>
               </div>
             )}

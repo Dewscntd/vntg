@@ -250,9 +250,11 @@ export const productAnimations = {
       boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
       duration: 0.4,
       ease: 'power3.out',
-    })
-      // Image zoom and slight rotation
-      .to(
+    });
+
+    // Image zoom and slight rotation - only if image exists
+    if (image) {
+      tl.to(
         image,
         {
           scale: 1.15,
@@ -261,9 +263,12 @@ export const productAnimations = {
           ease: 'power2.out',
         },
         0
-      )
-      // Content slide up
-      .to(
+      );
+    }
+
+    // Content slide up - only if content exists
+    if (content) {
+      tl.to(
         content,
         {
           y: -4,
@@ -271,25 +276,34 @@ export const productAnimations = {
           ease: 'power2.out',
         },
         0.1
-      )
-      // Overlay fade in
-      .to(
+      );
+    }
+
+    // Overlay fade in - only if overlay exists
+    if (overlay) {
+      tl.to(
         overlay,
         {
           opacity: 1,
           duration: 0.3,
         },
         0.1
-      )
-      // Actions slide up and fade in
-      .fromTo(
+      );
+    }
+
+    // Actions slide up and fade in - only if actions exist
+    if (actions) {
+      tl.fromTo(
         actions,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' },
         0.2
-      )
-      // Badges subtle animation
-      .to(
+      );
+    }
+
+    // Badges subtle animation - only if badges exist
+    if (badges) {
+      tl.to(
         badges,
         {
           scale: 1.05,
@@ -298,6 +312,7 @@ export const productAnimations = {
         },
         0.1
       );
+    }
 
     return tl;
   },
@@ -364,10 +379,18 @@ export const productAnimations = {
 
     const tl = gsap.timeline();
 
-    tl.fromTo(images, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1 })
-      .fromTo(info, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8 }, '-=0.4')
-      .fromTo(reviews, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2')
-      .fromTo(related, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2');
+    if (images.length > 0) {
+      tl.fromTo(images, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1 });
+    }
+    if (info) {
+      tl.fromTo(info, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8 }, images.length > 0 ? '-=0.4' : 0);
+    }
+    if (reviews) {
+      tl.fromTo(reviews, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2');
+    }
+    if (related) {
+      tl.fromTo(related, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2');
+    }
 
     return tl;
   },
@@ -466,21 +489,26 @@ export const productAnimations = {
 
     // Set initial states
     gsap.set(modal, { display: 'flex' });
-    gsap.set(backdrop, { opacity: 0 });
-    gsap.set(content, { scale: 0.8, opacity: 0, y: 50 });
+    if (backdrop) gsap.set(backdrop, { opacity: 0 });
+    if (content) gsap.set(content, { scale: 0.8, opacity: 0, y: 50 });
 
     // Animate in
-    tl.to(backdrop, { opacity: 1, duration: 0.3 }).to(
-      content,
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        ease: 'back.out(1.7)',
-      },
-      '-=0.1'
-    );
+    if (backdrop) {
+      tl.to(backdrop, { opacity: 1, duration: 0.3 });
+    }
+    if (content) {
+      tl.to(
+        content,
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: 'back.out(1.7)',
+        },
+        backdrop ? '-=0.1' : 0
+      );
+    }
 
     return tl;
   },
@@ -495,13 +523,18 @@ export const productAnimations = {
       },
     });
 
-    tl.to(content, {
-      scale: 0.8,
-      opacity: 0,
-      y: 50,
-      duration: 0.3,
-      ease: 'power2.in',
-    }).to(backdrop, { opacity: 0, duration: 0.2 }, '-=0.1');
+    if (content) {
+      tl.to(content, {
+        scale: 0.8,
+        opacity: 0,
+        y: 50,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+    }
+    if (backdrop) {
+      tl.to(backdrop, { opacity: 0, duration: 0.2 }, content ? '-=0.1' : 0);
+    }
 
     return tl;
   },

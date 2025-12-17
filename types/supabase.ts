@@ -45,6 +45,13 @@ export interface Database {
           inventory_count: number;
           is_featured: boolean;
           stripe_product_id: string | null;
+          discount_percent: number;
+          specifications: Json;
+          material: string | null;
+          country_of_origin: string | null;
+          care_instructions: string | null;
+          season: 'spring-summer' | 'fall-winter' | 'all-season' | null;
+          collection_year: number | null;
         };
         Insert: {
           id?: string;
@@ -58,6 +65,13 @@ export interface Database {
           inventory_count?: number;
           is_featured?: boolean;
           stripe_product_id?: string | null;
+          discount_percent?: number;
+          specifications?: Json;
+          material?: string | null;
+          country_of_origin?: string | null;
+          care_instructions?: string | null;
+          season?: 'spring-summer' | 'fall-winter' | 'all-season' | null;
+          collection_year?: number | null;
         };
         Update: {
           id?: string;
@@ -71,6 +85,13 @@ export interface Database {
           inventory_count?: number;
           is_featured?: boolean;
           stripe_product_id?: string | null;
+          discount_percent?: number;
+          specifications?: Json;
+          material?: string | null;
+          country_of_origin?: string | null;
+          care_instructions?: string | null;
+          season?: 'spring-summer' | 'fall-winter' | 'all-season' | null;
+          collection_year?: number | null;
         };
       };
       categories: {
@@ -182,6 +203,29 @@ export interface Database {
           user_id?: string;
           product_id?: string;
           quantity?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      site_settings: {
+        Row: {
+          id: string;
+          key: string;
+          value: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          key: string;
+          value: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          key?: string;
+          value?: Json;
           created_at?: string;
           updated_at?: string;
         };

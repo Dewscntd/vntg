@@ -78,9 +78,7 @@ function LoginFormContent() {
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">{t('loginTitle')}</h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          {t('loginSubtitle')}
-        </p>
+        <p className="text-gray-500 dark:text-gray-400">{t('loginSubtitle')}</p>
       </div>
 
       {error && (

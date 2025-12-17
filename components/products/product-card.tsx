@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { LazyImage } from '@/components/ui/lazy-image';
 import { ProductBadge } from '@/components/products/product-badge';
 import { ProductPrice } from '@/components/products/product-price';
+import { FavoriteButton } from '@/components/products/favorite-button';
 import { useCartActions } from '@/lib/hooks/use-cart-actions';
 import {
   useProductCardAnimation,
@@ -29,6 +30,8 @@ export interface ProductCardProps {
     is_new?: boolean;
     is_sale?: boolean;
     discount_percent?: number;
+    material?: string | null;
+    country_of_origin?: string | null;
     category?: {
       id: string;
       name: string;
@@ -131,6 +134,16 @@ export function ProductCard({
             {isOutOfStock && <ProductBadge type="out-of-stock" />}
           </div>
 
+          {/* Favorite Button */}
+          <div className="absolute right-2 top-2 z-10">
+            <FavoriteButton
+              productId={product.id}
+              productName={product.name}
+              variant="overlay"
+              size="sm"
+            />
+          </div>
+
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100" />
 
@@ -168,6 +181,11 @@ export function ProductCard({
             <div className="mb-1 text-xs text-muted-foreground">{product.category.name}</div>
           )}
           <h3 className="line-clamp-1 text-sm font-medium">{product.name}</h3>
+          {product.material && (
+            <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground/80">
+              {product.material}
+            </div>
+          )}
           <div className="mt-1">
             <ProductPrice price={product.price} discount_percent={product.discount_percent} />
           </div>

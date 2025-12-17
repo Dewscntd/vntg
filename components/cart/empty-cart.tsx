@@ -69,9 +69,7 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
       {/* Empty Cart Content */}
       <div data-empty-content className="mb-8">
         <h2 className="mb-4 text-2xl font-bold">{t('empty')}</h2>
-        <p className="mx-auto mb-6 max-w-md text-lg text-muted-foreground">
-          {t('emptyMessage')}
-        </p>
+        <p className="mx-auto mb-6 max-w-md text-lg text-muted-foreground">{t('emptyMessage')}</p>
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild size="lg">
@@ -98,9 +96,7 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
               <CardContent className="p-6 text-center">
                 <Star className="mx-auto mb-3 h-8 w-8 text-yellow-500" />
                 <h4 className="mb-2 font-medium">{t('featuredProducts')}</h4>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  {t('featuredDescription')}
-                </p>
+                <p className="mb-4 text-sm text-muted-foreground">{t('featuredDescription')}</p>
                 <Button variant="outline" asChild size="sm">
                   <Link href="/products?featured=true">{t('viewFeatured')}</Link>
                 </Button>
@@ -124,9 +120,7 @@ export function EmptyCart({ className, compact = false, showSuggestions = true }
               <CardContent className="p-6 text-center">
                 <Heart className="mx-auto mb-3 h-8 w-8 text-red-500" />
                 <h4 className="mb-2 font-medium">{t('saleItems')}</h4>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  {t('saleDescription')}
-                </p>
+                <p className="mb-4 text-sm text-muted-foreground">{t('saleDescription')}</p>
                 <Button variant="outline" asChild size="sm">
                   <Link href="/products?sale=true">{t('shopSale')}</Link>
                 </Button>

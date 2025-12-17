@@ -33,18 +33,29 @@ export async function GET(req: NextRequest) {
         throw error;
       }
 
+      // Transform items to use 'product' (singular) instead of 'products' (Supabase join format)
+      const transformedItems = (cartItems || []).map((item: any) => {
+        const product = Array.isArray(item.products) ? item.products[0] : item.products;
+        return {
+          id: item.id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          product: product || null,
+        };
+      });
+
       // Calculate total
-      const total =
-        cartItems?.reduce((sum: number, item: any) => {
-          const products = Array.isArray(item.products) ? item.products[0] : item.products;
-          const price = products?.price || 0;
-          return sum + price * item.quantity;
-        }, 0) || 0;
+      const total = transformedItems.reduce((sum: number, item: any) => {
+        const price = item.product?.price || 0;
+        const discount = item.product?.discount_percent || 0;
+        const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
+        return sum + discountedPrice * item.quantity;
+      }, 0);
 
       return successResponse({
-        items: cartItems || [],
+        items: transformedItems,
         total,
-        itemCount: cartItems?.length || 0,
+        itemCount: transformedItems.length,
       });
     } catch (error) {
       return handleDatabaseError(error as Error);

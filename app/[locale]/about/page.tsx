@@ -33,27 +33,19 @@ export default async function AboutPage() {
             </Button>
           </Link>
           <h1 className="mb-4 text-4xl font-bold">{t('title')}</h1>
-          <p className="text-xl text-muted-foreground">
-            {t('subtitle')}
-          </p>
+          <p className="text-xl text-muted-foreground">{t('subtitle')}</p>
         </div>
 
         <article className="prose max-w-none">
           <section className="mb-8">
             <h2 className="mb-4 text-2xl font-semibold">{t('ourStory')}</h2>
-            <p className="mb-4">
-              {t('ourStoryPara1')}
-            </p>
-            <p className="mb-4">
-              {t('ourStoryPara2')}
-            </p>
+            <p className="mb-4">{t('ourStoryPara1')}</p>
+            <p className="mb-4">{t('ourStoryPara2')}</p>
           </section>
 
           <section className="mb-8">
             <h2 className="mb-4 text-2xl font-semibold">{t('ourMission')}</h2>
-            <p className="mb-4">
-              {t('ourMissionPara')}
-            </p>
+            <p className="mb-4">{t('ourMissionPara')}</p>
           </section>
 
           <section className="mb-8">

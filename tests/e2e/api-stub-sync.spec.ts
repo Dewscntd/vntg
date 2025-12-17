@@ -158,7 +158,7 @@ test.describe('Stub Environment Tests', () => {
     
     // Stub-specific assertions
     expect(products.some(p => p.name.includes('Wireless Headphones'))).toBeTruthy();
-    expect(products.some(p => p.image.includes('via.placeholder.com'))).toBeTruthy();
+    expect(products.some(p => p.image.includes('images.unsplash.com'))).toBeTruthy();
   });
 
   test('should load categories with stub data', async ({ page }) => {

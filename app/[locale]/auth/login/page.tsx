@@ -32,9 +32,7 @@ export default async function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">{t('login')}</CardTitle>
-          <CardDescription className="text-center">
-            {t('loginSubtitle')}
-          </CardDescription>
+          <CardDescription className="text-center">{t('loginSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm />

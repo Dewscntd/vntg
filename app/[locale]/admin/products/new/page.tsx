@@ -22,7 +22,12 @@ import { BrandSelector } from '@/components/ui/brand-selector';
 import { SizeSelector } from '@/components/ui/size-selector';
 import { MaterialSelector } from '@/components/ui/material-selector';
 import { peakeesCategories } from '@/lib/data/peakees-categories';
-import { CONDITIONS } from '@/lib/data/product-options';
+import {
+  CONDITIONS,
+  SEASONS,
+  CARE_INSTRUCTIONS,
+  COLLECTION_YEARS,
+} from '@/lib/data/product-options';
 import { useTranslations } from '@/lib/hooks/use-translations';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 
@@ -39,6 +44,11 @@ interface ProductFormData {
   inventory_count: string;
   category_id: string;
   is_featured: boolean;
+  material: string;
+  country_of_origin: string;
+  care_instructions: string;
+  season: string;
+  collection_year: string;
   specifications: {
     size: string;
     condition: string;
@@ -61,6 +71,11 @@ export default function NewProductPage() {
     inventory_count: '',
     category_id: '',
     is_featured: false,
+    material: '',
+    country_of_origin: '',
+    care_instructions: '',
+    season: '',
+    collection_year: '',
     specifications: {
       size: '',
       condition: '',
@@ -173,6 +188,11 @@ export default function NewProductPage() {
         category_id: formData.category_id,
         is_featured: formData.is_featured,
         image_url: imageUrl || '',
+        material: formData.material || null,
+        country_of_origin: formData.country_of_origin || null,
+        care_instructions: formData.care_instructions || null,
+        season: formData.season || null,
+        collection_year: formData.collection_year ? parseInt(formData.collection_year) : null,
         specifications: {
           ...formData.specifications,
           materials: formData.specifications.materials.join(', '), // Convert array to string
@@ -318,6 +338,104 @@ export default function NewProductPage() {
                   }
                 />
                 <Label htmlFor="is_featured">Featured Product</Label>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Season & Collection */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Season & Collection</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="season">Season / עונה</Label>
+                  <Select
+                    value={formData.season}
+                    onValueChange={(value) => handleInputChange('season', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select season / בחר עונה" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEASONS.map((season) => (
+                        <SelectItem key={season.value} value={season.value}>
+                          {season.icon} {season.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="collection_year">Collection Year / שנת קולקציה</Label>
+                  <Select
+                    value={formData.collection_year}
+                    onValueChange={(value) => handleInputChange('collection_year', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select year / בחר שנה" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COLLECTION_YEARS.map((year) => (
+                        <SelectItem key={year.value} value={year.value.toString()}>
+                          {year.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Garment Details */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Garment Details (Optional)</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="material">Material / חומר</Label>
+                <Input
+                  id="material"
+                  value={formData.material}
+                  onChange={(e) => handleInputChange('material', e.target.value)}
+                  placeholder="e.g., 100% Italian Wool / לדוגמה: 100% צמר איטלקי"
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Describe the material composition
+                </p>
+              </div>
+
+              <div>
+                <Label htmlFor="country_of_origin">Country of Origin / ארץ ייצור</Label>
+                <Input
+                  id="country_of_origin"
+                  value={formData.country_of_origin}
+                  onChange={(e) => handleInputChange('country_of_origin', e.target.value)}
+                  placeholder="e.g., Made in Italy / לדוגמה: יוצר באיטליה"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="care_instructions">Care Instructions / הוראות טיפול</Label>
+                <Select
+                  value={formData.care_instructions}
+                  onValueChange={(value) => handleInputChange('care_instructions', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select care instructions / בחר הוראות טיפול" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CARE_INSTRUCTIONS.map((instruction) => (
+                      <SelectItem key={instruction.value} value={instruction.value}>
+                        {instruction.icon} {instruction.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </CardContent>
           </Card>

@@ -2,6 +2,22 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
 import { USE_STUBS, createSupabaseStub } from '@/lib/stubs';
 
+// Admin user for development
+const adminUser = {
+  id: 'admin-michael',
+  email: 'michaelvx@gmail.com',
+  role: 'admin',
+  first_name: 'Michael',
+  last_name: 'Admin',
+};
+
+// Auto-set admin session for development when stubs are enabled
+if (typeof window !== 'undefined' && USE_STUBS) {
+  // Auto-login for development
+  localStorage.setItem('mock-admin-session', 'true');
+  console.log('🔧 AUTO-LOGIN: Set mock-admin-session for development');
+}
+
 export const createClient = () => {
   console.log('🔍 createClient called - creating simple admin stub');
 
@@ -12,14 +28,6 @@ export const createClient = () => {
 
         if (email === 'michaelvx@gmail.com' && password === 'admin123') {
           console.log('✅ SIMPLE STUB: Admin login successful!');
-
-          const adminUser = {
-            id: 'admin-michael',
-            email: 'michaelvx@gmail.com',
-            role: 'admin',
-            first_name: 'Michael',
-            last_name: 'Admin',
-          };
 
           // Set admin session flag in localStorage
           if (typeof window !== 'undefined') {
@@ -51,13 +59,6 @@ export const createClient = () => {
         if (typeof window !== 'undefined') {
           const adminSession = localStorage.getItem('mock-admin-session');
           if (adminSession) {
-            const adminUser = {
-              id: 'admin-michael',
-              email: 'michaelvx@gmail.com',
-              role: 'admin',
-              first_name: 'Michael',
-              last_name: 'Admin',
-            };
             console.log('🎯 SIMPLE STUB: Returning admin user');
             return { data: { user: adminUser }, error: null };
           }
@@ -70,13 +71,6 @@ export const createClient = () => {
         if (typeof window !== 'undefined') {
           const adminSession = localStorage.getItem('mock-admin-session');
           if (adminSession) {
-            const adminUser = {
-              id: 'admin-michael',
-              email: 'michaelvx@gmail.com',
-              role: 'admin',
-              first_name: 'Michael',
-              last_name: 'Admin',
-            };
             const session = {
               user: adminUser,
               access_token: 'mock-admin-token',
@@ -89,7 +83,12 @@ export const createClient = () => {
         return { data: { session: null }, error: null };
       },
       signUp: async () => ({ data: { user: null, session: null }, error: null }),
-      signOut: async () => ({ error: null }),
+      signOut: async () => {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('mock-admin-session');
+        }
+        return { error: null };
+      },
       onAuthStateChange: (callback: Function) => ({
         data: { subscription: { unsubscribe: () => {} } },
       }),
