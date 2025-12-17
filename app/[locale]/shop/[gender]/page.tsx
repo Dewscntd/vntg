@@ -9,7 +9,8 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { ShopLayout } from '@/components/shop/shop-layout';
 import { ShopContent } from './shop-content';
-import { Gender } from '@/types/shop';
+
+type ShopGender = 'men' | 'women';
 
 interface ShopGenderPageProps {
   params: Promise<{
@@ -42,9 +43,9 @@ export default async function ShopGenderPage({ params, searchParams }: ShopGende
   }
 
   return (
-    <ShopLayout gender={gender as Gender}>
+    <ShopLayout gender={gender as ShopGender}>
       <Suspense fallback={<ShopContentSkeleton />}>
-        <ShopContent gender={gender as Gender} searchParams={resolvedSearchParams} />
+        <ShopContent gender={gender as ShopGender} searchParams={resolvedSearchParams} />
       </Suspense>
     </ShopLayout>
   );

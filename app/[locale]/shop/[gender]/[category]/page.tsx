@@ -8,8 +8,9 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { ShopLayout } from '@/components/shop/shop-layout';
 import { ShopContent } from '../shop-content';
-import { Gender } from '@/types/shop';
 import { isValidCategory, getCategorySlugs } from '@/lib/config/shop-categories';
+
+type ShopGender = 'men' | 'women';
 
 interface ShopCategoryPageProps {
   params: Promise<{
@@ -33,8 +34,8 @@ export async function generateStaticParams() {
   const params: { gender: string; category: string }[] = [];
 
   // Generate paths for all gender/category combinations
-  for (const gender of ['women', 'men']) {
-    const slugs = getCategorySlugs(gender as Gender);
+  for (const gender of ['women', 'men'] as ShopGender[]) {
+    const slugs = getCategorySlugs(gender);
     for (const category of slugs) {
       if (category !== 'all') {
         // Skip 'all' as it's handled by the gender page
@@ -55,7 +56,7 @@ export default async function ShopCategoryPage({ params, searchParams }: ShopCat
     notFound();
   }
 
-  if (!isValidCategory(gender as Gender, category)) {
+  if (!isValidCategory(gender as ShopGender, category)) {
     notFound();
   }
 
@@ -66,9 +67,9 @@ export default async function ShopCategoryPage({ params, searchParams }: ShopCat
   };
 
   return (
-    <ShopLayout gender={gender as Gender} category={category}>
+    <ShopLayout gender={gender as ShopGender} category={category}>
       <Suspense fallback={<ShopContentSkeleton />}>
-        <ShopContent gender={gender as Gender} searchParams={enhancedSearchParams} />
+        <ShopContent gender={gender as ShopGender} searchParams={enhancedSearchParams} />
       </Suspense>
     </ShopLayout>
   );

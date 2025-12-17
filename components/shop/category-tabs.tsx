@@ -12,11 +12,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { Gender, ShopCategory } from '@/types/shop';
+import { ShopCategory } from '@/types/shop';
 import { getCategoriesByGender } from '@/lib/config/shop-categories';
 
 interface CategoryTabsProps {
-  gender: Gender;
+  gender: 'men' | 'women';
   activeCategory?: string;
   className?: string;
 }

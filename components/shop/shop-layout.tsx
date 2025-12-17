@@ -9,13 +9,12 @@
 
 import { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Gender } from '@/types/shop';
 import { Header } from '@/components/layout/header';
 import { GenderToggle } from './gender-toggle';
 import { CategoryTabs } from './category-tabs';
 
 interface ShopLayoutProps {
-  gender: Gender;
+  gender: 'men' | 'women';
   category?: string;
   children: ReactNode;
 }
