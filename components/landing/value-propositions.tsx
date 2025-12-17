@@ -104,21 +104,15 @@ export function ValuePropositions() {
           <div className="mt-16 grid gap-8 text-center sm:grid-cols-3" data-reveal>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">10,000+</div>
-              <div className="text-sm text-muted-foreground">
-                {t('stats.items')}
-              </div>
+              <div className="text-sm text-muted-foreground">{t('stats.items')}</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">5,000+</div>
-              <div className="text-sm text-muted-foreground">
-                {t('stats.customers')}
-              </div>
+              <div className="text-sm text-muted-foreground">{t('stats.customers')}</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">99%</div>
-              <div className="text-sm text-muted-foreground">
-                {t('stats.satisfaction')}
-              </div>
+              <div className="text-sm text-muted-foreground">{t('stats.satisfaction')}</div>
             </div>
           </div>
         </RevealSection>

@@ -15,8 +15,20 @@ import {
 
 type Product = Database['public']['Tables']['products']['Row'];
 
+// Default product fields for new properties
+const defaultProductFields = {
+  discount_percent: 0,
+  specifications: null,
+  material: null,
+  country_of_origin: null,
+  care_instructions: null,
+  season: null as 'spring-summer' | 'fall-winter' | 'all-season' | null,
+  collection_year: null,
+};
+
 // Men's Products
 export const denimJacket: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000001',
   name: 'Classic Denim Jacket',
   description: 'Vintage-style denim jacket perfect for casual outings and layering. Made from premium cotton with durable construction.',
@@ -31,6 +43,7 @@ export const denimJacket: Product = {
 };
 
 export const casualShirt: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000002',
   name: 'Casual Button-Up Shirt',
   description: 'Versatile button-up shirt for professional and casual wear. Breathable fabric with modern fit.',
@@ -45,6 +58,7 @@ export const casualShirt: Product = {
 };
 
 export const mensChinoPants: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000003',
   name: 'Premium Chino Pants',
   description: 'Classic chino pants with a modern slim fit. Perfect for business casual or weekend wear.',
@@ -60,6 +74,7 @@ export const mensChinoPants: Product = {
 
 // Women's Products
 export const floralDress: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000011',
   name: 'Floral Summer Dress',
   description: 'Elegant floral dress perfect for summer occasions and everyday wear. Lightweight and comfortable.',
@@ -74,6 +89,7 @@ export const floralDress: Product = {
 };
 
 export const eveningBlouse: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000012',
   name: 'Elegant Evening Blouse',
   description: 'Sophisticated blouse perfect for evening events and dinner parties. Silky smooth fabric with modern cut.',
@@ -88,6 +104,7 @@ export const eveningBlouse: Product = {
 };
 
 export const womensJeans: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000013',
   name: 'High-Rise Skinny Jeans',
   description: 'Classic skinny jeans with high-rise fit. Premium denim with stretch for all-day comfort.',
@@ -103,6 +120,7 @@ export const womensJeans: Product = {
 
 // Teens Products
 export const streetwearHoodie: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000021',
   name: 'Streetwear Hoodie',
   description: 'Trendy oversized hoodie with urban design, perfect for teens. Soft fleece interior.',
@@ -117,6 +135,7 @@ export const streetwearHoodie: Product = {
 };
 
 export const graphicTee: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000022',
   name: 'Vintage Graphic T-Shirt',
   description: 'Cool vintage-inspired graphic tee. 100% cotton with premium print quality.',
@@ -132,6 +151,7 @@ export const graphicTee: Product = {
 
 // Kids Products
 export const kidsRainbowTee: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000031',
   name: 'Kids Rainbow T-Shirt',
   description: 'Colorful and comfortable t-shirt with fun rainbow design for children. Soft cotton blend.',
@@ -146,6 +166,7 @@ export const kidsRainbowTee: Product = {
 };
 
 export const kidsOveralls: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000032',
   name: 'Denim Overalls',
   description: 'Classic denim overalls for kids. Durable and comfortable with adjustable straps.',
@@ -161,6 +182,7 @@ export const kidsOveralls: Product = {
 
 // Books & Media
 export const fashionPhotographyBook: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000041',
   name: 'Fashion Photography Book',
   description: 'Stunning collection of contemporary fashion photography from renowned artists worldwide.',
@@ -175,6 +197,7 @@ export const fashionPhotographyBook: Product = {
 };
 
 export const styleGuideBook: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000042',
   name: 'Complete Style Guide',
   description: 'Comprehensive guide to personal style, wardrobe essentials, and fashion fundamentals.',
@@ -190,6 +213,7 @@ export const styleGuideBook: Product = {
 
 // Toys & Games
 export const designerPuzzle: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000051',
   name: 'Designer Puzzle Game',
   description: 'Creative puzzle game featuring fashion designs and patterns. 1000 pieces.',
@@ -204,6 +228,7 @@ export const designerPuzzle: Product = {
 };
 
 export const fashionDollSet: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000052',
   name: 'Fashion Designer Doll Set',
   description: 'Complete fashion designer doll set with interchangeable outfits and accessories.',
@@ -219,6 +244,7 @@ export const fashionDollSet: Product = {
 
 // Low inventory product (for testing low stock scenarios)
 export const limitedEditionJacket: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000061',
   name: 'Limited Edition Leather Jacket',
   description: 'Exclusive limited edition leather jacket. Premium Italian leather with custom hardware.',
@@ -234,6 +260,7 @@ export const limitedEditionJacket: Product = {
 
 // Out of stock product (for testing OOS scenarios)
 export const soldOutSneakers: Product = {
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000062',
   name: 'Designer Sneakers',
   description: 'Sold out designer sneakers - check back for restock.',
@@ -287,6 +314,7 @@ export const inStockProducts = productFixtures.filter((p) => (p.inventory_count 
 
 // Helper to create a product with custom properties
 export const createProductFixture = (overrides: Partial<Product> = {}): Product => ({
+  ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000099',
   name: 'Test Product',
   description: 'Test product description',

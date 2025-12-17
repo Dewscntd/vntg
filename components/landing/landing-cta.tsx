@@ -58,9 +58,7 @@ export function LandingCTA() {
                 </TransitionLink>
               </Button>
               <Button variant="outline" size="lg" className="px-8 py-6 text-lg" asChild>
-                <TransitionLink href="/categories">
-                  {t('buttons.categories')}
-                </TransitionLink>
+                <TransitionLink href="/categories">{t('buttons.categories')}</TransitionLink>
               </Button>
             </div>
           </ScrollReveal>

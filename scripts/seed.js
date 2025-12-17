@@ -16,9 +16,9 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 async function main() {
   const products = [
-    { name: 'Vintage T-Shirt', description: 'A cool vintage t-shirt.', price: 25.99, image_url: 'https://via.placeholder.com/150' },
-    { name: 'Retro Jeans', description: 'Stylish retro jeans.', price: 79.99, image_url: 'https://via.placeholder.com/150' },
-    { name: 'Classic Hoodie', description: 'A comfortable classic hoodie.', price: 49.99, image_url: 'https://via.placeholder.com/150' },
+    { name: 'Vintage T-Shirt', description: 'A cool vintage t-shirt.', price: 25.99, image_url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop' },
+    { name: 'Retro Jeans', description: 'Stylish retro jeans.', price: 79.99, image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop' },
+    { name: 'Classic Hoodie', description: 'A comfortable classic hoodie.', price: 49.99, image_url: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop' },
   ];
 
   for (const product of products) {

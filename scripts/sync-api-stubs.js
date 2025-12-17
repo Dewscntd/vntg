@@ -242,7 +242,7 @@ class APISyncValidator {
       description: product.description || `Description for product ${index + 1}`,
       price: product.price || (index + 1) * 29.99,
       category_id: product.category_id || `cat-${index + 1}`,
-      image_url: product.image_url || `https://via.placeholder.com/400x400?text=Product+${index + 1}`,
+      image_url: product.image_url || `https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=400&fit=crop`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       inventory_count: product.inventory_count || 50,

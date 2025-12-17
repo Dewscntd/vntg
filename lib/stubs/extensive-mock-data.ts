@@ -336,6 +336,15 @@ export const generateExtensiveProducts = (): Product[] => {
     category_id: product.category_id,
     inventory_count: product.stock_quantity || 10, // Map stock_quantity to inventory_count
     is_featured: product.featured || false, // Map featured to is_featured
+    is_new: index < 5, // First 5 products are "new"
+    is_sale: index % 3 === 0, // Every 3rd product is on sale
+    discount_percent: index % 3 === 0 ? Math.floor(Math.random() * 30) + 10 : 0,
+    material: null,
+    country_of_origin: null,
+    care_instructions: null,
+    season: 'all-season' as const,
+    collection_year: 2024,
+    specifications: null,
     stripe_product_id: null,
     created_at: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date().toISOString(),

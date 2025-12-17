@@ -1,13 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Minus, Plus, Share2, Heart } from 'lucide-react';
+import { Minus, Plus, Share2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ProductPrice } from '@/components/products/product-price';
 import { ProductBadge } from '@/components/products/product-badge';
 import { ProductSpecifications } from '@/components/products/detail/product-specifications';
+import { GarmentDetails } from '@/components/products/detail/garment-details';
+import { FavoriteButton } from '@/components/products/favorite-button';
 import { useAddToCart } from '@/lib/hooks';
 import { useTranslations } from '@/lib/hooks/use-translations';
 
@@ -22,6 +24,11 @@ export interface ProductInformationProps {
     is_new?: boolean;
     is_sale?: boolean;
     discount_percent?: number;
+    material?: string | null;
+    country_of_origin?: string | null;
+    care_instructions?: string | null;
+    season?: 'spring-summer' | 'fall-winter' | 'all-season' | null;
+    collection_year?: number | null;
     category?: {
       id: string;
       name: string;
@@ -110,6 +117,16 @@ export function ProductInformation({ product, className }: ProductInformationPro
         </div>
       )}
 
+      {/* Garment Details */}
+      <GarmentDetails
+        material={product.material}
+        countryOfOrigin={product.country_of_origin}
+        careInstructions={product.care_instructions}
+        season={product.season}
+        collectionYear={product.collection_year}
+        compact={true}
+      />
+
       {/* Product Specifications */}
       {product.specifications && (
         <ProductSpecifications specifications={product.specifications} compact={false} />
@@ -174,10 +191,12 @@ export function ProductInformation({ product, className }: ProductInformationPro
                 : 'Add to Cart'}
         </Button>
         <div className="flex space-x-3">
-          <Button variant="outline" size="icon" className="h-11 w-11">
-            <Heart className="h-5 w-5" />
-            <span className="sr-only">Add to wishlist</span>
-          </Button>
+          <FavoriteButton
+            productId={product.id}
+            productName={product.name}
+            size="lg"
+            className="h-11 w-11"
+          />
           <Button variant="outline" size="icon" className="h-11 w-11">
             <Share2 className="h-5 w-5" />
             <span className="sr-only">Share product</span>

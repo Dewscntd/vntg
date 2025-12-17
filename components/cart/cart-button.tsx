@@ -2,7 +2,6 @@
 
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/lib/context/cart-context';
 import { useGSAP } from '@/lib/hooks/use-gsap';
 import { useCartAccessibility } from '@/lib/hooks/use-cart-accessibility';
@@ -77,16 +76,17 @@ export function CartButton({
 
       {/* Item Count Badge */}
       {showBadge && itemCount > 0 && (
-        <Badge
-          variant="destructive"
+        <span
           className={cn(
-            'absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs font-bold',
+            'absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1',
+            'bg-primary text-primary-foreground text-[10px] font-semibold leading-none',
+            'ring-2 ring-background',
             'duration-200 animate-in zoom-in-50'
           )}
           aria-label={`${itemCount} item${itemCount === 1 ? '' : 's'} in cart`}
         >
           {itemCount > 99 ? '99+' : itemCount}
-        </Badge>
+        </span>
       )}
     </Button>
   );

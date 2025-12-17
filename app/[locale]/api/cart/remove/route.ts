@@ -1,7 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { Database } from '@/types/supabase';
+import { createServerClient } from '@/lib/supabase/server';
 import { removeFromCartSchema } from '@/lib/validations/cart';
 import { withAuth, withValidation } from '@/lib/api/middleware';
 import { successResponse, handleDatabaseError, handleNotFound } from '@/lib/api/index';
@@ -11,7 +9,7 @@ export async function DELETE(req: NextRequest) {
   return withAuth(req, (req, session) =>
     withValidation(req, removeFromCartSchema, async (req, validData) => {
       try {
-        const supabase = createRouteHandlerClient<Database>({ cookies });
+        const supabase = createServerClient();
         const userId = session.user.id;
         const { id } = validData;
 

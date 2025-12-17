@@ -52,7 +52,10 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+        <button
+          type="button"
+          className="relative inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
           {user.user_metadata?.avatar_url ? (
             <img
               src={user.user_metadata.avatar_url}
@@ -60,11 +63,11 @@ export function UserNav() {
               className="h-8 w-8 rounded-full object-cover"
             />
           ) : (
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-medium text-primary-foreground">
               {user.email?.charAt(0).toUpperCase() || 'U'}
             </span>
           )}
-        </Button>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <div className="flex flex-col space-y-1 p-2">

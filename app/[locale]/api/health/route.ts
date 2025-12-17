@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { getServerStripe } from '@/lib/stripe/server';
+import { USE_STUBS } from '@/lib/stubs';
 
 // Health check endpoint for monitoring
 export async function GET(req: NextRequest) {
@@ -9,10 +10,34 @@ export async function GET(req: NextRequest) {
   const checks: Record<string, any> = {};
   let overallStatus = 'healthy';
 
+  // Return mock health response when using stubs
+  if (USE_STUBS) {
+    return NextResponse.json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || '1.0.0',
+      environment: 'development',
+      mode: 'stub',
+      responseTime: Date.now() - startTime,
+      checks: {
+        database: { status: 'healthy', responseTime: 5, mode: 'stub' },
+        stripe: { status: 'healthy', responseTime: 10, mode: 'stub' },
+        environment: { status: 'healthy', missingVariables: [] },
+        memory: {
+          status: 'healthy',
+          usage: { rss: 100, heapTotal: 50, heapUsed: 30, external: 5 },
+        },
+        uptime: { status: 'healthy', seconds: process.uptime() },
+      },
+    });
+  }
+
   try {
     // Check database connectivity
     try {
-      const supabase = createRouteHandlerClient({ cookies });
+      const cookieStore = await cookies();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
       const { data, error } = await supabase.from('products').select('id').limit(1);
 
       checks.database = {
@@ -128,11 +153,39 @@ export async function POST(req: NextRequest) {
     return GET(req);
   }
 
+  // Return mock detailed health response when using stubs
+  if (USE_STUBS) {
+    return NextResponse.json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || '1.0.0',
+      environment: 'development',
+      mode: 'stub',
+      responseTime: Date.now() - startTime,
+      detailed: true,
+      checks: {
+        database: {
+          status: 'healthy',
+          tables: {
+            products: { status: 'healthy', responseTime: 5, count: 8 },
+            categories: { status: 'healthy', responseTime: 3, count: 6 },
+            orders: { status: 'healthy', responseTime: 4, count: 3 },
+            users: { status: 'healthy', responseTime: 3, count: 4 },
+          },
+        },
+        storage: { status: 'healthy', buckets: ['products', 'avatars'] },
+        stripe: { status: 'healthy', responseTime: 10 },
+      },
+    });
+  }
+
   const checks: Record<string, any> = {};
   let overallStatus = 'healthy';
 
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const cookieStore = await cookies();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
 
     // Detailed database checks
     try {

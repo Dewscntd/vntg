@@ -24,15 +24,9 @@ export function BrandStory() {
             {/* Story Content */}
             <div className="space-y-6" data-reveal>
               <div className="space-y-4">
-                <ResponsiveLead className="text-foreground">
-                  {t('lead')}
-                </ResponsiveLead>
-                <p className="leading-relaxed text-muted-foreground">
-                  {t('paragraph1')}
-                </p>
-                <p className="leading-relaxed text-muted-foreground">
-                  {t('paragraph2')}
-                </p>
+                <ResponsiveLead className="text-foreground">{t('lead')}</ResponsiveLead>
+                <p className="leading-relaxed text-muted-foreground">{t('paragraph1')}</p>
+                <p className="leading-relaxed text-muted-foreground">{t('paragraph2')}</p>
               </div>
 
               <Button className="group" asChild>
@@ -63,9 +57,7 @@ export function BrandStory() {
                     <Heart className="h-6 w-6 text-red-600" />
                   </div>
                   <h3 className="font-semibold">{t('values.curated.title')}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t('values.curated.description')}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t('values.curated.description')}</p>
                 </CardContent>
               </Card>
 
@@ -87,9 +79,7 @@ export function BrandStory() {
                     <Heart className="h-6 w-6 text-purple-600" />
                   </div>
                   <h3 className="font-semibold">{t('values.unique.title')}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t('values.unique.description')}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t('values.unique.description')}</p>
                 </CardContent>
               </Card>
             </div>

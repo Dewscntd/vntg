@@ -3,6 +3,17 @@ import { Database } from '@/types/supabase';
 
 type Tables = Database['public']['Tables'];
 
+// Default product fields for required properties
+const defaultProductFields = {
+  discount_percent: 0,
+  specifications: null,
+  material: null,
+  country_of_origin: null,
+  care_instructions: null,
+  season: null as 'spring-summer' | 'fall-winter' | 'all-season' | null,
+  collection_year: null,
+};
+
 // ====================
 // CATEGORIES (Hierarchical)
 // ====================
@@ -105,7 +116,7 @@ export const MOCK_CATEGORIES: Tables['categories']['Row'][] = [
 // ====================
 // PRODUCTS (50+ items)
 // ====================
-export const MOCK_PRODUCTS: Tables['products']['Row'][] = [
+const MOCK_PRODUCTS_RAW = [
   // Vintage Clothing
   {
     id: '20000000-0000-0000-0000-000000000001',
@@ -300,6 +311,12 @@ export const MOCK_PRODUCTS: Tables['products']['Row'][] = [
     };
   }),
 ];
+
+// Add default product fields to all products
+export const MOCK_PRODUCTS: Tables['products']['Row'][] = MOCK_PRODUCTS_RAW.map((product) => ({
+  ...defaultProductFields,
+  ...product,
+}));
 
 // ====================
 // USERS

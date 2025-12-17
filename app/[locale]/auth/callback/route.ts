@@ -7,8 +7,9 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code');
 
   if (code) {
-    const cookieStore = cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const cookieStore = await cookies();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore as any });
 
     // Exchange the code for a session
     await supabase.auth.exchangeCodeForSession(code);
