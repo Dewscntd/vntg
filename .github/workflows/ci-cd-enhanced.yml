@@ -371,7 +371,6 @@ jobs:
       - name: Notify Sentry of deployment
         uses: getsentry/action-release@v1
         continue-on-error: true
-        if: ${{ secrets.SENTRY_AUTH_TOKEN != '' }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
@@ -409,7 +408,8 @@ jobs:
 
       - name: Notify deployment success
         uses: 8398a7/action-slack@v3
-        if: ${{ always() && env.SLACK_WEBHOOK != '' }}
+        if: always()
+        continue-on-error: true
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         with:
