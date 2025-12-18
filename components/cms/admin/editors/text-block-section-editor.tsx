@@ -136,7 +136,7 @@ export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps)
           {/* Content Tab */}
           <TabsContent value="content" className="space-y-4">
             {/* Formatting Toolbar */}
-            <div className="flex flex-wrap gap-1 p-2 border rounded-md bg-muted/50">
+            <div className="flex flex-wrap gap-1 rounded-md border bg-muted/50 p-2">
               <Button
                 type="button"
                 variant="ghost"
@@ -155,7 +155,7 @@ export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps)
               >
                 <Italic className="h-4 w-4" />
               </Button>
-              <Separator orientation="vertical" className="h-6 mx-1" />
+              <Separator orientation="vertical" className="mx-1 h-6" />
               <Button
                 type="button"
                 variant="ghost"
@@ -183,7 +183,7 @@ export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps)
               >
                 P
               </Button>
-              <Separator orientation="vertical" className="h-6 mx-1" />
+              <Separator orientation="vertical" className="mx-1 h-6" />
               <Button
                 type="button"
                 variant="ghost"
@@ -235,7 +235,7 @@ export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps)
                   <FormLabel>Content (HTML)</FormLabel>
                   {showPreview ? (
                     <div
-                      className="min-h-[200px] p-4 border rounded-md bg-background prose prose-sm max-w-none"
+                      className="prose prose-sm min-h-[200px] max-w-none rounded-md border bg-background p-4"
                       dangerouslySetInnerHTML={{ __html: field.value }}
                     />
                   ) : (
@@ -330,11 +330,11 @@ export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps)
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Background Color</FormLabel>
-                  <div className="flex gap-2 items-center">
+                  <div className="flex items-center gap-2">
                     <FormControl>
                       <Input
                         type="color"
-                        className="w-12 h-10 p-1"
+                        className="h-10 w-12 p-1"
                         value={field.value || '#ffffff'}
                         onChange={(e) => field.onChange(e.target.value)}
                       />

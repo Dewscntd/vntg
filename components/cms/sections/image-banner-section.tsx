@@ -14,10 +14,7 @@ interface ImageBannerSectionProps {
   isPreview?: boolean;
 }
 
-export function ImageBannerSection({
-  section,
-  isPreview = false,
-}: ImageBannerSectionProps) {
+export function ImageBannerSection({ section, isPreview = false }: ImageBannerSectionProps) {
   const { config } = section;
 
   const heightClasses = {

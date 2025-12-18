@@ -175,7 +175,9 @@ export default function CollectionsPage() {
 
   // Delete collection
   const handleDeleteCollection = async (collectionId: string) => {
-    if (!confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+    if (
+      !confirm('Are you sure you want to delete this collection? This action cannot be undone.')
+    ) {
       return;
     }
 
@@ -242,11 +244,11 @@ export default function CollectionsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+      <div className="space-y-6 p-4 sm:p-6 lg:p-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Collections</h1>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Collections</h1>
             <p className="text-muted-foreground">
               Create and manage product collections and curated groups
             </p>
@@ -311,7 +313,7 @@ export default function CollectionsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -360,7 +362,7 @@ export default function CollectionsPage() {
                 {collections.map((collection) => (
                   <div
                     key={collection.id}
-                    className="flex items-center gap-4 rounded-lg border p-4 hover:bg-muted/30 transition-colors"
+                    className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/30"
                   >
                     {/* Thumbnail */}
                     {collection.image_url ? (
@@ -376,9 +378,9 @@ export default function CollectionsPage() {
                     )}
 
                     {/* Collection Details */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-semibold truncate">{collection.name}</h3>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="truncate font-semibold">{collection.name}</h3>
                         <Badge
                           variant="outline"
                           className={cn('text-xs', statusConfig[collection.status].color)}
@@ -387,11 +389,11 @@ export default function CollectionsPage() {
                         </Badge>
                       </div>
 
-                      <p className="text-sm text-muted-foreground mt-1 line-clamp-1">
+                      <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
                         {collection.description || 'No description'}
                       </p>
 
-                      <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                      <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Package className="h-3 w-3" />
                           {collection.product_count} products
@@ -407,7 +409,7 @@ export default function CollectionsPage() {
                         size="sm"
                         onClick={() => router.push(`/admin/collections/${collection.id}`)}
                       >
-                        <Eye className="h-4 w-4 mr-1" />
+                        <Eye className="mr-1 h-4 w-4" />
                         Manage
                       </Button>
 
@@ -473,7 +475,7 @@ export default function CollectionsPage() {
 
         {/* Create Collection Sheet */}
         <Sheet open={showCreateSheet} onOpenChange={setShowCreateSheet}>
-          <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+          <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
             <SheetHeader>
               <SheetTitle>Create New Collection</SheetTitle>
               <SheetDescription>
@@ -492,7 +494,7 @@ export default function CollectionsPage() {
 
         {/* Edit Collection Sheet */}
         <Sheet open={!!editingCollection} onOpenChange={() => setEditingCollection(null)}>
-          <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+          <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
             <SheetHeader>
               <SheetTitle>Edit Collection</SheetTitle>
               <SheetDescription>Update collection details</SheetDescription>

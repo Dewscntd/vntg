@@ -184,9 +184,7 @@ export function CollectionProductManager({
   // Toggle product selection
   const toggleProductSelection = (productId: string) => {
     setSelectedProductIds((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId]
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
     );
   };
 
@@ -223,11 +221,7 @@ export function CollectionProductManager({
 
         <div className="flex items-center gap-2">
           {hasUnsavedChanges && (
-            <Button
-              size="sm"
-              onClick={handleSaveOrder}
-              disabled={isSavingOrder}
-            >
+            <Button size="sm" onClick={handleSaveOrder} disabled={isSavingOrder}>
               {isSavingOrder ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -249,9 +243,7 @@ export function CollectionProductManager({
             <SheetContent className="w-full sm:max-w-lg">
               <SheetHeader>
                 <SheetTitle>Add Products to Collection</SheetTitle>
-                <SheetDescription>
-                  Select products to add to this collection
-                </SheetDescription>
+                <SheetDescription>Select products to add to this collection</SheetDescription>
               </SheetHeader>
 
               <div className="mt-6 space-y-4">
@@ -271,11 +263,7 @@ export function CollectionProductManager({
                 {selectedProductIds.length > 0 && (
                   <div className="flex items-center justify-between rounded-md bg-primary/10 px-3 py-2 text-sm">
                     <span>{selectedProductIds.length} selected</span>
-                    <Button
-                      size="sm"
-                      onClick={handleAddSelectedProducts}
-                      disabled={isLoading}
-                    >
+                    <Button size="sm" onClick={handleAddSelectedProducts} disabled={isLoading}>
                       Add Selected
                     </Button>
                   </div>
@@ -300,8 +288,7 @@ export function CollectionProductManager({
                           key={product.id}
                           className={cn(
                             'flex cursor-pointer items-start gap-3 rounded-md border p-3 transition-colors hover:bg-muted/50',
-                            selectedProductIds.includes(product.id) &&
-                              'border-primary bg-primary/5'
+                            selectedProductIds.includes(product.id) && 'border-primary bg-primary/5'
                           )}
                         >
                           <Checkbox
@@ -317,10 +304,8 @@ export function CollectionProductManager({
                                 className="h-12 w-12 rounded object-cover"
                               />
                             )}
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm truncate">
-                                {product.name}
-                              </div>
+                            <div className="min-w-0 flex-1">
+                              <div className="truncate text-sm font-medium">{product.name}</div>
                               <div className="text-xs text-muted-foreground">
                                 ${(product.price / 100).toFixed(2)} &middot;{' '}
                                 {product.inventory_count} in stock
@@ -340,7 +325,7 @@ export function CollectionProductManager({
 
       {/* Unsaved Changes Warning */}
       {hasUnsavedChanges && (
-        <div className="rounded-md bg-yellow-50 border border-yellow-200 px-3 py-2 text-sm text-yellow-800">
+        <div className="rounded-md border border-yellow-200 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
           You have unsaved order changes. Click &quot;Save Order&quot; to persist them.
         </div>
       )}
@@ -399,8 +384,8 @@ export function CollectionProductManager({
               )}
 
               {/* Product Info */}
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">{item.product.name}</div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium">{item.product.name}</div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>${(item.product.price / 100).toFixed(2)}</span>
                   {item.product.inventory_count <= 0 && (

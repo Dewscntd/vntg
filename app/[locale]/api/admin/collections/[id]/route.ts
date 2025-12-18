@@ -17,20 +17,14 @@ let stubCollections = [...MOCK_COLLECTIONS];
 let stubCollectionProducts = [...MOCK_COLLECTION_PRODUCTS];
 
 // GET /api/admin/collections/[id] - Get single collection with products
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
     const collection = stubCollections.find((c) => c.id === id);
 
     if (!collection) {
-      return NextResponse.json(
-        { success: false, error: 'Collection not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Collection not found' }, { status: 404 });
     }
 
     const collectionProductItems = stubCollectionProducts
@@ -141,10 +135,7 @@ export async function GET(
 }
 
 // PATCH /api/admin/collections/[id] - Update collection
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
@@ -173,9 +164,7 @@ export async function PATCH(
 
       // Check for duplicate slug if updating
       if (updates.slug) {
-        const slugExists = stubCollections.some(
-          (c) => c.slug === updates.slug && c.id !== id
-        );
+        const slugExists = stubCollections.some((c) => c.slug === updates.slug && c.id !== id);
         if (slugExists) {
           return NextResponse.json(
             { success: false, error: 'A collection with this slug already exists' },
@@ -187,9 +176,7 @@ export async function PATCH(
       // Auto-generate slug from name if name changes but slug doesn't
       if (updates.name && !updates.slug) {
         const newSlug = generateSlug(updates.name);
-        const slugExists = stubCollections.some(
-          (c) => c.slug === newSlug && c.id !== id
-        );
+        const slugExists = stubCollections.some((c) => c.slug === newSlug && c.id !== id);
         if (!slugExists) {
           updates.slug = newSlug;
         }
@@ -228,10 +215,7 @@ export async function PATCH(
         product_count: products.length,
       });
     } catch (error) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid request body' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid request body' }, { status: 400 });
     }
   }
 
@@ -309,26 +293,18 @@ export async function PATCH(
 }
 
 // DELETE /api/admin/collections/[id] - Delete collection
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
     const collectionIndex = stubCollections.findIndex((c) => c.id === id);
 
     if (collectionIndex === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Collection not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Collection not found' }, { status: 404 });
     }
 
     stubCollections.splice(collectionIndex, 1);
-    stubCollectionProducts = stubCollectionProducts.filter(
-      (cp) => cp.collection_id !== id
-    );
+    stubCollectionProducts = stubCollectionProducts.filter((cp) => cp.collection_id !== id);
 
     return successResponse({ message: 'Collection deleted successfully' });
   }
@@ -341,10 +317,7 @@ export async function DELETE(
       });
 
       // Delete collection (cascade will handle collection_products)
-      const { error } = await supabase
-        .from('collections')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('collections').delete().eq('id', id);
 
       if (error) {
         if (error.code === 'PGRST116') {

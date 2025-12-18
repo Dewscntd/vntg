@@ -35,20 +35,14 @@ const removeProductSchema = z.object({
 });
 
 // GET /api/admin/collections/[id]/products - Get collection products
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
     const collection = stubCollections.find((c) => c.id === id);
 
     if (!collection) {
-      return NextResponse.json(
-        { success: false, error: 'Collection not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Collection not found' }, { status: 404 });
     }
 
     const collectionProductItems = stubCollectionProducts
@@ -141,10 +135,7 @@ export async function GET(
 }
 
 // POST /api/admin/collections/[id]/products - Add products to collection
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
@@ -170,13 +161,8 @@ export async function POST(
       }
 
       // Get current max display_order for the collection
-      const currentProducts = stubCollectionProducts.filter(
-        (cp) => cp.collection_id === id
-      );
-      let maxOrder = currentProducts.reduce(
-        (max, cp) => Math.max(max, cp.display_order),
-        -1
-      );
+      const currentProducts = stubCollectionProducts.filter((cp) => cp.collection_id === id);
+      let maxOrder = currentProducts.reduce((max, cp) => Math.max(max, cp.display_order), -1);
 
       const addedProducts: any[] = [];
 
@@ -217,10 +203,7 @@ export async function POST(
 
       return successResponse({ added: addedProducts }, 201);
     } catch (error) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid request body' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid request body' }, { status: 400 });
     }
   }
 
@@ -345,10 +328,7 @@ export async function POST(
 }
 
 // PATCH /api/admin/collections/[id]/products - Reorder products in collection
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (USE_STUBS) {
@@ -410,10 +390,7 @@ export async function PATCH(
 
       return successResponse({ products: updatedProducts });
     } catch (error) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid request body' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid request body' }, { status: 400 });
     }
   }
 
@@ -504,28 +481,19 @@ export async function PATCH(
 }
 
 // DELETE /api/admin/collections/[id]/products - Remove product from collection
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const url = new URL(req.url);
   const productId = url.searchParams.get('product_id');
 
   if (!productId) {
-    return NextResponse.json(
-      { success: false, error: 'product_id is required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: false, error: 'product_id is required' }, { status: 400 });
   }
 
   if (USE_STUBS) {
     const collection = stubCollections.find((c) => c.id === id);
     if (!collection) {
-      return NextResponse.json(
-        { success: false, error: 'Collection not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Collection not found' }, { status: 404 });
     }
 
     const cpIndex = stubCollectionProducts.findIndex(

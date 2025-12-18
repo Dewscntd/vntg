@@ -548,8 +548,7 @@ export const MOCK_SECTION_SCHEDULES: SectionSchedule[] = [
  */
 export function getHomepageContentStub(locale: string = 'en') {
   return MOCK_HOMEPAGE_SECTIONS.filter(
-    (section) =>
-      section.locale === locale && section.is_active && section.status === 'published'
+    (section) => section.locale === locale && section.is_active && section.status === 'published'
   )
     .sort((a, b) => a.display_order - b.display_order)
     .map((section) => {
@@ -647,9 +646,7 @@ export function revertSectionToVersionStub(
 
   // Get current max version number for this section
   const maxVersion = Math.max(
-    ...MOCK_SECTION_VERSIONS.filter((v) => v.section_id === sectionId).map(
-      (v) => v.version_number
-    )
+    ...MOCK_SECTION_VERSIONS.filter((v) => v.section_id === sectionId).map((v) => v.version_number)
   );
 
   // Create new version based on target version
@@ -690,8 +687,11 @@ export function processScheduledPublishesStub(): Array<{
   version_id: string;
   action: 'published' | 'expired';
 }> {
-  const results: Array<{ section_id: string; version_id: string; action: 'published' | 'expired' }> =
-    [];
+  const results: Array<{
+    section_id: string;
+    version_id: string;
+    action: 'published' | 'expired';
+  }> = [];
   const now = new Date();
 
   // Process pending schedules that should be published

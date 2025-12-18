@@ -199,9 +199,7 @@ export function SaveTemplateDialog({
               {...register('name')}
               onChange={handleNameChange}
             />
-            {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           {/* Slug */}
@@ -209,14 +207,8 @@ export function SaveTemplateDialog({
             <Label htmlFor="slug">
               Slug <span className="text-destructive">*</span>
             </Label>
-            <Input
-              id="slug"
-              placeholder="e.g., holiday-sale-homepage"
-              {...register('slug')}
-            />
-            {errors.slug && (
-              <p className="text-sm text-destructive">{errors.slug.message}</p>
-            )}
+            <Input id="slug" placeholder="e.g., holiday-sale-homepage" {...register('slug')} />
+            {errors.slug && <p className="text-sm text-destructive">{errors.slug.message}</p>}
             <p className="text-xs text-muted-foreground">
               URL-friendly identifier (lowercase, hyphens only)
             </p>
@@ -310,7 +302,7 @@ export function SaveTemplateDialog({
               checked={watch('isPinned')}
               onCheckedChange={(checked) => setValue('isPinned', checked === true)}
             />
-            <Label htmlFor="isPinned" className="flex items-center gap-1.5 cursor-pointer">
+            <Label htmlFor="isPinned" className="flex cursor-pointer items-center gap-1.5">
               <Pin className="h-4 w-4" />
               Pin to top of template library
             </Label>

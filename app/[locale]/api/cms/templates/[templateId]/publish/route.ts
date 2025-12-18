@@ -28,10 +28,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     const versions = versionsStore.get(templateId) || [];
@@ -41,10 +38,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const targetVersion = versions.find((v) => v.id === targetVersionId);
 
     if (!targetVersion) {
-      return NextResponse.json(
-        { success: false, error: 'Version not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Version not found' }, { status: 404 });
     }
 
     const now = new Date().toISOString();
@@ -124,10 +118,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     if (template.status !== 'published' && template.status !== 'scheduled') {

@@ -24,16 +24,14 @@ export const CACHE_KEYS = {
   SECTION_DETAIL: (sectionId: string) => `section:${sectionId}:detail`,
 
   // Section with products/categories
-  SECTION_FULL: (sectionId: string, version: number) =>
-    `section:${sectionId}:v${version}:full`,
+  SECTION_FULL: (sectionId: string, version: number) => `section:${sectionId}:v${version}:full`,
 
   // Admin section list
   ADMIN_SECTIONS: (locale: string, status?: string) =>
     `admin:sections:${locale}:${status || 'all'}`,
 
   // Version history (paginated)
-  VERSION_HISTORY: (sectionId: string, page: number) =>
-    `section:${sectionId}:versions:page${page}`,
+  VERSION_HISTORY: (sectionId: string, page: number) => `section:${sectionId}:versions:page${page}`,
 
   // Scheduled sections
   SCHEDULED_SECTIONS: () => `sections:scheduled:active`,
@@ -125,10 +123,7 @@ export function generateCacheTags(
 /**
  * Generate Cache-Control header for API responses
  */
-export function getCacheControlHeader(
-  ttl: number,
-  staleWhileRevalidate: number = 86400
-): string {
+export function getCacheControlHeader(ttl: number, staleWhileRevalidate: number = 86400): string {
   return `public, s-maxage=${ttl}, stale-while-revalidate=${staleWhileRevalidate}`;
 }
 
@@ -195,15 +190,8 @@ export async function invalidateCacheByPath(path: string): Promise<void> {
 /**
  * Handle section publish event - invalidate all related caches
  */
-export async function handleSectionPublishCache(
-  sectionId: string,
-  locale: string
-): Promise<void> {
-  const tags = [
-    `homepage:${locale}`,
-    `section:${sectionId}`,
-    `admin:${locale}`,
-  ];
+export async function handleSectionPublishCache(sectionId: string, locale: string): Promise<void> {
+  const tags = [`homepage:${locale}`, `section:${sectionId}`, `admin:${locale}`];
 
   await invalidateCacheTags(tags);
 
@@ -215,10 +203,7 @@ export async function handleSectionPublishCache(
 /**
  * Handle section update event (draft) - invalidate admin caches only
  */
-export async function handleSectionUpdateCache(
-  sectionId: string,
-  locale: string
-): Promise<void> {
+export async function handleSectionUpdateCache(sectionId: string, locale: string): Promise<void> {
   const tags = [`admin:${locale}`, `section:${sectionId}`];
   await invalidateCacheTags(tags);
 }
@@ -257,7 +242,6 @@ export function subscribeToInvalidationEvents(
 ): void {
   // This would be implemented in a long-running process or Edge function
   // Using Supabase Realtime or pg_notify subscription
-
   // Example implementation:
   // const supabase = createClient(...);
   // supabase
@@ -326,10 +310,7 @@ export async function warmCriticalCaches(locales: string[] = ['en']): Promise<vo
 
       console.log(`[Cache Warm] Homepage cache warmed for locale: ${locale}`);
     } catch (error) {
-      console.error(
-        `[Cache Warm] Failed to warm cache for locale ${locale}:`,
-        error
-      );
+      console.error(`[Cache Warm] Failed to warm cache for locale ${locale}:`, error);
     }
   }
 }

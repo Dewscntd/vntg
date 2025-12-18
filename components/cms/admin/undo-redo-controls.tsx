@@ -10,12 +10,7 @@
 import React from 'react';
 import { Undo2, Redo2, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -84,11 +79,7 @@ export function UndoRedoControls({
               size={size === 'sm' ? 'sm' : 'icon'}
               onClick={onUndo}
               disabled={!canUndo}
-              className={cn(
-                'relative',
-                size === 'sm' && 'h-8 w-8',
-                !canUndo && 'opacity-50'
-              )}
+              className={cn('relative', size === 'sm' && 'h-8 w-8', !canUndo && 'opacity-50')}
               aria-label={canUndo ? `Undo: ${undoDescription}` : 'Nothing to undo'}
             >
               <Undo2 className={cn('h-4 w-4', size === 'lg' && 'h-5 w-5')} />
@@ -98,9 +89,7 @@ export function UndoRedoControls({
             <span className="font-medium">
               {canUndo ? `Undo: ${undoDescription}` : 'Nothing to undo'}
             </span>
-            {showShortcuts && (
-              <span className="text-xs text-muted-foreground">{modKey}+Z</span>
-            )}
+            {showShortcuts && <span className="text-xs text-muted-foreground">{modKey}+Z</span>}
           </TooltipContent>
         </Tooltip>
 
@@ -112,11 +101,7 @@ export function UndoRedoControls({
               size={size === 'sm' ? 'sm' : 'icon'}
               onClick={onRedo}
               disabled={!canRedo}
-              className={cn(
-                'relative',
-                size === 'sm' && 'h-8 w-8',
-                !canRedo && 'opacity-50'
-              )}
+              className={cn('relative', size === 'sm' && 'h-8 w-8', !canRedo && 'opacity-50')}
               aria-label={canRedo ? `Redo: ${redoDescription}` : 'Nothing to redo'}
             >
               <Redo2 className={cn('h-4 w-4', size === 'lg' && 'h-5 w-5')} />

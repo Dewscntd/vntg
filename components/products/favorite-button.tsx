@@ -78,7 +78,7 @@ export function FavoriteButton({
         disabled={isToggling || isLoading}
         className={cn(
           'flex items-center justify-center rounded-full bg-white/90 p-2 shadow-md backdrop-blur-sm transition-all',
-          'hover:bg-white hover:scale-110',
+          'hover:scale-110 hover:bg-white',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           'disabled:pointer-events-none disabled:opacity-50',
           className

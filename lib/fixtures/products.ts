@@ -31,7 +31,8 @@ export const denimJacket: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000001',
   name: 'Classic Denim Jacket',
-  description: 'Vintage-style denim jacket perfect for casual outings and layering. Made from premium cotton with durable construction.',
+  description:
+    'Vintage-style denim jacket perfect for casual outings and layering. Made from premium cotton with durable construction.',
   price: 89.99,
   category_id: menCategory.id,
   image_url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
@@ -46,7 +47,8 @@ export const casualShirt: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000002',
   name: 'Casual Button-Up Shirt',
-  description: 'Versatile button-up shirt for professional and casual wear. Breathable fabric with modern fit.',
+  description:
+    'Versatile button-up shirt for professional and casual wear. Breathable fabric with modern fit.',
   price: 54.99,
   category_id: menCategory.id,
   image_url: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800',
@@ -61,7 +63,8 @@ export const mensChinoPants: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000003',
   name: 'Premium Chino Pants',
-  description: 'Classic chino pants with a modern slim fit. Perfect for business casual or weekend wear.',
+  description:
+    'Classic chino pants with a modern slim fit. Perfect for business casual or weekend wear.',
   price: 69.99,
   category_id: menCategory.id,
   image_url: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800',
@@ -77,7 +80,8 @@ export const floralDress: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000011',
   name: 'Floral Summer Dress',
-  description: 'Elegant floral dress perfect for summer occasions and everyday wear. Lightweight and comfortable.',
+  description:
+    'Elegant floral dress perfect for summer occasions and everyday wear. Lightweight and comfortable.',
   price: 79.99,
   category_id: womenCategory.id,
   image_url: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800',
@@ -92,7 +96,8 @@ export const eveningBlouse: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000012',
   name: 'Elegant Evening Blouse',
-  description: 'Sophisticated blouse perfect for evening events and dinner parties. Silky smooth fabric with modern cut.',
+  description:
+    'Sophisticated blouse perfect for evening events and dinner parties. Silky smooth fabric with modern cut.',
   price: 69.99,
   category_id: womenCategory.id,
   image_url: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800',
@@ -107,7 +112,8 @@ export const womensJeans: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000013',
   name: 'High-Rise Skinny Jeans',
-  description: 'Classic skinny jeans with high-rise fit. Premium denim with stretch for all-day comfort.',
+  description:
+    'Classic skinny jeans with high-rise fit. Premium denim with stretch for all-day comfort.',
   price: 84.99,
   category_id: womenCategory.id,
   image_url: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800',
@@ -123,7 +129,8 @@ export const streetwearHoodie: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000021',
   name: 'Streetwear Hoodie',
-  description: 'Trendy oversized hoodie with urban design, perfect for teens. Soft fleece interior.',
+  description:
+    'Trendy oversized hoodie with urban design, perfect for teens. Soft fleece interior.',
   price: 65.99,
   category_id: teensCategory.id,
   image_url: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800',
@@ -154,7 +161,8 @@ export const kidsRainbowTee: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000031',
   name: 'Kids Rainbow T-Shirt',
-  description: 'Colorful and comfortable t-shirt with fun rainbow design for children. Soft cotton blend.',
+  description:
+    'Colorful and comfortable t-shirt with fun rainbow design for children. Soft cotton blend.',
   price: 24.99,
   category_id: kidsCategory.id,
   image_url: 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=800',
@@ -185,7 +193,8 @@ export const fashionPhotographyBook: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000041',
   name: 'Fashion Photography Book',
-  description: 'Stunning collection of contemporary fashion photography from renowned artists worldwide.',
+  description:
+    'Stunning collection of contemporary fashion photography from renowned artists worldwide.',
   price: 39.99,
   category_id: booksMediaCategory.id,
   image_url: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800',
@@ -200,7 +209,8 @@ export const styleGuideBook: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000042',
   name: 'Complete Style Guide',
-  description: 'Comprehensive guide to personal style, wardrobe essentials, and fashion fundamentals.',
+  description:
+    'Comprehensive guide to personal style, wardrobe essentials, and fashion fundamentals.',
   price: 29.99,
   category_id: booksMediaCategory.id,
   image_url: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800',
@@ -247,7 +257,8 @@ export const limitedEditionJacket: Product = {
   ...defaultProductFields,
   id: '20000000-0000-0000-0000-000000000061',
   name: 'Limited Edition Leather Jacket',
-  description: 'Exclusive limited edition leather jacket. Premium Italian leather with custom hardware.',
+  description:
+    'Exclusive limited edition leather jacket. Premium Italian leather with custom hardware.',
   price: 299.99,
   category_id: menCategory.id,
   image_url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',

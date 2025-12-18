@@ -28,10 +28,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     // Get versions
@@ -77,10 +74,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     const now = new Date().toISOString();
@@ -167,10 +161,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     const now = new Date().toISOString();

@@ -49,13 +49,22 @@ export function Header({ className, variant = 'default' }: HeaderProps) {
           {/* Desktop Navigation - Only show in default variant */}
           {!isMinimal && (
             <nav className="hidden items-center gap-6 md:flex">
-              <Link href="/shop" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link
+                href="/shop"
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
                 Shop
               </Link>
-              <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link
+                href="/about"
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
                 About
               </Link>
-              <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link
+                href="/contact"
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
                 Contact
               </Link>
             </nav>

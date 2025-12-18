@@ -115,11 +115,7 @@ export function HeroSectionEditor({ section }: HeroSectionEditorProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter description"
-                      rows={3}
-                      {...field}
-                    />
+                    <Textarea placeholder="Enter description" rows={3} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,10 +169,7 @@ export function HeroSectionEditor({ section }: HeroSectionEditorProps) {
                 <FormItem>
                   <FormLabel>Background Image URL</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="https://example.com/image.jpg"
-                      {...field}
-                    />
+                    <Input placeholder="https://example.com/image.jpg" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -190,10 +183,7 @@ export function HeroSectionEditor({ section }: HeroSectionEditorProps) {
                 <FormItem>
                   <FormLabel>Background Video URL</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="https://example.com/video.mp4"
-                      {...field}
-                    />
+                    <Input placeholder="https://example.com/video.mp4" {...field} />
                   </FormControl>
                   <FormDescription>MP4 format recommended</FormDescription>
                   <FormMessage />
@@ -460,15 +450,10 @@ export function HeroSectionEditor({ section }: HeroSectionEditorProps) {
                   <FormItem className="flex items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
                       <FormLabel className="text-base">Enable Animation</FormLabel>
-                      <FormDescription>
-                        Animate content on page load
-                      </FormDescription>
+                      <FormDescription>Animate content on page load</FormDescription>
                     </div>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   </FormItem>
                 )}

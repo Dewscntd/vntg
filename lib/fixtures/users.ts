@@ -57,13 +57,7 @@ export const testUser3: User = {
   updated_at: '2024-01-04T00:00:00.000Z',
 };
 
-export const userFixtures: User[] = [
-  adminUser,
-  customerUser,
-  testUser1,
-  testUser2,
-  testUser3,
-];
+export const userFixtures: User[] = [adminUser, customerUser, testUser1, testUser2, testUser3];
 
 // Default password for all test users (use in seed scripts)
 export const TEST_USER_PASSWORD = 'TestPassword123!';

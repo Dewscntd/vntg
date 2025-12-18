@@ -93,15 +93,8 @@ export function CollectionForm({
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name">Collection Name *</Label>
-          <Input
-            id="name"
-            {...register('name')}
-            placeholder="e.g., Summer Sale 2025"
-            autoFocus
-          />
-          {errors.name && (
-            <p className="text-sm text-destructive">{errors.name.message}</p>
-          )}
+          <Input id="name" {...register('name')} placeholder="e.g., Summer Sale 2025" autoFocus />
+          {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
 
         <div className="space-y-2">
@@ -116,9 +109,7 @@ export function CollectionForm({
               className="flex-1"
             />
           </div>
-          {errors.slug && (
-            <p className="text-sm text-destructive">{errors.slug.message}</p>
-          )}
+          {errors.slug && <p className="text-sm text-destructive">{errors.slug.message}</p>}
         </div>
 
         <div className="space-y-2">
@@ -167,14 +158,12 @@ export function CollectionForm({
             {...register('display_order', { valueAsNumber: true })}
             placeholder="0"
           />
-          <p className="text-xs text-muted-foreground">
-            Lower numbers appear first in listings
-          </p>
+          <p className="text-xs text-muted-foreground">Lower numbers appear first in listings</p>
         </div>
       </div>
 
       {/* Display Configuration */}
-      <div className="space-y-4 pt-4 border-t">
+      <div className="space-y-4 border-t pt-4">
         <div className="flex items-center gap-2 text-sm font-medium">
           <ImageIcon className="h-4 w-4" />
           Display Settings
@@ -182,11 +171,7 @@ export function CollectionForm({
 
         <div className="space-y-2">
           <Label htmlFor="image_url">Cover Image URL</Label>
-          <Input
-            id="image_url"
-            {...register('image_url')}
-            placeholder="https://..."
-          />
+          <Input id="image_url" {...register('image_url')} placeholder="https://..." />
           {errors.image_url && (
             <p className="text-sm text-destructive">{errors.image_url.message}</p>
           )}
@@ -221,7 +206,7 @@ export function CollectionForm({
       )}
 
       {/* Form Actions */}
-      <div className="flex justify-end gap-3 pt-4 border-t">
+      <div className="flex justify-end gap-3 border-t pt-4">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
             Cancel

@@ -44,14 +44,17 @@ interface CategoryGridSectionEditorProps {
 
 // Relaxed schema for editing (allow empty categories during editing)
 const editorConfigSchema = categoryGridConfigSchema.extend({
-  categories: z.array(
-    z.object({
-      category_id: z.string(),
-      order: z.number().int().min(0),
-      customImage: z.string().optional(),
-      customTitle: z.string().optional(),
-    })
-  ).optional().default([]),
+  categories: z
+    .array(
+      z.object({
+        category_id: z.string(),
+        order: z.number().int().min(0),
+        customImage: z.string().optional(),
+        customTitle: z.string().optional(),
+      })
+    )
+    .optional()
+    .default([]),
 });
 
 type EditorConfig = z.infer<typeof editorConfigSchema>;
@@ -105,7 +108,10 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
   const removeCategory = (index: number) => {
     const currentCategories = form.getValues('categories') || [];
     const updated = currentCategories.filter((_, i) => i !== index);
-    form.setValue('categories', updated.map((c, i) => ({ ...c, order: i })));
+    form.setValue(
+      'categories',
+      updated.map((c, i) => ({ ...c, order: i }))
+    );
   };
 
   const updateCategoryField = (
@@ -162,12 +168,10 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
 
             <div className="space-y-2">
               {categories.length === 0 ? (
-                <div className="py-8 text-center border-2 border-dashed rounded-lg">
-                  <ImageIcon className="h-12 w-12 mx-auto mb-2 text-muted-foreground/50" />
-                  <p className="text-sm text-muted-foreground">
-                    No categories added yet
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                <div className="rounded-lg border-2 border-dashed py-8 text-center">
+                  <ImageIcon className="mx-auto mb-2 h-12 w-12 text-muted-foreground/50" />
+                  <p className="text-sm text-muted-foreground">No categories added yet</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Add category UUIDs above to build your grid
                   </p>
                 </div>
@@ -175,14 +179,14 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
                 categories.map((category, index) => (
                   <div
                     key={`${category.category_id}-${index}`}
-                    className="border rounded-lg overflow-hidden"
+                    className="overflow-hidden rounded-lg border"
                   >
-                    <div className="flex items-center gap-2 p-3 bg-muted/30">
-                      <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab" />
+                    <div className="flex items-center gap-2 bg-muted/30 p-3">
+                      <GripVertical className="h-4 w-4 cursor-grab text-muted-foreground" />
                       <Badge variant="outline" className="font-mono text-xs">
                         #{index + 1}
                       </Badge>
-                      <span className="font-mono text-xs flex-1 truncate">
+                      <span className="flex-1 truncate font-mono text-xs">
                         {category.category_id}
                       </span>
                       <Button
@@ -191,9 +195,7 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
                         size="sm"
                         onClick={() =>
                           setEditingCategory(
-                            editingCategory === category.category_id
-                              ? null
-                              : category.category_id
+                            editingCategory === category.category_id ? null : category.category_id
                           )
                         }
                       >
@@ -210,7 +212,7 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
                     </div>
 
                     {editingCategory === category.category_id && (
-                      <div className="p-3 space-y-3 border-t bg-background">
+                      <div className="space-y-3 border-t bg-background p-3">
                         <div>
                           <label className="text-xs font-medium text-muted-foreground">
                             Custom Title (optional)
@@ -338,23 +340,23 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
             />
 
             {/* Card Style Preview */}
-            <div className="grid grid-cols-3 gap-3 p-4 bg-muted/50 rounded-lg">
+            <div className="grid grid-cols-3 gap-3 rounded-lg bg-muted/50 p-4">
               <div className="text-center">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg relative overflow-hidden mb-1">
-                  <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-3">
-                    <span className="text-white text-xs font-medium">Title</span>
+                <div className="relative mb-1 aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/40">
+                  <div className="absolute inset-0 flex items-end justify-center bg-black/40 pb-3">
+                    <span className="text-xs font-medium text-white">Title</span>
                   </div>
                 </div>
                 <span className="text-xs text-muted-foreground">Overlay</span>
               </div>
               <div className="text-center">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg mb-1" />
+                <div className="mb-1 aspect-square rounded-lg bg-gradient-to-br from-primary/20 to-primary/40" />
                 <span className="text-xs font-medium">Title</span>
                 <br />
                 <span className="text-xs text-muted-foreground">Below</span>
               </div>
               <div className="text-center">
-                <div className="aspect-square bg-muted rounded-lg border mb-1 flex items-center justify-center">
+                <div className="mb-1 flex aspect-square items-center justify-center rounded-lg border bg-muted">
                   <span className="text-xs">Title</span>
                 </div>
                 <span className="text-xs text-muted-foreground">Minimal</span>

@@ -108,11 +108,7 @@ export function ShopProductGrid({
         // List View - single column with horizontal cards
         <div className="flex flex-col gap-4">
           {products.map((product, index) => (
-            <ProductListItem
-              key={product.id}
-              product={product}
-              priority={index < 3}
-            />
+            <ProductListItem key={product.id} product={product} priority={index < 3} />
           ))}
         </div>
       ) : (
@@ -144,10 +140,7 @@ export function ShopProductGrid({
           {Array.from({ length: isListView ? 2 : 4 }).map((_, i) => (
             <div
               key={i}
-              className={cn(
-                'animate-pulse bg-muted',
-                isListView ? 'h-48' : 'aspect-[3/4]'
-              )}
+              className={cn('animate-pulse bg-muted', isListView ? 'h-48' : 'aspect-[3/4]')}
             />
           ))}
         </div>

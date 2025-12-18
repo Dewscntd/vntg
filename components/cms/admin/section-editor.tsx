@@ -35,14 +35,8 @@ export function SectionEditor() {
   return (
     <Card className="sticky top-4">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="capitalize">
-          Edit {section.type.replace('_', ' ')}
-        </CardTitle>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setActiveSection(null)}
-        >
+        <CardTitle className="capitalize">Edit {section.type.replace('_', ' ')}</CardTitle>
+        <Button variant="ghost" size="icon" onClick={() => setActiveSection(null)}>
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>

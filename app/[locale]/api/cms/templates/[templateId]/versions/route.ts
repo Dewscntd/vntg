@@ -31,10 +31,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     const versions = versionsStore.get(templateId) || [];
@@ -67,10 +64,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     });
   } catch (error) {
     console.error('Error listing versions:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to list versions' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to list versions' }, { status: 500 });
   }
 }
 
@@ -87,10 +81,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const template = templatesStore.get(templateId);
 
     if (!template || template.is_deleted) {
-      return NextResponse.json(
-        { success: false, error: 'Template not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 
     const versions = versionsStore.get(templateId) || [];
@@ -104,10 +95,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       const targetVersion = versions.find((v) => v.id === version_id);
 
       if (!targetVersion) {
-        return NextResponse.json(
-          { success: false, error: 'Version not found' },
-          { status: 404 }
-        );
+        return NextResponse.json({ success: false, error: 'Version not found' }, { status: 404 });
       }
 
       // Create new version from the target version's content
@@ -189,9 +177,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         template,
       },
       message:
-        action === 'restore'
-          ? 'Version restored successfully'
-          : 'New version created successfully',
+        action === 'restore' ? 'Version restored successfully' : 'New version created successfully',
     });
   } catch (error) {
     console.error('Error creating version:', error);

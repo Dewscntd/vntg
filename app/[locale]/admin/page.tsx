@@ -369,7 +369,9 @@ export default function AdminDashboard() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 lg:text-3xl">Admin Dashboard</h1>
-              <p className="mt-1 text-sm text-gray-600 lg:text-base">Manage your e-commerce platform</p>
+              <p className="mt-1 text-sm text-gray-600 lg:text-base">
+                Manage your e-commerce platform
+              </p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
               <Link href="/">

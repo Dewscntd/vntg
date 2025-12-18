@@ -133,10 +133,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Validate locale (basic validation)
     if (!/^[a-z]{2}(-[A-Z]{2})?$/.test(locale)) {
-      return NextResponse.json(
-        { error: 'Invalid locale format' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid locale format' }, { status: 400 });
     }
 
     let sections: HomepageSection[];

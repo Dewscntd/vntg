@@ -19,11 +19,7 @@ import React, {
 import { useAuth } from '@/lib/auth/auth-context';
 import { Homepage, Section, SectionType } from '@/types/cms';
 import { apiUrl } from '@/lib/utils/api';
-import {
-  HistoryManager,
-  HistoryState,
-  createSessionId,
-} from '@/lib/cms/history/history-manager';
+import { HistoryManager, HistoryState, createSessionId } from '@/lib/cms/history/history-manager';
 import {
   AddSectionCommand,
   RemoveSectionCommand,
@@ -215,9 +211,7 @@ export function EnhancedCMSProvider({ children }: { children: React.ReactNode })
 
     try {
       const response = await fetch(apiUrl('/api/cms/homepage'), {
-        headers: session?.access_token
-          ? { Authorization: `Bearer ${session.access_token}` }
-          : {},
+        headers: session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {},
       });
 
       if (!response.ok) {
@@ -567,9 +561,7 @@ export function EnhancedCMSProvider({ children }: { children: React.ReactNode })
     resetError,
   };
 
-  return (
-    <EnhancedCMSContext.Provider value={value}>{children}</EnhancedCMSContext.Provider>
-  );
+  return <EnhancedCMSContext.Provider value={value}>{children}</EnhancedCMSContext.Provider>;
 }
 
 // Hook

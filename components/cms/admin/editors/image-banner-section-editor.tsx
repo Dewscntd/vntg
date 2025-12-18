@@ -99,18 +99,18 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
           <TabsContent value="image" className="space-y-4">
             {/* Image Preview */}
             {imagePreview ? (
-              <div className="relative aspect-[21/9] bg-muted rounded-md overflow-hidden border">
+              <div className="relative aspect-[21/9] overflow-hidden rounded-md border bg-muted">
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   onError={() => setImagePreview(null)}
                 />
               </div>
             ) : (
-              <div className="aspect-[21/9] bg-muted rounded-md border flex items-center justify-center">
+              <div className="flex aspect-[21/9] items-center justify-center rounded-md border bg-muted">
                 <div className="text-center text-muted-foreground">
-                  <ImageIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <ImageIcon className="mx-auto mb-2 h-12 w-12 opacity-50" />
                   <p className="text-sm">Enter an image URL below</p>
                 </div>
               </div>
@@ -126,10 +126,7 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
                     Desktop Image URL *
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="https://example.com/banner.jpg"
-                      {...field}
-                    />
+                    <Input placeholder="https://example.com/banner.jpg" {...field} />
                   </FormControl>
                   <FormDescription>Main banner image (required)</FormDescription>
                   <FormMessage />
@@ -147,10 +144,7 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
                     Mobile Image URL
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="https://example.com/banner-mobile.jpg"
-                      {...field}
-                    />
+                    <Input placeholder="https://example.com/banner-mobile.jpg" {...field} />
                   </FormControl>
                   <FormDescription>
                     Optional image for mobile devices. Uses desktop image if not set.
@@ -167,14 +161,9 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
                 <FormItem>
                   <FormLabel>Alt Text *</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Descriptive text for the image"
-                      {...field}
-                    />
+                    <Input placeholder="Descriptive text for the image" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Describes the image for screen readers and SEO
-                  </FormDescription>
+                  <FormDescription>Describes the image for screen readers and SEO</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -192,14 +181,9 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
                     Link URL
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="/shop/collection or https://..."
-                      {...field}
-                    />
+                    <Input placeholder="/shop/collection or https://..." {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Optional link when banner is clicked
-                  </FormDescription>
+                  <FormDescription>Optional link when banner is clicked</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -251,31 +235,32 @@ export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorPr
                       <SelectItem value="fill">Fill (stretches to fit)</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>
-                    How the image should fit within the banner
-                  </FormDescription>
+                  <FormDescription>How the image should fit within the banner</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             {/* Visual Reference for Fit Modes */}
-            <div className="grid grid-cols-3 gap-2 p-4 bg-muted/50 rounded-lg">
+            <div className="grid grid-cols-3 gap-2 rounded-lg bg-muted/50 p-4">
               <div className="text-center">
-                <div className="aspect-video bg-background rounded border mb-1 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40" style={{ objectFit: 'cover' }} />
+                <div className="mb-1 aspect-video overflow-hidden rounded border bg-background">
+                  <div
+                    className="h-full w-full bg-gradient-to-br from-primary/20 to-primary/40"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
                 <span className="text-xs text-muted-foreground">Cover</span>
               </div>
               <div className="text-center">
-                <div className="aspect-video bg-background rounded border mb-1 flex items-center justify-center">
-                  <div className="w-2/3 h-2/3 bg-gradient-to-br from-primary/20 to-primary/40 rounded" />
+                <div className="mb-1 flex aspect-video items-center justify-center rounded border bg-background">
+                  <div className="h-2/3 w-2/3 rounded bg-gradient-to-br from-primary/20 to-primary/40" />
                 </div>
                 <span className="text-xs text-muted-foreground">Contain</span>
               </div>
               <div className="text-center">
-                <div className="aspect-video bg-background rounded border mb-1 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 scale-x-125" />
+                <div className="mb-1 aspect-video overflow-hidden rounded border bg-background">
+                  <div className="h-full w-full scale-x-125 bg-gradient-to-br from-primary/20 to-primary/40" />
                 </div>
                 <span className="text-xs text-muted-foreground">Fill</span>
               </div>

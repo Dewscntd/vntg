@@ -45,14 +45,16 @@ export const createEnhancedSupabaseStub = () => ({
       ];
 
       const randomDbState = dbAuthStates[Math.floor(Math.random() * dbAuthStates.length)];
-      const authState = randomDbState.user ? {
-        user: {
-          ...randomDbState.user,
-          aud: 'authenticated',
-          app_metadata: {},
-          user_metadata: {},
-        } as any
-      } : { user: null };
+      const authState = randomDbState.user
+        ? {
+            user: {
+              ...randomDbState.user,
+              aud: 'authenticated',
+              app_metadata: {},
+              user_metadata: {},
+            } as any,
+          }
+        : { user: null };
 
       return { data: authState, error: null };
     },
@@ -60,12 +62,14 @@ export const createEnhancedSupabaseStub = () => ({
     getSession: async () => {
       await simulateDelay(120);
       const dbUser = mockUsers[0];
-      const user: any = dbUser ? {
-        ...dbUser,
-        aud: 'authenticated',
-        app_metadata: {},
-        user_metadata: {},
-      } : null;
+      const user: any = dbUser
+        ? {
+            ...dbUser,
+            aud: 'authenticated',
+            app_metadata: {},
+            user_metadata: {},
+          }
+        : null;
 
       return {
         data: {

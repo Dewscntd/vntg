@@ -25,10 +25,7 @@ interface Category {
   image_url?: string;
 }
 
-export function CategoryGridSection({
-  section,
-  isPreview = false,
-}: CategoryGridSectionProps) {
+export function CategoryGridSection({ section, isPreview = false }: CategoryGridSectionProps) {
   const { config } = section;
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,9 +45,7 @@ export function CategoryGridSection({
         }
 
         const categoryIds = categoryConfigs.map((c) => c.category_id);
-        const response = await fetch(
-          apiUrl(`/api/categories/batch?ids=${categoryIds.join(',')}`)
-        );
+        const response = await fetch(apiUrl(`/api/categories/batch?ids=${categoryIds.join(',')}`));
 
         if (!response.ok) {
           // If API fails, use placeholder data from config
@@ -121,10 +116,10 @@ export function CategoryGridSection({
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="animate-pulse space-y-4">
-          {config.title && <div className="h-8 w-48 bg-muted rounded mx-auto" />}
+          {config.title && <div className="mx-auto h-8 w-48 rounded bg-muted" />}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: skeletonCount }).map((_, i) => (
-              <div key={i} className="h-64 bg-muted rounded" />
+              <div key={i} className="h-64 rounded bg-muted" />
             ))}
           </div>
         </div>
@@ -148,14 +143,7 @@ export function CategoryGridSection({
       )}
 
       {/* Category Grid */}
-      <div
-        className={cn(
-          'grid gap-4',
-          gridCols.mobile,
-          gridCols.tablet,
-          gridCols.desktop
-        )}
-      >
+      <div className={cn('grid gap-4', gridCols.mobile, gridCols.tablet, gridCols.desktop)}>
         {categories.map((category: any) => (
           <CategoryCard
             key={category.id}

@@ -43,18 +43,20 @@ let stubFavoriteItems: any[] = [
 // Get cart items with joined product data
 const getCartItemsWithProducts = (userId: string) => {
   return stubCartItems
-    .filter(item => item.user_id === userId)
-    .map(item => {
-      const product = mockProducts.find(p => p.id === item.product_id);
+    .filter((item) => item.user_id === userId)
+    .map((item) => {
+      const product = mockProducts.find((p) => p.id === item.product_id);
       return {
         ...item,
-        products: product ? {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image_url: product.image_url,
-          inventory_count: product.inventory_count,
-        } : null,
+        products: product
+          ? {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image_url: product.image_url,
+              inventory_count: product.inventory_count,
+            }
+          : null,
       };
     });
 };
@@ -62,19 +64,21 @@ const getCartItemsWithProducts = (userId: string) => {
 // Get favorite items with joined product data
 const getFavoriteItemsWithProducts = (userId: string) => {
   return stubFavoriteItems
-    .filter(item => item.user_id === userId)
-    .map(item => {
-      const product = mockProducts.find(p => p.id === item.product_id);
+    .filter((item) => item.user_id === userId)
+    .map((item) => {
+      const product = mockProducts.find((p) => p.id === item.product_id);
       return {
         ...item,
-        products: product ? {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image_url: product.image_url,
-          inventory_count: product.inventory_count,
-          discount_percent: product.discount_percent || 0,
-        } : null,
+        products: product
+          ? {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image_url: product.image_url,
+              inventory_count: product.inventory_count,
+              discount_percent: product.discount_percent || 0,
+            }
+          : null,
       };
     });
 };
@@ -114,7 +118,7 @@ export const createServerClient = () => {
           console.log(`🎯 STUB: ${table}.single() with filters:`, filters);
 
           if (table === 'users') {
-            const idFilter = filters.find(f => f.column === 'id');
+            const idFilter = filters.find((f) => f.column === 'id');
             if (idFilter?.value === 'admin-michael') {
               return { data: adminUser, error: null };
             }
@@ -122,8 +126,8 @@ export const createServerClient = () => {
           }
 
           if (table === 'products') {
-            const idFilter = filters.find(f => f.column === 'id');
-            const product = mockProducts.find(p => p.id === idFilter?.value);
+            const idFilter = filters.find((f) => f.column === 'id');
+            const product = mockProducts.find((p) => p.id === idFilter?.value);
             if (product) {
               return { data: product, error: null };
             }
@@ -131,20 +135,20 @@ export const createServerClient = () => {
           }
 
           if (table === 'cart_items') {
-            const userFilter = filters.find(f => f.column === 'user_id');
-            const productFilter = filters.find(f => f.column === 'product_id');
-            const idFilter = filters.find(f => f.column === 'id');
+            const userFilter = filters.find((f) => f.column === 'user_id');
+            const productFilter = filters.find((f) => f.column === 'product_id');
+            const idFilter = filters.find((f) => f.column === 'id');
 
             let items = stubCartItems;
 
             if (idFilter) {
-              items = items.filter(i => i.id === idFilter.value);
+              items = items.filter((i) => i.id === idFilter.value);
             }
             if (userFilter) {
-              items = items.filter(i => i.user_id === userFilter.value);
+              items = items.filter((i) => i.user_id === userFilter.value);
             }
             if (productFilter) {
-              items = items.filter(i => i.product_id === productFilter.value);
+              items = items.filter((i) => i.product_id === productFilter.value);
             }
 
             if (items.length > 0) {
@@ -154,16 +158,16 @@ export const createServerClient = () => {
           }
 
           if (table === 'favorites') {
-            const userFilter = filters.find(f => f.column === 'user_id');
-            const productFilter = filters.find(f => f.column === 'product_id');
+            const userFilter = filters.find((f) => f.column === 'user_id');
+            const productFilter = filters.find((f) => f.column === 'product_id');
 
             let items = stubFavoriteItems;
 
             if (userFilter) {
-              items = items.filter(i => i.user_id === userFilter.value);
+              items = items.filter((i) => i.user_id === userFilter.value);
             }
             if (productFilter) {
-              items = items.filter(i => i.product_id === productFilter.value);
+              items = items.filter((i) => i.product_id === productFilter.value);
             }
 
             if (items.length > 0) {
@@ -178,10 +182,12 @@ export const createServerClient = () => {
           console.log(`🎯 STUB: ${table}.then() with filters:`, filters);
 
           if (table === 'cart_items') {
-            const userFilter = filters.find(f => f.column === 'user_id');
+            const userFilter = filters.find((f) => f.column === 'user_id');
             if (userFilter) {
               const items = getCartItemsWithProducts(userFilter.value);
-              console.log(`✅ STUB: Returning ${items.length} cart items for user ${userFilter.value}`);
+              console.log(
+                `✅ STUB: Returning ${items.length} cart items for user ${userFilter.value}`
+              );
               resolve({ data: items, error: null });
               return;
             }
@@ -190,10 +196,12 @@ export const createServerClient = () => {
           }
 
           if (table === 'favorites') {
-            const userFilter = filters.find(f => f.column === 'user_id');
+            const userFilter = filters.find((f) => f.column === 'user_id');
             if (userFilter) {
               const items = getFavoriteItemsWithProducts(userFilter.value);
-              console.log(`✅ STUB: Returning ${items.length} favorite items for user ${userFilter.value}`);
+              console.log(
+                `✅ STUB: Returning ${items.length} favorite items for user ${userFilter.value}`
+              );
               resolve({ data: items, error: null });
               return;
             }
@@ -252,9 +260,9 @@ export const createServerClient = () => {
                   console.log(`🎯 STUB: ${table}.update():`, updateData, 'filters:', filters);
 
                   if (table === 'cart_items') {
-                    const idFilter = filters.find(f => f.column === 'id');
+                    const idFilter = filters.find((f) => f.column === 'id');
                     if (idFilter) {
-                      const index = stubCartItems.findIndex(i => i.id === idFilter.value);
+                      const index = stubCartItems.findIndex((i) => i.id === idFilter.value);
                       if (index !== -1) {
                         stubCartItems[index] = { ...stubCartItems[index], ...updateData };
                         console.log('✅ STUB: Updated cart item:', stubCartItems[index]);
@@ -287,11 +295,12 @@ export const createServerClient = () => {
                     console.log(`🎯 STUB: ${table}.delete() with filters:`, filters);
 
                     if (table === 'favorites') {
-                      const userFilter = filters.find(f => f.column === 'user_id');
-                      const productFilter = filters.find(f => f.column === 'product_id');
+                      const userFilter = filters.find((f) => f.column === 'user_id');
+                      const productFilter = filters.find((f) => f.column === 'product_id');
                       if (userFilter && productFilter) {
                         const index = stubFavoriteItems.findIndex(
-                          i => i.user_id === userFilter.value && i.product_id === productFilter.value
+                          (i) =>
+                            i.user_id === userFilter.value && i.product_id === productFilter.value
                         );
                         if (index !== -1) {
                           const removed = stubFavoriteItems.splice(index, 1);
@@ -308,9 +317,9 @@ export const createServerClient = () => {
                 console.log(`🎯 STUB: ${table}.delete() with filters:`, filters);
 
                 if (table === 'cart_items') {
-                  const idFilter = filters.find(f => f.column === 'id');
+                  const idFilter = filters.find((f) => f.column === 'id');
                   if (idFilter) {
-                    const index = stubCartItems.findIndex(i => i.id === idFilter.value);
+                    const index = stubCartItems.findIndex((i) => i.id === idFilter.value);
                     if (index !== -1) {
                       const removed = stubCartItems.splice(index, 1);
                       console.log('✅ STUB: Removed cart item:', removed[0]);
@@ -319,9 +328,11 @@ export const createServerClient = () => {
                 }
 
                 if (table === 'favorites') {
-                  const productFilter = filters.find(f => f.column === 'product_id');
+                  const productFilter = filters.find((f) => f.column === 'product_id');
                   if (productFilter) {
-                    const index = stubFavoriteItems.findIndex(i => i.product_id === productFilter.value);
+                    const index = stubFavoriteItems.findIndex(
+                      (i) => i.product_id === productFilter.value
+                    );
                     if (index !== -1) {
                       const removed = stubFavoriteItems.splice(index, 1);
                       console.log('✅ STUB: Removed favorite:', removed[0]);

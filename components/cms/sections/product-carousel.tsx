@@ -180,22 +180,14 @@ export function ProductCarousel({ config, products = [] }: ProductCarouselProps)
   }, [products.length, itemsPerView]);
 
   if (products.length === 0) {
-    return (
-      <div className="py-12 text-center text-muted-foreground">
-        No products to display
-      </div>
-    );
+    return <div className="py-12 text-center text-muted-foreground">No products to display</div>;
   }
 
   return (
     <div className="relative w-full">
       {/* Carousel Container */}
       <div ref={containerRef} className="overflow-hidden">
-        <div
-          ref={trackRef}
-          className="flex"
-          style={{ gap: `${config.gap || 16}px` }}
-        >
+        <div ref={trackRef} className="flex" style={{ gap: `${config.gap || 16}px` }}>
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -216,7 +208,7 @@ export function ProductCarousel({ config, products = [] }: ProductCarouselProps)
             size="icon"
             className={cn(
               'absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 shadow-lg transition-opacity hover:bg-white',
-              currentIndex === 0 && !config.loop && 'opacity-50 cursor-not-allowed'
+              currentIndex === 0 && !config.loop && 'cursor-not-allowed opacity-50'
             )}
             onClick={prevSlide}
             disabled={currentIndex === 0 && !config.loop}
@@ -229,7 +221,7 @@ export function ProductCarousel({ config, products = [] }: ProductCarouselProps)
             size="icon"
             className={cn(
               'absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 shadow-lg transition-opacity hover:bg-white',
-              currentIndex === maxIndex && !config.loop && 'opacity-50 cursor-not-allowed'
+              currentIndex === maxIndex && !config.loop && 'cursor-not-allowed opacity-50'
             )}
             onClick={nextSlide}
             disabled={currentIndex === maxIndex && !config.loop}
@@ -341,7 +333,9 @@ function ProductCard({ product, config, itemsPerView, onAddToCart }: ProductCard
     <div
       ref={cardRef}
       className="group relative flex-shrink-0 overflow-hidden rounded-lg bg-white shadow transition-shadow"
-      style={{ width: `calc((100% - ${((itemsPerView - 1) * (config.gap || 16))}px) / ${itemsPerView})` }}
+      style={{
+        width: `calc((100% - ${(itemsPerView - 1) * (config.gap || 16)}px) / ${itemsPerView})`,
+      }}
     >
       <Link href={`/products/${product.id}`}>
         <div className="relative aspect-square overflow-hidden bg-muted">
@@ -373,29 +367,20 @@ function ProductCard({ product, config, itemsPerView, onAddToCart }: ProductCard
                 setIsWishlisted(!isWishlisted);
               }}
             >
-              <Heart
-                className={cn(
-                  'h-5 w-5',
-                  isWishlisted && 'fill-red-500 text-red-500'
-                )}
-              />
+              <Heart className={cn('h-5 w-5', isWishlisted && 'fill-red-500 text-red-500')} />
             </Button>
           )}
         </div>
 
         <div className="p-4">
-          <h3 className="font-semibold text-foreground line-clamp-1">
-            {product.name}
-          </h3>
+          <h3 className="line-clamp-1 font-semibold text-foreground">{product.name}</h3>
 
           {product.category && (
             <p className="mt-1 text-xs text-muted-foreground">{product.category}</p>
           )}
 
           <div className="mt-2 flex items-center gap-2">
-            <span className="text-lg font-bold text-foreground">
-              ${finalPrice.toFixed(2)}
-            </span>
+            <span className="text-lg font-bold text-foreground">${finalPrice.toFixed(2)}</span>
             {product.discount_percent && (
               <span className="text-sm text-muted-foreground line-through">
                 ${product.price.toFixed(2)}

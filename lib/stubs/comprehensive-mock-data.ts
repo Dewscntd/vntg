@@ -135,9 +135,9 @@ const MOCK_PRODUCTS_RAW = [
   },
   {
     id: '20000000-0000-0000-0000-000000000002',
-    name: 'Vintage Levi\'s 501 Jeans',
+    name: "Vintage Levi's 501 Jeans",
     description:
-      'Classic Levi\'s 501 button-fly jeans from the 1980s. Authentic vintage wash with natural distressing. Size: 32x32, Condition: Very Good, Brand: Levi\'s, Era: 1980s, Materials: Denim',
+      "Classic Levi's 501 button-fly jeans from the 1980s. Authentic vintage wash with natural distressing. Size: 32x32, Condition: Very Good, Brand: Levi's, Era: 1980s, Materials: Denim",
     price: 18000, // ₪180.00
     image_url: 'https://picsum.photos/seed/levis/800/600',
     category_id: '10000000-0000-0000-0000-000000000013',
@@ -253,7 +253,7 @@ const MOCK_PRODUCTS_RAW = [
     id: '20000000-0000-0000-0000-000000000010',
     name: '1st Edition Pokémon Cards Booster Box',
     description:
-      'Sealed 1st Edition Base Set Pokémon booster box from 1999. Extremely rare collector\'s item. Condition: Mint, Brand: Wizards of the Coast, Year: 1999, Sealed: Yes',
+      "Sealed 1st Edition Base Set Pokémon booster box from 1999. Extremely rare collector's item. Condition: Mint, Brand: Wizards of the Coast, Year: 1999, Sealed: Yes",
     price: 450000, // ₪4,500.00
     image_url: 'https://picsum.photos/seed/pokemon/800/600',
     category_id: '10000000-0000-0000-0000-000000000003',

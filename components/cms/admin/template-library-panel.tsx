@@ -69,10 +69,7 @@ interface TemplateLibraryPanelProps {
 }
 
 // Category display names and colors
-const categoryConfig: Record<
-  TemplateCategory,
-  { label: string; color: string }
-> = {
+const categoryConfig: Record<TemplateCategory, { label: string; color: string }> = {
   seasonal: { label: 'Seasonal', color: 'bg-orange-100 text-orange-800' },
   promotional: { label: 'Promotional', color: 'bg-pink-100 text-pink-800' },
   editorial: { label: 'Editorial', color: 'bg-blue-100 text-blue-800' },
@@ -209,12 +206,7 @@ export function TemplateLibraryPanel({
             <h3 className="text-sm font-medium">Template Library</h3>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={fetchTemplates}
-              disabled={isLoading}
-            >
+            <Button variant="ghost" size="icon" onClick={fetchTemplates} disabled={isLoading}>
               <RefreshCw className={cn('h-4 w-4', isLoading && 'animate-spin')} />
             </Button>
             {onClose && (
@@ -410,7 +402,7 @@ function TemplateCard({ template, onLoad, onEdit, onDuplicate, onDelete }: Templ
       {/* Content */}
       <div className="space-y-2">
         <div className="flex items-start justify-between">
-          <h4 className="font-medium leading-tight truncate">{template.name}</h4>
+          <h4 className="truncate font-medium leading-tight">{template.name}</h4>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -444,9 +436,7 @@ function TemplateCard({ template, onLoad, onEdit, onDuplicate, onDelete }: Templ
         </div>
 
         {template.description && (
-          <p className="text-xs text-muted-foreground line-clamp-2">
-            {template.description}
-          </p>
+          <p className="line-clamp-2 text-xs text-muted-foreground">{template.description}</p>
         )}
 
         <div className="flex flex-wrap items-center gap-1.5">
@@ -490,13 +480,7 @@ function TemplateCard({ template, onLoad, onEdit, onDuplicate, onDelete }: Templ
 }
 
 // Template List Item Component (List View)
-function TemplateListItem({
-  template,
-  onLoad,
-  onEdit,
-  onDuplicate,
-  onDelete,
-}: TemplateCardProps) {
+function TemplateListItem({ template, onLoad, onEdit, onDuplicate, onDelete }: TemplateCardProps) {
   return (
     <div className="group flex items-center gap-3 rounded-lg border bg-card p-3 transition-colors hover:bg-accent">
       {/* Thumbnail */}
@@ -515,7 +499,7 @@ function TemplateListItem({
       {/* Content */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <h4 className="font-medium truncate">{template.name}</h4>
+          <h4 className="truncate font-medium">{template.name}</h4>
           {(template.metadata?.is_pinned as boolean) && <Pin className="h-3 w-3 text-primary" />}
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">

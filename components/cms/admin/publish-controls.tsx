@@ -11,15 +11,7 @@ import { useCMS } from '@/lib/context/cms-context';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Save,
-  Upload,
-  Eye,
-  RotateCcw,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-} from 'lucide-react';
+import { Save, Upload, Eye, RotateCcw, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function PublishControls() {
@@ -61,10 +53,7 @@ export function PublishControls() {
           <div className="flex items-center gap-2">
             <Badge
               variant={homepage.status === 'published' ? 'default' : 'secondary'}
-              className={cn(
-                homepage.status === 'published' &&
-                  'bg-green-500 hover:bg-green-600'
-              )}
+              className={cn(homepage.status === 'published' && 'bg-green-500 hover:bg-green-600')}
             >
               {homepage.status === 'published' ? (
                 <CheckCircle2 className="mr-1 h-3 w-3" />
@@ -101,22 +90,14 @@ export function PublishControls() {
             {isSaving ? 'Saving...' : 'Save Draft'}
           </Button>
 
-          <Button
-            onClick={publishHomepage}
-            disabled={isSaving}
-            size="sm"
-          >
+          <Button onClick={publishHomepage} disabled={isSaving} size="sm">
             <Upload className="mr-2 h-4 w-4" />
             Publish
           </Button>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <Button
-            onClick={togglePreviewMode}
-            variant="outline"
-            size="sm"
-          >
+          <Button onClick={togglePreviewMode} variant="outline" size="sm">
             <Eye className="mr-2 h-4 w-4" />
             {previewMode ? 'Exit Preview' : 'Preview'}
           </Button>

@@ -90,10 +90,7 @@ export function HeroSection({ section, isPreview = false }: HeroSectionProps) {
 
   return (
     <div
-      className={cn(
-        'relative flex w-full overflow-hidden',
-        heightClasses[config.height || 'lg']
-      )}
+      className={cn('relative flex w-full overflow-hidden', heightClasses[config.height || 'lg'])}
     >
       {/* Background Layer */}
       {config.backgroundImage && (
@@ -111,13 +108,7 @@ export function HeroSection({ section, isPreview = false }: HeroSectionProps) {
 
       {config.backgroundVideo && (
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="h-full w-full object-cover"
-          >
+          <video autoPlay muted loop playsInline className="h-full w-full object-cover">
             <source src={config.backgroundVideo} type="video/mp4" />
           </video>
         </div>
@@ -164,16 +155,12 @@ export function HeroSection({ section, isPreview = false }: HeroSectionProps) {
 
           {/* Subheadline */}
           {config.subheadline && (
-            <h2 className="text-xl font-medium md:text-2xl lg:text-3xl">
-              {config.subheadline}
-            </h2>
+            <h2 className="text-xl font-medium md:text-2xl lg:text-3xl">{config.subheadline}</h2>
           )}
 
           {/* Description */}
           {config.description && (
-            <p className="text-base md:text-lg lg:text-xl opacity-90">
-              {config.description}
-            </p>
+            <p className="text-base opacity-90 md:text-lg lg:text-xl">{config.description}</p>
           )}
 
           {/* CTAs */}

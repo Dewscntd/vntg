@@ -383,7 +383,12 @@ export const productAnimations = {
       tl.fromTo(images, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1 });
     }
     if (info) {
-      tl.fromTo(info, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8 }, images.length > 0 ? '-=0.4' : 0);
+      tl.fromTo(
+        info,
+        { opacity: 0, x: 50 },
+        { opacity: 1, x: 0, duration: 0.8 },
+        images.length > 0 ? '-=0.4' : 0
+      );
     }
     if (reviews) {
       tl.fromTo(reviews, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2');

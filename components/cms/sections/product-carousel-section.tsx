@@ -61,17 +61,13 @@ export function ProductCarouselSection({
           if (productIds.length === 0) {
             setProducts([]);
           } else {
-            const response = await fetch(
-              apiUrl(`/api/products/batch?ids=${productIds.join(',')}`)
-            );
+            const response = await fetch(apiUrl(`/api/products/batch?ids=${productIds.join(',')}`));
             const data = await response.json();
             const productList = data.products || data.data || [];
 
             // Sort products based on the order specified in config
             const sortedProducts = Array.isArray(productList)
-              ? productIds
-                  .map((id) => productList.find((p: any) => p.id === id))
-                  .filter(Boolean)
+              ? productIds.map((id) => productList.find((p: any) => p.id === id)).filter(Boolean)
               : [];
 
             setProducts(sortedProducts);
@@ -92,11 +88,11 @@ export function ProductCarouselSection({
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="animate-pulse space-y-4">
-          {title && <div className="h-8 w-48 bg-muted rounded" />}
-          {subtitle && <div className="h-4 w-96 bg-muted rounded" />}
+          {title && <div className="h-8 w-48 rounded bg-muted" />}
+          {subtitle && <div className="h-4 w-96 rounded bg-muted" />}
           <div className="flex gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="flex-1 h-80 bg-muted rounded" />
+              <div key={i} className="h-80 flex-1 rounded bg-muted" />
             ))}
           </div>
         </div>
@@ -109,14 +105,8 @@ export function ProductCarouselSection({
       {/* Section Header */}
       {(title || subtitle) && (
         <div className="mb-8 text-center">
-          {title && (
-            <h2 className="text-3xl font-bold text-foreground md:text-4xl">
-              {title}
-            </h2>
-          )}
-          {subtitle && (
-            <p className="mt-2 text-lg text-muted-foreground">{subtitle}</p>
-          )}
+          {title && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{title}</h2>}
+          {subtitle && <p className="mt-2 text-lg text-muted-foreground">{subtitle}</p>}
         </div>
       )}
 

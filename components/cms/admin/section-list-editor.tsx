@@ -55,9 +55,7 @@ export function SectionListEditor({ onAddSection }: SectionListEditorProps) {
 
   if (!homepage) {
     return (
-      <div className="flex items-center justify-center p-12 text-muted-foreground">
-        Loading...
-      </div>
+      <div className="flex items-center justify-center p-12 text-muted-foreground">Loading...</div>
     );
   }
 
@@ -160,20 +158,16 @@ export function SectionListEditor({ onAddSection }: SectionListEditorProps) {
                           </div>
 
                           {/* Section Info */}
-                          <div className="flex-1 min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <h3 className="font-medium truncate">
-                                {getSectionTitle(section)}
-                              </h3>
+                              <h3 className="truncate font-medium">{getSectionTitle(section)}</h3>
                               <Badge variant="outline" className="capitalize">
                                 {section.type.replace('_', ' ')}
                               </Badge>
                               {section.status === 'draft' && (
                                 <Badge variant="secondary">Draft</Badge>
                               )}
-                              {!section.visible && (
-                                <Badge variant="destructive">Hidden</Badge>
-                              )}
+                              {!section.visible && <Badge variant="destructive">Hidden</Badge>}
                             </div>
                           </div>
 
@@ -218,9 +212,7 @@ export function SectionListEditor({ onAddSection }: SectionListEditorProps) {
                               variant="ghost"
                               size="icon"
                               onClick={() => {
-                                if (
-                                  confirm('Are you sure you want to delete this section?')
-                                ) {
+                                if (confirm('Are you sure you want to delete this section?')) {
                                   deleteSection(section.id);
                                 }
                               }}

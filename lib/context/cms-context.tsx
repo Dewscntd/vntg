@@ -145,9 +145,7 @@ function cmsReducer(state: CMSState, action: CMSAction): CMSState {
         ...state,
         homepage: {
           ...state.homepage,
-          sections: state.homepage.sections.filter(
-            (section) => section.id !== action.payload
-          ),
+          sections: state.homepage.sections.filter((section) => section.id !== action.payload),
         },
         isDirty: true,
         activeSection: state.activeSection === action.payload ? null : state.activeSection,
@@ -199,9 +197,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const response = await fetch(apiUrl('/api/cms/homepage'), {
-        headers: session?.access_token
-          ? { Authorization: `Bearer ${session.access_token}` }
-          : {},
+        headers: session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {},
       });
 
       if (!response.ok) {
@@ -288,9 +284,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const response = await fetch(apiUrl('/api/cms/homepage?version=published'), {
-        headers: session?.access_token
-          ? { Authorization: `Bearer ${session.access_token}` }
-          : {},
+        headers: session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {},
       });
 
       if (!response.ok) {
@@ -306,19 +300,16 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   }, [session?.access_token]);
 
   // Section operations
-  const addSection = useCallback(
-    (section: Omit<Section, 'id' | 'created_at' | 'updated_at'>) => {
-      const newSection: Section = {
-        ...section,
-        id: crypto.randomUUID(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      } as Section;
+  const addSection = useCallback((section: Omit<Section, 'id' | 'created_at' | 'updated_at'>) => {
+    const newSection: Section = {
+      ...section,
+      id: crypto.randomUUID(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as Section;
 
-      dispatch({ type: 'ADD_SECTION', payload: newSection });
-    },
-    []
-  );
+    dispatch({ type: 'ADD_SECTION', payload: newSection });
+  }, []);
 
   const updateSection = useCallback((id: string, updates: Partial<Section>) => {
     dispatch({

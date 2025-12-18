@@ -240,9 +240,7 @@ export default function CampaignsPage() {
         {/* Campaigns List */}
         <Card>
           <CardHeader>
-            <CardTitle>
-              All Campaigns ({filteredCampaigns.length})
-            </CardTitle>
+            <CardTitle>All Campaigns ({filteredCampaigns.length})</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
@@ -258,7 +256,7 @@ export default function CampaignsPage() {
                 {filteredCampaigns.map((campaign) => (
                   <div
                     key={campaign.id}
-                    className="flex items-center gap-4 rounded-lg border border-border p-4 hover:bg-muted/30 transition-colors"
+                    className="flex items-center gap-4 rounded-lg border border-border p-4 transition-colors hover:bg-muted/30"
                   >
                     {/* Thumbnail */}
                     {campaign.thumbnail_url && (
@@ -276,27 +274,21 @@ export default function CampaignsPage() {
                         <Badge variant={getStatusBadgeVariant(campaign.status)}>
                           {campaign.status}
                         </Badge>
-                        {campaign.is_featured && (
-                          <Badge variant="secondary">Featured</Badge>
-                        )}
+                        {campaign.is_featured && <Badge variant="secondary">Featured</Badge>}
                       </div>
 
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="mt-1 text-sm text-muted-foreground">
                         {campaign.description || 'No description'}
                       </p>
 
-                      <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                      <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
                         <span className="capitalize">{campaign.type.replace('-', ' ')}</span>
                         <span>{campaign.product_ids.length} products</span>
                         {campaign.start_date && (
-                          <span>
-                            Starts: {new Date(campaign.start_date).toLocaleDateString()}
-                          </span>
+                          <span>Starts: {new Date(campaign.start_date).toLocaleDateString()}</span>
                         )}
                         {campaign.end_date && (
-                          <span>
-                            Ends: {new Date(campaign.end_date).toLocaleDateString()}
-                          </span>
+                          <span>Ends: {new Date(campaign.end_date).toLocaleDateString()}</span>
                         )}
                       </div>
                     </div>
@@ -327,7 +319,7 @@ export default function CampaignsPage() {
 
         {/* Create Campaign Dialog */}
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Create New Campaign</DialogTitle>
               <DialogDescription>
@@ -343,7 +335,7 @@ export default function CampaignsPage() {
 
         {/* Edit Campaign Dialog */}
         <Dialog open={!!editingCampaign} onOpenChange={() => setEditingCampaign(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Edit Campaign</DialogTitle>
               <DialogDescription>Update campaign details and products</DialogDescription>

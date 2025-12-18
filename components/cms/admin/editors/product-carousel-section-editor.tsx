@@ -45,19 +45,20 @@ interface ProductCarouselSectionEditorProps {
 
 // Simplified config schema for the form (allowing empty products array during editing)
 const editorConfigSchema = productCarouselConfigSchema.extend({
-  products: z.array(
-    z.object({
-      product_id: z.string(),
-      order: z.number().int().min(0),
-    })
-  ).optional().default([]),
+  products: z
+    .array(
+      z.object({
+        product_id: z.string(),
+        order: z.number().int().min(0),
+      })
+    )
+    .optional()
+    .default([]),
 });
 
 type EditorConfig = z.infer<typeof editorConfigSchema>;
 
-export function ProductCarouselSectionEditor({
-  section,
-}: ProductCarouselSectionEditorProps) {
+export function ProductCarouselSectionEditor({ section }: ProductCarouselSectionEditorProps) {
   const { updateSection } = useCMS();
   const [newProductId, setNewProductId] = useState('');
 
@@ -107,7 +108,10 @@ export function ProductCarouselSectionEditor({
   const removeProduct = (index: number) => {
     const currentProducts = form.getValues('products') || [];
     const updated = currentProducts.filter((_, i) => i !== index);
-    form.setValue('products', updated.map((p, i) => ({ ...p, order: i })));
+    form.setValue(
+      'products',
+      updated.map((p, i) => ({ ...p, order: i }))
+    );
   };
 
   return (
@@ -153,15 +157,10 @@ export function ProductCarouselSectionEditor({
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">Dynamic Selection</FormLabel>
-                    <FormDescription>
-                      Auto-select products based on criteria
-                    </FormDescription>
+                    <FormDescription>Auto-select products based on criteria</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
@@ -268,17 +267,17 @@ export function ProductCarouselSectionEditor({
 
                 <div className="space-y-2">
                   {products.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-4 text-center">
+                    <p className="py-4 text-center text-sm text-muted-foreground">
                       No products added. Add product UUIDs above.
                     </p>
                   ) : (
                     products.map((product, index) => (
                       <div
                         key={`${product.product_id}-${index}`}
-                        className="flex items-center gap-2 p-2 rounded-md border bg-muted/50"
+                        className="flex items-center gap-2 rounded-md border bg-muted/50 p-2"
                       >
                         <GripVertical className="h-4 w-4 text-muted-foreground" />
-                        <Badge variant="outline" className="font-mono text-xs flex-1 truncate">
+                        <Badge variant="outline" className="flex-1 truncate font-mono text-xs">
                           {product.product_id}
                         </Badge>
                         <Button
@@ -420,10 +419,7 @@ export function ProductCarouselSectionEditor({
                   <FormItem className="flex items-center justify-between">
                     <FormLabel>Quick View Button</FormLabel>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -436,10 +432,7 @@ export function ProductCarouselSectionEditor({
                   <FormItem className="flex items-center justify-between">
                     <FormLabel>Add to Cart Button</FormLabel>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -452,10 +445,7 @@ export function ProductCarouselSectionEditor({
                   <FormItem className="flex items-center justify-between">
                     <FormLabel>Wishlist Button</FormLabel>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -472,10 +462,7 @@ export function ProductCarouselSectionEditor({
                 <FormItem className="flex items-center justify-between">
                   <FormLabel>Show Navigation Arrows</FormLabel>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
@@ -488,10 +475,7 @@ export function ProductCarouselSectionEditor({
                 <FormItem className="flex items-center justify-between">
                   <FormLabel>Show Pagination Dots</FormLabel>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
@@ -504,10 +488,7 @@ export function ProductCarouselSectionEditor({
                 <FormItem className="flex items-center justify-between">
                   <FormLabel>Infinite Loop</FormLabel>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
@@ -525,10 +506,7 @@ export function ProductCarouselSectionEditor({
                   <FormItem className="flex items-center justify-between">
                     <FormLabel>Enable Autoplay</FormLabel>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                   </FormItem>
                 )}

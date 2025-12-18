@@ -6,7 +6,15 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { Homepage, Section, HeroSection, ProductCarouselSection, TextBlockSection, ImageBannerSection, CategoryGridSection } from '@/types/cms';
+import {
+  Homepage,
+  Section,
+  HeroSection,
+  ProductCarouselSection,
+  TextBlockSection,
+  ImageBannerSection,
+  CategoryGridSection,
+} from '@/types/cms';
 
 // Check if we're using stubs
 const USE_STUBS = process.env.NEXT_PUBLIC_USE_STUBS === 'true';
@@ -126,7 +134,8 @@ function getDefaultHomepage(): Homepage {
       created_at: now,
       updated_at: now,
       config: {
-        content: '<h2>Our Story</h2><p>We believe in the beauty of well-crafted vintage pieces. Each item in our collection has been carefully selected for its quality, history, and timeless appeal.</p>',
+        content:
+          '<h2>Our Story</h2><p>We believe in the beauty of well-crafted vintage pieces. Each item in our collection has been carefully selected for its quality, history, and timeless appeal.</p>',
         alignment: 'center',
         maxWidth: 'lg',
         padding: {
@@ -165,7 +174,8 @@ function getDefaultHomepage(): Homepage {
     metadata: {
       seo: {
         title: 'VNTG - Curated Vintage Collection',
-        description: 'Discover timeless vintage pieces, carefully curated for the modern collector.',
+        description:
+          'Discover timeless vintage pieces, carefully curated for the modern collector.',
       },
     },
   };
@@ -220,10 +230,7 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error saving homepage:', error);
-    return NextResponse.json(
-      { error: 'Failed to save homepage', success: false },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to save homepage', success: false }, { status: 500 });
   }
 }
 
@@ -265,10 +272,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json(
-      { error: 'Invalid action', success: false },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Invalid action', success: false }, { status: 400 });
   } catch (error) {
     console.error('Error publishing homepage:', error);
     return NextResponse.json(

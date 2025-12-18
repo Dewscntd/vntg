@@ -103,7 +103,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Sidebar - Fixed */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:shadow-none lg:border-r',
+          'fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:border-r lg:shadow-none',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >

@@ -121,7 +121,9 @@ export default function CollectionDetailPage() {
 
   // Delete collection
   const handleDeleteCollection = async () => {
-    if (!confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+    if (
+      !confirm('Are you sure you want to delete this collection? This action cannot be undone.')
+    ) {
       return;
     }
 
@@ -304,24 +306,22 @@ export default function CollectionDetailPage() {
 
   return (
     <AdminLayout>
-      <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+      <div className="space-y-6 p-4 sm:p-6 lg:p-8">
         {/* Header */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/admin/collections">
-                <ArrowLeft className="h-4 w-4 mr-1" />
+                <ArrowLeft className="mr-1 h-4 w-4" />
                 Back
               </Link>
             </Button>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                  {collection.name}
-                </h1>
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{collection.name}</h1>
                 <Badge
                   variant="outline"
                   className={cn('text-xs', statusConfig[collection.status].color)}
@@ -329,10 +329,10 @@ export default function CollectionDetailPage() {
                   {statusConfig[collection.status].label}
                 </Badge>
               </div>
-              <p className="text-muted-foreground mt-1">
+              <p className="mt-1 text-muted-foreground">
                 {collection.description || 'No description'}
               </p>
-              <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+              <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
                 <span>/collections/{collection.slug}</span>
                 {collection.status === 'active' && (
                   <Link
@@ -348,27 +348,19 @@ export default function CollectionDetailPage() {
 
             <div className="flex flex-wrap gap-2">
               {collection.status !== 'active' && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleStatusChange('active')}
-                >
-                  <CheckCircle className="h-4 w-4 mr-1" />
+                <Button variant="outline" size="sm" onClick={() => handleStatusChange('active')}>
+                  <CheckCircle className="mr-1 h-4 w-4" />
                   Publish
                 </Button>
               )}
               {collection.status === 'active' && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleStatusChange('draft')}
-                >
-                  <FileEdit className="h-4 w-4 mr-1" />
+                <Button variant="outline" size="sm" onClick={() => handleStatusChange('draft')}>
+                  <FileEdit className="mr-1 h-4 w-4" />
                   Unpublish
                 </Button>
               )}
               <Button variant="outline" size="sm" onClick={() => setShowEditSheet(true)}>
-                <Edit className="h-4 w-4 mr-1" />
+                <Edit className="mr-1 h-4 w-4" />
                 Edit
               </Button>
               <Button
@@ -377,7 +369,7 @@ export default function CollectionDetailPage() {
                 onClick={handleDeleteCollection}
                 className="text-destructive hover:text-destructive"
               >
-                <Trash2 className="h-4 w-4 mr-1" />
+                <Trash2 className="mr-1 h-4 w-4" />
                 Delete
               </Button>
             </div>
@@ -391,7 +383,7 @@ export default function CollectionDetailPage() {
               <img
                 src={collection.image_url}
                 alt={collection.name}
-                className="w-full h-48 sm:h-64 object-cover rounded-lg"
+                className="h-48 w-full rounded-lg object-cover sm:h-64"
               />
             </CardContent>
           </Card>
@@ -420,7 +412,7 @@ export default function CollectionDetailPage() {
 
         {/* Edit Collection Sheet */}
         <Sheet open={showEditSheet} onOpenChange={setShowEditSheet}>
-          <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+          <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
             <SheetHeader>
               <SheetTitle>Edit Collection</SheetTitle>
               <SheetDescription>Update collection details</SheetDescription>

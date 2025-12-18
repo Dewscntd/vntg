@@ -97,13 +97,7 @@ const sectionTypes: SectionTypeConfig[] = [
 // Status Badge Component
 // =============================================================================
 
-function StatusBadge({
-  status,
-  isDirty
-}: {
-  status: 'draft' | 'published';
-  isDirty: boolean;
-}) {
+function StatusBadge({ status, isDirty }: { status: 'draft' | 'published'; isDirty: boolean }) {
   return (
     <div className="cms-status-bar">
       <div className={cn('cms-status-badge', status)}>
@@ -157,9 +151,7 @@ function PublishControlsEnhanced() {
           <h1 className="cms-title cms-header-title">
             Homepage <span className="cms-title-italic">Editor</span>
           </h1>
-          <p className="cms-header-subtitle">
-            Last saved {formatLastSaved(lastSaved)}
-          </p>
+          <p className="cms-header-subtitle">Last saved {formatLastSaved(lastSaved)}</p>
         </div>
         {isSaving && (
           <div className="cms-saving-indicator">
@@ -195,8 +187,9 @@ function ActionButtons() {
       <button
         onClick={saveHomepage}
         disabled={!isDirty || isSaving}
-        className={cn('cms-btn cms-btn-secondary flex-1',
-          (!isDirty || isSaving) && 'opacity-50 cursor-not-allowed'
+        className={cn(
+          'cms-btn cms-btn-secondary flex-1',
+          (!isDirty || isSaving) && 'cursor-not-allowed opacity-50'
         )}
       >
         <Save className="h-4 w-4" />
@@ -267,10 +260,7 @@ function SectionCard({
 
   return (
     <div
-      className={cn(
-        'cms-section-card cms-animate-in',
-        isActive && 'active'
-      )}
+      className={cn('cms-section-card cms-animate-in', isActive && 'active')}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={onEdit}
     >
@@ -278,9 +268,7 @@ function SectionCard({
         <GripVertical className="h-4 w-4" />
       </div>
 
-      <div className="cms-section-icon">
-        {getIcon(section.type)}
-      </div>
+      <div className="cms-section-icon">{getIcon(section.type)}</div>
 
       <div className="cms-section-info">
         <div className="cms-section-name">{getTitle(section)}</div>
@@ -299,25 +287,13 @@ function SectionCard({
         >
           {section.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
         </button>
-        <button
-          className="cms-icon-btn"
-          onClick={onEdit}
-          title="Edit"
-        >
+        <button className="cms-icon-btn" onClick={onEdit} title="Edit">
           <Edit2 className="h-4 w-4" />
         </button>
-        <button
-          className="cms-icon-btn"
-          onClick={onDuplicate}
-          title="Duplicate"
-        >
+        <button className="cms-icon-btn" onClick={onDuplicate} title="Duplicate">
           <Copy className="h-4 w-4" />
         </button>
-        <button
-          className="cms-icon-btn danger"
-          onClick={onDelete}
-          title="Delete"
-        >
+        <button className="cms-icon-btn danger" onClick={onDelete} title="Delete">
           <Trash2 className="h-4 w-4" />
         </button>
       </div>
@@ -375,9 +351,7 @@ function EnhancedSectionList({ onAddSection }: { onAddSection: () => void }) {
               index={index}
               isActive={activeSection === section.id}
               onEdit={() => setActiveSection(section.id)}
-              onToggleVisibility={() =>
-                updateSection(section.id, { visible: !section.visible })
-              }
+              onToggleVisibility={() => updateSection(section.id, { visible: !section.visible })}
               onDuplicate={() => duplicateSection(section.id)}
               onDelete={() => {
                 if (confirm('Delete this section?')) {
@@ -435,10 +409,7 @@ function EnhancedPreviewPanel() {
           </button>
         </div>
 
-        <button
-          className="cms-btn cms-btn-ghost"
-          onClick={() => window.open('/', '_blank')}
-        >
+        <button className="cms-btn cms-btn-ghost" onClick={() => window.open('/', '_blank')}>
           <ExternalLink className="h-4 w-4" />
         </button>
       </div>
@@ -448,9 +419,7 @@ function EnhancedPreviewPanel() {
           className={cn('cms-preview-device', viewport)}
           style={{ width: viewportConfig[viewport].width }}
         >
-          {homepage && (
-            <HomepageRenderer sections={homepage.sections} isPreview />
-          )}
+          {homepage && <HomepageRenderer sections={homepage.sections} isPreview />}
         </div>
       </div>
     </div>
@@ -464,7 +433,7 @@ function EnhancedPreviewPanel() {
 function AddSectionDialog({
   isOpen,
   onClose,
-  onSelect
+  onSelect,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -502,9 +471,7 @@ function AddSectionDialog({
                   onClose();
                 }}
               >
-                <div className="cms-section-type-icon">
-                  {sectionType.icon}
-                </div>
+                <div className="cms-section-type-icon">{sectionType.icon}</div>
                 <div className="cms-section-type-name">{sectionType.label}</div>
                 <div className="cms-section-type-desc">{sectionType.description}</div>
               </div>
@@ -613,13 +580,10 @@ function CMSEditorContent() {
 
             {/* Section Editor Panel */}
             {activeSection && (
-              <div className="border-t border-[--cms-border-subtle] p-4 bg-[--cms-bg-surface]">
-                <div className="flex items-center justify-between mb-4">
+              <div className="border-t border-[--cms-border-subtle] bg-[--cms-bg-surface] p-4">
+                <div className="mb-4 flex items-center justify-between">
                   <span className="cms-label">Editing Section</span>
-                  <button
-                    className="cms-icon-btn"
-                    onClick={() => setActiveSection(null)}
-                  >
+                  <button className="cms-icon-btn" onClick={() => setActiveSection(null)}>
                     <X className="h-4 w-4" />
                   </button>
                 </div>
