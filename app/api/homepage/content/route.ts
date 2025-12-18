@@ -27,7 +27,8 @@ import { unstable_cache } from 'next/cache';
 export const runtime = 'edge';
 
 // ISR revalidation configuration
-export const revalidate = CACHE_TTL.HOMEPAGE_CONTENT;
+// Note: Must be a static value, not a reference (Next.js limitation)
+export const revalidate = 3600; // 1 hour (matches CACHE_TTL.HOMEPAGE_CONTENT)
 
 // ============================================================================
 // TYPES
