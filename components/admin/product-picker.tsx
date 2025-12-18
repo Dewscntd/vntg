@@ -185,7 +185,7 @@ export function ProductPicker({
 
       {/* Product List */}
       <ScrollArea className="h-[400px] rounded-md border border-border">
-        <div className="p-4 space-y-2">
+        <div className="space-y-2 p-4">
           {filteredProducts.length === 0 ? (
             <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
               {searchQuery ? 'No products match your search' : 'No products available'}
@@ -193,7 +193,8 @@ export function ProductPicker({
           ) : (
             filteredProducts.map((product) => {
               const isSelected = selectedProductIds.includes(product.id);
-              const isDisabled = !isSelected && !!maxSelection && selectedProductIds.length >= maxSelection;
+              const isDisabled =
+                !isSelected && !!maxSelection && selectedProductIds.length >= maxSelection;
 
               return (
                 <label
@@ -226,9 +227,9 @@ export function ProductPicker({
                     )}
 
                     {/* Product Details */}
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm">{product.name}</div>
-                      <div className="text-xs text-muted-foreground line-clamp-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium">{product.name}</div>
+                      <div className="line-clamp-2 text-xs text-muted-foreground">
                         {product.description}
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">

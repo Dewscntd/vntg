@@ -41,11 +41,7 @@ export interface ProductListItemProps {
   priority?: boolean;
 }
 
-export function ProductListItem({
-  product,
-  className,
-  priority = false,
-}: ProductListItemProps) {
+export function ProductListItem({ product, className, priority = false }: ProductListItemProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { addToCartWithToast } = useCartActions();
 

@@ -22,17 +22,17 @@ export function getCurrentLocale(): string {
  * Build an API URL with the correct locale prefix
  * @param path - API path starting with /api/
  * @returns Full API URL with locale prefix
- * 
+ *
  * @example
  * apiUrl('/api/products') // Returns '/he/api/products' or '/en/api/products'
  */
 export function apiUrl(path: string): string {
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  
+
   // Ensure path starts with 'api/'
   const apiPath = cleanPath.startsWith('api/') ? cleanPath : `api/${cleanPath}`;
-  
+
   const locale = getCurrentLocale();
   return `/${locale}/${apiPath}`;
 }
@@ -40,16 +40,13 @@ export function apiUrl(path: string): string {
 /**
  * Make a typed fetch request to an API endpoint
  * Automatically adds locale prefix and handles common errors
- * 
+ *
  * @example
  * const data = await apiFetch<Category[]>('/api/categories');
  */
-export async function apiFetch<T = any>(
-  path: string,
-  options?: RequestInit
-): Promise<T> {
+export async function apiFetch<T = any>(path: string, options?: RequestInit): Promise<T> {
   const url = apiUrl(path);
-  
+
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',

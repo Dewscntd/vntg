@@ -124,9 +124,7 @@ export default function SeasonalSettingsPage() {
             <Calendar className="h-8 w-8 text-blue-600" />
             <h1 className="text-3xl font-bold text-gray-900">Seasonal Collection Settings</h1>
           </div>
-          <p className="mt-1 text-gray-600">
-            Manage the active seasonal collection for your store
-          </p>
+          <p className="mt-1 text-gray-600">Manage the active seasonal collection for your store</p>
         </div>
 
         {/* Success Alert */}
@@ -169,9 +167,7 @@ export default function SeasonalSettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Change Season</CardTitle>
-            <CardDescription>
-              Update the active seasonal collection for your store
-            </CardDescription>
+            <CardDescription>Update the active seasonal collection for your store</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

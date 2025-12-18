@@ -363,23 +363,25 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 lg:mb-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="mt-1 text-gray-600">Manage your e-commerce platform</p>
+              <h1 className="text-2xl font-bold text-gray-900 lg:text-3xl">Admin Dashboard</h1>
+              <p className="mt-1 text-sm text-gray-600 lg:text-base">
+                Manage your e-commerce platform
+              </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Link href="/">
-                <Button variant="outline">
+                <Button variant="outline" size="sm">
                   <Eye className="mr-2 h-4 w-4" />
                   View Store
                 </Button>
               </Link>
               <Link href="/admin/analytics">
-                <Button>
+                <Button size="sm">
                   <BarChart3 className="mr-2 h-4 w-4" />
                   Analytics
                 </Button>
@@ -389,7 +391,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Enhanced Metrics Overview */}
-        <div className="mb-8">
+        <div className="mb-6 lg:mb-8">
           <MetricsOverview
             data={
               metrics || {
@@ -406,12 +408,12 @@ export default function AdminDashboard() {
         </div>
 
         {/* Sales Chart */}
-        <div className="mb-8">
+        <div className="mb-6 lg:mb-8">
           <SalesChart data={metrics?.salesData || []} loading={metricsLoading} />
         </div>
 
         {/* Enhanced Widgets Grid */}
-        <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mb-6 grid grid-cols-1 gap-4 lg:mb-8 lg:grid-cols-2 lg:gap-6">
           <TopProducts
             products={metrics?.topProducts || []}
             loading={metricsLoading}
@@ -427,7 +429,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Activity and Quick Actions */}
-        <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="mb-6 grid grid-cols-1 gap-4 lg:mb-8 lg:grid-cols-3 lg:gap-6">
           <div className="lg:col-span-2">
             <RecentActivity
               activities={metrics?.recentActivity || []}
@@ -482,7 +484,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Management Overview */}
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3 lg:mb-8 lg:gap-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center text-lg">

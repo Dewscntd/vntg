@@ -25,7 +25,7 @@ export default function FavoritesPage() {
   const [movingToCart, setMovingToCart] = useState<string | null>(null);
   const [removing, setRemoving] = useState<string | null>(null);
 
-  const handleMoveToCart = async (item: typeof items[0]) => {
+  const handleMoveToCart = async (item: (typeof items)[0]) => {
     if (!item.product) return;
 
     setMovingToCart(item.product_id);
@@ -142,7 +142,8 @@ export default function FavoritesPage() {
 
         <div className="flex items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            Total value: <span className="font-semibold text-foreground">{totalValue.toFixed(2)} ₪</span>
+            Total value:{' '}
+            <span className="font-semibold text-foreground">{totalValue.toFixed(2)} ₪</span>
           </div>
           {items.length > 0 && (
             <Button variant="outline" size="sm" onClick={handleClearAll}>
@@ -166,7 +167,7 @@ export default function FavoritesPage() {
               key={item.id}
               className={cn(
                 'group relative overflow-hidden rounded-lg border bg-background transition-all',
-                (isRemoving || isMoving) && 'opacity-50 pointer-events-none'
+                (isRemoving || isMoving) && 'pointer-events-none opacity-50'
               )}
             >
               <Link href={`/products/${item.product_id}`}>
@@ -194,7 +195,7 @@ export default function FavoritesPage() {
                       e.stopPropagation();
                       handleRemove(item.product_id, item.product?.name || 'Product');
                     }}
-                    className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:scale-110"
+                    className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-white"
                     disabled={isRemoving}
                   >
                     {isRemoving ? (

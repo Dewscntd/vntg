@@ -318,7 +318,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const currentUserId = user?.id || null;
     const lastUserId = lastUserIdRef.current;
 
-    console.log('🛒 CART useEffect: currentUserId:', currentUserId, 'lastUserId:', lastUserId, 'hasSession:', !!session?.access_token);
+    console.log(
+      '🛒 CART useEffect: currentUserId:',
+      currentUserId,
+      'lastUserId:',
+      lastUserId,
+      'hasSession:',
+      !!session?.access_token
+    );
 
     // Load cart if user just logged in (has session and user changed)
     if (currentUserId && currentUserId !== lastUserId && session?.access_token) {

@@ -1,5 +1,6 @@
 // Comprehensive mock data for all entities in the system
 import { Database } from '@/types/supabase';
+import { CollectionWithProducts } from '@/types/collections';
 
 type Tables = Database['public']['Tables'];
 
@@ -134,9 +135,9 @@ const MOCK_PRODUCTS_RAW = [
   },
   {
     id: '20000000-0000-0000-0000-000000000002',
-    name: 'Vintage Levi\'s 501 Jeans',
+    name: "Vintage Levi's 501 Jeans",
     description:
-      'Classic Levi\'s 501 button-fly jeans from the 1980s. Authentic vintage wash with natural distressing. Size: 32x32, Condition: Very Good, Brand: Levi\'s, Era: 1980s, Materials: Denim',
+      "Classic Levi's 501 button-fly jeans from the 1980s. Authentic vintage wash with natural distressing. Size: 32x32, Condition: Very Good, Brand: Levi's, Era: 1980s, Materials: Denim",
     price: 18000, // ₪180.00
     image_url: 'https://picsum.photos/seed/levis/800/600',
     category_id: '10000000-0000-0000-0000-000000000013',
@@ -252,7 +253,7 @@ const MOCK_PRODUCTS_RAW = [
     id: '20000000-0000-0000-0000-000000000010',
     name: '1st Edition Pokémon Cards Booster Box',
     description:
-      'Sealed 1st Edition Base Set Pokémon booster box from 1999. Extremely rare collector\'s item. Condition: Mint, Brand: Wizards of the Coast, Year: 1999, Sealed: Yes',
+      "Sealed 1st Edition Base Set Pokémon booster box from 1999. Extremely rare collector's item. Condition: Mint, Brand: Wizards of the Coast, Year: 1999, Sealed: Yes",
     price: 450000, // ₪4,500.00
     image_url: 'https://picsum.photos/seed/pokemon/800/600',
     category_id: '10000000-0000-0000-0000-000000000003',
@@ -514,6 +515,217 @@ export const MOCK_ORDER_ITEMS: Tables['order_items']['Row'][] = [
 ];
 
 // ====================
+// COLLECTIONS
+// ====================
+export const MOCK_COLLECTIONS: Tables['collections']['Row'][] = [
+  {
+    id: '70000000-0000-0000-0000-000000000001',
+    name: 'Editorial Picks',
+    slug: 'editorial-picks',
+    description: 'Curated selection of our finest vintage pieces, handpicked by our style experts.',
+    image_url: 'https://picsum.photos/seed/editorial/1200/600',
+    status: 'active',
+    display_order: 1,
+    metadata: { featured_on_homepage: true, theme: 'luxury' },
+    created_at: '2024-10-01T00:00:00Z',
+    updated_at: '2024-10-01T00:00:00Z',
+  },
+  {
+    id: '70000000-0000-0000-0000-000000000002',
+    name: 'Summer Sale',
+    slug: 'summer-sale',
+    description: 'Hot deals on summer essentials. Limited time offers on vintage summer wear.',
+    image_url: 'https://picsum.photos/seed/summer/1200/600',
+    status: 'active',
+    display_order: 2,
+    metadata: { discount_percent: 20, end_date: '2024-09-01' },
+    created_at: '2024-06-01T00:00:00Z',
+    updated_at: '2024-06-15T00:00:00Z',
+  },
+  {
+    id: '70000000-0000-0000-0000-000000000003',
+    name: 'Retro Tech Treasures',
+    slug: 'retro-tech-treasures',
+    description: 'Nostalgic electronics and gadgets from the golden era of technology.',
+    image_url: 'https://picsum.photos/seed/retrotech/1200/600',
+    status: 'active',
+    display_order: 3,
+    metadata: { category_focus: 'electronics' },
+    created_at: '2024-08-01T00:00:00Z',
+    updated_at: '2024-08-01T00:00:00Z',
+  },
+  {
+    id: '70000000-0000-0000-0000-000000000004',
+    name: '70s Disco Revival',
+    slug: '70s-disco-revival',
+    description: 'Glitter, glamour, and groovy fashion from the disco era.',
+    image_url: 'https://picsum.photos/seed/disco/1200/600',
+    status: 'draft',
+    display_order: 4,
+    metadata: { era: '1970s', style: 'disco' },
+    created_at: '2024-10-15T00:00:00Z',
+    updated_at: '2024-10-15T00:00:00Z',
+  },
+  {
+    id: '70000000-0000-0000-0000-000000000005',
+    name: 'Winter Clearance',
+    slug: 'winter-clearance',
+    description: 'End of season clearance on winter vintage items.',
+    image_url: 'https://picsum.photos/seed/winter/1200/600',
+    status: 'archived',
+    display_order: 5,
+    metadata: { discount_percent: 40 },
+    created_at: '2024-01-15T00:00:00Z',
+    updated_at: '2024-03-01T00:00:00Z',
+  },
+];
+
+// ====================
+// COLLECTION PRODUCTS (Junction table)
+// ====================
+export const MOCK_COLLECTION_PRODUCTS: Tables['collection_products']['Row'][] = [
+  // Editorial Picks - Premium items
+  {
+    id: '80000000-0000-0000-0000-000000000001',
+    collection_id: '70000000-0000-0000-0000-000000000001',
+    product_id: '20000000-0000-0000-0000-000000000003', // Pink Floyd shirt
+    display_order: 1,
+    created_at: '2024-10-01T00:00:00Z',
+    updated_at: '2024-10-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000002',
+    collection_id: '70000000-0000-0000-0000-000000000001',
+    product_id: '20000000-0000-0000-0000-000000000007', // Polaroid camera
+    display_order: 2,
+    created_at: '2024-10-01T00:00:00Z',
+    updated_at: '2024-10-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000003',
+    collection_id: '70000000-0000-0000-0000-000000000001',
+    product_id: '20000000-0000-0000-0000-000000000009', // Star Wars figures
+    display_order: 3,
+    created_at: '2024-10-01T00:00:00Z',
+    updated_at: '2024-10-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000004',
+    collection_id: '70000000-0000-0000-0000-000000000001',
+    product_id: '20000000-0000-0000-0000-000000000004', // Leather bomber
+    display_order: 4,
+    created_at: '2024-10-01T00:00:00Z',
+    updated_at: '2024-10-01T00:00:00Z',
+  },
+  // Summer Sale - Clothing items
+  {
+    id: '80000000-0000-0000-0000-000000000005',
+    collection_id: '70000000-0000-0000-0000-000000000002',
+    product_id: '20000000-0000-0000-0000-000000000001', // Boho maxi dress
+    display_order: 1,
+    created_at: '2024-06-01T00:00:00Z',
+    updated_at: '2024-06-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000006',
+    collection_id: '70000000-0000-0000-0000-000000000002',
+    product_id: '20000000-0000-0000-0000-000000000005', // Mod mini dress
+    display_order: 2,
+    created_at: '2024-06-01T00:00:00Z',
+    updated_at: '2024-06-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000007',
+    collection_id: '70000000-0000-0000-0000-000000000002',
+    product_id: '20000000-0000-0000-0000-000000000011', // Aviator sunglasses
+    display_order: 3,
+    created_at: '2024-06-01T00:00:00Z',
+    updated_at: '2024-06-01T00:00:00Z',
+  },
+  // Retro Tech - Electronics
+  {
+    id: '80000000-0000-0000-0000-000000000008',
+    collection_id: '70000000-0000-0000-0000-000000000003',
+    product_id: '20000000-0000-0000-0000-000000000006', // Sony Walkman
+    display_order: 1,
+    created_at: '2024-08-01T00:00:00Z',
+    updated_at: '2024-08-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000009',
+    collection_id: '70000000-0000-0000-0000-000000000003',
+    product_id: '20000000-0000-0000-0000-000000000007', // Polaroid camera
+    display_order: 2,
+    created_at: '2024-08-01T00:00:00Z',
+    updated_at: '2024-08-01T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000010',
+    collection_id: '70000000-0000-0000-0000-000000000003',
+    product_id: '20000000-0000-0000-0000-000000000008', // Game Boy
+    display_order: 3,
+    created_at: '2024-08-01T00:00:00Z',
+    updated_at: '2024-08-01T00:00:00Z',
+  },
+  // 70s Disco Revival (draft)
+  {
+    id: '80000000-0000-0000-0000-000000000011',
+    collection_id: '70000000-0000-0000-0000-000000000004',
+    product_id: '20000000-0000-0000-0000-000000000001', // Boho dress
+    display_order: 1,
+    created_at: '2024-10-15T00:00:00Z',
+    updated_at: '2024-10-15T00:00:00Z',
+  },
+  {
+    id: '80000000-0000-0000-0000-000000000012',
+    collection_id: '70000000-0000-0000-0000-000000000004',
+    product_id: '20000000-0000-0000-0000-000000000003', // Pink Floyd shirt
+    display_order: 2,
+    created_at: '2024-10-15T00:00:00Z',
+    updated_at: '2024-10-15T00:00:00Z',
+  },
+];
+
+// Helper to get collections with product details for stubs
+export function getCollectionsWithProducts(): CollectionWithProducts[] {
+  return MOCK_COLLECTIONS.map((collection) => {
+    const collectionProducts = MOCK_COLLECTION_PRODUCTS.filter(
+      (cp) => cp.collection_id === collection.id
+    ).sort((a, b) => a.display_order - b.display_order);
+
+    const products = collectionProducts.map((cp) => {
+      const product = MOCK_PRODUCTS.find((p) => p.id === cp.product_id);
+      return {
+        ...cp,
+        product: product
+          ? {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image_url: product.image_url,
+              inventory_count: product.inventory_count,
+              is_featured: product.is_featured,
+            }
+          : {
+              id: cp.product_id,
+              name: 'Unknown Product',
+              price: 0,
+              image_url: null,
+              inventory_count: 0,
+              is_featured: false,
+            },
+      };
+    });
+
+    return {
+      ...collection,
+      products,
+      product_count: products.length,
+    };
+  });
+}
+
+// ====================
 // HELPER FUNCTIONS
 // ====================
 
@@ -526,6 +738,8 @@ export function getAllMockData() {
     cartItems: MOCK_CART_ITEMS,
     addresses: MOCK_ADDRESSES,
     orderItems: MOCK_ORDER_ITEMS,
+    collections: MOCK_COLLECTIONS,
+    collectionProducts: MOCK_COLLECTION_PRODUCTS,
   };
 }
 

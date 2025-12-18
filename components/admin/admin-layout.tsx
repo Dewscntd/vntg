@@ -15,6 +15,8 @@ import {
   X,
   Eye,
   LogOut,
+  FolderOpen,
+  PanelsTopLeft,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth/auth-context';
 
@@ -41,9 +43,19 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       icon: LayoutDashboard,
     },
     {
+      title: 'Homepage CMS',
+      href: '/admin/cms',
+      icon: PanelsTopLeft,
+    },
+    {
       title: 'Products',
       href: '/admin/products',
       icon: Package,
+    },
+    {
+      title: 'Collections',
+      href: '/admin/collections',
+      icon: FolderOpen,
     },
     {
       title: 'Orders',
@@ -79,7 +91,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
@@ -88,10 +100,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         />
       )}
 
-      {/* Sidebar */}
-      <div
+      {/* Sidebar - Fixed */}
+      <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:static lg:inset-0 lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:border-r lg:shadow-none',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -159,12 +171,12 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             </div>
           </div>
         </div>
-      </div>
+      </aside>
 
-      {/* Main content */}
-      <div className="flex-1 lg:pl-64">
-        {/* Top bar */}
-        <div className="sticky top-0 z-10 border-b bg-white shadow-sm lg:hidden">
+      {/* Main content - Scrollable */}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        {/* Top bar - mobile only */}
+        <div className="sticky top-0 z-10 flex-shrink-0 border-b bg-white shadow-sm lg:hidden">
           <div className="flex h-16 items-center justify-between px-4">
             <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)}>
               <Menu className="h-5 w-5" />
@@ -174,10 +186,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </div>
 
-        {/* Page content */}
-        <main className="min-h-screen bg-gray-50">
-          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</div>
-        </main>
+        {/* Page content - Scrollable area */}
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

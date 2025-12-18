@@ -284,11 +284,7 @@ export function QuickViewModal({ productId, isOpen, onClose }: QuickViewModalPro
                     )}
                   </Button>
 
-                  <FavoriteButton
-                    productId={product.id}
-                    productName={product.name}
-                    size="md"
-                  />
+                  <FavoriteButton productId={product.id} productName={product.name} size="md" />
 
                   <Button variant="outline" asChild>
                     <Link href={`/products/${product.id}`}>

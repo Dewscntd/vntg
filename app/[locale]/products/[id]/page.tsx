@@ -19,17 +19,17 @@ import { Button } from '@/components/ui/button';
 // Mapping from clothing_type to translation key (matching shop.categories.{gender}.{key})
 const clothingTypeTranslationMap: Record<string, string> = {
   'jackets-coats': 'jackets-coats',
-  'tops': 'tops',
-  'pants': 'pants',
-  'dresses': 'dresses',
-  'shoes': 'accessories', // Shoes are under accessories category
-  'sweaters': 'knitwear', // Sweaters mapped to knitwear
-  'knitwear': 'knitwear',
-  'shirts': 'shirts',
+  tops: 'tops',
+  pants: 'pants',
+  dresses: 'dresses',
+  shoes: 'accessories', // Shoes are under accessories category
+  sweaters: 'knitwear', // Sweaters mapped to knitwear
+  knitwear: 'knitwear',
+  shirts: 'shirts',
   't-shirts': 't-shirts',
-  'skirts': 'skirts',
-  'accessories': 'accessories',
-  'denim': 'denim',
+  skirts: 'skirts',
+  accessories: 'accessories',
+  denim: 'denim',
   'new-arrivals': 'new-arrivals',
 };
 
@@ -173,9 +173,10 @@ export default function ProductDetailPage() {
 
   // Map clothing_type to route slug and translation key
   const clothingTypeRouteSlug = clothingType ? clothingTypeTranslationMap[clothingType] : undefined;
-  const clothingTypeLabel = clothingTypeRouteSlug && gender
-    ? t(`categories.${gender}.${clothingTypeRouteSlug}`)
-    : undefined;
+  const clothingTypeLabel =
+    clothingTypeRouteSlug && gender
+      ? t(`categories.${gender}.${clothingTypeRouteSlug}`)
+      : undefined;
 
   const breadcrumbItems = generateShopProductBreadcrumbs({
     gender,

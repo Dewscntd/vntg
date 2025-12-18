@@ -104,7 +104,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-1',
     name: 'Cashmere Wool Blend Coat',
-    description: 'Luxurious cashmere-wool blend coat with classic silhouette. Features oversized lapels and double-breasted closure.',
+    description:
+      'Luxurious cashmere-wool blend coat with classic silhouette. Features oversized lapels and double-breasted closure.',
     price: 189.99,
     original_price: 299.99,
     category_id: 'cat-2',
@@ -133,7 +134,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-2',
     name: 'Merino Wool Turtleneck',
-    description: 'Essential merino wool turtleneck sweater. Soft, breathable, and temperature-regulating.',
+    description:
+      'Essential merino wool turtleneck sweater. Soft, breathable, and temperature-regulating.',
     price: 79.99,
     category_id: 'cat-2',
     image_url: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=600&fit=crop',
@@ -159,7 +161,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-3',
     name: 'High-Waisted Wool Trousers',
-    description: 'Tailored high-waisted trousers in premium wool blend. Wide-leg silhouette with pleated front.',
+    description:
+      'Tailored high-waisted trousers in premium wool blend. Wide-leg silhouette with pleated front.',
     price: 99.99,
     category_id: 'cat-2',
     image_url: 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400&h=600&fit=crop',
@@ -185,7 +188,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-4',
     name: 'Silk Blend Midi Dress',
-    description: 'Elegant midi dress in silk blend fabric. Features bias cut and adjustable straps.',
+    description:
+      'Elegant midi dress in silk blend fabric. Features bias cut and adjustable straps.',
     price: 129.99,
     original_price: 179.99,
     category_id: 'cat-2',
@@ -213,7 +217,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-5',
     name: 'Leather Ankle Boots',
-    description: 'Classic leather ankle boots with block heel. Timeless design with modern comfort.',
+    description:
+      'Classic leather ankle boots with block heel. Timeless design with modern comfort.',
     price: 159.99,
     category_id: 'cat-2',
     image_url: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=600&fit=crop',
@@ -239,7 +244,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-6',
     name: 'Alpaca Blend Cardigan',
-    description: 'Cozy oversized cardigan in soft alpaca blend. Perfect for layering with contemporary style.',
+    description:
+      'Cozy oversized cardigan in soft alpaca blend. Perfect for layering with contemporary style.',
     price: 119.99,
     original_price: 149.99,
     category_id: 'cat-2',
@@ -323,7 +329,8 @@ export const mockFashionProducts: FashionProduct[] = [
   {
     id: 'prod-9',
     name: 'Selvedge Denim Jeans',
-    description: 'Premium Japanese selvedge denim with classic straight fit. Built to age beautifully.',
+    description:
+      'Premium Japanese selvedge denim with classic straight fit. Built to age beautifully.',
     price: 139.99,
     category_id: 'cat-1',
     image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=600&fit=crop',
@@ -576,8 +583,10 @@ export const mockCampaigns: Campaign[] = [
     product_ids: ['prod-1', 'prod-2', 'prod-6', 'prod-7', 'prod-10'],
     start_date: '2024-09-01T00:00:00.000Z',
     end_date: '2025-03-31T00:00:00.000Z',
-    banner_image_url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=400&fit=crop',
-    thumbnail_url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=300&fit=crop',
+    banner_image_url:
+      'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=400&fit=crop',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=300&fit=crop',
     theme_color: '#8B7355',
     sort_order: 1,
     is_featured: true,
@@ -595,8 +604,10 @@ export const mockCampaigns: Campaign[] = [
     status: 'active' as CampaignStatus,
     product_ids: ['prod-2', 'prod-3', 'prod-5', 'prod-7', 'prod-9', 'prod-11'],
     start_date: '2024-09-15T00:00:00.000Z',
-    banner_image_url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=400&fit=crop',
-    thumbnail_url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=300&fit=crop',
+    banner_image_url:
+      'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=400&fit=crop',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=300&fit=crop',
     theme_color: '#2C3E50',
     sort_order: 2,
     is_featured: true,
@@ -616,8 +627,10 @@ export const mockCampaigns: Campaign[] = [
     product_ids: ['prod-1', 'prod-4', 'prod-6', 'prod-8', 'prod-10', 'prod-12'],
     start_date: '2024-09-20T00:00:00.000Z',
     end_date: '2024-10-31T00:00:00.000Z',
-    banner_image_url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop',
-    thumbnail_url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop',
+    banner_image_url:
+      'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop',
     theme_color: '#E74C3C',
     sort_order: 3,
     is_featured: true,
@@ -636,8 +649,10 @@ export const mockCampaigns: Campaign[] = [
     product_ids: ['prod-1', 'prod-2', 'prod-3', 'prod-7', 'prod-10'],
     start_date: '2024-10-15T00:00:00.000Z',
     end_date: '2024-12-31T00:00:00.000Z',
-    banner_image_url: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=1200&h=400&fit=crop',
-    thumbnail_url: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop',
+    banner_image_url:
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=1200&h=400&fit=crop',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop',
     theme_color: '#5D4037',
     sort_order: 4,
     is_featured: false,
@@ -654,8 +669,10 @@ export const mockCampaigns: Campaign[] = [
     type: 'collection' as CampaignType,
     status: 'draft' as CampaignStatus,
     product_ids: ['prod-9'],
-    banner_image_url: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=1200&h=400&fit=crop',
-    thumbnail_url: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=400&h=300&fit=crop',
+    banner_image_url:
+      'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=1200&h=400&fit=crop',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=400&h=300&fit=crop',
     theme_color: '#34495E',
     sort_order: 5,
     is_featured: false,

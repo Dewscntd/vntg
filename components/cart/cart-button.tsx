@@ -79,7 +79,7 @@ export function CartButton({
         <span
           className={cn(
             'absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1',
-            'bg-primary text-primary-foreground text-[10px] font-semibold leading-none',
+            'bg-primary text-[10px] font-semibold leading-none text-primary-foreground',
             'ring-2 ring-background',
             'duration-200 animate-in zoom-in-50'
           )}

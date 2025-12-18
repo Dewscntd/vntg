@@ -206,7 +206,7 @@ export function CampaignForm({
 
       {/* Scheduling */}
       <div className="space-y-4 rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
           <Calendar className="h-5 w-5" />
           Scheduling (Optional)
         </h3>
@@ -226,7 +226,7 @@ export function CampaignForm({
 
       {/* Display Configuration */}
       <div className="space-y-4 rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
           <ImageIcon className="h-5 w-5" />
           Display Configuration
         </h3>
@@ -291,7 +291,7 @@ export function CampaignForm({
       </div>
 
       {selectedProducts.length === 0 && (
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-center text-sm text-muted-foreground">
           Please select at least one product to create a campaign
         </p>
       )}

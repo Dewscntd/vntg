@@ -6,7 +6,10 @@ import { trackingService } from '@/lib/shipping/carriers';
 import { successResponse, errorResponse, handleDatabaseError } from '@/lib/api/index';
 
 // GET /api/tracking/[trackingNumber] - Get tracking information
-export async function GET(req: NextRequest, { params }: { params: Promise<{ trackingNumber: string }> }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ trackingNumber: string }> }
+) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
     const { trackingNumber } = await params;

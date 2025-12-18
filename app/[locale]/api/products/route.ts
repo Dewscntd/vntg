@@ -43,8 +43,7 @@ export async function GET(req: NextRequest) {
       // Only show products from the current active season
       products = products.filter(
         (p) =>
-          (p.season === mockSeasonalConfig.active_season ||
-            p.season === 'all-season') &&
+          (p.season === mockSeasonalConfig.active_season || p.season === 'all-season') &&
           p.collection_year === mockSeasonalConfig.active_year
       );
 
@@ -123,8 +122,8 @@ export async function GET(req: NextRequest) {
           break;
         case 'newest':
         default:
-          products.sort((a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          products.sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
           );
           break;
       }
