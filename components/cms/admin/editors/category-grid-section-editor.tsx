@@ -66,6 +66,18 @@ interface CategoryItem {
   customTitle?: string;
 }
 
+// Default values to ensure all fields are controlled
+const getDefaultValues = (config: CategoryGridConfig): EditorConfig => ({
+  title: config.title || '',
+  categories: config.categories || [],
+  columns: {
+    mobile: config.columns?.mobile ?? 2,
+    tablet: config.columns?.tablet ?? 3,
+    desktop: config.columns?.desktop ?? 4,
+  },
+  cardStyle: config.cardStyle || 'overlay',
+});
+
 export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditorProps) {
   const { updateSection } = useCMS();
   const [newCategoryId, setNewCategoryId] = useState('');
@@ -73,12 +85,7 @@ export function CategoryGridSectionEditor({ section }: CategoryGridSectionEditor
 
   const form = useForm<EditorConfig>({
     resolver: zodResolver(editorConfigSchema),
-    defaultValues: {
-      title: section.config.title || '',
-      categories: section.config.categories || [],
-      columns: section.config.columns || { mobile: 2, tablet: 3, desktop: 4 },
-      cardStyle: section.config.cardStyle || 'overlay',
-    },
+    defaultValues: getDefaultValues(section.config),
   });
 
   const categories = form.watch('categories') || [];

@@ -53,19 +53,27 @@ interface TextBlockSectionEditorProps {
   section: TextBlockSection;
 }
 
+// Default values to ensure all fields are controlled
+const getDefaultValues = (config: TextBlockConfig): TextBlockConfig => ({
+  content: config.content || '',
+  alignment: config.alignment || 'center',
+  maxWidth: config.maxWidth || 'lg',
+  backgroundColor: config.backgroundColor || '',
+  padding: {
+    top: config.padding?.top ?? 48,
+    bottom: config.padding?.bottom ?? 48,
+    left: config.padding?.left ?? 16,
+    right: config.padding?.right ?? 16,
+  },
+});
+
 export function TextBlockSectionEditor({ section }: TextBlockSectionEditorProps) {
   const { updateSection } = useCMS();
   const [showPreview, setShowPreview] = useState(false);
 
   const form = useForm<TextBlockConfig>({
     resolver: zodResolver(textBlockConfigSchema),
-    defaultValues: {
-      content: section.config.content || '',
-      alignment: section.config.alignment || 'center',
-      maxWidth: section.config.maxWidth || 'lg',
-      backgroundColor: section.config.backgroundColor || '',
-      padding: section.config.padding || { top: 48, bottom: 48, left: 16, right: 16 },
-    },
+    defaultValues: getDefaultValues(section.config),
   });
 
   // Auto-save on form changes

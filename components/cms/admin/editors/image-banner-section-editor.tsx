@@ -47,20 +47,23 @@ const editorConfigSchema = imageBannerConfigSchema.extend({
 
 type EditorConfig = z.infer<typeof editorConfigSchema>;
 
+// Default values to ensure all fields are controlled
+const getDefaultValues = (config: ImageBannerConfig): EditorConfig => ({
+  image: config.image || '',
+  mobileImage: config.mobileImage || '',
+  alt: config.alt || '',
+  link: config.link || '',
+  height: config.height || 'md',
+  objectFit: config.objectFit || 'cover',
+});
+
 export function ImageBannerSectionEditor({ section }: ImageBannerSectionEditorProps) {
   const { updateSection } = useCMS();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<EditorConfig>({
     resolver: zodResolver(editorConfigSchema),
-    defaultValues: {
-      image: section.config.image || '',
-      mobileImage: section.config.mobileImage || '',
-      alt: section.config.alt || '',
-      link: section.config.link || '',
-      height: section.config.height || 'md',
-      objectFit: section.config.objectFit || 'cover',
-    },
+    defaultValues: getDefaultValues(section.config),
   });
 
   const imageUrl = form.watch('image');

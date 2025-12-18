@@ -41,12 +41,46 @@ interface HeroSectionEditorProps {
   section: HeroSection;
 }
 
+// Default values to ensure all fields are controlled
+const getDefaultValues = (config: HeroConfig): HeroConfig => ({
+  headline: config.headline || '',
+  subheadline: config.subheadline || '',
+  description: config.description || '',
+  textAlignment: config.textAlignment || 'center',
+  textColor: config.textColor || '#FFFFFF',
+  backgroundImage: config.backgroundImage || '',
+  backgroundVideo: config.backgroundVideo || '',
+  backgroundGradient: {
+    from: config.backgroundGradient?.from || '#000000',
+    to: config.backgroundGradient?.to || '#333333',
+    direction: config.backgroundGradient?.direction || 'to-b',
+  },
+  overlayOpacity: config.overlayOpacity ?? 0.4,
+  height: config.height || 'lg',
+  contentPosition: config.contentPosition || 'center',
+  primaryCta: {
+    text: config.primaryCta?.text || '',
+    url: config.primaryCta?.url || '',
+    variant: config.primaryCta?.variant || 'default',
+  },
+  secondaryCta: {
+    text: config.secondaryCta?.text || '',
+    url: config.secondaryCta?.url || '',
+    variant: config.secondaryCta?.variant || 'outline',
+  },
+  animation: {
+    enabled: config.animation?.enabled ?? true,
+    type: config.animation?.type || 'fade',
+    duration: config.animation?.duration ?? 0.8,
+  },
+});
+
 export function HeroSectionEditor({ section }: HeroSectionEditorProps) {
   const { updateSection } = useCMS();
 
   const form = useForm<HeroConfig>({
     resolver: zodResolver(heroConfigSchema),
-    defaultValues: section.config,
+    defaultValues: getDefaultValues(section.config),
   });
 
   const onSubmit = (data: HeroConfig) => {

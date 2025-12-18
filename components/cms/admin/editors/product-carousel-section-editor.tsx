@@ -58,24 +58,48 @@ const editorConfigSchema = productCarouselConfigSchema.extend({
 
 type EditorConfig = z.infer<typeof editorConfigSchema>;
 
+// Default values to ensure all fields are controlled
+const getDefaultValues = (config: ProductCarouselConfig): EditorConfig => ({
+  products: config.products || [],
+  dynamicSelection: {
+    enabled: config.dynamicSelection?.enabled ?? false,
+    source: config.dynamicSelection?.source || 'featured',
+    categoryId: config.dynamicSelection?.categoryId || '',
+    limit: config.dynamicSelection?.limit ?? 8,
+    sortBy: config.dynamicSelection?.sortBy || 'created_at',
+  },
+  itemsPerView: {
+    mobile: config.itemsPerView?.mobile ?? 1,
+    tablet: config.itemsPerView?.tablet ?? 2,
+    desktop: config.itemsPerView?.desktop ?? 4,
+  },
+  gap: config.gap ?? 16,
+  autoplay: {
+    enabled: config.autoplay?.enabled ?? false,
+    delay: config.autoplay?.delay ?? 3000,
+  },
+  loop: config.loop ?? true,
+  showArrows: config.showArrows ?? true,
+  showDots: config.showDots ?? true,
+  animation: {
+    type: config.animation?.type || 'slide',
+    duration: config.animation?.duration ?? 0.3,
+  },
+  cardStyle: {
+    hoverEffect: config.cardStyle?.hoverEffect || 'lift',
+    showQuickView: config.cardStyle?.showQuickView ?? true,
+    showAddToCart: config.cardStyle?.showAddToCart ?? true,
+    showWishlist: config.cardStyle?.showWishlist ?? true,
+  },
+});
+
 export function ProductCarouselSectionEditor({ section }: ProductCarouselSectionEditorProps) {
   const { updateSection } = useCMS();
   const [newProductId, setNewProductId] = useState('');
 
   const form = useForm<EditorConfig>({
     resolver: zodResolver(editorConfigSchema),
-    defaultValues: {
-      products: section.config.products || [],
-      dynamicSelection: section.config.dynamicSelection,
-      itemsPerView: section.config.itemsPerView || { mobile: 1, tablet: 2, desktop: 4 },
-      gap: section.config.gap || 16,
-      autoplay: section.config.autoplay,
-      loop: section.config.loop ?? true,
-      showArrows: section.config.showArrows ?? true,
-      showDots: section.config.showDots ?? true,
-      animation: section.config.animation,
-      cardStyle: section.config.cardStyle,
-    },
+    defaultValues: getDefaultValues(section.config),
   });
 
   const products = form.watch('products') || [];
